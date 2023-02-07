@@ -54,8 +54,9 @@
 			<br>
 			<textarea v-model="data.replaceTo" placeholder="替换文本"/>
 			<div style="display: flex; justify-content: space-around">
-				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
-				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">↓ </span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">↑ </span>
+				<span> {{searchData.index + 1}}/{{searchData.indexes.length}} </span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</div>
@@ -231,8 +232,8 @@ const statisticalData = reactive({
 
 const setEditData = () => {
 	if (textarea.value) {
-		statisticalData.startLineNumber = getLineNumber(textarea.value.selectionStart, data.text);
-		statisticalData.endLineNumber = getLineNumber(textarea.value.selectionEnd, data.text);
+		statisticalData.startLineNumber = getPlace(textarea.value.selectionStart, data.text);
+		statisticalData.endLineNumber = getPlace(textarea.value.selectionEnd, data.text);
 		statisticalData.selectLength = textarea.value.selectionEnd - textarea.value.selectionStart;
 	}
 }
@@ -730,57 +731,92 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 
 
 // 查找与替换
-let searchStart = 0;
-
-watch(() => data.replaceFrom, () => {
-	if (textarea.value && data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd) == data.replaceFrom) {
-		searchStart = textarea.value.selectionEnd;
-	} else {
-		searchStart = 0;
-	}
+const searchData = reactive({
+	index: 0,
+	indexes: <number[]>[],
 })
 
-const searchPrevious = () => {
+watch(() => data.replaceFrom, () => {
+	setSearchData();
+})
+
+watch(() => data.text, () => {
+	setSearchData();
+})
+
+
+const setSearchData = () => {
+	searchData.index = 0;
+	searchData.indexes = [];
+	if (textarea.value == undefined) return;
 	if (data.replaceFrom.length <= 0) return;
+	if (data.text.length <= 0) return;
 
-	if (searchStart < data.replaceFrom.length) {
-		searchNext();
-		return;
+	let index = data.text.indexOf(data.replaceFrom, 0);
+	let count = 0;
+	while (index >= 0) {
+		let temp = data.text.indexOf(data.replaceFrom, index);
+		if (temp < 0) break;
+		if (textarea.value.selectionStart == temp && textarea.value.selectionEnd - textarea.value.selectionStart == data.replaceFrom.length) {
+			searchData.index = count;
+		}
+		searchData.indexes.push(temp);
+		index = temp + data.replaceFrom.length;
+		count ++;
 	}
+}
 
-	let start = -1;
-	for (let i = searchStart - data.replaceFrom.length; i > data.replaceFrom.length; i--) {
-		if (data.text.slice(i - data.replaceFrom.length, i) == data.replaceFrom) {
-			start = i - data.replaceFrom.length;
-			break;
+const jumpTo = (cnt: number) => {
+	const target = cnt * props.lineHeight;
+	if (textarea.value.scrollTop > target || textarea.value.scrollTop + textarea.value.clientHeight - props.lineHeight < target) {
+		textarea.value.scrollTop = target;
+	}
+}
+
+const getLine = (start: number, text: string) => {
+	let y = 0;
+	let temp = 0;
+	for (let i = start - 1; i > 0; i--) {
+		if (text[i] == '\n') {
+			y++;
+			temp = 0;
+		} else {
+			temp ++;
+			if (temp > textarea.value.scrollWidth / 16) {
+				y++;
+				temp = 0;
+			}
 		}
 	}
-	if (start < 0) {
-		alert("向上没有找到上一个匹配项");
-		return;
+	return y;
+}
+
+const searchPrevious = () => {
+	if (textarea.value == undefined) return;
+
+	if (searchData.index > 0) {
+		searchData.index --;
 	}
-	const end = start + data.replaceFrom.length;
-	searchStart = start;
+
 	textarea.value.focus();
-	textarea.value.selectionStart = start;
-	textarea.value.selectionEnd = end;
-	jumpTo(getLineNumber(start, data.text).y);
+	textarea.value.selectionStart = searchData.indexes[searchData.index];
+	textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+
+	jumpTo(getLine(searchData.indexes[searchData.index], data.text));
 }
 
 const searchNext = () => {
-	if (data.replaceFrom.length <= 0) return;
+	if (textarea.value == undefined) return;
 
-	const start = data.text.slice(searchStart).search(data.replaceFrom) + searchStart;
-	if (start < searchStart) {
-		alert("向下没有找到下一个匹配项");
-		return;
+	if (searchData.index < searchData.indexes.length - 1) {
+		searchData.index ++;
 	}
-	const end = start + data.replaceFrom.length;
-	searchStart = end;
+
 	textarea.value.focus();
-	textarea.value.selectionStart = start;
-	textarea.value.selectionEnd = end;
-	jumpTo(getLineNumber(start, data.text).y);
+	textarea.value.selectionStart = searchData.indexes[searchData.index];
+	textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+
+	jumpTo(getLine(searchData.indexes[searchData.index], data.text));
 }
 
 const replaceOne = () => {
@@ -801,7 +837,7 @@ const replaceAll = () => {
 	}
 }
 
-const getLineNumber = (start: number, text: string): { x: number, y: number } => {
+const getPlace = (start: number, text: string): { x: number, y: number } => {
 	let x = 0;
 	for (let i = start - 1; i > 0; i--) {
 		if (text[i] == '\n') {
@@ -816,13 +852,6 @@ const getLineNumber = (start: number, text: string): { x: number, y: number } =>
 		}
 	}
 	return {x, y};
-}
-
-const jumpTo = (cnt: number) => {
-	const target = cnt * props.lineHeight;
-	if (textarea.value.scrollTop > target || textarea.value.scrollTop + textarea.value.clientHeight - props.lineHeight < target) {
-		textarea.value.scrollTop = target;
-	}
 }
 
 const limit = (input: number, min: number, max: number): number => {

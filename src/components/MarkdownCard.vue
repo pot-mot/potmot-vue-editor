@@ -158,6 +158,8 @@ const copyCode = (e: MouseEvent) => {
 }
 
 setInterval(() => {
+	if (markdownCard.value == undefined) return;
+
 	if (props.isCodeFold) {
 		const foldButtons = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.code-fold-button'));
 		for (let i = 0; i < foldButtons.length; i++) {
