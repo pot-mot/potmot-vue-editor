@@ -1,0 +1,217 @@
+pre.potmot-dark {
+    --code-back-color: #474949;
+    --code-font-color: #d5d5d5;
+
+    --count-color: #888;
+
+    --number-color: #c1ddee;
+    --punctuation-color: #b1b1c1;
+    --operator-color: #aaccff;
+    --function-color: #99ccee;
+    --keyword-color: #99aaff;
+    --string-color: #bbcc99;
+    --comment-color: #999;
+    --variable-color: #ffcc33;
+    --entity-color: #7799cc;
+
+    padding: 0.5em 0.2em 0;
+    border-radius: 0.2em;
+}
+
+pre.potmot-light {
+    --code-back-color: #f5f5f5;
+    --code-font-color: #444;
+
+    --count-color: #ccc;
+
+    --number-color: #445566;
+    --punctuation-color: #666677;
+    --operator-color: #4d79ec;
+    --function-color: #3aaee8;
+    --keyword-color: #4d5bf5;
+    --string-color: #bb46dc;
+    --comment-color: #aaa;
+    --variable-color: #b48e06;
+    --entity-color: #466db6;
+
+    padding: 0.8em 0.4em 0;
+    border-radius: 0.2em;
+}
+
+code,
+pre {
+    font-family: consola, system-ui !important;
+    color: var(--code-font-color);
+    font-size: 1em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+
+    -moz-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+/* Code blocks */
+pre {
+    background-color: var(--code-back-color);
+}
+
+:not(pre) > code {
+    background-color: #eee;
+    color: var(--code-back-color);
+    padding: 0.2em;
+    border-radius: 0.2em;
+}
+
+pre > code {
+    display: block;
+    width: 100%;
+    padding-bottom: 0.5em;
+    overflow-x: auto;
+}
+
+pre,
+code,
+pre span {
+    vertical-align: top;
+    cursor: text;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    font-style: italic;
+    color: var(--comment-color);
+}
+
+.token.operator {
+    color: var(--operator-color);
+}
+
+.token.punctuation,
+.token.interpolation-punctuation {
+    color: var(--punctuation-color);
+}
+
+.token.namespace {
+    opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: var(--number-color);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+    color: var(--string-color);
+}
+
+.token.entity {
+    color: var(--entity-color);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: var(--keyword-color);
+}
+
+.token.function,
+.token.class-name {
+    color: var(--function-color);
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: var(--variable-color);
+}
+
+.token.bold {
+    font-weight: 600;
+}
+
+.token.italic {
+    font-style: italic;
+}
+
+pre .count {
+    color: var(--count-color);
+    display: inline-block;
+    width: 2.5em;
+    text-align: center;
+    overflow: hidden;
+    margin-right: 0.5em;
+    border-right: 1px solid var(--count-color);
+    user-select: none;
+}
+
+.code-fold-button {
+    text-align: center;
+    user-select: none;
+    color: var(--code-font-color);
+}
+
+.code-fold-button:hover {
+    color: var(--code-font-color);
+}
+
+.code-fold-button.show {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    padding-top: 1.5em;
+    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, var(--code-font-color) 100%);
+}
+
+.code-fold-button.show:hover {
+    color: var(--code-font-color);
+}
+
+pre .code-language,
+pre .code-copy-button{
+    display: none;
+}
+
+pre:hover .code-language,
+pre:hover .code-copy-button{
+    display: block;
+}
+
+.code-copy-button {
+    position: absolute;
+    top: 0.2em;
+    right: 0.2em;
+    font-size: 0.8em;
+    cursor: default;
+}
+
+.code-language {
+    position: absolute;
+    top: 0;
+    right: 1.7em;
+    padding-right: 0.2em;
+    color: #999;
+    user-select: none;
+    cursor: default;
+}
