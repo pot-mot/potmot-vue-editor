@@ -54,8 +54,8 @@
 			<br>
 			<textarea v-model="data.replaceTo" placeholder="替换文本"/>
 			<div style="display: flex; justify-content: space-around">
-				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">↓ </span>
-				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">↑ </span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext" style="padding: 0.1em;">↓</span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious" style="padding: 0.1em;">↑</span>
 				<span> {{searchData.index + 1}}/{{searchData.indexes.length}} </span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
@@ -81,6 +81,13 @@
 			@keyup="onKeyUp"
 			@mousedown="onMouseDown"
 			@mouseenter="setHandleScrollFlag('textarea')"/>
+		<div style="height: 0;width: 0;overflow: hidden;position: fixed;top: 500vh;left: 500vw;">
+			<div
+				ref="textareaCountLine"
+				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
+				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
+		</div>
+
 		<div
 			v-show="isPreview && isFullScreen"
 			ref="showCard"
@@ -731,6 +738,8 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 
 
 // 查找与替换
+let textareaCountLine = ref();
+
 const searchData = reactive({
 	index: 0,
 	indexes: <number[]>[],
@@ -738,10 +747,27 @@ const searchData = reactive({
 
 watch(() => data.replaceFrom, () => {
 	setSearchData();
+	if (!isReplace) return;
+	if (data.replaceFrom.length <= 0) return;
+	searchCurrent();
 })
 
 watch(() => data.text, () => {
 	setSearchData();
+})
+
+watch(() => isReplace.value, () => {
+	setSearchData();
+})
+
+watch(() => isPreview.value, () => {
+	setSearchData();
+	isReplace.value = false;
+})
+
+watch(() => isFullScreen.value, () => {
+	setSearchData();
+	isReplace.value = false;
 })
 
 
@@ -749,6 +775,8 @@ const setSearchData = () => {
 	searchData.index = 0;
 	searchData.indexes = [];
 	if (textarea.value == undefined) return;
+	textareaCountLine.value.style.width = textarea.value.scrollWidth + 'px';
+
 	if (data.replaceFrom.length <= 0) return;
 	if (data.text.length <= 0) return;
 
@@ -766,29 +794,16 @@ const setSearchData = () => {
 	}
 }
 
-const jumpTo = (cnt: number) => {
-	const target = cnt * props.lineHeight;
-	if (textarea.value.scrollTop > target || textarea.value.scrollTop + textarea.value.clientHeight - props.lineHeight < target) {
-		textarea.value.scrollTop = target;
-	}
+const jumpTo = (target: number) => {
+	textarea.value.scrollTop = target;
 }
 
-const getLine = (start: number, text: string) => {
-	let y = 0;
-	let temp = 0;
-	for (let i = start - 1; i > 0; i--) {
-		if (text[i] == '\n') {
-			y++;
-			temp = 0;
-		} else {
-			temp ++;
-			if (temp > textarea.value.scrollWidth / 16) {
-				y++;
-				temp = 0;
-			}
-		}
-	}
-	return y;
+const searchCurrent = () => {
+	setTimeout(() => {
+		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+		textarea.value.selectionStart = searchData.indexes[searchData.index];
+		textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+	}, 50)
 }
 
 const searchPrevious = () => {
@@ -798,11 +813,12 @@ const searchPrevious = () => {
 		searchData.index --;
 	}
 
-	textarea.value.focus();
-	textarea.value.selectionStart = searchData.indexes[searchData.index];
-	textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
-
-	jumpTo(getLine(searchData.indexes[searchData.index], data.text));
+	setTimeout(() => {
+		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+		textarea.value.focus();
+		textarea.value.selectionStart = searchData.indexes[searchData.index];
+		textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+	}, 50)
 }
 
 const searchNext = () => {
@@ -812,11 +828,12 @@ const searchNext = () => {
 		searchData.index ++;
 	}
 
-	textarea.value.focus();
-	textarea.value.selectionStart = searchData.indexes[searchData.index];
-	textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
-
-	jumpTo(getLine(searchData.indexes[searchData.index], data.text));
+	setTimeout(() => {
+		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+		textarea.value.focus();
+		textarea.value.selectionStart = searchData.indexes[searchData.index];
+		textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+	}, 50)
 }
 
 const replaceOne = () => {
