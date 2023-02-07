@@ -404,9 +404,6 @@ onMounted(async () => {
 		isPreview.value = true;
 	}
 
-	console.log(textarea.value);
-	console.log(showCard.value);
-	console.log(floatShowCard.value);
 	await nextTick(() => {
 		textarea.value.addEventListener('scroll', () => {
 			handleScroll('textarea', textarea.value, showCard.value);
@@ -954,7 +951,7 @@ const limit = (input: number, min: number, max: number): number => {
 	background-color: #fff;
 	border: #aaa 1px solid;
 	cursor: all-scroll;
-	padding: 0.2em 0 0 0.5em;
+	padding: 0.2em 0.5em 0 0.5em;
 	overflow-x: hidden;
 }
 

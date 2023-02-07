@@ -44,7 +44,6 @@ pre {
     color: var(--code-font-color);
     font-size: 1em;
     text-align: left;
-    white-space: pre;
     word-spacing: normal;
     word-break: normal;
     word-wrap: normal;
@@ -198,12 +197,20 @@ pre:hover .code-copy-button{
     display: block;
 }
 
-.code-copy-button {
+.iconfont.code-copy-button {
     position: absolute;
-    top: 0.2em;
-    right: 0.2em;
-    font-size: 0.8em;
+    top: 0;
+    right: 0;
     cursor: default;
+}
+
+.iconfont.code-copy-button:before {
+    font-size: 1.2em;
+    color: #aaa;
+}
+
+.iconfont.code-copy-button:hover:before {
+    color: #ccc;
 }
 
 .code-language {
