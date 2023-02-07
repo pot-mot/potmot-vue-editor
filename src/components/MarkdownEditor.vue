@@ -11,70 +11,77 @@
 						tool.active ? 'chosen' : '',
 						tool.icon,
 					]"/>
-				<template v-if="tool.name === 'insertTable'">
-					<div v-if="tool.active" class="floating-card" v-drag>
-						<span class="iconfont icon-close" @mousedown.prevent.stop="tool.toInactive()"/>
-						<template v-for="item in insertTextList">
-							<span class="insert-text">
-								<span class="hover-color-blue" @mousedown.prevent.stop="insertToText(item)">
-									{{ item.label + '[' + item.key + ']' }}
-								</span>
-								<template v-if="item.name === 'title'">
-									<label>级别</label>
-									<input v-model="insertTextParams.titleLevel" type="number">
-								</template>
-								<template v-else-if="item.name === 'form'">
-									<label>行数</label>
-									<input v-model="insertTextParams.tableWidth" type="number">
-									<label>列数</label>
-									<input v-model="insertTextParams.tableHeight" type="number">
-								</template>
-								<template v-else-if="item.name === 'list'">
-									<label>项数</label>
-									<input v-model="insertTextParams.listLength" type="number">
-									<label>首项</label>
-									<input v-model="insertTextParams.listStart" type="number">
-								</template>
-								<template v-else-if="item.name === 'code'">
-									<label>语言</label>
-									<input v-model="insertTextParams.codeLanguage" style="width: 6em;" type="text">
-								</template>
-								<template v-else-if="item.name === 'warning'">
-									<label>颜色</label>
-									<input v-model="insertTextParams.warningColor" style="width: 6em;" type="text">
-								</template>
-							</span>
-							<br/>
-						</template>
-					</div>
-				</template>
-				<template v-else-if="tool.name === 'replace'">
-					<div v-if="tool.active" class="replace-box floating-card" v-drag>
-						<span class="iconfont icon-close" @mousedown.prevent.stop="tool.toInactive()"/>
-						<textarea v-model="data.replaceFrom" placeholder="查找文本"/>
-						<br>
-						<textarea v-model="data.replaceTo" placeholder="替换文本"/>
-						<div style="display: flex; justify-content: space-around">
-							<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
-							<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
-							<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
-							<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
-						</div>
-					</div>
-				</template>
 			</li>
 		</ul>
+		<div v-show="getEditToolActive('insert')" class="floating-card tool-menu" v-drag>
+			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
+			<template v-for="item in insertTextList">
+				<span class="insert-text">
+					<span class="hover-color-blue" @mousedown.prevent.stop="insertToText(item)">
+						{{ item.label + '[' + item.key + ']' }}
+					</span>
+					<template v-if="item.name === 'title'">
+						<label>级别</label>
+						<input v-model="insertTextParams.titleLevel" type="number">
+					</template>
+					<template v-else-if="item.name === 'form'">
+						<label>行数</label>
+						<input v-model="insertTextParams.tableWidth" type="number">
+						<label>列数</label>
+						<input v-model="insertTextParams.tableHeight" type="number">
+					</template>
+					<template v-else-if="item.name === 'list'">
+						<label>项数</label>
+						<input v-model="insertTextParams.listLength" type="number">
+						<label>首项</label>
+						<input v-model="insertTextParams.listStart" type="number">
+					</template>
+					<template v-else-if="item.name === 'code'">
+						<label>语言</label>
+						<input v-model="insertTextParams.codeLanguage" style="width: 6em;" type="text">
+					</template>
+					<template v-else-if="item.name === 'warning'">
+						<label>颜色</label>
+						<input v-model="insertTextParams.warningColor" style="width: 6em;" type="text">
+					</template>
+				</span>
+				<br/>
+			</template>
+		</div>
+		<div v-show="getEditToolActive('replace')" class="replace-box floating-card tool-menu" v-drag>
+			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
+			<textarea v-model="data.replaceFrom" placeholder="查找文本"/>
+			<br>
+			<textarea v-model="data.replaceTo" placeholder="替换文本"/>
+			<div style="display: flex; justify-content: space-around">
+				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
+				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+			</div>
+		</div>
+		<div
+			v-show="getEditToolActive('preview') && !isFullScreen"
+			class="floating-card show-card"
+			v-drag
+			@mouseenter="setHandleScrollFlag('floatShowCard')">
+			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('preview', false)"/>
+			<div class="container" ref="floatShowCard">
+				<MarkdownCard :markdown-text="data.text"/>
+			</div>
+		</div>
 		<textarea
 			ref="textarea"
 			v-model="data.text"
 			:placeholder="props.placeholder"
 			class="edit-card"
+			:class="[!isPreview && isFullScreen ? 'full-width' : '']"
 			@keydown="onKeyDown"
 			@keyup="onKeyUp"
 			@mousedown="onMouseDown"
 			@mouseenter="setHandleScrollFlag('textarea')"/>
 		<div
-			v-show="data.isPreview && isFullScreen"
+			v-show="isPreview && isFullScreen"
 			ref="showCard"
 			class="show-card"
 			@mouseenter="setHandleScrollFlag('showCard')">
@@ -110,10 +117,6 @@ class EditTool {
 		this.label = label;
 		this.icon = icon;
 		this.method = method;
-	}
-
-	toInactive() {
-		this.active = false;
 	}
 
 	changeActive() {
@@ -218,6 +221,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const textarea = ref();
 const showCard = ref();
+const floatShowCard = ref();
 
 const statisticalData = reactive({
 	selectLength: 0,
@@ -238,8 +242,6 @@ setInterval(setEditData, 100);
 
 // 数据
 const data = reactive({
-	isPreview: false,
-
 	// 同步滚动条
 	handleScrollFlag: "textarea",
 	beforeFullScreenTop: 0,
@@ -266,14 +268,15 @@ const editToolList = reactive(<EditTool[]>[
 	new EditTool("fullScreen", "全屏/收起全屏", "icon-full-screen", (self: EditTool) => {
 		self.changeActive();
 	}),
-	new EditTool("insertTable", "快捷插入", "icon-bulletpoint", (self: EditTool) => {
+	new EditTool("insert", "快捷插入", "icon-bulletpoint", (self: EditTool) => {
 		self.changeActive();
 	}),
 	new EditTool("replace", "文本查找与替换", "icon-search-list", (self: EditTool) => {
 		self.changeActive();
 	}),
-	// new EditTool("preview", "预览", "icon-browse", (self: EditTool) => {
-	// }),
+	new EditTool("preview", "预览", "icon-browse", (self: EditTool) => {
+		self.changeActive();
+	}),
 	new EditTool("redo", "重做", "icon-redo", () => {
 		redo();
 	}),
@@ -294,7 +297,7 @@ const getEditToolActive = (key: string) => {
 
 const setEditToolActive = (key: string, newValue: boolean) => {
 	for (const item of editToolList) {
-		if (item.name == 'fullScreen') {
+		if (item.name == key) {
 			item.active = newValue;
 			break;
 		}
@@ -312,10 +315,19 @@ const isFullScreen = computed({
 
 const isReplace = computed({
 	get() {
-		return getEditToolActive('isReplace');
+		return getEditToolActive('replace');
 	},
 	set(newValue: boolean) {
-		setEditToolActive('isReplace', newValue);
+		setEditToolActive('replace', newValue);
+	}
+})
+
+const isPreview = computed({
+	get() {
+		return getEditToolActive('preview');
+	},
+	set(newValue: boolean) {
+		setEditToolActive('preview', newValue);
 	}
 })
 
@@ -389,8 +401,26 @@ onMounted(async () => {
 
 	if (props.startWithFullScreen) {
 		isFullScreen.value = true;
-		data.isPreview = true;
+		isPreview.value = true;
 	}
+
+	console.log(textarea.value);
+	console.log(showCard.value);
+	console.log(floatShowCard.value);
+	await nextTick(() => {
+		textarea.value.addEventListener('scroll', () => {
+			handleScroll('textarea', textarea.value, showCard.value);
+		});
+		showCard.value.addEventListener('scroll', () => {
+			handleScroll('showCard', showCard.value, textarea.value);
+		});
+		textarea.value.addEventListener('scroll', () => {
+			handleScroll('textarea', textarea.value, floatShowCard.value);
+		});
+		floatShowCard.value.addEventListener('scroll', () => {
+			handleScroll('floatShowCard', floatShowCard.value, textarea.value);
+		});
+	})
 })
 
 const insertIntoString = (inserter: string, target: string, start: number, end: number = start): string => {
@@ -404,44 +434,26 @@ watch(() => data.text, () => {
 watch(() => isFullScreen.value, async () => {
 	if (isFullScreen.value) {
 		data.beforeFullScreenTop = document.documentElement.scrollTop;
-		data.isPreview = true;
+		isPreview.value = true;
 		data.handleScrollFlag = "textarea";
 		await nextTick(() => {
 			document.body.classList.add("disable-scroll");
-			textarea.value.addEventListener('scroll', handleScrollFromTextarea);
-			showCard.value.addEventListener('scroll', handleScrollFromShowCard);
-			handleScrollFromTextarea();
+			handleScroll('textarea', textarea.value, showCard.value);
 		})
 	} else {
 		document.body.classList.remove("disable-scroll");
-		textarea.value.removeEventListener('scroll', handleScrollFromTextarea);
-		showCard.value.removeEventListener('scroll', handleScrollFromShowCard);
-		data.isPreview = false;
+		isPreview.value = false;
 		await nextTick(() => {
 			document.body.scrollTo(0, data.beforeFullScreenTop);
+			handleScroll('textarea', textarea.value, floatShowCard.value);
 		})
 	}
 })
 
 // 滚动同步
-const handleScrollFromTextarea = () => {
-	if (data.handleScrollFlag !== "textarea") {
-		return;
-	}
-	if (data.isPreview) {
-		let p = (showCard.value.scrollHeight - showCard.value.offsetHeight) / (textarea.value.scrollHeight - textarea.value.offsetHeight);
-		showCard.value.scrollTop = textarea.value.scrollTop * p;
-	}
-}
-
-const handleScrollFromShowCard = () => {
-	if (data.handleScrollFlag !== "showCard") {
-		return;
-	}
-	if (data.isPreview) {
-		let p = (textarea.value.scrollHeight - textarea.value.offsetHeight) / (showCard.value.scrollHeight - showCard.value.offsetHeight);
-		textarea.value.scrollTop = showCard.value.scrollTop * p;
-	}
+const handleScroll = (key: string, from: HTMLElement, to: HTMLElement) => {
+	if (data.handleScrollFlag !== key) return;
+	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
 }
 
 const setHandleScrollFlag = (flag: string) => {
@@ -516,22 +528,22 @@ const onKeyDown = (e: KeyboardEvent) => {
 		} else if (e.key == 'v') {
 			data.pushFlag = "copy";
 			setTimeout(push, 50);
-		} else if (e.key == 'Z') {
+		} else if (e.key == 'z' || e.key == 'Z') {
 			e.preventDefault();
 			data.pushFlag = "symbol";
-			redo();
-		} else if (e.key == 'z') {
+			if (e.key == 'z') {
+				pop();
+			} else {
+				redo();
+			}
+		} else if (e.key == 'r' || e.key == 'R') {
 			e.preventDefault();
-			data.pushFlag = "symbol";
-			pop();
-		} else if (e.key == 'r') {
-			e.preventDefault();
-			data.pushFlag = "symbol";
-			data.replaceFrom = data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
-			for (let i = 0; i < editToolList.length; i++) {
-				if (editToolList[i].name == "replace") {
-					editToolList[i].active = true;
-				}
+			if (e.key == 'r') {
+				data.pushFlag = "symbol";
+				data.replaceFrom = data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
+				isReplace.value = true;
+			} else {
+				isReplace.value = false;
 			}
 		} else {
 			for (let i = 0; i < insertTextList.length; i++) {
@@ -861,6 +873,7 @@ const limit = (input: number, min: number, max: number): number => {
 	border: none;
 	border-radius: 0;
 	font-family: inherit;
+	cursor: text;
 }
 
 .editor.non-full {
@@ -881,8 +894,8 @@ const limit = (input: number, min: number, max: number): number => {
 	white-space: nowrap;
 }
 
-.editor .show-card,
-.editor .edit-card {
+.editor > .show-card,
+.editor > .edit-card {
 	display: block;
 	padding: 0.5em;
 	overflow: auto;
@@ -893,7 +906,7 @@ const limit = (input: number, min: number, max: number): number => {
 	font-family: inherit;
 }
 
-.editor.non-full .edit-card {
+.editor.non-full > .edit-card {
 	width: 100%;
 	height: calc(100% - 3rem);
 	overflow-x: hidden;
@@ -901,8 +914,8 @@ const limit = (input: number, min: number, max: number): number => {
 	border: 1px solid #eee;
 }
 
-.editor.full .edit-card,
-.editor.full .show-card {
+.editor.full > .edit-card,
+.editor.full > .show-card {
 	display: inline-block;
 	vertical-align: top;
 	width: 49%;
@@ -914,8 +927,11 @@ const limit = (input: number, min: number, max: number): number => {
 	padding-bottom: 50vh;
 }
 
+.editor.full > .edit-card.full-width {
+	width: 98.5%;
+}
+
 .editor > .toolbar {
-	line-height: 2em;
 	vertical-align: middle;
 	padding: 0;
 	margin: 0;
@@ -932,6 +948,27 @@ const limit = (input: number, min: number, max: number): number => {
 .editor .floating-card {
 	z-index: 11;
 	position: absolute;
+}
+
+.editor .floating-card.show-card {
+	background-color: #fff;
+	border: #aaa 1px solid;
+	cursor: all-scroll;
+	padding: 0.2em 0 0 0.5em;
+	overflow-x: hidden;
+}
+
+.editor .floating-card.show-card > .container {
+	min-height: 20em;
+	min-width: 20em;
+	max-height: 60vh;
+	max-width: 60vw;
+	margin-top: 1em;
+	padding-bottom: 3em;
+	overflow: auto;
+}
+
+.editor .floating-card.tool-menu {
 	background-color: var(--back-ground-color);
 	user-select: none;
 	padding: 0.5em;
@@ -944,8 +981,9 @@ const limit = (input: number, min: number, max: number): number => {
 
 .editor .floating-card .icon-close {
 	position: absolute;
-	right: 0.5em;
-	top: 0.5em;
+	top: 0;
+	right: 0;
+	font-size: 0.8rem;
 	color: #aaa;
 }
 
