@@ -103,11 +103,11 @@ const setCodeStyle = (code: string, language: string) => {
 		codes = codes.slice(0, codes.length - 1);
 	}
 
-	let res = '<div class="code-copy-button iconfont icon-copy"></div><code>';
-	for (let i = 0; i < codes.length; i++) {
-		res += '<span class="count">' + (i + 1) + '</span>' + codes[i] + '\n';
+	let res = '<div class="code-copy-button iconfont icon-copy"></div><div class="code-language">' + language + '</div><code>';
+	for (const line of codes) {
+		res += '<span class="count">' + line + '</span><br>';
 	}
-	res += '</code>' + '<div class="code-language">' + language + '</div>';
+	res += '</code>';
 	if (props.isCodeFold && codes.length > 20) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div></pre>'
 	} else {
@@ -193,7 +193,7 @@ setInterval(() => {
 .markdown-card * {
 	box-sizing: border-box;
 	margin: 0;
-	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
 }
 
 .markdown-card h1,

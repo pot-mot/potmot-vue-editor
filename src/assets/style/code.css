@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "consola"; /* Project id  */
+    src: url(src/assets/font/consola.ttf);
+}
+
 pre.potmot-dark {
     --code-back-color: #474949;
     --code-font-color: #d5d5d5;
@@ -14,7 +19,7 @@ pre.potmot-dark {
     --variable-color: #ffcc33;
     --entity-color: #7799cc;
 
-    padding: 0.5em 0.2em 0;
+    padding: 0.5em 0 0;
     border-radius: 0.2em;
 }
 
@@ -34,13 +39,13 @@ pre.potmot-light {
     --variable-color: #b48e06;
     --entity-color: #466db6;
 
-    padding: 0.8em 0.4em 0;
+    padding: 0.5em 0 0;
     border-radius: 0.2em;
 }
 
 code,
 pre {
-    font-family: consola, system-ui !important;
+    font-family: consola, system-ui;
     color: var(--code-font-color);
     font-size: 1em;
     text-align: left;
@@ -55,6 +60,7 @@ pre {
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
+    overflow-wrap: anywhere;
 }
 
 /* Code blocks */
@@ -154,13 +160,27 @@ pre span {
 }
 
 pre .count {
-    color: var(--count-color);
-    display: inline-block;
-    width: 2.5em;
-    text-align: center;
-    overflow: hidden;
-    margin-right: 0.5em;
+    counter-increment: line-number;
+    position: relative;
+    left: 2.5em;
+}
+
+pre .count:before {
+    content: counter(line-number);
+    position: absolute;
+    display: block;
+    line-height: inherit;
+    width: 2em;
     border-right: 1px solid var(--count-color);
+    overflow: hidden;
+    top: -0.2em;
+    left: -2.5em;
+    color: var(--count-color);
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
