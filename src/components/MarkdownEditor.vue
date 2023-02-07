@@ -1,6 +1,5 @@
 <template>
-	<div :class="[isFullScreen?'full':'non-full']" class="editor"
-		 :style="'line-height: ' + props.lineHeight + 'px;'">
+	<div :class="[isFullScreen?'full':'non-full']" class="editor">
 		<ul class="toolbar">
 			<li v-for="tool in editToolList">
 				<span
@@ -218,11 +217,6 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
-	lineHeight: {
-		type: Number,
-		required: false,
-		default: 25.6,
-	}
 })
 
 const emit = defineEmits(['update:modelValue']);
@@ -892,6 +886,7 @@ const limit = (input: number, min: number, max: number): number => {
 	--back-ground-color: #f5f5f5;
 	padding: 0;
 	margin: 0;
+	line-height: inherit;
 }
 
 .editor * {
@@ -917,6 +912,9 @@ const limit = (input: number, min: number, max: number): number => {
 	border-radius: 0;
 	font-family: inherit;
 	cursor: text;
+	overflow-wrap: break-word;
+	word-break: break-all;
+	word-wrap: anywhere;
 }
 
 .editor.non-full {
@@ -978,6 +976,7 @@ const limit = (input: number, min: number, max: number): number => {
 	vertical-align: middle;
 	padding: 0;
 	margin: 0;
+	line-height: 2em;
 }
 
 .editor > .toolbar > li {

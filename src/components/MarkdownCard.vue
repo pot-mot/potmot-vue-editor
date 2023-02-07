@@ -38,7 +38,6 @@ const copy = (text: string) => {
 }
 
 const format = (markDownString: string) => {
-	let str: string[] = markDownString.split('```');
 	let res: string = "";
 	let flag = true;
 	let start = 0;
@@ -63,9 +62,8 @@ const format = (markDownString: string) => {
 
 const formatMarkdown = (markDownString: string) => {
 	try {
-		let htmlString = marked.parse(markDownString).replaceAll('<a ', '<a target="_blank" ')
+		return marked.parse(markDownString).replaceAll('<a ', '<a target="_blank" ')
 			.replaceAll('>\n', '>');
-		return htmlString;
 	} catch (e) {
 		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markDownString;
 	}
@@ -103,15 +101,16 @@ const setCodeStyle = (code: string, language: string) => {
 		codes = codes.slice(0, codes.length - 1);
 	}
 
-	let res = '<div class="code-copy-button iconfont icon-copy"></div><div class="code-language">' + language + '</div><code>';
-	for (const line of codes) {
-		res += '<span class="count">' + line + '</span><br>';
+	let postfix = '<div class="code-copy-button iconfont icon-copy"/><div class="code-language">' + language + '</div>'
+	let res = '<code>';
+	for (let i = 0; i < codes.length; i++) {
+		res +=  '<span class="count"></span>' + codes[i] + '\n';
 	}
 	res += '</code>';
 	if (props.isCodeFold && codes.length > 20) {
-		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div></pre>'
+		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>'  + postfix + '</pre>';
 	} else {
-		res = '<pre class="' + props.codeTheme + '">' + res + '</pre>';
+		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
 	}
 	return res;
 }
@@ -136,7 +135,7 @@ const foldCode = (e: MouseEvent) => {
 const copyCode = (e: MouseEvent) => {
 	let node = <HTMLElement>e.target;
 	try {
-		let code = <HTMLElement>node.nextElementSibling;
+		let code = <HTMLElement>node.previousElementSibling;
 		let temp: string = code.textContent ? code.textContent : '';
 
 		if (temp) {
@@ -153,7 +152,7 @@ const copyCode = (e: MouseEvent) => {
 		copy(temp);
 		alert("已复制");
 	} catch (e) {
-		alert("复制失败");
+		alert("复制失败:" + e);
 	}
 }
 

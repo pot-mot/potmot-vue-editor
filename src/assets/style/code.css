@@ -50,8 +50,6 @@ pre {
     font-size: 1em;
     text-align: left;
     word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
 
     -moz-tab-size: 4;
     tab-size: 4;
@@ -60,7 +58,9 @@ pre {
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    word-wrap: anywhere;
 }
 
 /* Code blocks */
@@ -75,11 +75,16 @@ pre {
     border-radius: 0.2em;
 }
 
+
 pre > code {
     display: block;
-    width: 100%;
+    max-width: calc(100% - 2.5em);
     padding-bottom: 0.5em;
-    overflow-x: auto;
+    position: relative;
+    left: 2.5em;
+    padding-right: 0.5em;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 pre,
@@ -161,27 +166,21 @@ pre span {
 
 pre .count {
     counter-increment: line-number;
-    position: relative;
-    left: 2.5em;
+    position: absolute;
+    left: 0;
+    font-style: normal;
+    font-weight: normal;
 }
 
 pre .count:before {
     content: counter(line-number);
     position: absolute;
-    display: block;
     line-height: inherit;
     width: 2em;
     border-right: 1px solid var(--count-color);
-    overflow: hidden;
-    top: -0.2em;
     left: -2.5em;
     color: var(--count-color);
     text-align: center;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .code-fold-button {
@@ -205,16 +204,6 @@ pre .count:before {
 
 .code-fold-button.show:hover {
     color: var(--code-font-color);
-}
-
-pre .code-language,
-pre .code-copy-button{
-    display: none;
-}
-
-pre:hover .code-language,
-pre:hover .code-copy-button{
-    display: block;
 }
 
 .iconfont.code-copy-button {
