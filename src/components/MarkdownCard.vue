@@ -135,7 +135,7 @@ const foldCode = (e: MouseEvent) => {
 const copyCode = (e: MouseEvent) => {
 	let node = <HTMLElement>e.target;
 	try {
-		let code = <HTMLElement>node.previousElementSibling;
+		let code = <HTMLElement>node!.parentElement!.getElementsByTagName('code')[0];
 		let temp: string = code.textContent ? code.textContent : '';
 		copy(temp);
 		alert("已复制");
