@@ -7,6 +7,7 @@ import Prism from "prismjs";
 
 import {onMounted, ref} from "vue";
 import {marked} from "marked";
+import lauguageList from "../constant/LauguageList";
 
 const props = defineProps({
 	markdownText: {
@@ -86,8 +87,7 @@ const formatCode = (codeString: string) => {
 	}
 }
 
-const languageList: string[] = ['javascript','typescript','cpp','c','csharp','bash','go','rust','css','git','json','java','nginx','sql','vim','yaml','yml','html']
-
+const languageList: string[] = lauguageList;
 const setCodeStyle = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
