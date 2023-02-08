@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import Prism from "prismjs";
 
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {marked} from "marked";
 
 const props = defineProps({
@@ -137,18 +137,6 @@ const copyCode = (e: MouseEvent) => {
 	try {
 		let code = <HTMLElement>node.previousElementSibling;
 		let temp: string = code.textContent ? code.textContent : '';
-
-		if (temp) {
-			let list = temp.split("\n");
-			temp = "";
-			for (let i = 0; i < list.length; i++) {
-				temp += list[i].replace((i + 1).toString(), '\n');
-			}
-			if (list[list.length - 1].trim() == "") {
-				temp = temp.slice(list[list.length - 1].length);
-			}
-		}
-
 		copy(temp);
 		alert("已复制");
 	} catch (e) {
@@ -156,7 +144,7 @@ const copyCode = (e: MouseEvent) => {
 	}
 }
 
-setInterval(() => {
+const setButtonEvent = () => {
 	if (markdownCard.value == undefined) return;
 
 	if (props.isCodeFold) {
@@ -172,7 +160,11 @@ setInterval(() => {
 		copyButtons[i].removeEventListener("click", copyCode);
 		copyButtons[i].addEventListener("click", copyCode);
 	}
-}, 1000);
+}
+
+onMounted(setButtonEvent);
+
+setInterval(setButtonEvent, 1000);
 </script>
 
 <style>
