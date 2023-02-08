@@ -1,6 +1,6 @@
 @font-face {
     font-family: "consola"; /* Project id  */
-    src: url(src/assets/font/consola.ttf);
+    src: url(../font/consola.ttf);
 }
 
 pre.potmot-dark {
@@ -78,10 +78,10 @@ pre {
 
 pre > code {
     display: block;
-    max-width: calc(100% - 2.5em);
+    max-width: calc(100% - 3em);
     padding-bottom: 0.5em;
     position: relative;
-    left: 2.5em;
+    left: 3em;
     padding-right: 0.5em;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -176,9 +176,9 @@ pre .count:before {
     content: counter(line-number);
     position: absolute;
     line-height: inherit;
-    width: 2em;
+    width: 2.5em;
     border-right: 1px solid var(--count-color);
-    left: -2.5em;
+    left: -3em;
     color: var(--count-color);
     text-align: center;
 }

@@ -1,0 +1,158 @@
+@font-face {
+    font-family: "iconfont"; /* Project id  */
+    src: url('../font/iconfont.ttf?t=1673615946702') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont", system-ui;
+    font-size: 1em;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    display: inline-block;
+    width: 2em;
+}
+
+.iconfont:before {
+    padding: 0.2em;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.icon-search-list:before {
+    content: "\e6fe";
+}
+
+.icon-copy:before {
+    content: "\e63d";
+}
+
+.icon-file-tree:before {
+    content: "\e736";
+}
+
+.icon-ordered-list:before {
+    content: "\e7f4";
+}
+
+.icon-editor:before {
+    content: "\e6f5";
+}
+
+.icon-setting:before {
+    content: "\e657";
+}
+
+.icon-search:before {
+    content: "\e7b3";
+}
+
+.icon-undo:before {
+    content: "\e659";
+}
+
+.icon-redo {
+    transform: scaleX(-1);
+}
+
+.icon-redo:before {
+    content: "\e659";
+}
+
+.icon-list-show:before {
+    content: "\e67f";
+}
+
+.icon-list-fold:before {
+    content: "\e680";
+}
+
+.icon-add:before {
+    content: "\e601";
+}
+
+.icon-bulletpoint:before {
+    content: "\e602";
+}
+
+.icon-browse:before {
+    content: "\e603";
+}
+
+.icon-browse-off:before {
+    content: "\e604";
+}
+
+.icon-check:before {
+    content: "\e605";
+}
+
+.icon-chevron-left:before {
+    content: "\e606";
+}
+
+.icon-chevron-down:before {
+    content: "\e607";
+}
+
+.icon-chevron-up:before {
+    content: "\e608";
+}
+
+.icon-chevron-right:before {
+    content: "\e609";
+}
+
+.icon-close:before {
+    content: "\e60a";
+}
+
+.icon-delete:before {
+    content: "\e60b";
+}
+
+.icon-code:before {
+    content: "\e60c";
+}
+
+.icon-enter:before {
+    content: "\e61e";
+}
+
+.icon-ellipsis:before {
+    content: "\e61f";
+}
+
+.icon-fullscreen:before {
+    content: "\e621";
+}
+
+.icon-link:before {
+    content: "\e624";
+}
+
+.icon-logout:before {
+    content: "\e625";
+}
+
+.icon-full-screen:before {
+    content: "\e7e1";
+}
+
+.icon-upload:before {
+    content: "\e60d";
+}
+
+.icon-download:before {
+    content: "\e60e";
+}
+
+.icon-data:before {
+    content: "\e60f";
+}
+
+.icon-find-replace:before {
+    content: "\ebf2";
+}
+

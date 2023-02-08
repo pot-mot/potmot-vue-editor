@@ -61,9 +61,8 @@
 			</div>
 		</div>
 		<div
-			v-show="getEditToolActive('preview') && !isFullScreen"
+			v-show="getEditToolActive('preview') && !isFullScreen" v-drag
 			class="floating-card show-card"
-			v-drag
 			@mouseenter="setHandleScrollFlag('floatShowCard')">
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('preview', false)"/>
 			<div class="container" ref="floatShowCard">
@@ -988,8 +987,15 @@ const limit = (input: number, min: number, max: number): number => {
 }
 
 .editor .floating-card {
-	z-index: 11;
 	position: absolute;
+}
+
+.editor.non-full .floating-card {
+	z-index: 1;
+}
+
+.editor.full .floating-card {
+	z-index: 11;
 }
 
 .editor .floating-card.show-card {
@@ -1002,9 +1008,8 @@ const limit = (input: number, min: number, max: number): number => {
 
 .editor .floating-card.show-card > .container {
 	min-height: 20em;
-	min-width: 20em;
+	width: 35em;
 	max-height: 60vh;
-	max-width: 60vw;
 	margin-top: 1em;
 	padding-bottom: 3em;
 	overflow: auto;

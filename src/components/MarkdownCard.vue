@@ -176,9 +176,6 @@ setInterval(() => {
 </script>
 
 <style>
-@import "../assets/style/code.css";
-@import "../assets/style/iconfont.css";
-
 .markdown-card {
 	--quote--border: 0.2em solid #eee;
 	--quote-back-color: #fafafa;
