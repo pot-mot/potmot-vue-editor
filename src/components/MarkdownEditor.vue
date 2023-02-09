@@ -55,7 +55,7 @@
 			<div style="display: flex; justify-content: space-around">
 				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext" style="padding: 0.1em;">↓</span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious" style="padding: 0.1em;">↑</span>
-				<span> {{searchData.index + 1}}/{{searchData.indexes.length}} </span>
+				<span> {{ searchData.index + 1 }}/{{ searchData.indexes.length }} </span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</div>
@@ -96,9 +96,9 @@
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
 			<li>
-				{{ statisticalData.startLineNumber.y + 1 }}:{{ statisticalData.startLineNumber.x }}
+				{{ statisticalData.startPlace.y + 1 }}:{{ statisticalData.startPlace.x }}
 				<template v-if="statisticalData.selectLength > 0">
-					至 {{ statisticalData.endLineNumber.y + 1 }}:{{ statisticalData.endLineNumber.x }}
+					至 {{ statisticalData.endPlace.y + 1 }}:{{ statisticalData.endPlace.x }}
 				</template>
 			</li>
 			<li>选中 {{ statisticalData.selectLength }}</li>
@@ -174,28 +174,64 @@ class InsertText {
 
 const vDrag = {
 	mounted(el: HTMLDivElement) {
-		el.onmousedown = (e) => {
-			if (e.target != el) return;
-			e.preventDefault();
+		if ('ontouchstart' in document) {
+			el.addEventListener('touchstart', (e: TouchEvent) => {
+				if (e.target != el) return;
+				e.preventDefault();
 
-			// 鼠标按下的位置
-			const mouseXStart = e.clientX;
-			const mouseYStart = e.clientY;
-			// 当前滑块位置
-			const rectLeft = el.offsetLeft;
-			const rectTop = el.offsetTop;
-			document.onmousemove = (e) => {
-				// 鼠标移动的位置
-				const mouseXEnd = e.clientX;
-				const mouseYEnd = e.clientY;
-				const moveX = mouseXEnd - mouseXStart + rectLeft;
-				const moveY = mouseYEnd - mouseYStart + rectTop;
-				el.style.top = moveY + "px";
-				el.style.left = moveX + "px";
-			};
-			document.onmouseup = () => {
-				document.onmousemove = null;
-			};
+				// 当前滑块位置
+				const rectLeft = el.offsetLeft;
+				const rectTop = el.offsetTop;
+
+				const startX = e.touches[0].clientX;
+				const startY = e.touches[0].clientY;
+
+				const setXY = (e: TouchEvent) => {
+					const endX = e.touches[0].clientX;
+					const endY = e.touches[0].clientY;
+					const moveX = endX - startX + rectLeft;
+					const moveY = endY - startY + rectTop;
+					el.style.top = moveY + "px";
+					el.style.left = moveX + "px";
+				}
+
+				const removeSetXY = () => {
+					document.removeEventListener('touchmove', setXY);
+					document.removeEventListener('touchend', removeSetXY);
+				}
+
+				document.addEventListener('touchmove', setXY);
+				document.addEventListener('touchend', removeSetXY);
+			})
+		} else {
+			el.onmousedown = (e: MouseEvent) => {
+				if (e.target != el) return;
+				e.preventDefault();
+
+				// 当前滑块位置
+				const rectLeft = el.offsetLeft;
+				const rectTop = el.offsetTop;
+				// 初始的位置
+				const startX = e.clientX;
+				const startY = e.clientY;
+
+				const setXY = (e: MouseEvent) => {
+					const endX = e.clientX;
+					const endY = e.clientY;
+					const moveX = endX - startX + rectLeft;
+					const moveY = endY - startY + rectTop;
+					el.style.top = moveY + "px";
+					el.style.left = moveX + "px";
+				};
+
+				const removeSetXY = () => {
+					document.removeEventListener('mousemove', setXY);
+					document.removeEventListener('mouseup', removeSetXY);
+				}
+
+				document.addEventListener('mousemove', setXY);
+				document.addEventListener('mouseup', removeSetXY);
+			}
 		}
 	}
 }
@@ -226,14 +262,14 @@ const floatShowCard = ref();
 
 const statisticalData = reactive({
 	selectLength: 0,
-	startLineNumber: {x: 0, y: 0},
-	endLineNumber: {x: 0, y: 0},
+	startPlace: {x: 0, y: 0},
+	endPlace: {x: 0, y: 0},
 })
 
 const setEditData = () => {
 	if (textarea.value) {
-		statisticalData.startLineNumber = getPlace(textarea.value.selectionStart, data.text);
-		statisticalData.endLineNumber = getPlace(textarea.value.selectionEnd, data.text);
+		statisticalData.startPlace = getPlace(textarea.value.selectionStart, data.text);
+		statisticalData.endPlace = getPlace(textarea.value.selectionEnd, data.text);
 		statisticalData.selectLength = textarea.value.selectionEnd - textarea.value.selectionStart;
 	}
 }
@@ -734,7 +770,7 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 let textareaCountLine = ref();
 
 const searchData = reactive({
-	index: 0,
+	index: -1,
 	indexes: <number[]>[],
 })
 
@@ -765,7 +801,7 @@ watch(() => isFullScreen.value, () => {
 
 
 const setSearchData = () => {
-	searchData.index = 0;
+	searchData.index = -1;
 	searchData.indexes = [];
 	if (textarea.value == undefined) return;
 	textareaCountLine.value.style.width = textarea.value.scrollWidth + 'px';
@@ -783,7 +819,7 @@ const setSearchData = () => {
 		}
 		searchData.indexes.push(temp);
 		index = temp + data.replaceFrom.length;
-		count ++;
+		count++;
 	}
 }
 
@@ -803,7 +839,7 @@ const searchPrevious = () => {
 	if (textarea.value == undefined) return;
 
 	if (searchData.index > 0) {
-		searchData.index --;
+		searchData.index--;
 	}
 
 	setTimeout(() => {
@@ -818,7 +854,7 @@ const searchNext = () => {
 	if (textarea.value == undefined) return;
 
 	if (searchData.index < searchData.indexes.length - 1) {
-		searchData.index ++;
+		searchData.index++;
 	}
 
 	setTimeout(() => {
@@ -1002,23 +1038,25 @@ const limit = (input: number, min: number, max: number): number => {
 	background-color: #fff;
 	border: #aaa 1px solid;
 	cursor: all-scroll;
-	padding: 0.2em 0.5em 0 0.5em;
+	padding: 0.5em;
 	overflow-x: hidden;
 }
 
 .editor .floating-card.show-card > .container {
 	min-height: 20em;
 	width: 35em;
+	max-width: 80vw;
 	max-height: 60vh;
 	margin-top: 1em;
 	padding-bottom: 3em;
 	overflow: auto;
+	border: #eee 1px solid;
 }
 
 .editor .floating-card.tool-menu {
 	background-color: var(--back-ground-color);
 	user-select: none;
-	padding: 0.5em;
+	padding: 1em 0.5em;
 	font-size: 0.8em;
 	cursor: all-scroll;
 	min-width: 20em;
