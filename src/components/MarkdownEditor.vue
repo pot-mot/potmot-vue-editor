@@ -421,8 +421,8 @@ const insertTextList: InsertTool[] = reactive([
 	new InsertTool("link", '@', "链接", () => {
 		return new InsertText("[](", ")");
 	}),
-	new InsertTool("quote", '>', "引用", () => {
-		return new InsertText(">  \n", "\n");
+	new InsertTool("details", '>', "折叠块", () => {
+		return new InsertText("<details>\n<summary>[标识]</summary>\n", "\n</details>");
 	}),
 	new InsertTool("warning", '!', "标亮", () => {
 		return new InsertText("<span style='color: " + insertTextParams.warningColor + ";'>", "</span>");
@@ -554,14 +554,15 @@ const redo = () => {
 }
 
 // 文本编辑
+// 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
 	if (e.ctrlKey) {
-		if (e.key == 'x') {
+		if (e.key == 'x' || e.key == 'X') {
 			data.pushFlag = "cut";
-			setTimeout(push, 50);
-		} else if (e.key == 'v') {
+			setTimeout(push, 200);
+		} else if (e.key == 'v' || e.key == 'V') {
 			data.pushFlag = "copy";
-			setTimeout(push, 50);
+			setTimeout(push, 200);
 		} else if (e.key == 'z' || e.key == 'Z') {
 			e.preventDefault();
 			data.pushFlag = "symbol";
@@ -633,6 +634,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 	}
 }
 
+// 键盘抬起事件
 const onKeyUp = (e: KeyboardEvent) => {
 	if (e.key == 'Enter' || e.key == ' ') {
 		changeFlag("blank");
@@ -641,12 +643,14 @@ const onKeyUp = (e: KeyboardEvent) => {
 	}
 }
 
+// 鼠标按下事件
 const onMouseDown = () => {
 	setTimeout(() => {
 		changeFlag("jump");
 	}, 100);
 }
 
+// 报持历史操作一致性的触发器，根据输入标志符是否改变判断是否压入历史栈
 const changeFlag = (flag: string) => {
 	if (data.pushFlag != flag) {
 		data.pushFlag = flag;
@@ -766,7 +770,8 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 }
 
 
-// 查找与替换
+// 查找与替换功能
+// 用于测算 textarea 当前文本高度的工具盒子
 let textareaCountLine = ref();
 
 const searchData = reactive({
@@ -823,6 +828,7 @@ const setSearchData = () => {
 	}
 }
 
+// 控制 textarea 进行跳转
 const jumpTo = (target: number) => {
 	textarea.value.scrollTop = target;
 }
