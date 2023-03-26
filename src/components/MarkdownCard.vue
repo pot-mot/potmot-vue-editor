@@ -16,7 +16,6 @@ const props = defineProps({
 	},
 	isCodeFold: {
 		type: Boolean,
-
 		required: false,
 		default: false,
 	},

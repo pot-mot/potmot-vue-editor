@@ -96,9 +96,9 @@
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
 			<li>
-				{{ statisticalData.startPlace.y + 1 }}:{{ statisticalData.startPlace.x }}
+				{{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
 				<template v-if="statisticalData.selectLength > 0">
-					至 {{ statisticalData.endPlace.y + 1 }}:{{ statisticalData.endPlace.x }}
+					至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}
 				</template>
 			</li>
 			<li>选中 {{ statisticalData.selectLength }}</li>
@@ -109,6 +109,7 @@
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import MarkdownCard from "./MarkdownCard.vue";
+import {transformWithEsbuild} from "vite";
 
 class EditTool {
 	name: string = "";
@@ -260,21 +261,27 @@ const textarea = ref();
 const showCard = ref();
 const floatShowCard = ref();
 
+// 统计数据
 const statisticalData = reactive({
 	selectLength: 0,
 	startPlace: {x: 0, y: 0},
 	endPlace: {x: 0, y: 0},
 })
 
+// 设置统计数据，需要和定时器一起使用
 const setEditData = () => {
 	if (textarea.value) {
 		statisticalData.startPlace = getPlace(textarea.value.selectionStart, data.text);
-		statisticalData.endPlace = getPlace(textarea.value.selectionEnd, data.text);
+		if (textarea.value.selectionStart == textarea.value.selectionEnd) {
+			statisticalData.endPlace = statisticalData.startPlace;
+		} else {
+			statisticalData.endPlace = getPlace(textarea.value.selectionEnd, data.text);
+		}
 		statisticalData.selectLength = textarea.value.selectionEnd - textarea.value.selectionStart;
 	}
 }
 
-setInterval(setEditData, 100);
+setInterval(setEditData, 200);
 
 
 // 数据
@@ -368,7 +375,7 @@ const isPreview = computed({
 	}
 })
 
-// 展示列表
+// 插入工具列表
 const insertTextList: InsertTool[] = reactive([
 	new InsertTool("title", '#', "标题", () => {
 		insertTextParams.titleLevel = limit(insertTextParams.titleLevel, 1, 5);
@@ -457,6 +464,14 @@ onMounted(async () => {
 	})
 })
 
+/**
+ * 在字符串中插入替换部分
+ *
+ * @param inserter 插入部分
+ * @param target 目标字符串
+ * @param start 替换起点
+ * @param end 替换终点，默认等于起点（即不进行替换）
+ */
 const insertIntoString = (inserter: string, target: string, start: number, end: number = start): string => {
 	return target.slice(0, start) + inserter + target.slice(end);
 }
@@ -591,7 +606,11 @@ const onKeyDown = (e: KeyboardEvent) => {
 			}
 		}
 	} else {
-		if (e.key == 'Ctrl' || e.key == 'Shift' || e.key.startsWith("Arrow") || e.key == 'Enter' || e.key == ' ') {
+		if (e.key == 'Enter') {
+			e.preventDefault();
+			data.pushFlag = "blank";
+			batchEnter();
+		} else if (e.key == 'Ctrl' || e.key == 'Shift' || e.key.startsWith("Arrow") || e.key == 'Enter' || e.key == ' ') {
 			return;
 		} else if (e.key == 'Escape') {
 			if (isFullScreen.value) {
@@ -601,17 +620,11 @@ const onKeyDown = (e: KeyboardEvent) => {
 			e.preventDefault();
 			data.pushFlag = "blank";
 			batchKeydown(e, '\t');
-		} else if (e.key == '(' || e.key == '[' || e.key == '{' || e.key == '"' || e.key == "'") {
+		} else if (e.key == '(' || e.key == '[' || e.key == '{') {
 			e.preventDefault();
 			data.pushFlag = "symbol";
 			let after = "";
 			switch (e.key) {
-				case "'":
-					after = "'";
-					break;
-				case '"':
-					after = '"';
-					break;
 				case "(":
 					after = ")";
 					break;
@@ -660,7 +673,7 @@ const changeFlag = (flag: string) => {
 	}
 }
 
-// 根据函数触发添加至文本中
+// 文本插入
 const insertToText = (editItem: InsertTool) => {
 	let start = textarea.value.selectionStart;
 	let selectEnd = textarea.value.selectionEnd;
@@ -690,6 +703,7 @@ const insertToText = (editItem: InsertTool) => {
 	})
 }
 
+// 文本联想
 const insertAroundText = (insertText: InsertText) => {
 	let start = textarea.value.selectionStart;
 	let selectEnd = textarea.value.selectionEnd;
@@ -717,6 +731,32 @@ const insertAroundText = (insertText: InsertText) => {
 	})
 }
 
+// 复制前段文本缩进并插入（Enter）
+const batchEnter = () => {
+	const start = textarea.value.selectionStart;
+	console.log(start);
+	let enterWithBlank = "\n";
+	let index = start;
+	// 向前读取前一行的回车
+	for (; index >= 0 && data.text[index] != '\n'; index --) {}
+	if (data.text[index] == '\n') index ++;
+	// 读到第二个回车时向后读取 tab 和 blank
+	for (; index < data.text.length; index ++) {
+		if (data.text[index] == ' ' || data.text[index] == '\t') {
+			enterWithBlank += data.text[index];
+		} else {
+			break;
+		}
+	}
+	data.text = insertIntoString(enterWithBlank, data.text, start);
+	nextTick(() => {
+		textarea.value.selectionStart = start + enterWithBlank.length;
+		textarea.value.selectionEnd = textarea.value.selectionStart;
+		push();
+	})
+}
+
+// 批量输入同个按键（Tab）
 const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 	const start = textarea.value.selectionStart;
 	const end = textarea.value.selectionEnd;
@@ -889,16 +929,17 @@ const replaceAll = () => {
 	}
 }
 
+// 获取文本位置
 const getPlace = (start: number, text: string): { x: number, y: number } => {
 	let x = 0;
-	for (let i = start - 1; i > 0; i--) {
+	for (let i = start; i >= 0; i--) {
 		if (text[i] == '\n') {
 			break;
 		}
 		x++;
 	}
-	let y = 0;
-	for (let i = start - 1; i > 0; i--) {
+	let y = 1;
+	for (let i = start - 1; i >= 0; i--) {
 		if (text[i] == '\n') {
 			y++;
 		}
