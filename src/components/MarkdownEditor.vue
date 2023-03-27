@@ -109,7 +109,6 @@
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import MarkdownCard from "./MarkdownCard.vue";
-import {transformWithEsbuild} from "vite";
 
 class EditTool {
 	name: string = "";
@@ -264,8 +263,8 @@ const floatShowCard = ref();
 // 统计数据
 const statisticalData = reactive({
 	selectLength: 0,
-	startPlace: {x: 0, y: 0},
-	endPlace: {x: 0, y: 0},
+	startPlace: {x: 1, y: 1},
+	endPlace: {x: 1, y: 1},
 })
 
 // 设置统计数据，需要和定时器一起使用
@@ -281,7 +280,7 @@ const setEditData = () => {
 	}
 }
 
-setInterval(setEditData, 200);
+setInterval(setEditData, 100);
 
 
 // 数据
@@ -734,14 +733,16 @@ const insertAroundText = (insertText: InsertText) => {
 // 复制前段文本缩进并插入（Enter）
 const batchEnter = () => {
 	const start = textarea.value.selectionStart;
-	console.log(start);
 	let enterWithBlank = "\n";
 	let index = start;
 	// 向前读取前一行的回车
-	for (; index >= 0 && data.text[index] != '\n'; index --) {}
-	if (data.text[index] == '\n') index ++;
+	while (data.text[index] != '\n' && index > 0) {
+		index--;
+	}
+	if (index != 0) index++;
+	console.log(getPlace(index, data.text))
 	// 读到第二个回车时向后读取 tab 和 blank
-	for (; index < data.text.length; index ++) {
+	for (; index < data.text.length; index++) {
 		if (data.text[index] == ' ' || data.text[index] == '\t') {
 			enterWithBlank += data.text[index];
 		} else {
@@ -932,14 +933,18 @@ const replaceAll = () => {
 // 获取文本位置
 const getPlace = (start: number, text: string): { x: number, y: number } => {
 	let x = 0;
+	let y = 1;
+	if ( text[start] == "\n") {
+		start --;
+		x ++;
+	}
 	for (let i = start; i >= 0; i--) {
 		if (text[i] == '\n') {
 			break;
 		}
 		x++;
 	}
-	let y = 1;
-	for (let i = start - 1; i >= 0; i--) {
+	for (let i = start; i >= 0; i--) {
 		if (text[i] == '\n') {
 			y++;
 		}
@@ -947,6 +952,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	return {x, y};
 }
 
+// 范围约束
 const limit = (input: number, min: number, max: number): number => {
 	if (input > max) return max;
 	if (input < min) return min;
@@ -1026,7 +1032,7 @@ const limit = (input: number, min: number, max: number): number => {
 	font-size: 1em;
 	border-radius: 3px;
 	line-height: inherit;
-	font-family: inherit;
+	font-family: consola, system-ui;
 }
 
 .editor.non-full > .edit-card {
