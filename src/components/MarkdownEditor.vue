@@ -735,14 +735,18 @@ const batchEnter = () => {
 	const start = textarea.value.selectionStart;
 	let enterWithBlank = "\n";
 	let index = start;
+	if (data.text[index] == '\n') {
+		index--;
+	}
 	// 向前读取前一行的回车
 	while (data.text[index] != '\n' && index > 0) {
 		index--;
 	}
-	if (index != 0) index++;
-	console.log(getPlace(index, data.text))
+	if (index != 0) {
+		index++;
+	}
 	// 读到第二个回车时向后读取 tab 和 blank
-	for (; index < data.text.length; index++) {
+	for (; index < data.text.length && index < start; index++) {
 		if (data.text[index] == ' ' || data.text[index] == '\t') {
 			enterWithBlank += data.text[index];
 		} else {
@@ -934,9 +938,9 @@ const replaceAll = () => {
 const getPlace = (start: number, text: string): { x: number, y: number } => {
 	let x = 0;
 	let y = 1;
-	if ( text[start] == "\n") {
-		start --;
-		x ++;
+	if (text[start] == "\n") {
+		start--;
+		x++;
 	}
 	for (let i = start; i >= 0; i--) {
 		if (text[i] == '\n') {
@@ -949,7 +953,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 			y++;
 		}
 	}
-	return {x, y};
+	return {y, x};
 }
 
 // 范围约束
