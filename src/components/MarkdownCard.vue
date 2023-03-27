@@ -56,15 +56,35 @@ const format = (markDownString: string) => {
 		}
 	}
 
-	res += formatMarkdown(markDownString.slice(start));
-
-	return res;
+	return res + formatMarkdown(markDownString.slice(start));
 }
 
 const formatMarkdown = (markDownString: string) => {
 	try {
-		return marked.parse(markDownString).replaceAll('<a ', '<a target="_blank" ')
-			.replaceAll('>\n', '>');
+		markDownString = marked.parse(markDownString)
+			.replaceAll('<a ', '<a target="_blank" ')
+			.replaceAll('>\n', '>')
+			.replaceAll('<pre><code>', '```')
+			.replaceAll('</code></pre>', '```');
+
+		let res: string = "";
+		let flag = true;
+		let start = 0;
+
+		for (let i = 0; i < markDownString.length - 2; i++) {
+			if (markDownString.slice(i, i + 3) == '```') {
+				if (flag) {
+					res += markDownString.slice(start, i);
+					start = i;
+				} else {
+					res += setCodeLine(markDownString.slice(start + 3, i));
+					start = i + 3;
+				}
+				flag = !flag;
+			}
+		}
+
+		return res + markDownString.slice(start);
 	} catch (e) {
 		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markDownString;
 	}
@@ -81,14 +101,34 @@ const formatCode = (codeString: string) => {
 		} catch (e) {
 			code = code.slice(code.indexOf('\n') + 1);
 		}
-		return setCodeStyle(code, language);
+		return setCodeLineWithStyle(code, language);
 	} catch (e) {
 		return "<div style='color: red'>代码解析错误</div>\n" + e + "\n" + codeString;
 	}
 }
 
 const languageList: string[] = lauguageList;
-const setCodeStyle = (code: string, language: string) => {
+
+const setCodeLine = (code: string) => {
+	if (code[code.length - 1] == '\n') {
+		code = code.slice(0, code.length - 1);
+	}
+	let codes = code.split("\n");
+	let res = '<code>';
+	for (let i = 0; i < codes.length; i++) {
+		res += '<span class="count"></span>' + codes[i] + '\n';
+	}
+	let postfix = '<div class="code-copy-button iconfont icon-copy"/>';
+	res += '</code>';
+	if (props.isCodeFold && codes.length > 20) {
+		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
+	} else {
+		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
+	}
+	return res;
+}
+
+const setCodeLineWithStyle = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
 			code = Prism.highlight(code, Prism.languages[language], language);
@@ -104,11 +144,11 @@ const setCodeStyle = (code: string, language: string) => {
 	let postfix = '<div class="code-copy-button iconfont icon-copy"/><div class="code-language">' + language + '</div>'
 	let res = '<code>';
 	for (let i = 0; i < codes.length; i++) {
-		res +=  '<span class="count"></span>' + codes[i] + '\n';
+		res += '<span class="count"></span>' + codes[i] + '\n';
 	}
 	res += '</code>';
 	if (props.isCodeFold && codes.length > 20) {
-		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>'  + postfix + '</pre>';
+		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
 	} else {
 		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
 	}
@@ -169,12 +209,12 @@ setInterval(setButtonEvent, 1000);
 
 <style>
 .markdown-card {
-	--quote--border: 0.2em solid #eee;
-	--quote-back-color: #fafafa;
+	--quote--border: 0.2em solid #ddd;
+	--quote-back-color: #efefef;
 
-	--table-border-color: #efefef;
-	--table-head-back-color: #fafafa;
-	--table-body-back-color: #fff;
+	--table-border-color: #ddd;
+	--table-head-back-color: #eee;
+	--table-body-back-color: #fefefe;
 
 	white-space: pre-wrap;
 	margin: 0;
@@ -204,6 +244,8 @@ setInterval(setButtonEvent, 1000);
 	border-left: var(--quote--border);
 	background-color: var(--quote-back-color);
 	padding: 0.6em 0.3em;
+	font-style: italic;
+	color: #333;
 }
 
 .markdown-card pre.fold {
