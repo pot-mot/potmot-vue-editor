@@ -14,16 +14,21 @@ const props = defineProps({
 		type: String,
 		required: true,
 	},
+	codeTheme: {
+		type: String,
+		required: false,
+		default: 'potmot-dark',
+	},
 	isCodeFold: {
 		type: Boolean,
 		required: false,
 		default: false,
 	},
-	codeTheme: {
-		type: String,
+	codeFoldThreshold: {
+		type: Number,
 		required: false,
-		default: 'potmot-dark',
-	}
+		default: 20,
+	},
 })
 
 let markdownCard = ref();
@@ -119,7 +124,7 @@ const setCodeLine = (code: string) => {
 	}
 	let postfix = '<div class="code-copy-button iconfont icon-copy"/>';
 	res += '</code>';
-	if (props.isCodeFold && codes.length > 20) {
+	if (props.isCodeFold && codes.length > props.codeFoldThreshold) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
 	} else {
 		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
@@ -147,7 +152,7 @@ const setCodeLineWithStyle = (code: string, language: string) => {
 		res += '<span class="count"></span>' + codes[i] + '\n';
 	}
 	res += '</code>';
-	if (props.isCodeFold && codes.length > 20) {
+	if (props.isCodeFold && codes.length > props.codeFoldThreshold) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
 	} else {
 		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';

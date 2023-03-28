@@ -172,6 +172,30 @@ class InsertText {
 	}
 }
 
+// 外部传入参数
+const props = defineProps({
+	modelValue: {
+		type: String,
+		required: true,
+	},
+	placeholder: {
+		type: String,
+		required: false,
+		default: "",
+	},
+	startWithFullScreen: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+})
+
+const emit = defineEmits(['update:modelValue']);
+
+const textarea = ref();
+const showCard = ref();
+const floatShowCard = ref();
+
 const vDrag = {
 	mounted(el: HTMLDivElement) {
 		if ('ontouchstart' in document) {
@@ -235,30 +259,6 @@ const vDrag = {
 		}
 	}
 }
-
-// 外部传入参数
-const props = defineProps({
-	modelValue: {
-		type: String,
-		required: true,
-	},
-	placeholder: {
-		type: String,
-		required: false,
-		default: "",
-	},
-	startWithFullScreen: {
-		type: Boolean,
-		required: false,
-		default: false,
-	},
-})
-
-const emit = defineEmits(['update:modelValue']);
-
-const textarea = ref();
-const showCard = ref();
-const floatShowCard = ref();
 
 // 统计数据
 const statisticalData = reactive({
@@ -399,7 +399,7 @@ const insertTextList: InsertTool[] = reactive([
 
 		for (let i = 0; i < insertTextParams.tableHeight; i++) {
 			formLineText += (whiteSpace + "|");
-			formFormatText += " --- |";
+			formFormatText += "----|";
 		}
 		formLineText += "\n";
 		formFormatText += "\n";
