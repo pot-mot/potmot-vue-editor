@@ -1,4 +1,4 @@
-const languageList: string[] = [
+export const languageList: string[] = [
     'javascript', 'typescript',
     'css', 'css-extras', 'html', 'less', 'sass', 'scss',
     'svg', 'icon',
@@ -30,5 +30,3 @@ const languageList: string[] = [
     'scheme',
     'swift'
 ]
-
-export default languageList;

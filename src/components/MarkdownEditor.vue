@@ -1036,7 +1036,7 @@ const limit = (input: number, min: number, max: number): number => {
 	font-size: 1em;
 	border-radius: 3px;
 	line-height: inherit;
-	font-family: consola, system-ui;
+	font-family: inherit;
 }
 
 .editor.non-full > .edit-card {

@@ -7,7 +7,7 @@ import Prism from "prismjs";
 
 import {onMounted, ref} from "vue";
 import {marked} from "marked";
-import lauguageList from "../constant/LauguageList";
+import {languageList} from "../constant/LanguageList";
 
 const props = defineProps({
 	markdownText: {
@@ -38,30 +38,30 @@ const copy = (text: string) => {
 	document.execCommand('copy');
 }
 
-const format = (markDownString: string) => {
+const format = (markdownString: string) => {
 	let res: string = "";
 	let flag = true;
 	let start = 0;
 
-	for (let i = 0; i < markDownString.length - 2; i++) {
-		if (markDownString.slice(i, i + 3) == '```') {
+	for (let i = 0; i < markdownString.length - 2; i++) {
+		if (markdownString.slice(i, i + 3) == '```') {
 			if (flag) {
-				res += formatMarkdown(markDownString.slice(start, i));
+				res += formatMarkdown(markdownString.slice(start, i));
 				start = i;
 			} else {
-				res += formatCode(markDownString.slice(start + 3, i));
+				res += formatCode(markdownString.slice(start + 3, i));
 				start = i + 3;
 			}
 			flag = !flag;
 		}
 	}
 
-	return res + formatMarkdown(markDownString.slice(start));
+	return res + formatMarkdown(markdownString.slice(start));
 }
 
-const formatMarkdown = (markDownString: string) => {
+const formatMarkdown = (markdownString: string) => {
 	try {
-		markDownString = marked.parse(markDownString)
+		markdownString = marked.parse(markdownString)
 			.replaceAll('<a ', '<a target="_blank" ')
 			.replaceAll('>\n', '>')
 			.replaceAll('<pre><code>', '```')
@@ -71,22 +71,22 @@ const formatMarkdown = (markDownString: string) => {
 		let flag = true;
 		let start = 0;
 
-		for (let i = 0; i < markDownString.length - 2; i++) {
-			if (markDownString.slice(i, i + 3) == '```') {
+		for (let i = 0; i < markdownString.length - 2; i++) {
+			if (markdownString.slice(i, i + 3) == '```') {
 				if (flag) {
-					res += markDownString.slice(start, i);
+					res += markdownString.slice(start, i);
 					start = i;
 				} else {
-					res += setCodeLine(markDownString.slice(start + 3, i));
+					res += setCodeLine(markdownString.slice(start + 3, i));
 					start = i + 3;
 				}
 				flag = !flag;
 			}
 		}
 
-		return res + markDownString.slice(start);
+		return res + markdownString.slice(start);
 	} catch (e) {
-		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markDownString;
+		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markdownString;
 	}
 }
 
@@ -107,8 +107,7 @@ const formatCode = (codeString: string) => {
 	}
 }
 
-const languageList: string[] = lauguageList;
-
+// 不带语言的代码块的解析
 const setCodeLine = (code: string) => {
 	if (code[code.length - 1] == '\n') {
 		code = code.slice(0, code.length - 1);
@@ -128,6 +127,7 @@ const setCodeLine = (code: string) => {
 	return res;
 }
 
+// 带语言的代码块的解析
 const setCodeLineWithStyle = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
