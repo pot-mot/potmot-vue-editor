@@ -1,14 +1,13 @@
 <template>
-	<div style="line-height: 1.6em;">
-		<MarkdownEditor v-model="text"/>
-		<Outline :markdown-text="text"/>
+	<div style="line-height: 1.6em; height: 50vh;padding-bottom: 100vh;">
+		<MarkdownEditor v-model="text"></MarkdownEditor>
+		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
+		<MarkdownCard :markdown-text="text" :is-code-fold="true"></MarkdownCard>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import MarkdownEditor from "./components/MarkdownEditor.vue";
-import Outline from "./components/MarkdownOutline.vue";
 
 const text = ref("");
 </script>

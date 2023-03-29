@@ -8,6 +8,12 @@
 	</ul>
 </template>
 
+<script lang="ts">
+export default {
+	name: 'MarkdownOutline'
+}
+</script>
+
 <script lang="ts" setup>
 import {ref, watch} from "vue";
 import {marked} from "marked";

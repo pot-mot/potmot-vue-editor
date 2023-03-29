@@ -1,9 +1,9 @@
 @font-face {
-    font-family: "consola"; /* Project id  */
-    src: url(../font/consola.ttf);
+    font-family: "consola";
+    src: url(consola.ttf);
 }
 
-pre.potmot-dark {
+.potmot-dark {
     --code-back-color: #474949;
     --code-font-color: #d5d5d5;
 
@@ -18,12 +18,9 @@ pre.potmot-dark {
     --comment-color: #999;
     --variable-color: #ffcc33;
     --entity-color: #7799cc;
-
-    padding: 0.5em 0 0;
-    border-radius: 0.2em;
 }
 
-pre.potmot-light {
+.potmot-light {
     --code-back-color: #f5f5f5;
     --code-font-color: #444;
 
@@ -38,9 +35,6 @@ pre.potmot-light {
     --comment-color: #aaa;
     --variable-color: #b48e06;
     --entity-color: #466db6;
-
-    padding: 0.5em 0 0;
-    border-radius: 0.2em;
 }
 
 code,
@@ -80,10 +74,8 @@ pre {
 pre > code {
     display: block;
     max-width: calc(100% - 3em);
-    padding-bottom: 0.5em;
     position: relative;
     left: 3em;
-    padding-right: 0.5em;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
@@ -212,10 +204,13 @@ pre .count:before {
     top: 0;
     right: 0;
     cursor: default;
+    padding: 0;
+    margin: 0;
 }
 
 .iconfont.code-copy-button:before {
-    font-size: 1.2em;
+    font-size: 1.1em;
+    padding: 0 0.4em;
     color: #aaa;
 }
 
@@ -225,7 +220,7 @@ pre .count:before {
 
 .code-language {
     position: absolute;
-    top: 0;
+    top: 0.1em;
     right: 1.7em;
     padding-right: 0.2em;
     color: #999;

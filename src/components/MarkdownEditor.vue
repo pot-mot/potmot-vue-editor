@@ -91,24 +91,29 @@
 			ref="showCard"
 			class="show-card"
 			@mouseenter="setHandleScrollFlag('showCard')">
-			<MarkdownCard :markdown-text="data.text"/>
+			<MarkdownCard :markdown-text="data.text"></MarkdownCard>
 		</div>
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
 			<li>
 				{{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
-				<template v-if="statisticalData.selectLength > 0">
-					至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}
-				</template>
+				<template v-if="statisticalData.selectLength > 0"> 至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}</template>
 			</li>
+
 			<li>选中 {{ statisticalData.selectLength }}</li>
+
 		</ul>
 	</div>
 </template>
 
+<script lang="ts">
+export default {
+	name: 'MarkdownEditor'
+}
+</script>
+
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
-import MarkdownCard from "./MarkdownCard.vue";
 import {vDrag} from "../util/drag";
 
 class EditTool {
@@ -368,7 +373,7 @@ const insertTextList: InsertTool[] = reactive([
 		return new InsertText("<details>\n<summary>[标识]</summary>\n", "\n</details>");
 	}),
 	new InsertTool("warning", '!', "标亮", () => {
-		return new InsertText("<span style='color: " + insertTextParams.warningColor + ";'>", "</span>");
+		return new InsertText("<span code='color: " + insertTextParams.warningColor + ";'>", "</span>");
 	}),
 ])
 
@@ -904,6 +909,7 @@ const limit = (input: number, min: number, max: number): number => {
 <style lang="scss">
 .disable-scroll {
 	overflow: hidden;
+
 	> ::-webkit-scrollbar {
 		width: 0;
 		height: 0;
@@ -915,18 +921,27 @@ const limit = (input: number, min: number, max: number): number => {
 	padding: 0;
 	margin: 0;
 	line-height: inherit;
+	overflow: visible;
+
 	* {
 		box-sizing: border-box;
 		margin: 0;
 		cursor: default;
 	}
+
+	.hover-color-blue:hover {
+		color: #4f92ff;
+	}
+
 	ul,
 	ol {
 		padding: 0;
 	}
+
 	li {
 		list-style: none;
 	}
+
 	input,
 	textarea {
 		outline: none;
@@ -950,17 +965,18 @@ const limit = (input: number, min: number, max: number): number => {
 		border-radius: 3px;
 		line-height: inherit;
 		font-family: inherit;
+		overflow-y: scroll;
+		overflow-x: visible;
 	}
 }
 
 .editor.non-full {
 	width: 100%;
 	height: 100%;
+
 	> .edit-card {
 		width: 100%;
-		height: calc(100% - 3rem);
-		overflow-x: hidden;
-		overflow-y: scroll;
+		height: calc(100% - 3em);
 		border: 1px solid #eee;
 	}
 }
@@ -971,8 +987,6 @@ const limit = (input: number, min: number, max: number): number => {
 	left: 0;
 	height: 100vh;
 	width: 100vw;
-	overflow-x: auto;
-	overflow-y: hidden;
 	z-index: 10;
 	background-color: var(--back-ground-color);
 	white-space: nowrap;
@@ -989,6 +1003,7 @@ const limit = (input: number, min: number, max: number): number => {
 		background-color: white;
 		padding-bottom: 50vh;
 	}
+
 	> .edit-card.full-width {
 		width: 98.5%;
 	}
@@ -1000,6 +1015,7 @@ const limit = (input: number, min: number, max: number): number => {
 		padding: 0;
 		margin: 0;
 		line-height: 2em;
+
 		> li {
 			position: relative;
 		}
@@ -1015,6 +1031,7 @@ const limit = (input: number, min: number, max: number): number => {
 .editor {
 	.floating-card {
 		position: absolute;
+
 		.icon-close {
 			position: absolute;
 			top: 0;
@@ -1022,16 +1039,19 @@ const limit = (input: number, min: number, max: number): number => {
 			font-size: 0.8rem;
 			color: #aaa;
 		}
+
 		.icon-close:hover {
 			color: #D00;
 		}
 	}
+
 	.floating-card.show-card {
 		background-color: #fff;
 		border: #aaa 1px solid;
 		cursor: all-scroll;
 		padding: 0.5em;
 		overflow-x: hidden;
+
 		> .container {
 			min-height: 20em;
 			width: 35em;
@@ -1043,6 +1063,7 @@ const limit = (input: number, min: number, max: number): number => {
 			border: #eee 1px solid;
 		}
 	}
+
 	.floating-card.tool-menu {
 		background-color: var(--back-ground-color);
 		user-select: none;
@@ -1066,6 +1087,7 @@ const limit = (input: number, min: number, max: number): number => {
 .editor {
 	.replace-box {
 		padding-top: 2em;
+
 		> textarea {
 			height: 4em;
 			margin-right: 0.5em;
@@ -1079,12 +1101,14 @@ const limit = (input: number, min: number, max: number): number => {
 .editor .insert-text {
 	display: inline-block;
 	font-size: 0.9em;
+
 	> span {
 		display: inline-block;
 		min-width: 5em;
 		padding: 0.2em;
 		cursor: default;
 	}
+
 	> input {
 		margin-left: 0.5em;
 		width: 4em;
@@ -1094,17 +1118,21 @@ const limit = (input: number, min: number, max: number): number => {
 
 .editor ul.toolbar {
 	cursor: auto;
+
 	> li {
 		display: inline-block;
 		font-size: 0.9rem;
 		padding-right: 0.5rem;
+
 		> span.iconfont:before {
 			color: #999;
 		}
+
 		> span.iconfont:hover:before {
 			color: #7a7a7a;
 			background-color: #eee;
 		}
+
 		> span.iconfont.chosen:before {
 			color: #fff;
 			background-color: #bcbcbc;
@@ -1112,14 +1140,17 @@ const limit = (input: number, min: number, max: number): number => {
 	}
 }
 
-.editor .hover-color-blue:hover {
-	color: #4f92ff;
-}
+.editor {
+	> .statistical-list {
+		height: 2em;
+		line-height: 2em;
 
-.editor ul.statistical-list > li {
-	display: inline-block;
-	padding: 0 0.5em;
-	font-size: 0.9em;
-	color: #333;
+		> li {
+			display: inline-block;
+			padding: 0 0.5em;
+			font-size: 0.9em;
+			color: #333;
+		}
+	}
 }
 </style>

@@ -2,6 +2,12 @@
 	<div ref="markdownCard" class="markdown-card" v-html="format(props.markdownText)"></div>
 </template>
 
+<script lang="ts">
+export default {
+	name: 'MarkdownCard'
+}
+</script>
+
 <script lang="ts" setup>
 import Prism from "prismjs";
 
@@ -91,7 +97,7 @@ const formatMarkdown = (markdownString: string) => {
 
 		return res + markdownString.slice(start);
 	} catch (e) {
-		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markdownString;
+		return "<div code='color: red'>markdown 解析错误</div>\n" + e + "\n" + markdownString;
 	}
 }
 
@@ -108,7 +114,7 @@ const formatCode = (codeString: string) => {
 		}
 		return setCodeLineWithStyle(code, language);
 	} catch (e) {
-		return "<div style='color: red'>代码解析错误</div>\n" + e + "\n" + codeString;
+		return "<div code='color: red'>代码解析错误</div>\n" + e + "\n" + codeString;
 	}
 }
 
@@ -169,7 +175,7 @@ const foldCode = (e: MouseEvent) => {
 		node.classList.remove("show");
 	} else {
 		if (pre.scrollHeight > 600) {
-			window.scrollBy({top: -pre.scrollHeight + 600, behavior: "smooth"});
+			window.scrollTo({top: pre.offsetTop});
 		}
 		pre.classList.add("fold");
 		node.textContent = "展开";
@@ -247,7 +253,7 @@ setInterval(setButtonEvent, 1000);
 	}
 
 	> pre {
-		margin: 0.5em 0;
+		padding: 0.5em 0;
 	}
 	> pre.fold {
 		max-height: 15em;
