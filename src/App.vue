@@ -1,6 +1,5 @@
 <template>
 	<div style="line-height: 1.6em;">
-		<div id="resize-demo" style="height: 500px; width: 500px; background-color: #466db6"></div>
 		<MarkdownEditor v-model="text"/>
 		<Outline :markdown-text="text"/>
 	</div>

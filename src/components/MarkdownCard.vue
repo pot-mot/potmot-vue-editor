@@ -259,19 +259,19 @@ setInterval(setButtonEvent, 1000);
 		overflow-x: scroll;
 	}
 
-	> ol > li {
+	ol > li {
 		list-style-type: decimal;
 		margin-left: 2em;
 		line-height: inherit;
 	}
 
-	> ul > li {
+	ul > li {
 		list-style-type: disc;
 		margin-left: 2em;
 		line-height: inherit;
 	}
 
-	> table {
+	table {
 		border-collapse: collapse;
 		padding-top: 0.2em;
 		padding-bottom: 0.2em;
@@ -288,6 +288,10 @@ setInterval(setButtonEvent, 1000);
 		td {
 			background-color: var(--table-body-back-color);
 		}
+	}
+
+	img {
+		width: 100%;
 	}
 }
 </style>
