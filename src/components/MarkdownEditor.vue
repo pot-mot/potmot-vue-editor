@@ -109,6 +109,7 @@
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import MarkdownCard from "./MarkdownCard.vue";
+import {vDrag} from "../util/drag";
 
 class EditTool {
 	name: string = "";
@@ -195,70 +196,6 @@ const emit = defineEmits(['update:modelValue']);
 const textarea = ref();
 const showCard = ref();
 const floatShowCard = ref();
-
-const vDrag = {
-	mounted(el: HTMLDivElement) {
-		if ('ontouchstart' in document) {
-			el.addEventListener('touchstart', (e: TouchEvent) => {
-				if (e.target != el) return;
-				e.preventDefault();
-
-				// 当前滑块位置
-				const rectLeft = el.offsetLeft;
-				const rectTop = el.offsetTop;
-
-				const startX = e.touches[0].clientX;
-				const startY = e.touches[0].clientY;
-
-				const setXY = (e: TouchEvent) => {
-					const endX = e.touches[0].clientX;
-					const endY = e.touches[0].clientY;
-					const moveX = endX - startX + rectLeft;
-					const moveY = endY - startY + rectTop;
-					el.style.top = moveY + "px";
-					el.style.left = moveX + "px";
-				}
-
-				const removeSetXY = () => {
-					document.removeEventListener('touchmove', setXY);
-					document.removeEventListener('touchend', removeSetXY);
-				}
-
-				document.addEventListener('touchmove', setXY);
-				document.addEventListener('touchend', removeSetXY);
-			})
-		} else {
-			el.onmousedown = (e: MouseEvent) => {
-				if (e.target != el) return;
-				e.preventDefault();
-
-				// 当前滑块位置
-				const rectLeft = el.offsetLeft;
-				const rectTop = el.offsetTop;
-				// 初始的位置
-				const startX = e.clientX;
-				const startY = e.clientY;
-
-				const setXY = (e: MouseEvent) => {
-					const endX = e.clientX;
-					const endY = e.clientY;
-					const moveX = endX - startX + rectLeft;
-					const moveY = endY - startY + rectTop;
-					el.style.top = moveY + "px";
-					el.style.left = moveX + "px";
-				};
-
-				const removeSetXY = () => {
-					document.removeEventListener('mousemove', setXY);
-					document.removeEventListener('mouseup', removeSetXY);
-				}
-
-				document.addEventListener('mousemove', setXY);
-				document.addEventListener('mouseup', removeSetXY);
-			}
-		}
-	}
-}
 
 // 统计数据
 const statisticalData = reactive({
@@ -964,14 +901,13 @@ const limit = (input: number, min: number, max: number): number => {
 }
 </script>
 
-<style>
+<style lang="scss">
 .disable-scroll {
 	overflow: hidden;
-}
-
-.disable-scroll > ::-webkit-scrollbar {
-	width: 0;
-	height: 0;
+	> ::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+	}
 }
 
 .editor {
@@ -979,39 +915,54 @@ const limit = (input: number, min: number, max: number): number => {
 	padding: 0;
 	margin: 0;
 	line-height: inherit;
-}
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		cursor: default;
+	}
+	ul,
+	ol {
+		padding: 0;
+	}
+	li {
+		list-style: none;
+	}
+	input,
+	textarea {
+		outline: none;
+		resize: none;
+		border: none;
+		border-radius: 0;
+		font-family: inherit;
+		cursor: text;
+		overflow-wrap: break-word;
+		word-break: break-all;
+		word-wrap: anywhere;
+	}
 
-.editor * {
-	box-sizing: border-box;
-	margin: 0;
-	cursor: default;
-}
-
-.editor ul,
-.editor ol {
-	padding: 0;
-}
-
-.editor li {
-	list-style: none;
-}
-
-.editor input,
-.editor textarea {
-	outline: none;
-	resize: none;
-	border: none;
-	border-radius: 0;
-	font-family: inherit;
-	cursor: text;
-	overflow-wrap: break-word;
-	word-break: break-all;
-	word-wrap: anywhere;
+	> .show-card,
+	> .edit-card {
+		display: block;
+		padding: 0.5em;
+		overflow: auto;
+		tab-size: 4;
+		font-size: 1em;
+		border-radius: 3px;
+		line-height: inherit;
+		font-family: inherit;
+	}
 }
 
 .editor.non-full {
 	width: 100%;
 	height: 100%;
+	> .edit-card {
+		width: 100%;
+		height: calc(100% - 3rem);
+		overflow-x: hidden;
+		overflow-y: scroll;
+		border: 1px solid #eee;
+	}
 }
 
 .editor.full {
@@ -1025,62 +976,83 @@ const limit = (input: number, min: number, max: number): number => {
 	z-index: 10;
 	background-color: var(--back-ground-color);
 	white-space: nowrap;
+
+	> .edit-card,
+	> .show-card {
+		display: inline-block;
+		vertical-align: top;
+		width: 49%;
+		min-width: 40em;
+		margin-left: 0.65%;
+		tab-size: 4;
+		height: calc(100vh - 4em);
+		background-color: white;
+		padding-bottom: 50vh;
+	}
+	> .edit-card.full-width {
+		width: 98.5%;
+	}
 }
 
-.editor > .show-card,
-.editor > .edit-card {
-	display: block;
-	padding: 0.5em;
-	overflow: auto;
-	tab-size: 4;
-	font-size: 1em;
-	border-radius: 3px;
-	line-height: inherit;
-	font-family: inherit;
+.editor {
+	> .toolbar {
+		vertical-align: middle;
+		padding: 0;
+		margin: 0;
+		line-height: 2em;
+		> li {
+			position: relative;
+		}
+	}
 }
 
-.editor.non-full > .edit-card {
-	width: 100%;
-	height: calc(100% - 3rem);
-	overflow-x: hidden;
-	overflow-y: scroll;
-	border: 1px solid #eee;
+.editor.full {
+	> .toolbar {
+		margin-left: 0.5em;
+	}
 }
 
-.editor.full > .edit-card,
-.editor.full > .show-card {
-	display: inline-block;
-	vertical-align: top;
-	width: 49%;
-	min-width: 40em;
-	margin-left: 0.65%;
-	tab-size: 4;
-	height: calc(100vh - 4em);
-	background-color: white;
-	padding-bottom: 50vh;
-}
-
-.editor.full > .edit-card.full-width {
-	width: 98.5%;
-}
-
-.editor > .toolbar {
-	vertical-align: middle;
-	padding: 0;
-	margin: 0;
-	line-height: 2em;
-}
-
-.editor > .toolbar > li {
-	position: relative;
-}
-
-.editor.full > .toolbar {
-	margin-left: 0.5em;
-}
-
-.editor .floating-card {
-	position: absolute;
+.editor {
+	.floating-card {
+		position: absolute;
+		.icon-close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			font-size: 0.8rem;
+			color: #aaa;
+		}
+		.icon-close:hover {
+			color: #D00;
+		}
+	}
+	.floating-card.show-card {
+		background-color: #fff;
+		border: #aaa 1px solid;
+		cursor: all-scroll;
+		padding: 0.5em;
+		overflow-x: hidden;
+		> .container {
+			min-height: 20em;
+			width: 35em;
+			max-width: 80vw;
+			max-height: 60vh;
+			margin-top: 1em;
+			padding-bottom: 3em;
+			overflow: auto;
+			border: #eee 1px solid;
+		}
+	}
+	.floating-card.tool-menu {
+		background-color: var(--back-ground-color);
+		user-select: none;
+		padding: 1em 0.5em;
+		font-size: 0.8em;
+		cursor: all-scroll;
+		min-width: 20em;
+		line-height: 1.6em;
+		border: 1px solid #ccc;
+	}
 }
 
 .editor.non-full .floating-card {
@@ -1091,99 +1063,53 @@ const limit = (input: number, min: number, max: number): number => {
 	z-index: 11;
 }
 
-.editor .floating-card.show-card {
-	background-color: #fff;
-	border: #aaa 1px solid;
-	cursor: all-scroll;
-	padding: 0.5em;
-	overflow-x: hidden;
-}
-
-.editor .floating-card.show-card > .container {
-	min-height: 20em;
-	width: 35em;
-	max-width: 80vw;
-	max-height: 60vh;
-	margin-top: 1em;
-	padding-bottom: 3em;
-	overflow: auto;
-	border: #eee 1px solid;
-}
-
-.editor .floating-card.tool-menu {
-	background-color: var(--back-ground-color);
-	user-select: none;
-	padding: 1em 0.5em;
-	font-size: 0.8em;
-	cursor: all-scroll;
-	min-width: 20em;
-	line-height: 1.6em;
-	border: 1px solid #ccc;
-}
-
-.editor .floating-card .icon-close {
-	position: absolute;
-	top: 0;
-	right: 0;
-	font-size: 0.8rem;
-	color: #aaa;
-}
-
-.editor .floating-card .icon-close:hover {
-	color: #D00;
-}
-
-.editor .replace-box {
-	padding-top: 2em;
-}
-
-.editor .replace-box > textarea {
-	height: 4em;
-	margin-right: 0.5em;
-	width: 100%;
-	border: 1px solid #e5e5e5;
-	padding: 0.5em;
+.editor {
+	.replace-box {
+		padding-top: 2em;
+		> textarea {
+			height: 4em;
+			margin-right: 0.5em;
+			width: 100%;
+			border: 1px solid #e5e5e5;
+			padding: 0.5em;
+		}
+	}
 }
 
 .editor .insert-text {
 	display: inline-block;
 	font-size: 0.9em;
+	> span {
+		display: inline-block;
+		min-width: 5em;
+		padding: 0.2em;
+		cursor: default;
+	}
+	> input {
+		margin-left: 0.5em;
+		width: 4em;
+	}
 }
 
-.editor .insert-text > span {
-	display: inline-block;
-	min-width: 5em;
-	padding: 0.2em;
-	cursor: default;
-}
-
-.editor .insert-text > input {
-	margin-left: 0.5em;
-	width: 4em;
-}
 
 .editor ul.toolbar {
 	cursor: auto;
-}
-
-.editor ul.toolbar > li {
-	display: inline-block;
-	font-size: 0.9rem;
-	padding-right: 0.5rem;
-}
-
-.editor ul.toolbar > li > span.iconfont:before {
-	color: #999;
-}
-
-.editor ul.toolbar > li > span.iconfont:hover:before {
-	color: #7a7a7a;
-	background-color: #eee;
-}
-
-.editor ul.toolbar > li > span.iconfont.chosen:before {
-	color: #fff;
-	background-color: #bcbcbc;
+	> li {
+		display: inline-block;
+		font-size: 0.9rem;
+		padding-right: 0.5rem;
+		> span.iconfont:before {
+			color: #999;
+		}
+		> span.iconfont:hover:before {
+			color: #7a7a7a;
+			background-color: #eee;
+		}
+		> span.iconfont.chosen:before {
+			color: #fff;
+			background-color: #bcbcbc;
+		}
+	}
 }
 
 .editor .hover-color-blue:hover {

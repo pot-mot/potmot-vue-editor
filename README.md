@@ -6,7 +6,7 @@
 
 > 当前版本 v0.5 2023/3/28
 
-目前本 Editor 项目包含 MarkdownEditor, MarkdownCard, Outline 三个组件，其中 Editor 依赖于 Card
+目前本 Editor 项目包含 MarkdownEditor, MarkdownCard, MarkdownOutline 三个组件，其中 Editor 依赖于 Card
 
 ### 1. MarkdownEditor 编辑器
 
@@ -77,75 +77,5 @@ package.json 目前依赖:
 ```
 
 ### 补充
-
-MarkdownEdit 内部实现了指令 v-drag ，可以在 PC 和 移动端 实现绝对定位的元素的自由拖曳，自行取用
-
-```typescript
-const vDrag = {
-    mounted(el: HTMLDivElement) {
-        if ('ontouchstart' in document) {
-            el.addEventListener('touchstart', (e: TouchEvent) => {
-                if (e.target != el) return;
-                e.preventDefault();
-
-                // 当前滑块位置
-                const rectLeft = el.offsetLeft;
-                const rectTop = el.offsetTop;
-
-                const startX = e.touches[0].clientX;
-                const startY = e.touches[0].clientY;
-
-                const setXY = (e: TouchEvent) => {
-                    const endX = e.touches[0].clientX;
-                    const endY = e.touches[0].clientY;
-                    const moveX = endX - startX + rectLeft;
-                    const moveY = endY - startY + rectTop;
-                    el.style.top = moveY + "px";
-                    el.style.left = moveX + "px";
-                }
-
-                const removeSetXY = () => {
-                    document.removeEventListener('touchmove', setXY);
-                    document.removeEventListener('touchend', removeSetXY);
-                }
-
-                document.addEventListener('touchmove', setXY);
-                document.addEventListener('touchend', removeSetXY);
-            })
-        } else {
-            el.onmousedown = (e: MouseEvent) => {
-                if (e.target != el) return;
-                e.preventDefault();
-
-                // 当前滑块位置
-                const rectLeft = el.offsetLeft;
-                const rectTop = el.offsetTop;
-                // 初始的位置
-                const startX = e.clientX;
-                const startY = e.clientY;
-
-                const setXY = (e: MouseEvent) => {
-                    const endX = e.clientX;
-                    const endY = e.clientY;
-                    const moveX = endX - startX + rectLeft;
-                    const moveY = endY - startY + rectTop;
-                    el.style.top = moveY + "px";
-                    el.style.left = moveX + "px";
-                };
-
-                const removeSetXY = () => {
-                    document.removeEventListener('mousemove', setXY);
-                    document.removeEventListener('mouseup', removeSetXY);
-                }
-
-                document.addEventListener('mousemove', setXY);
-                document.addEventListener('mouseup', removeSetXY);
-            }
-        }
-    }
-}
-```
-
----
 
 我在制作这个项目时没有完整学习前端，项目会有诸多不足，欢迎通过 QQ 377029227 来联系我提供建议

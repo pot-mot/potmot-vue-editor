@@ -66,6 +66,7 @@ pre {
 /* Code blocks */
 pre {
     background-color: var(--code-back-color);
+    position: relative;
 }
 
 :not(pre) > code {

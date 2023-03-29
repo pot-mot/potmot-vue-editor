@@ -212,7 +212,7 @@ onMounted(setButtonEvent);
 setInterval(setButtonEvent, 1000);
 </script>
 
-<style>
+<style lang="scss">
 .markdown-card {
 	--quote--border: 0.2em solid #ddd;
 	--quote-back-color: #efefef;
@@ -223,83 +223,71 @@ setInterval(setButtonEvent, 1000);
 
 	white-space: pre-wrap;
 	margin: 0;
-}
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		overflow-wrap: anywhere;
+	}
 
-.markdown-card * {
-	box-sizing: border-box;
-	margin: 0;
-	overflow-wrap: anywhere;
-}
+	> h1,
+	> h2 {
+		padding: 0.4em 0 0.5em;
+	}
+	> h3,
+	> h4 {
+		padding: 0.2em 0 0.3em;
+	}
 
-.markdown-card h1,
-.markdown-card h2 {
-	padding: 0.4em 0 0.5em;
-}
+	> blockquote {
+		border-left: var(--quote--border);
+		background-color: var(--quote-back-color);
+		padding: 0.6em 0.3em;
+		font-style: italic;
+		color: #333;
+	}
 
-.markdown-card h3,
-.markdown-card h4 {
-	padding: 0.2em 0 0.3em;
-}
+	> pre {
+		margin: 0.5em 0;
+	}
+	> pre.fold {
+		max-height: 15em;
+		overflow-y: hidden;
+		overflow-x: hidden;
+	}
+	> pre.show {
+		overflow-y: visible;
+		overflow-x: scroll;
+	}
 
-.markdown-card > p {
-	padding: 0 0 0.5em;
-}
+	> ol > li {
+		list-style-type: decimal;
+		margin-left: 2em;
+		line-height: inherit;
+	}
 
-.markdown-card blockquote {
-	border-left: var(--quote--border);
-	background-color: var(--quote-back-color);
-	padding: 0.6em 0.3em;
-	font-style: italic;
-	color: #333;
-}
+	> ul > li {
+		list-style-type: disc;
+		margin-left: 2em;
+		line-height: inherit;
+	}
 
-.markdown-card pre.fold {
-	max-height: 15em;
-	overflow-y: hidden;
-	overflow-x: hidden;
-}
-
-.markdown-card pre.show {
-	overflow-y: visible;
-	overflow-x: scroll;
-}
-
-.markdown-card ol > li {
-	list-style-type: decimal;
-	margin-left: 2em;
-	line-height: inherit;
-}
-
-.markdown-card ul > li {
-	list-style-type: disc;
-	margin-left: 2em;
-	line-height: inherit;
-}
-
-.markdown-card table {
-	border-collapse: collapse;
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
-}
-
-.markdown-card td,
-.markdown-card th {
-	padding: 0.2em 0.4em;
-	border: 1px solid var(--table-border-color);
-	min-width: 3em;
-	max-width: 20em;
-}
-
-.markdown-card th {
-	background-color: var(--table-head-back-color);
-}
-
-.markdown-card td {
-	background-color: var(--table-body-back-color);
-}
-
-.markdown-card pre {
-	margin: 0.5em 0;
-	position: relative;
+	> table {
+		border-collapse: collapse;
+		padding-top: 0.2em;
+		padding-bottom: 0.2em;
+		td,
+		th {
+			padding: 0.2em 0.4em;
+			border: 1px solid var(--table-border-color);
+			min-width: 3em;
+			max-width: 20em;
+		}
+		th {
+			background-color: var(--table-head-back-color);
+		}
+		td {
+			background-color: var(--table-body-back-color);
+		}
+	}
 }
 </style>

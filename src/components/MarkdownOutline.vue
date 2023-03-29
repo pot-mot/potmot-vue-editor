@@ -1,7 +1,7 @@
 <template>
-	<ul>
+	<ul class="outline">
 		<li v-for="head in heads" :key="head.text">
-			<a :style="'padding-left: ' + head.level + 'em;'" :href="'#' + head.text">
+			<a :style="'padding-left: ' + (head.level - 1) + 'em;'" :href="'#' + head.text">
 				{{ head.text }}
 			</a>
 		</li>
@@ -42,3 +42,23 @@ watch(() => props.markdownText, () => {
 
 let heads = ref<Headline[]>([]);
 </script>
+
+<style lang="scss">
+.outline {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	line-height: inherit;
+	> li {
+		> a {
+			display: block;
+			font-style: normal;
+			color: inherit;
+			text-decoration: none;
+		}
+		> a:hover {
+			background-color: #eeeeee;
+		}
+	}
+}
+</style>
