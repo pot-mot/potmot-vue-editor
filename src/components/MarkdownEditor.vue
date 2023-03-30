@@ -37,7 +37,9 @@
 					</template>
 					<template v-else-if="item.name === 'code'">
 						<label>语言</label>
-						<input v-model="insertTextParams.codeLanguage" style="width: 6em;" type="text">
+						<select v-model="insertTextParams.codeLanguage" style="width: 6em;">
+							<option v-for="language in languageList">{{ language }}</option>
+						</select>
 					</template>
 					<template v-else-if="item.name === 'warning'">
 						<label>颜色</label>
@@ -85,7 +87,6 @@
 				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
 				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
 		</div>
-
 		<div
 			v-show="isPreview && isFullScreen"
 			ref="showCard"
@@ -97,11 +98,11 @@
 			<li>字数 {{ data.text.length }}</li>
 			<li>
 				{{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
-				<template v-if="statisticalData.selectLength > 0"> 至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}</template>
+				<span v-show="statisticalData.selectLength > 0">
+					至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}
+				</span>
 			</li>
-
-			<li>选中 {{ statisticalData.selectLength }}</li>
-
+			<li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
 		</ul>
 	</div>
 </template>
@@ -115,6 +116,7 @@ export default {
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import {vDrag} from "../util/drag";
+import {languageList} from "../constant/LanguageList";
 
 class EditTool {
 	name: string = "";
@@ -1050,7 +1052,7 @@ const limit = (input: number, min: number, max: number): number => {
 		border: #aaa 1px solid;
 		cursor: all-scroll;
 		padding: 0.5em;
-		overflow-x: hidden;
+		overflow: hidden;
 
 		> .container {
 			min-height: 20em;
@@ -1113,6 +1115,22 @@ const limit = (input: number, min: number, max: number): number => {
 		margin-left: 0.5em;
 		width: 4em;
 	}
+
+	> select {
+		padding: 0;
+		margin-left: 0.5em;
+		outline: none;
+		border: none;
+		border-radius: 0;
+
+		> option {
+			padding: 0;
+			margin: 0;
+			outline: none;
+			border: none;
+			border-radius: 0;
+		}
+	}
 }
 
 
@@ -1144,11 +1162,12 @@ const limit = (input: number, min: number, max: number): number => {
 	> .statistical-list {
 		height: 2em;
 		line-height: 2em;
+		margin-left: 0.4em;
 
 		> li {
+			font-size: 0.8em;
 			display: inline-block;
 			padding: 0 0.5em;
-			font-size: 0.9em;
 			color: #333;
 		}
 	}

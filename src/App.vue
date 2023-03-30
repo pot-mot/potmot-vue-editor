@@ -2,7 +2,7 @@
 	<div style="line-height: 1.6em; height: 50vh;padding-bottom: 100vh;">
 		<MarkdownEditor v-model="text"></MarkdownEditor>
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
-		<MarkdownCard :markdown-text="text" :is-code-fold="true"></MarkdownCard>
+		<MarkdownCard :markdown-text="text" :code-fold="true"></MarkdownCard>
 	</div>
 </template>
 

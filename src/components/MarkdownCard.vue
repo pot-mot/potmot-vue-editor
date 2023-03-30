@@ -25,7 +25,7 @@ const props = defineProps({
 		required: false,
 		default: 'potmot-dark',
 	},
-	isCodeFold: {
+	codeFold: {
 		type: Boolean,
 		required: false,
 		default: false,
@@ -97,7 +97,7 @@ const formatMarkdown = (markdownString: string) => {
 
 		return res + markdownString.slice(start);
 	} catch (e) {
-		return "<div code='color: red'>markdown 解析错误</div>\n" + e + "\n" + markdownString;
+		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markdownString;
 	}
 }
 
@@ -114,7 +114,7 @@ const formatCode = (codeString: string) => {
 		}
 		return setCodeLineWithStyle(code, language);
 	} catch (e) {
-		return "<div code='color: red'>代码解析错误</div>\n" + e + "\n" + codeString;
+		return "<div style='color: red'>代码解析错误</div>\n" + e + "\n" + codeString;
 	}
 }
 
@@ -130,7 +130,7 @@ const setCodeLine = (code: string) => {
 	}
 	let postfix = '<div class="code-copy-button iconfont icon-copy"/>';
 	res += '</code>';
-	if (props.isCodeFold && codes.length > props.codeFoldThreshold) {
+	if (props.codeFold && codes.length > props.codeFoldThreshold) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
 	} else {
 		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
@@ -158,7 +158,7 @@ const setCodeLineWithStyle = (code: string, language: string) => {
 		res += '<span class="count"></span>' + codes[i] + '\n';
 	}
 	res += '</code>';
-	if (props.isCodeFold && codes.length > props.codeFoldThreshold) {
+	if (props.codeFold && codes.length > props.codeFoldThreshold) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
 	} else {
 		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
@@ -198,7 +198,7 @@ const copyCode = (e: MouseEvent) => {
 const setButtonEvent = () => {
 	if (markdownCard.value == undefined) return;
 
-	if (props.isCodeFold) {
+	if (props.codeFold) {
 		const foldButtons = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.code-fold-button'));
 		for (let i = 0; i < foldButtons.length; i++) {
 			foldButtons[i].removeEventListener("click", foldCode);

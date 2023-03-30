@@ -6,6 +6,25 @@
   "author": {
     "name": "potmot"
   },
+  "main": "./dist/potmot-vue-editor.umd.cjs",
+  "module": "./dist/potmot-vue-editor.js",
+  "types": "./dist/components/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/potmot-vue-editor.js",
+      "require": "./dist/potmot-vue-editor.umd.cjs"
+    }
+  },
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite development",
     "build": "vue-tsc --noEmit && vite build production",
@@ -15,6 +34,7 @@
     "@types/marked": "^4.0.8",
     "file-saver": "^2.0.5",
     "marked": "^4.2.12",
+    "vite-plugin-dts": "^2.1.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {
