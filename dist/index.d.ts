@@ -10,7 +10,7 @@ declare const _default: {
             required: false;
             default: string;
         };
-        isCodeFold: {
+        codeFold: {
             type: BooleanConstructor;
             required: false;
             default: boolean;
@@ -31,7 +31,7 @@ declare const _default: {
                 required: false;
                 default: string;
             };
-            isCodeFold: {
+            codeFold: {
                 type: BooleanConstructor;
                 required: false;
                 default: boolean;
@@ -62,7 +62,7 @@ declare const _default: {
             required: false;
             default: string;
         };
-        isCodeFold: {
+        codeFold: {
             type: BooleanConstructor;
             required: false;
             default: boolean;
@@ -74,7 +74,7 @@ declare const _default: {
         };
     }>>, {
         codeTheme: string;
-        isCodeFold: boolean;
+        codeFold: boolean;
         codeFoldThreshold: number;
     }>;
     MarkdownEditor: import("vue").DefineComponent<{
@@ -264,6 +264,7 @@ declare const _default: {
         vDrag: {
             mounted(el: HTMLDivElement): void;
         };
+        languageList: string[];
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         modelValue: {
             type: StringConstructor;

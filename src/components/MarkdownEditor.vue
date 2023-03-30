@@ -978,7 +978,7 @@ const limit = (input: number, min: number, max: number): number => {
 
 	> .edit-card {
 		width: 100%;
-		height: calc(100% - 3em);
+		height: calc(100% - 4em);
 		border: 1px solid #eee;
 	}
 }
@@ -1160,8 +1160,8 @@ const limit = (input: number, min: number, max: number): number => {
 
 .editor {
 	> .statistical-list {
-		height: 2em;
-		line-height: 2em;
+		height: 1.6em;
+		line-height: 1.6em;
 		margin-left: 0.4em;
 
 		> li {

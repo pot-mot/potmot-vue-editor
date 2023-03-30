@@ -8,7 +8,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: string;
     };
-    isCodeFold: {
+    codeFold: {
         type: BooleanConstructor;
         required: false;
         default: boolean;
@@ -29,7 +29,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
             required: false;
             default: string;
         };
-        isCodeFold: {
+        codeFold: {
             type: BooleanConstructor;
             required: false;
             default: boolean;
@@ -60,7 +60,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: string;
     };
-    isCodeFold: {
+    codeFold: {
         type: BooleanConstructor;
         required: false;
         default: boolean;
@@ -72,7 +72,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     codeTheme: string;
-    isCodeFold: boolean;
+    codeFold: boolean;
     codeFoldThreshold: number;
 }>;
 export default _sfc_main;

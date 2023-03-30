@@ -6,6 +6,7 @@ import {resolve} from 'path'
 
 // @ts-ignore
 import {languageList} from "./src/constant/LanguageList";
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
     // 如果需要打包成lib文件取消注释即可
@@ -28,6 +29,7 @@ export default defineConfig({
     plugins: [
         vue(),
         dts(),
+        visualizer(),
         prismjsPlugin({
             languages: languageList,
             css: false,
