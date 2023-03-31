@@ -1,5 +1,5 @@
 <template>
-	<div :class="[isFullScreen?'full':'non-full']" class="editor">
+	<div :class="[isFullScreen?'full':'non-full', isMobile()? 'mobile': 'pc']" class="editor">
 		<ul class="toolbar">
 			<li v-for="tool in editToolList">
 				<span
@@ -14,15 +14,18 @@
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
 			<template v-for="item in insertUnits">
 				<span class="insert-text">
-				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"  :title='"快捷键[Ctrl + " + item.key + "]"'>
+				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
+					  :title='"快捷键[Ctrl + " + item.key + "]"'>
 					{{ item.label }}
 				</span>
-				<template v-for="arg in item.insertArguments">
+				<template v-for="arg in item.arguments">
 					<label>{{ arg.label }}</label>
-					<select v-if="'options' in arg" :value="argsMap.get(arg.name).value" @change="(e) => {changeSelectArg(arg.name, e)}">
-						<option v-for="item in arg.options">{{item}}</option>
+					<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
+							@change="(e) => {changeSelectArg(arg.name, e)}">
+						<option v-for="item in arg.options">{{ item }}</option>
 					</select>
-					<input v-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value" @input="(e) => {changeInputArg(arg.name, e)}">
+					<input v-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
+						   @input="(e) => {changeInputArg(arg.name, e)}">
 				</template>
 				</span>
 				<br>
@@ -97,10 +100,10 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
-import {vDrag} from "../util/drag";
+import {computed, nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
+import {isMobile, vDrag} from "../util/drag";
 import {defaultInsertUnits, insertIntoString, getArgsMap} from "../util/insertUnit";
-import {InsertUnit} from "../util/insertUtil";
+import type {InsertUnit} from "../declare/insertUnit";
 
 // 外部传入参数
 const props = defineProps({
@@ -901,24 +904,46 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	}
 }
 
-.editor.full > .container {
-	padding-left: 0.5%;
-	display: grid;
+.editor.full {
+	&.pc > .container {
+		padding-left: 0.5%;
+		display: grid;
 
-	&.edit-preview {
-		grid-template-columns: 49.5% 49%;
-		grid-gap: 0.5%;
+		&.edit-preview {
+			grid-template-columns: 49.5% 49%;
+			grid-gap: 0.5%;
+		}
+
+		&.edit {
+			grid-template-columns: 99%;
+		}
+
+		> .edit-card,
+		> .preview-card {
+			height: calc(100vh - 4em);
+			background-color: white;
+			padding-bottom: 50vh;
+		}
 	}
 
-	&.edit {
-		grid-template-columns: 99%;
-	}
+	&.mobile > .container {
+		height: calc(99% - 4em);
+		padding-left: 0.5%;
+		display: grid;
 
-	> .edit-card,
-	> .preview-card {
-		height: calc(100vh - 4em);
-		background-color: white;
-		padding-bottom: 50vh;
+		&.edit-preview {
+			grid-template-rows: 49.5% 49%;
+			grid-gap: 0.5%;
+		}
+
+		&.edit {
+			grid-template-rows: 99%;
+		}
+
+		> .edit-card,
+		> .preview-card {
+			background-color: white;
+		}
 	}
 }
 

@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { InsertUnit } from "./util/insertUtil";
+import type { InsertUnit } from "./declare/insertUnit";
 declare const _sfc_main: import("vue").DefineComponent<{}, {
     text: Ref<string>;
     insertUnits: InsertUnit[];

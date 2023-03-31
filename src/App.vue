@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import {Ref, ref} from "vue";
-import {InsertUnit} from "./util/insertUtil";
+import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
 
 const text = ref("");
 
@@ -21,7 +21,7 @@ const insertUnits = <InsertUnit[]>[
 		// 在插入工具栏的展示标签
 		label: "测试参数",
 		// 插入函数，唯一参数 args 为一个 Map<string, Ref> ，根据 key 可以找到对应的 insertArguments
-		insert: (args: Map<string, Ref>) => {
+		insert: (args) => {
 			const inputArg = args.get('foo in input')?.value
 			const selectArg = args.get('foo in select')?.value
 			// 需要返回一个前后段的字符串，插入当前光标两侧
@@ -29,25 +29,23 @@ const insertUnits = <InsertUnit[]>[
 		},
 		// 插入参数，name label getRef 为必须部分，type 参数对应 <input> ，options 参数对应 <select>
 		// 注意，insertArguments 需要为响应式数据
-		insertArguments: [
-			{
+		arguments: [
+			<InputInsertArgument<string>>{
 				// 名称，建议全英文
 				name: "foo in input",
 				// 参数标签
 				label: "input-arg",
 				// 返回响应式参数
 				getRef: () => {
-					let foo = ref("");
-					return foo;
+					return ref("");
 				},
 				type: "string",
 			},
-			{
+			<OptionInsertArgument>{
 				name: "foo in select",
 				label: "select-arg",
 				getRef: () => {
-					let foo = ref("option1");
-					return foo;
+					return ref("option1");
 				},
 				options: ["option1", "option2"],
 			}

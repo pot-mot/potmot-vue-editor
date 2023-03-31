@@ -1,6 +1,10 @@
+export const isMobile = () => {
+    return 'ontouchstart' in document;
+}
+
 export const vDrag = {
     mounted(el: HTMLDivElement) {
-        if ('ontouchstart' in document) {
+        if (isMobile()) {
             // 移动端鼠标触碰事件
             el.addEventListener('touchstart', (e: TouchEvent) => {
                 if (e.target != el) return;

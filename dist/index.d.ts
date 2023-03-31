@@ -93,7 +93,7 @@ declare const _default: {
             default: boolean;
         };
         extraInsertUnits: {
-            type: import("vue").PropType<import("./util/insertUtil").InsertUnit[]>;
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
             default: never[];
         };
@@ -114,7 +114,7 @@ declare const _default: {
                 default: boolean;
             };
             extraInsertUnits: {
-                type: import("vue").PropType<import("./util/insertUtil").InsertUnit[]>;
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
                 default: never[];
             };
@@ -125,7 +125,7 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        insertUnits: import("./util/insertUtil").InsertUnit[];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
         argsMap: Map<string, import("vue").Ref<any>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -188,7 +188,7 @@ declare const _default: {
         isReplace: import("vue").WritableComputedRef<boolean>;
         isPreview: import("vue").WritableComputedRef<boolean>;
         containerClass: import("vue").ComputedRef<"" | "edit-preview" | "edit">;
-        insertIntoTextarea: (insertUnit: import("./util/insertUtil").InsertUnit) => void;
+        insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (key: string, from: HTMLElement, to: HTMLElement) => void;
         setHandleScrollFlag: (flag: string) => void;
         push: (start?: number, end?: number) => void;
@@ -222,6 +222,7 @@ declare const _default: {
             x: number;
             y: number;
         };
+        isMobile: () => boolean;
         vDrag: {
             mounted(el: HTMLDivElement): void;
         };
@@ -241,7 +242,7 @@ declare const _default: {
             default: boolean;
         };
         extraInsertUnits: {
-            type: import("vue").PropType<import("./util/insertUtil").InsertUnit[]>;
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
             default: never[];
         };
@@ -250,7 +251,7 @@ declare const _default: {
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./util/insertUtil").InsertUnit[];
+        extraInsertUnits: import("./declare/insertUnit").InsertUnit[];
     }>;
     MarkdownOutline: import("vue").DefineComponent<{
         markdownText: {
