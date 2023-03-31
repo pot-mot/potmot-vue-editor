@@ -1,6 +1,6 @@
 declare const _default: {
     install: (Vue: any) => void;
-    MarkdownCard: import("vue").DefineComponent<{
+    MarkdownPreview: import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
             required: true;
@@ -92,7 +92,43 @@ declare const _default: {
             required: false;
             default: boolean;
         };
+        extraInsertUnits: {
+            type: import("vue").PropType<import("./util/insertUtil").InsertUnit[]>;
+            required: false;
+            default: never[];
+        };
     }, {
+        props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
+            modelValue: {
+                type: StringConstructor;
+                required: true;
+            };
+            placeholder: {
+                type: StringConstructor;
+                required: false;
+                default: string;
+            };
+            startWithFullScreen: {
+                type: BooleanConstructor;
+                required: false;
+                default: boolean;
+            };
+            extraInsertUnits: {
+                type: import("vue").PropType<import("./util/insertUtil").InsertUnit[]>;
+                required: false;
+                default: never[];
+            };
+        }>> & {
+            "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+        }>>;
+        emit: (event: "update:modelValue", ...args: any[]) => void;
+        textarea: import("vue").Ref<any>;
+        previewCard: import("vue").Ref<any>;
+        floatPreviewCard: import("vue").Ref<any>;
+        insertUnits: import("./util/insertUtil").InsertUnit[];
+        argsMap: Map<string, import("vue").Ref<any>>;
+        changeInputArg: (name: string, e: InputEvent) => void;
+        changeSelectArg: (name: string, e: Event) => void;
         EditTool: {
             new (name: string, label: string, icon: string, method?: Function): {
                 name: string;
@@ -111,50 +147,6 @@ declare const _default: {
                 scrollTop: number;
             };
         };
-        InsertTool: {
-            new (name: string, key: string, label: string, method: () => {
-                before: string;
-                after: string;
-            }, replace?: boolean, keepSelect?: boolean): {
-                name: string;
-                key: string;
-                label: string;
-                method: () => {
-                    before: string;
-                    after: string;
-                };
-                replace: boolean;
-                keepSelect: boolean;
-            };
-        };
-        InsertText: {
-            new (before?: string, after?: string): {
-                before: string;
-                after: string;
-            };
-        };
-        props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-            modelValue: {
-                type: StringConstructor;
-                required: true;
-            };
-            placeholder: {
-                type: StringConstructor;
-                required: false;
-                default: string;
-            };
-            startWithFullScreen: {
-                type: BooleanConstructor;
-                required: false;
-                default: boolean;
-            };
-        }>> & {
-            "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
-        }>>;
-        emit: (event: "update:modelValue", ...args: any[]) => void;
-        textarea: import("vue").Ref<any>;
-        showCard: import("vue").Ref<any>;
-        floatShowCard: import("vue").Ref<any>;
         statisticalData: {
             selectLength: number;
             startPlace: {
@@ -182,15 +174,6 @@ declare const _default: {
             replaceFrom: string;
             replaceTo: string;
         };
-        insertTextParams: {
-            tableWidth: number;
-            tableHeight: number;
-            titleLevel: number;
-            listLength: number;
-            listStart: number;
-            codeLanguage: string;
-            warningColor: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -204,18 +187,8 @@ declare const _default: {
         isFullScreen: import("vue").WritableComputedRef<boolean>;
         isReplace: import("vue").WritableComputedRef<boolean>;
         isPreview: import("vue").WritableComputedRef<boolean>;
-        insertTextList: {
-            name: string;
-            key: string;
-            label: string;
-            method: () => {
-                before: string;
-                after: string;
-            };
-            replace: boolean;
-            keepSelect: boolean;
-        }[];
-        insertIntoString: (inserter: string, target: string, start: number, end?: number) => string;
+        containerClass: import("vue").ComputedRef<"" | "edit-preview" | "edit">;
+        insertIntoTextarea: (insertUnit: import("./util/insertUtil").InsertUnit) => void;
         handleScroll: (key: string, from: HTMLElement, to: HTMLElement) => void;
         setHandleScrollFlag: (flag: string) => void;
         push: (start?: number, end?: number) => void;
@@ -227,17 +200,6 @@ declare const _default: {
         onKeyUp: (e: KeyboardEvent) => void;
         onMouseDown: () => void;
         changeFlag: (flag: string) => void;
-        insertToText: (editItem: {
-            name: string;
-            key: string;
-            label: string;
-            method: () => {
-                before: string;
-                after: string;
-            };
-            replace: boolean;
-            keepSelect: boolean;
-        }) => void;
         insertAroundText: (insertText: {
             before: string;
             after: string;
@@ -260,11 +222,9 @@ declare const _default: {
             x: number;
             y: number;
         };
-        limit: (input: number, min: number, max: number) => number;
         vDrag: {
             mounted(el: HTMLDivElement): void;
         };
-        languageList: string[];
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         modelValue: {
             type: StringConstructor;
@@ -280,11 +240,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
+        extraInsertUnits: {
+            type: import("vue").PropType<import("./util/insertUtil").InsertUnit[]>;
+            required: false;
+            default: never[];
+        };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
+        extraInsertUnits: import("./util/insertUtil").InsertUnit[];
     }>;
     MarkdownOutline: import("vue").DefineComponent<{
         markdownText: {

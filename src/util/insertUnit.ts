@@ -1,4 +1,45 @@
 import {ref, Ref} from "vue";
+import {languageList} from "../constant/LanguageList";
+
+class InsertText {
+    before: string;
+    after: string;
+
+    constructor(before: string = "", after: string = "") {
+        this.before = before;
+        this.after = after;
+    }
+}
+
+class InsertArgument<T> {
+    name: string;
+    label: string;
+    getRef: () => Ref<T>;
+
+    constructor(name: string, label: string, getRef: () => Ref<T>) {
+        this.name = name;
+        this.label = label;
+        this.getRef = getRef;
+    }
+}
+
+class InputInsertArgument<T> extends InsertArgument<any> {
+    type: string;
+
+    constructor(name: string, label: string, type: string = "number", getRef: () => Ref<T> ) {
+        super(name, label, getRef);
+        this.type = type
+    }
+}
+
+class OptionInsertArgument extends InsertArgument<string> {
+    options: string[];
+
+    constructor(name: string, label: string, options: string[] = [], getRef: () => Ref<string> ) {
+        super(name, label, getRef);
+        this.options = options;
+    }
+}
 
 class InsertUnit {
     name: string;
@@ -27,30 +68,6 @@ class InsertUnit {
     }
 }
 
-class InsertText {
-    before: string;
-    after: string;
-
-    constructor(before: string = "", after: string = "") {
-        this.before = before;
-        this.after = after;
-    }
-}
-
-class InsertArgument<T> {
-    name: string;
-    label: string;
-    type: string;
-    getRef: () => Ref<T>;
-
-    constructor(name: string, label: string, type: string = "number", getRef: () => Ref<T>) {
-        this.name = name;
-        this.label = label;
-        this.type = type;
-        this.getRef = getRef;
-    }
-}
-
 /**
  * 约束数值大小
  *
@@ -76,7 +93,7 @@ export const insertIntoString = (inserter: string, target: string, start: number
     return target.slice(0, start) + inserter + target.slice(end);
 }
 
-export const insertTextList: InsertUnit[] = [
+export const defaultInsertUnits: InsertUnit[] = [
     new InsertUnit("title", '#', "标题",
         (args) => {
             let titleLevel = args.get("titleLevel").value
@@ -90,7 +107,7 @@ export const insertTextList: InsertUnit[] = [
             return new InsertText(returnText + " ")
         },
         [
-            new InsertArgument("titleLevel", "级别", "number",
+            new InputInsertArgument("titleLevel", "级别", "number",
                 () => {
                     let titleLevel = 3
                     return ref(titleLevel)
@@ -103,7 +120,7 @@ export const insertTextList: InsertUnit[] = [
             return new InsertText("```" + codeLanguage + "\n", "\n```",);
         },
         [
-            new InsertArgument("codeLanguage", "语言", "string", () => {
+            new OptionInsertArgument("codeLanguage", "语言", languageList, () => {
                 let codeLanguage = "bash"
                 return ref(codeLanguage)
             })
@@ -120,7 +137,7 @@ export const insertTextList: InsertUnit[] = [
             tableHeight = limit(tableHeight, 1, 99);
             tableWidth = limit(tableWidth, 1, 15);
 
-            for (let i = 0; i < tableHeight; i++) {
+            for (let i = 0; i < tableWidth; i++) {
                 formLineText += (whiteSpace + "|");
                 formFormatText += "----|";
             }
@@ -129,19 +146,19 @@ export const insertTextList: InsertUnit[] = [
 
             let returnText = formLineText.slice(2) + formFormatText;
 
-            for (let i = 0; i < tableWidth; i++) {
+            for (let i = 0; i < tableHeight; i++) {
                 returnText += formLineText;
             }
 
             return new InsertText("| ", returnText);
         },
         [
-            new InsertArgument("tableHeight", "高度", "number",
+            new InputInsertArgument("tableHeight", "高度", "number",
                 () => {
                     let tableHeight = 3
                     return ref(tableHeight)
                 }),
-            new InsertArgument("tableWidth", "宽度", "number",
+            new InputInsertArgument("tableWidth", "宽度", "number",
                 () => {
                     let tableWidth = 2
                     return ref(tableWidth)
@@ -160,15 +177,15 @@ export const insertTextList: InsertUnit[] = [
             for (let i = 0; i < listLength - 1; i++) {
                 returnText += (i + listStart + 1) + ". \n";
             }
-            return new InsertText(listStart + ". 列表文本", returnText)
+            return new InsertText(listStart + ". 文本", returnText)
         },
         [
-            new InsertArgument("listLength", "项数", "number",
+            new InputInsertArgument("listLength", "项数", "number",
                 () => {
                     let listLength = 3
                     return ref(listLength)
                 }),
-            new InsertArgument("listStart", "首项", "number",
+            new InputInsertArgument("listStart", "首项", "number",
                 () => {
                     let listStart = 1
                     return ref(listStart)
@@ -190,9 +207,9 @@ export const insertTextList: InsertUnit[] = [
             return new InsertText("<span style='color: " + warningColor + ";'>", "</span>");
         },
         [
-            new InsertArgument("warningColor", "颜色", "string",
+            new InputInsertArgument("warningColor", "颜色", "string",
                 () => {
-                let warningColor = 1
+                let warningColor = "color"
                 return ref(warningColor)
             }),
         ]

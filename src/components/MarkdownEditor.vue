@@ -12,14 +12,17 @@
 		</ul>
 		<div v-show="getEditToolActive('insert')" class="floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
-			<template v-for="item in insertTextList">
+			<template v-for="item in insertUnits">
 				<span class="insert-text">
-				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)">
+				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"  :title='"快捷键[Ctrl + " + item.key + "]"'>
 					{{ item.label }}
 				</span>
 				<template v-for="arg in item.insertArguments">
 					<label>{{ arg.label }}</label>
-					<input :type="arg.type" :value="argsMap.get(arg.name).value" @input="(e) => {changeArg(arg.name, e)}">
+					<select v-if="'options' in arg" :value="argsMap.get(arg.name).value" @change="(e) => {changeSelectArg(arg.name, e)}">
+						<option v-for="item in arg.options">{{item}}</option>
+					</select>
+					<input v-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value" @input="(e) => {changeInputArg(arg.name, e)}">
 				</template>
 				</span>
 				<br>
@@ -94,14 +97,48 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, reactive, ref, watch, toRaw} from "vue";
+import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {vDrag} from "../util/drag";
-import {languageList} from "../constant/LanguageList";
-import {insertTextList, insertIntoString, getArgsMap} from "../util/insertUnit";
+import {defaultInsertUnits, insertIntoString, getArgsMap} from "../util/insertUnit";
+import {InsertUnit} from "../util/insertUtil";
 
-const argsMap = getArgsMap(insertTextList);
-const changeArg = (name: string, e: InputEvent) => {
+// 外部传入参数
+const props = defineProps({
+	modelValue: {
+		type: String,
+		required: true,
+	},
+	placeholder: {
+		type: String,
+		required: false,
+		default: "",
+	},
+	startWithFullScreen: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+	extraInsertUnits: {
+		type: Array as PropType<InsertUnit[]>,
+		required: false,
+		default: []
+	}
+})
+
+const emit = defineEmits(['update:modelValue']);
+
+const textarea = ref();
+const previewCard = ref();
+const floatPreviewCard = ref();
+
+const insertUnits: InsertUnit[] = props.extraInsertUnits.concat(defaultInsertUnits)
+
+const argsMap = getArgsMap(insertUnits);
+const changeInputArg = (name: string, e: InputEvent) => {
 	argsMap.get(name)!.value = (<HTMLInputElement>e.target).value;
+}
+const changeSelectArg = (name: string, e: Event) => {
+	argsMap.get(name)!.value = (<HTMLSelectElement>e.target).value;
 }
 
 class EditTool {
@@ -137,30 +174,6 @@ class EditorHistory {
 		this.scrollTop = scrollTop;
 	}
 }
-
-// 外部传入参数
-const props = defineProps({
-	modelValue: {
-		type: String,
-		required: true,
-	},
-	placeholder: {
-		type: String,
-		required: false,
-		default: "",
-	},
-	startWithFullScreen: {
-		type: Boolean,
-		required: false,
-		default: false,
-	},
-})
-
-const emit = defineEmits(['update:modelValue']);
-
-const textarea = ref();
-const previewCard = ref();
-const floatPreviewCard = ref();
 
 // 统计数据
 const statisticalData = reactive({
@@ -276,13 +289,13 @@ const containerClass = computed(() => {
 })
 
 // 文本插入
-const insertIntoTextarea = (editItem: any) => {
+const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	let start = textarea.value.selectionStart;
 	let selectEnd = textarea.value.selectionEnd;
 	let text = data.text;
 	let end: number;
-	const {before, after} = editItem.insert(argsMap);
-	if (editItem.replace) {
+	const {before, after} = insertUnit.insert(argsMap);
+	if (insertUnit.replace) {
 		text = insertIntoString(before, text, start, selectEnd);
 		end = start + before.length;
 	} else {
@@ -294,7 +307,7 @@ const insertIntoTextarea = (editItem: any) => {
 	}
 	data.text = text;
 	nextTick(() => {
-		if (editItem.keepSelect) {
+		if (insertUnit.keepSelect) {
 			textarea.value.selectionStart = start;
 			textarea.value.selectionEnd = end + after.length;
 		} else {
@@ -453,11 +466,11 @@ const onKeyDown = (e: KeyboardEvent) => {
 				isReplace.value = false;
 			}
 		} else {
-			for (let i = 0; i < insertTextList.length; i++) {
-				if (insertTextList[i].key == e.key) {
+			for (let i = 0; i < insertUnits.length; i++) {
+				if (insertUnits[i].key == e.key) {
 					e.preventDefault();
 					data.pushFlag = "symbol";
-					insertIntoTextarea(insertTextList[i]);
+					insertIntoTextarea(insertUnits[i]);
 					break;
 				}
 			}
@@ -490,6 +503,19 @@ const onKeyDown = (e: KeyboardEvent) => {
 					break;
 				case "{":
 					after = "}";
+					break;
+			}
+			insertAroundText({before: e.key, after});
+		} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
+			e.preventDefault();
+			data.pushFlag = "symbol";
+			let after = "";
+			switch (e.key) {
+				case "'":
+					after = "'";
+					break;
+				case '"':
+					after = '"';
 					break;
 			}
 			insertAroundText({before: e.key, after});
@@ -530,7 +556,7 @@ const changeFlag = (flag: string) => {
 	}
 }
 
-// 文本联想
+// 文本联想（括号和引号）
 const insertAroundText = (insertText: { before: string, after: string }) => {
 	let start = textarea.value.selectionStart;
 	let selectEnd = textarea.value.selectionEnd;
