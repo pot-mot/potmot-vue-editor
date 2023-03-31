@@ -1,8 +1,8 @@
 <template>
-	<div style="line-height: 1.6em; height: 50vh;padding-bottom: 100vh;">
-		<MarkdownEditor v-model="text"></MarkdownEditor>
-		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
-		<MarkdownCard :markdown-text="text" :code-fold="true"></MarkdownCard>
+	<div style="height: 80vh;width: 100%;display: grid;grid-template-columns: 100%;line-height: 1.6em;">
+		<div>
+			<MarkdownEditor v-model="text"></MarkdownEditor>
+		</div>
 	</div>
 </template>
 

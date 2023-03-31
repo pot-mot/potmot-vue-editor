@@ -1,9 +1,9 @@
-import MarkdownCard from './components/MarkdownCard.vue'
 import MarkdownEditor from "./components/MarkdownEditor.vue";
 import MarkdownOutline from "./components/MarkdownOutline.vue";
+import MarkdownPreview from "./components/MarkdownPreview.vue";
 
 const components = [
-    MarkdownCard,
+    MarkdownPreview,
     MarkdownEditor,
     MarkdownOutline
 ]
@@ -25,7 +25,7 @@ export default {
     // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
     install,
     // 具体的组件
-    MarkdownCard,
+    MarkdownPreview,
     MarkdownEditor,
     MarkdownOutline
 }

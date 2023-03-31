@@ -4,7 +4,7 @@
 
 <script lang="ts">
 export default {
-	name: 'MarkdownCard'
+	name: 'MarkdownPreview'
 }
 </script>
 
@@ -220,15 +220,13 @@ setInterval(setButtonEvent, 1000);
 
 <style lang="scss">
 .markdown-card {
-	--quote--border: 0.2em solid #ddd;
-	--quote-back-color: #efefef;
-
-	--table-border-color: #ddd;
-	--table-head-back-color: #eee;
-	--table-body-back-color: #fefefe;
+	--border-color: #ddd;
+	--deep-back-color: #eee;
+	--light-back-color: #fafafa;
 
 	white-space: pre-wrap;
 	margin: 0;
+
 	* {
 		box-sizing: border-box;
 		margin: 0;
@@ -239,15 +237,16 @@ setInterval(setButtonEvent, 1000);
 	> h2 {
 		padding: 0.4em 0 0.5em;
 	}
+
 	> h3,
 	> h4 {
 		padding: 0.2em 0 0.3em;
 	}
 
 	> blockquote {
-		border-left: var(--quote--border);
-		background-color: var(--quote-back-color);
-		padding: 0.6em 0.3em;
+		border-left: 0.4em solid var(--border-color);
+		background-color: var(--light-back-color);
+		padding: 0.5em;
 		font-style: italic;
 		color: #333;
 	}
@@ -255,11 +254,13 @@ setInterval(setButtonEvent, 1000);
 	> pre {
 		padding: 0.5em 0;
 	}
+
 	> pre.fold {
 		max-height: 15em;
 		overflow-y: hidden;
 		overflow-x: hidden;
 	}
+
 	> pre.show {
 		overflow-y: visible;
 		overflow-x: scroll;
@@ -281,18 +282,27 @@ setInterval(setButtonEvent, 1000);
 		border-collapse: collapse;
 		padding-top: 0.2em;
 		padding-bottom: 0.2em;
+		border: 1px solid var(--border-color);
+
 		td,
 		th {
 			padding: 0.2em 0.4em;
-			border: 1px solid var(--table-border-color);
+			border: none;
 			min-width: 3em;
-			max-width: 20em;
+			max-width: 100%;
 		}
+
 		th {
-			background-color: var(--table-head-back-color);
+			background-color: var(--deep-back-color);
+			border-bottom: 1px solid var(--border-color);
 		}
-		td {
-			background-color: var(--table-body-back-color);
+
+		tr:nth-child(2n-1) {
+			background-color: var(--light-back-color);
+		}
+
+		tr:nth-child(2n) {
+			background-color: var(--deep-back-color);
 		}
 	}
 

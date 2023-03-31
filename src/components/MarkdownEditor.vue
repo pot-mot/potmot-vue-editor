@@ -6,47 +6,23 @@
 					@mousedown.prevent.stop="tool.method(tool)"
 					:title="tool.label"
 					class="iconfont"
-					:class="[
-						tool.active ? 'chosen' : '',
-						tool.icon,
-					]"/>
+					:class="[tool.active ? 'chosen' : '',tool.icon]">
+				</span>
 			</li>
 		</ul>
 		<div v-show="getEditToolActive('insert')" class="floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
 			<template v-for="item in insertTextList">
 				<span class="insert-text">
-					<span class="hover-color-blue" @mousedown.prevent.stop="insertToText(item)">
-						{{ item.label + '[' + item.key + ']' }}
-					</span>
-					<template v-if="item.name === 'title'">
-						<label>级别</label>
-						<input v-model="insertTextParams.titleLevel" type="number">
-					</template>
-					<template v-else-if="item.name === 'form'">
-						<label>行数</label>
-						<input v-model="insertTextParams.tableWidth" type="number">
-						<label>列数</label>
-						<input v-model="insertTextParams.tableHeight" type="number">
-					</template>
-					<template v-else-if="item.name === 'list'">
-						<label>项数</label>
-						<input v-model="insertTextParams.listLength" type="number">
-						<label>首项</label>
-						<input v-model="insertTextParams.listStart" type="number">
-					</template>
-					<template v-else-if="item.name === 'code'">
-						<label>语言</label>
-						<select v-model="insertTextParams.codeLanguage" style="width: 6em;">
-							<option v-for="language in languageList">{{ language }}</option>
-						</select>
-					</template>
-					<template v-else-if="item.name === 'warning'">
-						<label>颜色</label>
-						<input v-model="insertTextParams.warningColor" style="width: 6em;" type="text">
-					</template>
+				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)">
+					{{ item.label }}
 				</span>
-				<br/>
+				<template v-for="arg in item.insertArguments">
+					<label>{{ arg.label }}</label>
+					<input :type="arg.type" :value="argsMap.get(arg.name).value" @input="(e) => {changeArg(arg.name, e)}">
+				</template>
+				</span>
+				<br>
 			</template>
 		</div>
 		<div v-show="getEditToolActive('replace')" class="replace-box floating-card tool-menu" v-drag>
@@ -64,23 +40,13 @@
 		</div>
 		<div
 			v-show="getEditToolActive('preview') && !isFullScreen" v-drag
-			class="floating-card show-card"
-			@mouseenter="setHandleScrollFlag('floatShowCard')">
+			class="floating-card preview-card"
+			@mouseenter="setHandleScrollFlag('floatPreviewCard')">
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('preview', false)"/>
-			<div class="container" ref="floatShowCard">
-				<MarkdownCard :markdown-text="data.text"/>
+			<div class="container" ref="floatPreviewCard">
+				<MarkdownPreview :markdown-text="data.text"/>
 			</div>
 		</div>
-		<textarea
-			ref="textarea"
-			v-model="data.text"
-			:placeholder="props.placeholder"
-			class="edit-card"
-			:class="[!isPreview && isFullScreen ? 'full-width' : '']"
-			@keydown="onKeyDown"
-			@keyup="onKeyUp"
-			@mousedown="onMouseDown"
-			@mouseenter="setHandleScrollFlag('textarea')"/>
 		<div style="height: 0;width: 0;overflow: hidden;position: fixed;top: 500vh;left: 500vw;">
 			<div
 				ref="textareaCountLine"
@@ -88,11 +54,25 @@
 				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
 		</div>
 		<div
-			v-show="isPreview && isFullScreen"
-			ref="showCard"
-			class="show-card"
-			@mouseenter="setHandleScrollFlag('showCard')">
-			<MarkdownCard :markdown-text="data.text"></MarkdownCard>
+			class="container"
+			:class="containerClass">
+			<textarea
+				ref="textarea"
+				v-model="data.text"
+				:placeholder="props.placeholder"
+				class="edit-card"
+				@keydown="onKeyDown"
+				@keyup="onKeyUp"
+				@mousedown="onMouseDown"
+				@mouseenter="setHandleScrollFlag('textarea')">
+			</textarea>
+			<div
+				v-show="isFullScreen && isPreview"
+				ref="previewCard"
+				class="preview-card"
+				@mouseenter="setHandleScrollFlag('previewCard')">
+				<MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
+			</div>
 		</div>
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
@@ -114,9 +94,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, watch, toRaw} from "vue";
 import {vDrag} from "../util/drag";
 import {languageList} from "../constant/LanguageList";
+import {insertTextList, insertIntoString, getArgsMap} from "../util/insertUnit";
+
+const argsMap = getArgsMap(insertTextList);
+const changeArg = (name: string, e: InputEvent) => {
+	argsMap.get(name)!.value = (<HTMLInputElement>e.target).value;
+}
 
 class EditTool {
 	name: string = "";
@@ -152,34 +138,6 @@ class EditorHistory {
 	}
 }
 
-class InsertTool {
-	name: string;
-	key: string;
-	label: string;
-	method: () => InsertText;
-	replace: boolean;
-	keepSelect: boolean;
-
-	constructor(name: string, key: string, label: string, method: () => InsertText, replace: boolean = false, keepSelect: boolean = false) {
-		this.name = name;
-		this.key = key;
-		this.label = label;
-		this.method = method;
-		this.replace = replace;
-		this.keepSelect = keepSelect;
-	}
-}
-
-class InsertText {
-	before: string;
-	after: string;
-
-	constructor(before: string = "", after: string = "") {
-		this.before = before;
-		this.after = after;
-	}
-}
-
 // 外部传入参数
 const props = defineProps({
 	modelValue: {
@@ -201,8 +159,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const textarea = ref();
-const showCard = ref();
-const floatShowCard = ref();
+const previewCard = ref();
+const floatPreviewCard = ref();
 
 // 统计数据
 const statisticalData = reactive({
@@ -226,7 +184,6 @@ const setEditData = () => {
 
 setInterval(setEditData, 100);
 
-
 // 数据
 const data = reactive({
 	// 同步滚动条
@@ -243,14 +200,7 @@ const data = reactive({
 	replaceTo: "",
 })
 
-const insertTextParams = reactive({
-	tableWidth: 3, tableHeight: 2,
-	titleLevel: 3,
-	listLength: 3, listStart: 1,
-	codeLanguage: "bash",
-	warningColor: "red",
-})
-
+// 工具列表
 const editToolList = reactive(<EditTool[]>[
 	new EditTool("fullScreen", "全屏/收起全屏", "icon-full-screen", (self: EditTool) => {
 		self.changeActive();
@@ -318,66 +268,42 @@ const isPreview = computed({
 	}
 })
 
-// 插入工具列表
-const insertTextList: InsertTool[] = reactive([
-	new InsertTool("title", '#', "标题", () => {
-		insertTextParams.titleLevel = limit(insertTextParams.titleLevel, 1, 5);
+// 核心容器样式类
+const containerClass = computed(() => {
+	if (!isFullScreen.value) return '';
+	if (isPreview.value) return 'edit-preview';
+	return 'edit';
+})
 
-		let returnText = ""
-		for (let i = 0; i < insertTextParams.titleLevel; i++) {
-			returnText += "#";
+// 文本插入
+const insertIntoTextarea = (editItem: any) => {
+	let start = textarea.value.selectionStart;
+	let selectEnd = textarea.value.selectionEnd;
+	let text = data.text;
+	let end: number;
+	const {before, after} = editItem.insert(argsMap);
+	if (editItem.replace) {
+		text = insertIntoString(before, text, start, selectEnd);
+		end = start + before.length;
+	} else {
+		text = insertIntoString(before, text, start);
+		end = selectEnd + before.length;
+	}
+	if (after.length > 0) {
+		text = insertIntoString(after, text, end);
+	}
+	data.text = text;
+	nextTick(() => {
+		if (editItem.keepSelect) {
+			textarea.value.selectionStart = start;
+			textarea.value.selectionEnd = end + after.length;
+		} else {
+			textarea.value.selectionStart = start + before.length;
+			textarea.value.selectionEnd = start + before.length;
 		}
-
-		return new InsertText(returnText + " ")
-	}),
-	new InsertTool("code", '`', "代码块", () => {
-		return new InsertText("```" + insertTextParams.codeLanguage + "\n", "\n```",);
-	}),
-	new InsertTool("form", '|', "表格", () => {
-		let formLineText = "|";
-		let formFormatText = "|";
-		let whiteSpace = "  ";
-
-		insertTextParams.tableHeight = limit(insertTextParams.tableHeight, 1, 99);
-		insertTextParams.tableWidth = limit(insertTextParams.tableWidth, 1, 15);
-
-		for (let i = 0; i < insertTextParams.tableHeight; i++) {
-			formLineText += (whiteSpace + "|");
-			formFormatText += "----|";
-		}
-		formLineText += "\n";
-		formFormatText += "\n";
-
-		let returnText = formLineText.slice(2) + formFormatText;
-
-		for (let i = 0; i < insertTextParams.tableWidth; i++) {
-			returnText += formLineText;
-		}
-
-		return new InsertText("| ", returnText);
-	}),
-	new InsertTool("list", '%', "列表", () => {
-		insertTextParams.listLength = limit(insertTextParams.listLength, 1, 99);
-		insertTextParams.listStart = limit(insertTextParams.listStart, 0, 10000);
-		let returnText = "\n";
-		for (let i = 0; i < insertTextParams.listLength - 1; i++) {
-			returnText += (i + insertTextParams.listStart + 1) + ". \n";
-		}
-		return new InsertText(insertTextParams.listStart + ". 列表文本", returnText)
-	}),
-	new InsertTool("break", 'Enter', "换行", () => {
-		return new InsertText("<br>");
-	}),
-	new InsertTool("link", '@', "链接", () => {
-		return new InsertText("[](", ")");
-	}),
-	new InsertTool("details", '>', "折叠块", () => {
-		return new InsertText("<details>\n<summary>[标识]</summary>\n", "\n</details>");
-	}),
-	new InsertTool("warning", '!', "标亮", () => {
-		return new InsertText("<span code='color: " + insertTextParams.warningColor + ";'>", "</span>");
-	}),
-])
+		push();
+	})
+}
 
 // 组件初始化
 onMounted(async () => {
@@ -393,31 +319,19 @@ onMounted(async () => {
 
 	await nextTick(() => {
 		textarea.value.addEventListener('scroll', () => {
-			handleScroll('textarea', textarea.value, showCard.value);
+			handleScroll('textarea', textarea.value, previewCard.value);
 		});
-		showCard.value.addEventListener('scroll', () => {
-			handleScroll('showCard', showCard.value, textarea.value);
+		previewCard.value.addEventListener('scroll', () => {
+			handleScroll('previewCard', previewCard.value, textarea.value);
 		});
 		textarea.value.addEventListener('scroll', () => {
-			handleScroll('textarea', textarea.value, floatShowCard.value);
+			handleScroll('textarea', textarea.value, floatPreviewCard.value);
 		});
-		floatShowCard.value.addEventListener('scroll', () => {
-			handleScroll('floatShowCard', floatShowCard.value, textarea.value);
+		floatPreviewCard.value.addEventListener('scroll', () => {
+			handleScroll('floatPreviewCard', floatPreviewCard.value, textarea.value);
 		});
 	})
 })
-
-/**
- * 在字符串中插入替换部分
- *
- * @param inserter 插入部分
- * @param target 目标字符串
- * @param start 替换起点
- * @param end 替换终点，默认等于起点（即不进行替换）
- */
-const insertIntoString = (inserter: string, target: string, start: number, end: number = start): string => {
-	return target.slice(0, start) + inserter + target.slice(end);
-}
 
 watch(() => data.text, () => {
 	emit('update:modelValue', data.text);
@@ -430,14 +344,14 @@ watch(() => isFullScreen.value, async () => {
 		data.handleScrollFlag = "textarea";
 		await nextTick(() => {
 			document.body.classList.add("disable-scroll");
-			handleScroll('textarea', textarea.value, showCard.value);
+			handleScroll('textarea', textarea.value, previewCard.value);
 		})
 	} else {
 		document.body.classList.remove("disable-scroll");
 		isPreview.value = false;
 		await nextTick(() => {
 			document.body.scrollTo(0, data.beforeFullScreenTop);
-			handleScroll('textarea', textarea.value, floatShowCard.value);
+			handleScroll('textarea', textarea.value, floatPreviewCard.value);
 		})
 	}
 })
@@ -543,7 +457,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 				if (insertTextList[i].key == e.key) {
 					e.preventDefault();
 					data.pushFlag = "symbol";
-					insertToText(insertTextList[i]);
+					insertIntoTextarea(insertTextList[i]);
 					break;
 				}
 			}
@@ -616,38 +530,8 @@ const changeFlag = (flag: string) => {
 	}
 }
 
-// 文本插入
-const insertToText = (editItem: InsertTool) => {
-	let start = textarea.value.selectionStart;
-	let selectEnd = textarea.value.selectionEnd;
-	let text = data.text;
-	let end: number;
-	const {before, after} = editItem.method();
-	if (editItem.replace) {
-		text = insertIntoString(before, text, start, selectEnd);
-		end = start + before.length;
-	} else {
-		text = insertIntoString(before, text, start);
-		end = selectEnd + before.length;
-	}
-	if (after.length > 0) {
-		text = insertIntoString(after, text, end);
-	}
-	data.text = text;
-	nextTick(() => {
-		if (editItem.keepSelect) {
-			textarea.value.selectionStart = start;
-			textarea.value.selectionEnd = end + after.length;
-		} else {
-			textarea.value.selectionStart = start + before.length;
-			textarea.value.selectionEnd = start + before.length;
-		}
-		push();
-	})
-}
-
 // 文本联想
-const insertAroundText = (insertText: InsertText) => {
+const insertAroundText = (insertText: { before: string, after: string }) => {
 	let start = textarea.value.selectionStart;
 	let selectEnd = textarea.value.selectionEnd;
 	let text = data.text;
@@ -899,13 +783,6 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	}
 	return {y, x};
 }
-
-// 范围约束
-const limit = (input: number, min: number, max: number): number => {
-	if (input > max) return max;
-	if (input < min) return min;
-	return input;
-}
 </script>
 
 <style lang="scss">
@@ -956,9 +833,26 @@ const limit = (input: number, min: number, max: number): number => {
 		word-break: break-all;
 		word-wrap: anywhere;
 	}
+}
 
-	> .show-card,
-	> .edit-card {
+.editor.non-full {
+	width: 100%;
+	height: 100%;
+}
+
+.editor.full {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: 10;
+	background-color: var(--back-ground-color);
+}
+
+.editor > .container {
+	> .edit-card,
+	> .preview-card {
 		display: block;
 		padding: 0.5em;
 		overflow: auto;
@@ -972,62 +866,49 @@ const limit = (input: number, min: number, max: number): number => {
 	}
 }
 
-.editor.non-full {
-	width: 100%;
-	height: 100%;
-
+.editor.non-full > .container {
 	> .edit-card {
 		width: 100%;
 		height: calc(100% - 4em);
 		border: 1px solid #eee;
+		padding-bottom: 4em;
 	}
 }
 
-.editor.full {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100vh;
-	width: 100vw;
-	z-index: 10;
-	background-color: var(--back-ground-color);
-	white-space: nowrap;
+.editor.full > .container {
+	padding-left: 0.5%;
+	display: grid;
+
+	&.edit-preview {
+		grid-template-columns: 49.5% 49%;
+		grid-gap: 0.5%;
+	}
+
+	&.edit {
+		grid-template-columns: 99%;
+	}
 
 	> .edit-card,
-	> .show-card {
-		display: inline-block;
-		vertical-align: top;
-		width: 49%;
-		min-width: 40em;
-		margin-left: 0.65%;
-		tab-size: 4;
+	> .preview-card {
 		height: calc(100vh - 4em);
 		background-color: white;
 		padding-bottom: 50vh;
 	}
+}
 
-	> .edit-card.full-width {
-		width: 98.5%;
+.editor > .toolbar {
+	vertical-align: middle;
+	padding: 0;
+	margin: 0;
+	line-height: 2em;
+
+	> li {
+		position: relative;
 	}
 }
 
-.editor {
-	> .toolbar {
-		vertical-align: middle;
-		padding: 0;
-		margin: 0;
-		line-height: 2em;
-
-		> li {
-			position: relative;
-		}
-	}
-}
-
-.editor.full {
-	> .toolbar {
-		margin-left: 0.5em;
-	}
+.editor.full > .toolbar {
+	margin-left: 0.5em;
 }
 
 .editor {
@@ -1047,7 +928,7 @@ const limit = (input: number, min: number, max: number): number => {
 		}
 	}
 
-	.floating-card.show-card {
+	.floating-card.preview-card {
 		background-color: #fff;
 		border: #aaa 1px solid;
 		cursor: all-scroll;
