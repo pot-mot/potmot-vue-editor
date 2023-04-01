@@ -8,6 +8,23 @@
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownCard, MarkdownOutline 三个组件，其中 Editor 依赖于 Card
 
+### 使用
+
+npm 引入
+```
+npm install potmot-vue-editor@0.5.5
+```
+
+main.js 中引用
+```javascript
+import editor from 'potmot-vue-editor'
+import 'potmot-vue-editor/dist/style.css'
+
+app.use(editor)
+```
+
+> ! 如果 css 引入异常可以直接把 potmot-vue-editor/dist/style.css 文件复制进项目的css中
+
 ### 1. MarkdownEditor 编辑器
 
 使用v-model绑定字符串

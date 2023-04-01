@@ -9,21 +9,22 @@ import {languageList} from "./src/constant/LanguageList";
 
 export default defineConfig({
     // 如果需要打包成lib文件取消注释即可
-    // build: {
-    //     lib: {
-    //         entry: resolve(__dirname, 'src/index.ts'),
-    //         name: "potmot-vue-editor",
-    //         fileName: "potmot-vue-editor"
-    //     },
-    //     rollupOptions: {
-    //         external: ['vue'],
-    //         output: {
-    //             globals: {
-    //                 vue: 'Vue'
-    //             }
-    //         }
-    //     }
-    // },
+    build: {
+        assetsDir: "assets",
+        lib: {
+            entry: resolve(__dirname, 'src/index.ts'),
+            name: "potmot-vue-editor",
+            fileName: "potmot-vue-editor"
+        },
+        rollupOptions: {
+            external: ['vue'],
+            output: {
+                globals: {
+                    vue: 'Vue'
+                }
+            }
+        }
+    },
 
     plugins: [
         vue(),

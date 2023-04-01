@@ -219,6 +219,8 @@ setInterval(setButtonEvent, 1000);
 </script>
 
 <style lang="scss">
+@import "../asserts/code/code.css";
+
 .markdown-card {
 	--border-color: #ddd;
 	--deep-back-color: #eee;

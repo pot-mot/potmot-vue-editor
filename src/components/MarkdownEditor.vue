@@ -815,6 +815,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 </script>
 
 <style lang="scss">
+@import "../asserts/iconfont/iconfont.css";
+
 .disable-scroll {
 	overflow: hidden;
 

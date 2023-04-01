@@ -1,10 +1,17 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.5.0",
+  "version": "0.5.5",
   "type": "module",
+  "license": "MIT",
   "author": {
     "name": "potmot"
+  },
+  "description": "a markdown editor in Vue3.",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/run-around---whats-wrong/potmot-vue-editor.git",
+    "directory": "dist"
   },
   "main": "./dist/potmot-vue-editor.umd.cjs",
   "module": "./dist/potmot-vue-editor.js",
