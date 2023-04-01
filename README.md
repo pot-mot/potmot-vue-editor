@@ -18,12 +18,10 @@ npm install potmot-vue-editor@0.5.7
 main.js 中引用
 ```javascript
 import editor from 'potmot-vue-editor'
-import '../node_modules/potmot-vue-editor/dist/style.css'
+import 'potmot-vue-editor/dist/style.css'
 
 app.use(editor)
 ```
-
-> ! 如果 css 引入异常可以直接把 potmot-vue-editor/dist/style.css 文件复制进项目的css中
 
 ### 1. MarkdownEditor 编辑器
 
@@ -42,13 +40,20 @@ app.use(editor)
 
 #### InsertUnit 插入单元
 
-插入单元是快捷插入工具，通过 Ctrl + 指定的key 触发，根据 insertArgument 生成一段特定的代码
+插入单元是快捷插入工具，通过 Ctrl + 指定的key 触发，根据 insertArgument 生成一段特定的插入字符串。
+
+在 MarkdownEditor 中配置 extra-insert-units props 即可配置插入功能
 
 ```html
 <MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
 ```
 
+具体 insertUnit 如下书写
+
 ```typescript
+import {ref} from "vue";
+import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "potmot-vue-editor/dist/declare/insertUnit";
+
 const insertUnits = <InsertUnit[]>[
     {
         // 唯一名称，建议全英文
@@ -127,18 +132,6 @@ package.json 目前依赖:
     "marked": "^4.2.12",
     "vite-plugin-dts": "^2.1.0",
     "vue": "^3.2.37"
-  },
-  "devDependencies": {
-    "@types/file-saver": "^2.0.5",
-    "@types/prismjs": "^1.26.0",
-    "@vitejs/plugin-vue": "^3.1.0",
-    "rollup-plugin-visualizer": "^5.9.0",
-    "sass": "^1.32.7",
-    "sass-loader": "^13.2.2",
-    "typescript": "^4.6.4",
-    "vite": "^3.1.0",
-    "vite-plugin-prismjs": "^0.0.8",
-    "vue-tsc": "^0.40.4"
   }
 }
 ```
