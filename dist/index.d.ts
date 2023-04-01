@@ -92,6 +92,11 @@ declare const _default: {
             required: false;
             default: boolean;
         };
+        defaultInsertUnits: {
+            type: BooleanConstructor;
+            required: false;
+            default: boolean;
+        };
         extraInsertUnits: {
             type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
@@ -109,6 +114,11 @@ declare const _default: {
                 default: string;
             };
             startWithFullScreen: {
+                type: BooleanConstructor;
+                required: false;
+                default: boolean;
+            };
+            defaultInsertUnits: {
                 type: BooleanConstructor;
                 required: false;
                 default: boolean;
@@ -241,6 +251,11 @@ declare const _default: {
             required: false;
             default: boolean;
         };
+        defaultInsertUnits: {
+            type: BooleanConstructor;
+            required: false;
+            default: boolean;
+        };
         extraInsertUnits: {
             type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
@@ -251,6 +266,7 @@ declare const _default: {
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
+        defaultInsertUnits: boolean;
         extraInsertUnits: import("./declare/insertUnit").InsertUnit[];
     }>;
     MarkdownOutline: import("vue").DefineComponent<{

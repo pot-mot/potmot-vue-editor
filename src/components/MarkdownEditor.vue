@@ -121,6 +121,11 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
+	defaultInsertUnits: {
+		type: Boolean,
+		required: false,
+		default: true,
+	},
 	extraInsertUnits: {
 		type: Array as PropType<InsertUnit[]>,
 		required: false,
@@ -134,7 +139,7 @@ const textarea = ref();
 const previewCard = ref();
 const floatPreviewCard = ref();
 
-const insertUnits: InsertUnit[] = props.extraInsertUnits.concat(defaultInsertUnits)
+const insertUnits: InsertUnit[] = props.defaultInsertUnits ? props.extraInsertUnits?.concat(defaultInsertUnits) : props.extraInsertUnits
 
 const argsMap = getArgsMap(insertUnits);
 const changeInputArg = (name: string, e: InputEvent) => {
@@ -882,6 +887,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor > .container {
+	height: 100%;
+
 	> .edit-card,
 	> .preview-card {
 		display: block;
@@ -900,7 +907,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 .editor.non-full > .container {
 	> .edit-card {
 		width: 100%;
-		height: calc(100% - 4em);
+		height: 100%;
 		border: 1px solid #eee;
 		padding-bottom: 4em;
 	}

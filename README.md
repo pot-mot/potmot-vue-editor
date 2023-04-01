@@ -11,11 +11,13 @@
 ### 使用
 
 npm 引入
+
 ```
-npm install potmot-vue-editor@0.5.7
+npm install potmot-vue-editor@0.5.8
 ```
 
 main.js 中引用
+
 ```javascript
 import editor from 'potmot-vue-editor'
 import 'potmot-vue-editor/dist/style.css'
@@ -27,15 +29,16 @@ app.use(editor)
 
 使用v-model绑定字符串
 
-提供了查找、替换、预览和一些快速插入功能，目前不支持修改快捷键
+提供了查找、替换、预览和自定义快速插入功能，为防止键位冲突，目前所有快捷插入均由Ctrl + 特定key触发
 
 **props 参数说明**
 
 |参数| 类型 | 说明 | 必须 |
 | -- | -- | -- | -- |
-| v-model | Ref<String> | 绑定输入字符串 | 是 |
-| placeholder | String | 无字符时展示 | 否，默认值 "" |
-| startWithFullScreen | Boolean | 是否默认全屏 | 否，默认值 false |
+| v-model | Ref<string> | 绑定输入字符串 | 是 |
+| placeholder | string | 无字符时展示 | 否，默认值 "" |
+| startWithFullScreen | boolean | 是否默认全屏 | 否，默认值 false |
+| defaultInsertUnits | boolean | 是否使用默认插入 | 否，默认值 true |
 | extraInsertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [] |
 
 #### InsertUnit 插入单元
@@ -45,6 +48,7 @@ app.use(editor)
 在 MarkdownEditor 中配置 extra-insert-units props 即可配置插入功能
 
 ```html
+
 <MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
 ```
 
@@ -103,22 +107,21 @@ const insertUnits = <InsertUnit[]>[
 ### 2. MarkdownPreview 展示卡片
 
 提供了基于 marked 的 markdown 与 html展示
-> 不过我个人有些不习惯标准md，所以追加了一些个人的习惯样式，包括：<br>
-1. 不换行成段<br>
-2. code 复制、标明行号、超过特定行进行折叠
+
+code 代码块支持复制、标明行号、超过特定行进行折叠
 
 **props 参数说明**
 
 | 参数 | 类型 | 说明 | 必须 |
 |--------------|--|-------------------------|---------------------|
-| markdownText | String | 传入的markdown文本，将被解析成html | 是 |
-| codeTheme | String | 代码css样式主题，可自行追加css | 否，默认值 "potmot-dark" |
-| codeFold | Boolean | 是否开启代码块折叠 | 否，默认值 false |
-| codeFoldThreshold | Number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
+| markdownText | string | 传入的markdown文本，将被解析成html | 是 |
+| codeTheme | string | 代码css样式主题，可自行追加css | 否，默认值 "potmot-dark" |
+| codeFold | boolean | 是否开启代码块折叠 | 否，默认值 false |
+| codeFoldThreshold | number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
 
 ### 3. Outline 大纲
 
-根据传入的Markdown根据正则匹配h标签生成a标签大纲，同名标题追加-1\-2，除marked无额外依赖，也无默认样式
+根据传入的Markdown根据正则匹配h标签生成a标签大纲，同名标题追加-n数字下标进行区分，除marked无额外依赖，也无默认样式
 
 ## 依赖
 
@@ -127,13 +130,12 @@ package.json 目前依赖:
 ```json
 {
   "dependencies": {
-    "@types/marked": "^4.0.8",
     "file-saver": "^2.0.5",
     "marked": "^4.2.12",
-    "vite-plugin-dts": "^2.1.0",
     "vue": "^3.2.37"
   }
 }
+
 ```
 
 ### 补充

@@ -128,7 +128,7 @@ const setCodeLine = (code: string) => {
 	for (let i = 0; i < codes.length; i++) {
 		res += '<span class="count"></span>' + codes[i] + '\n';
 	}
-	let postfix = '<div class="code-copy-button iconfont icon-copy"/>';
+	let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"/>';
 	res += '</code>';
 	if (props.codeFold && codes.length > props.codeFoldThreshold) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
@@ -152,7 +152,7 @@ const setCodeLineWithStyle = (code: string, language: string) => {
 		codes = codes.slice(0, codes.length - 1);
 	}
 
-	let postfix = '<div class="code-copy-button iconfont icon-copy"/><div class="code-language">' + language + '</div>'
+	let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"/><div class="code-language">' + language + '</div>'
 	let res = '<code>';
 	for (let i = 0; i < codes.length; i++) {
 		res += '<span class="count"></span>' + codes[i] + '\n';

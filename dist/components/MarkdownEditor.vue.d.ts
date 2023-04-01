@@ -15,6 +15,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    defaultInsertUnits: {
+        type: BooleanConstructor;
+        required: false;
+        default: boolean;
+    };
     extraInsertUnits: {
         type: PropType<InsertUnit[]>;
         required: false;
@@ -32,6 +37,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
             default: string;
         };
         startWithFullScreen: {
+            type: BooleanConstructor;
+            required: false;
+            default: boolean;
+        };
+        defaultInsertUnits: {
             type: BooleanConstructor;
             required: false;
             default: boolean;
@@ -164,6 +174,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    defaultInsertUnits: {
+        type: BooleanConstructor;
+        required: false;
+        default: boolean;
+    };
     extraInsertUnits: {
         type: PropType<InsertUnit[]>;
         required: false;
@@ -174,6 +189,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {
     placeholder: string;
     startWithFullScreen: boolean;
+    defaultInsertUnits: boolean;
     extraInsertUnits: InsertUnit[];
 }>;
 export default _sfc_main;

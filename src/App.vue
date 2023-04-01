@@ -1,8 +1,6 @@
 <template>
-	<div style="height: 80vh;width: 100%;display: grid;grid-template-columns: 100%;line-height: 1.6em;">
-		<div>
-			<MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
-		</div>
+	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
+		<MarkdownEditor v-model="text" :default-insert-units="false" :extra-insert-units="insertUnits"></MarkdownEditor>
 	</div>
 </template>
 
