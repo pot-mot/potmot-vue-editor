@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.5.8",
+  "version": "0.5.9",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -13,6 +13,7 @@
     "url": "https://gitee.com/run-around---whats-wrong/potmot-vue-editor.git",
     "directory": "dist"
   },
+  "bugs": "https://gitee.com/run-around---whats-wrong/potmot-vue-editor/issues",
   "main": "./dist/potmot-vue-editor.umd.cjs",
   "module": "./dist/potmot-vue-editor.js",
   "types": "./dist/components/index.d.ts",

@@ -887,8 +887,6 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor > .container {
-	height: 100%;
-
 	> .edit-card,
 	> .preview-card {
 		display: block;
@@ -905,6 +903,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor.non-full > .container {
+	height: calc(99% - 3.5em);
+
 	> .edit-card {
 		width: 100%;
 		height: 100%;

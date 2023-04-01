@@ -118,17 +118,17 @@ const formatCode = (codeString: string) => {
 	}
 }
 
-// 不带语言的代码块的解析
-const setCodeLine = (code: string) => {
+// 无指定语言的代码块
+const setCodeLine = (code: string, before: string = "", after: string = "") => {
 	if (code[code.length - 1] == '\n') {
 		code = code.slice(0, code.length - 1);
 	}
 	let codes = code.split("\n");
-	let res = '<code>';
+	let res = '<code>' + before;
 	for (let i = 0; i < codes.length; i++) {
 		res += '<span class="count"></span>' + codes[i] + '\n';
 	}
-	let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"/>';
+	let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"/>' + after;
 	res += '</code>';
 	if (props.codeFold && codes.length > props.codeFoldThreshold) {
 		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
@@ -138,7 +138,7 @@ const setCodeLine = (code: string) => {
 	return res;
 }
 
-// 带语言的代码块的解析
+// 带语言的代码块
 const setCodeLineWithStyle = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
@@ -146,24 +146,7 @@ const setCodeLineWithStyle = (code: string, language: string) => {
 			break;
 		}
 	}
-
-	let codes = code.split("\n");
-	if (codes[codes.length - 1] == "") {
-		codes = codes.slice(0, codes.length - 1);
-	}
-
-	let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"/><div class="code-language">' + language + '</div>'
-	let res = '<code>';
-	for (let i = 0; i < codes.length; i++) {
-		res += '<span class="count"></span>' + codes[i] + '\n';
-	}
-	res += '</code>';
-	if (props.codeFold && codes.length > props.codeFoldThreshold) {
-		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
-	} else {
-		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
-	}
-	return res;
+	return setCodeLine(code, '','<div class="code-language">' + language + "</div>");
 }
 
 const foldCode = (e: MouseEvent) => {

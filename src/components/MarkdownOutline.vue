@@ -1,7 +1,7 @@
 <template>
 	<ul class="outline">
 		<li v-for="head in heads" :key="head.text">
-			<a :style="'padding-left: ' + (head.level - 1) + 'em;'" :href="'#' + head.text">
+			<a :style="'padding-left: ' + (head.level - 1) + 'em;'" :href="`#${head.text}`">
 				{{ head.text }}
 			</a>
 		</li>

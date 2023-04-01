@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.8
+npm install potmot-vue-editor@0.5.9
 ```
 
 main.js 中引用
@@ -35,13 +35,13 @@ app.use(editor)
 
 |参数| 类型 | 说明 | 必须 |
 | -- | -- | -- | -- |
-| v-model | Ref<string> | 绑定输入字符串 | 是 |
-| placeholder | string | 无字符时展示 | 否，默认值 "" |
-| startWithFullScreen | boolean | 是否默认全屏 | 否，默认值 false |
-| defaultInsertUnits | boolean | 是否使用默认插入 | 否，默认值 true |
+| v-model | Ref<String> | 绑定输入字符串 | 是 |
+| placeholder | String | 无字符时展示 | 否，默认值 "" |
+| startWithFullScreen | Boolean | 是否默认全屏 | 否，默认值 false |
+| defaultInsertUnits | Boolean | 是否使用默认插入 | 否，默认值 true |
 | extraInsertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [] |
 
-#### InsertUnit 插入单元
+**InsertUnit 插入单元**
 
 插入单元是快捷插入工具，通过 Ctrl + 指定的key 触发，根据 insertArgument 生成一段特定的插入字符串。
 
@@ -57,6 +57,8 @@ app.use(editor)
 ```typescript
 import {ref} from "vue";
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "potmot-vue-editor/dist/declare/insertUnit";
+
+const text = ref("")
 
 const insertUnits = <InsertUnit[]>[
     {
@@ -110,18 +112,37 @@ const insertUnits = <InsertUnit[]>[
 
 code 代码块支持复制、标明行号、超过特定行进行折叠
 
+```html
+
+<MarkdownPreview :markdown-text="text"></MarkdownPreview>
+```
+
 **props 参数说明**
 
 | 参数 | 类型 | 说明 | 必须 |
 |--------------|--|-------------------------|---------------------|
-| markdownText | string | 传入的markdown文本，将被解析成html | 是 |
-| codeTheme | string | 代码css样式主题，可自行追加css | 否，默认值 "potmot-dark" |
-| codeFold | boolean | 是否开启代码块折叠 | 否，默认值 false |
-| codeFoldThreshold | number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
+| markdownText | String | 传入的markdown文本，将被解析成html | 是 |
+| codeTheme | String | 代码css样式主题，可自行追加css | 否，默认值 "potmot-dark" |
+| codeFold | Boolean | 是否开启代码块折叠 | 否，默认值 false |
+| codeFoldThreshold | Number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
 
 ### 3. Outline 大纲
 
 根据传入的Markdown根据正则匹配h标签生成a标签大纲，同名标题追加-n数字下标进行区分，除marked无额外依赖，也无默认样式
+
+```html
+
+<MarkdownOutline :markdown-text="text"></MarkdownOutline>
+```
+
+例如，当 text 值为 `# html\n## html` 时，该组件会生成如下：
+
+```html
+<ul class="outline">
+    <li><a href="#html" style="padding-left: 0em;">html</a></li>
+    <li><a href="#html-1" style="padding-left: 1em;">html-1</a></li>
+</ul>
+```
 
 ## 依赖
 
