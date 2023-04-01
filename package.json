@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.5.5",
+  "version": "0.5.7",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -20,7 +20,8 @@
     ".": {
       "import": "./dist/potmot-vue-editor.js",
       "require": "./dist/potmot-vue-editor.umd.cjs"
-    }
+    },
+    "./*": "./*"
   },
   "files": [
     "package.json",

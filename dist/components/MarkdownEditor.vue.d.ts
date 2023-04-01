@@ -1,5 +1,5 @@
 import { PropType } from "vue";
-import type { InsertUnit } from "../declare/insertUnit";
+import { InsertUnit } from "../declare/insertUnit";
 declare const _sfc_main: import("vue").DefineComponent<{
     modelValue: {
         type: StringConstructor;

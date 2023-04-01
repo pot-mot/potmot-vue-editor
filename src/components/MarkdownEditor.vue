@@ -103,7 +103,7 @@ export default {
 import {computed, nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {defaultInsertUnits, insertIntoString, getArgsMap} from "../util/insertUnit";
-import type {InsertUnit} from "../declare/insertUnit";
+import {InsertUnit} from "../declare/insertUnit";
 
 // 外部传入参数
 const props = defineProps({

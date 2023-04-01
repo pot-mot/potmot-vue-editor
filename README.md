@@ -12,13 +12,13 @@
 
 npm 引入
 ```
-npm install potmot-vue-editor@0.5.5
+npm install potmot-vue-editor@0.5.7
 ```
 
 main.js 中引用
 ```javascript
 import editor from 'potmot-vue-editor'
-import 'potmot-vue-editor/dist/style.css'
+import '../node_modules/potmot-vue-editor/dist/style.css'
 
 app.use(editor)
 ```
