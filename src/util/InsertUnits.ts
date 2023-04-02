@@ -79,7 +79,6 @@ export const markdownInsertUnits: InsertUnit[] = [
     },
     {
         name: "orderedList",
-        key: "%",
         label: "有序列表",
         insert: (args) => {
             let listLength = args.get("orderedListLength")?.value
@@ -113,7 +112,6 @@ export const markdownInsertUnits: InsertUnit[] = [
     },
     {
         name: "unorderedList",
-        key: "-",
         label: "无序列表",
         insert: (args) => {
             let listLength = args.get("unorderedListLength")?.value
@@ -158,6 +156,36 @@ export const markdownInsertUnits: InsertUnit[] = [
             },
             <InputInsertArgument<string>>{
                 name: "linkUrl",
+                label: "URL",
+                type: "string",
+                getRef: () => {
+                    return ref("")
+                }
+            }
+        ]
+    },
+    {
+        name: "picture",
+        label: "图片",
+        insert: (args) => {
+            const label = args.get("pictureName")?.value
+            const url = args.get("pictureUrl")?.value
+            if (label.length > 0 && url.length > 0) return {before: "![" + label + "](" + url + ")", after: ""}
+            else if (label.length > 0) return {before: "![" + label + "](", after: ")"}
+            else if (url.length > 0) return {before: "![", after: "](" + url + ")"}
+            else return {before: "![", after: "]()"}
+        },
+        arguments: [
+            <InputInsertArgument<string>>{
+                name: "pictureName",
+                label: "名称",
+                type: "string",
+                getRef: () => {
+                    return ref("")
+                }
+            },
+            <InputInsertArgument<string>>{
+                name: "pictureUrl",
                 label: "URL",
                 type: "string",
                 getRef: () => {
@@ -235,5 +263,14 @@ export const simpleInsertUnits: InsertUnit[] = [
                 }
             }
         ]
+    },
+    {
+        name: "kalex-math",
+        label: "数学算式",
+        key: "$",
+        insert: () => {
+            return {before: " $$ ", after: " $$ "};
+        },
+        arguments: []
     }
 ]

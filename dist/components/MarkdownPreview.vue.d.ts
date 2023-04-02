@@ -44,9 +44,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     copy: (text: string) => void;
     format: (markdownString: string) => string;
     formatMarkdown: (markdownString: string) => string;
+    formatMath: (markdownString: string) => string;
     formatCode: (codeString: string) => string;
     setCodeLine: (code: string, before?: string, after?: string) => string;
-    setCodeLineWithStyle: (code: string, language: string) => string;
+    setCodeLineWithLanguage: (code: string, language: string) => string;
     foldCode: (e: MouseEvent) => void;
     copyCode: (e: MouseEvent) => void;
     setButtonEvent: () => void;

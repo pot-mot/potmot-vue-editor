@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.5.11",
+  "version": "0.5.12",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -41,11 +41,13 @@
   },
   "dependencies": {
     "file-saver": "^2.0.5",
+    "katex": "^0.16.4",
     "marked": "^4.2.12",
     "vue": "^3.2.37"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
+    "@types/katex": "^0.16.0",
     "@types/marked": "^4.0.8",
     "@types/prismjs": "^1.26.0",
     "@vitejs/plugin-vue": "^3.1.0",

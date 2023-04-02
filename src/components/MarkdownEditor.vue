@@ -15,7 +15,7 @@
 			<template v-for="item in insertUnits">
 				<span class="insert-text">
 				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
-					  :title='"快捷键[Ctrl + " + item.key + "]"'>
+					  :title='item.key ? "快捷键[Ctrl + " + item.key + "]" : "无快捷键"'>
 					{{ item.label }}
 				</span>
 				<template v-for="arg in item.arguments">
@@ -483,7 +483,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 			}
 		} else {
 			for (let i = 0; i < insertUnits.value.length; i++) {
-				if (insertUnits.value[i].key == e.key) {
+				if (e.key && insertUnits.value[i].key == e.key) {
 					e.preventDefault();
 					data.pushFlag = "symbol";
 					insertIntoTextarea(insertUnits.value[i]);

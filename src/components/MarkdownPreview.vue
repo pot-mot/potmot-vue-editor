@@ -10,6 +10,9 @@ export default {
 
 <script lang="ts" setup>
 import Prism from "prismjs";
+// @ts-ignore
+import katex from 'katex';
+import 'katex/dist/katex.css'
 
 import {onMounted, ref} from "vue";
 import {marked} from "marked";
@@ -85,7 +88,7 @@ const formatMarkdown = (markdownString: string) => {
 		for (let i = 0; i < markdownString.length - 2; i++) {
 			if (markdownString.slice(i, i + 3) == '```') {
 				if (flag) {
-					res += markdownString.slice(start, i);
+					res += formatMath(markdownString.slice(start, i));
 					start = i;
 				} else {
 					res += setCodeLine(markdownString.slice(start + 3, i));
@@ -94,10 +97,32 @@ const formatMarkdown = (markdownString: string) => {
 				flag = !flag;
 			}
 		}
+		return res + formatMath(markdownString.slice(start));
+	} catch (e) {
+		return "<span style='color: red'>[解析错误]</span><br>" + e + "<br>" + markdownString;
+	}
+}
 
+const formatMath = (markdownString: string) => {
+	try {
+		let res: string = "";
+		let flag = true;
+		let start = 0;
+		for (let i = 0; i < markdownString.length - 1; i++) {
+			if (markdownString.slice(i, i + 2) == '$$') {
+				if (flag) {
+					res += markdownString.slice(start, i);
+					start = i;
+				} else {
+					res += katex.renderToString(markdownString.slice(start + 2, i));
+					start = i + 2;
+				}
+				flag = !flag;
+			}
+		}
 		return res + markdownString.slice(start);
 	} catch (e) {
-		return "<div style='color: red'>markdown 解析错误</div>\n" + e + "\n" + markdownString;
+		return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + markdownString;
 	}
 }
 
@@ -112,9 +137,9 @@ const formatCode = (codeString: string) => {
 		} catch (e) {
 			code = code.slice(code.indexOf('\n') + 1);
 		}
-		return setCodeLineWithStyle(code, language);
+		return setCodeLineWithLanguage(code, language);
 	} catch (e) {
-		return "<div style='color: red'>代码解析错误</div>\n" + e + "\n" + codeString;
+		return "<span style='color: red'>[代码解析错误]</span><br>" + e + "<br>" + codeString;
 	}
 }
 
@@ -139,14 +164,14 @@ const setCodeLine = (code: string, before: string = "", after: string = "") => {
 }
 
 // 带语言的代码块
-const setCodeLineWithStyle = (code: string, language: string) => {
+const setCodeLineWithLanguage = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
 			code = Prism.highlight(code, Prism.languages[language], language);
 			break;
 		}
 	}
-	return setCodeLine(code, '','<div class="code-language">' + language + "</div>");
+	return setCodeLine(code, '', '<div class="code-language">' + language + "</div>");
 }
 
 const foldCode = (e: MouseEvent) => {
@@ -218,17 +243,11 @@ setInterval(setButtonEvent, 1000);
 		overflow-wrap: anywhere;
 	}
 
-	> h1,
-	> h2 {
-		padding: 0.4em 0 0.5em;
+	h1, h2, h3, h4 {
+		padding: 0.2em 0;
 	}
 
-	> h3,
-	> h4 {
-		padding: 0.2em 0 0.3em;
-	}
-
-	> blockquote {
+	blockquote {
 		border-left: 0.4em solid var(--border-color);
 		background-color: var(--light-back-color);
 		padding: 0.5em;
