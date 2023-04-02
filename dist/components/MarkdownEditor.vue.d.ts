@@ -1,4 +1,4 @@
-import { PropType } from "vue";
+import { PropType, Ref } from "vue";
 import { InsertUnit } from "../declare/insertUnit";
 declare const _sfc_main: import("vue").DefineComponent<{
     modelValue: {
@@ -21,7 +21,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: boolean;
     };
     extraInsertUnits: {
-        type: PropType<InsertUnit[]>;
+        type: PropType<InsertUnit[][]>;
         required: false;
         default: never[];
     };
@@ -47,7 +47,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
             default: boolean;
         };
         extraInsertUnits: {
-            type: PropType<InsertUnit[]>;
+            type: PropType<InsertUnit[][]>;
             required: false;
             default: never[];
         };
@@ -55,11 +55,24 @@ declare const _sfc_main: import("vue").DefineComponent<{
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }>>;
     emit: (event: "update:modelValue", ...args: any[]) => void;
-    textarea: import("vue").Ref<any>;
-    previewCard: import("vue").Ref<any>;
-    floatPreviewCard: import("vue").Ref<any>;
-    insertUnits: InsertUnit[];
-    argsMap: Map<string, import("vue").Ref<any>>;
+    textarea: Ref<any>;
+    previewCard: Ref<any>;
+    floatPreviewCard: Ref<any>;
+    getExtraInsertUnits: () => InsertUnit[];
+    insertUnits: Ref<{
+        name: string;
+        key: string;
+        label: string;
+        insert: (args: Map<string, Ref<any>>) => import("../declare/insertUnit").InsertText;
+        arguments: {
+            name: string;
+            label: string;
+            getRef: () => Ref<any>;
+        }[];
+        replace?: boolean | undefined;
+        keepSelect?: boolean | undefined;
+    }[]>;
+    argsMap: Ref<Map<string, Ref<any>>>;
     changeInputArg: (name: string, e: InputEvent) => void;
     changeSelectArg: (name: string, e: Event) => void;
     EditTool: {
@@ -139,7 +152,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }) => void;
     batchEnter: () => void;
     batchKeydown: (e: KeyboardEvent, insertString: string) => void;
-    textareaCountLine: import("vue").Ref<any>;
+    textareaCountLine: Ref<any>;
     searchData: {
         index: number;
         indexes: number[];
@@ -180,7 +193,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: boolean;
     };
     extraInsertUnits: {
-        type: PropType<InsertUnit[]>;
+        type: PropType<InsertUnit[][]>;
         required: false;
         default: never[];
     };
@@ -190,6 +203,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     placeholder: string;
     startWithFullScreen: boolean;
     defaultInsertUnits: boolean;
-    extraInsertUnits: InsertUnit[];
+    extraInsertUnits: InsertUnit[][];
 }>;
 export default _sfc_main;

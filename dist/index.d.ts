@@ -98,7 +98,7 @@ declare const _default: {
             default: boolean;
         };
         extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
             required: false;
             default: never[];
         };
@@ -124,7 +124,7 @@ declare const _default: {
                 default: boolean;
             };
             extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
                 required: false;
                 default: never[];
             };
@@ -135,8 +135,21 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        insertUnits: import("./declare/insertUnit").InsertUnit[];
-        argsMap: Map<string, import("vue").Ref<any>>;
+        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
+        insertUnits: import("vue").Ref<{
+            name: string;
+            key: string;
+            label: string;
+            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
+            arguments: {
+                name: string;
+                label: string;
+                getRef: () => import("vue").Ref<any>;
+            }[];
+            replace?: boolean | undefined;
+            keepSelect?: boolean | undefined;
+        }[]>;
+        argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
         EditTool: {
@@ -257,7 +270,7 @@ declare const _default: {
             default: boolean;
         };
         extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
             required: false;
             default: never[];
         };
@@ -267,7 +280,7 @@ declare const _default: {
         placeholder: string;
         startWithFullScreen: boolean;
         defaultInsertUnits: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[];
+        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
     }>;
     MarkdownOutline: import("vue").DefineComponent<{
         markdownText: {

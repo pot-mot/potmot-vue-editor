@@ -59,9 +59,7 @@
 				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
 				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
 		</div>
-		<div
-			class="container"
-			:class="containerClass">
+		<div class="container" :class="containerClass">
 			<textarea
 				ref="textarea"
 				v-model="data.text"
@@ -100,10 +98,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
+import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
-import {defaultInsertUnits, insertIntoString, getArgsMap} from "../util/insertUnit";
+import {insertIntoString, getArgsMap} from "../util/insertUnit";
 import {InsertUnit} from "../declare/insertUnit";
+import {defaultInsertUnits} from "../util/defaultInsertUnits";
 
 // 外部传入参数
 const props = defineProps({
@@ -127,7 +126,7 @@ const props = defineProps({
 		default: true,
 	},
 	extraInsertUnits: {
-		type: Array as PropType<InsertUnit[]>,
+		type: Array as PropType<InsertUnit[][]>,
 		required: false,
 		default: []
 	}
@@ -139,14 +138,28 @@ const textarea = ref();
 const previewCard = ref();
 const floatPreviewCard = ref();
 
-const insertUnits: InsertUnit[] = props.defaultInsertUnits ? props.extraInsertUnits?.concat(defaultInsertUnits) : props.extraInsertUnits
+// 设置拓展插入
+const getExtraInsertUnits = (): InsertUnit[] => {
+	let result: InsertUnit[] = []
+	for (const item of props.extraInsertUnits) {
+		result = result.concat(item)
+	}
+	return result;
+}
 
-const argsMap = getArgsMap(insertUnits);
+const insertUnits = ref(<InsertUnit[]>[])
+const argsMap = ref(new Map<string, Ref>)
+
+watch(() => props.extraInsertUnits, () => {
+	insertUnits.value = getExtraInsertUnits().concat(props.defaultInsertUnits? defaultInsertUnits : <InsertUnit[]>[])
+	argsMap.value =  getArgsMap(insertUnits.value)
+}, {immediate: true})
+
 const changeInputArg = (name: string, e: InputEvent) => {
-	argsMap.get(name)!.value = (<HTMLInputElement>e.target).value;
+	argsMap.value.get(name)!.value = (<HTMLInputElement>e.target).value;
 }
 const changeSelectArg = (name: string, e: Event) => {
-	argsMap.get(name)!.value = (<HTMLSelectElement>e.target).value;
+	argsMap.value.get(name)!.value = (<HTMLSelectElement>e.target).value;
 }
 
 class EditTool {
@@ -235,11 +248,11 @@ const editToolList = reactive(<EditTool[]>[
 	new EditTool("preview", "预览", "icon-browse", (self: EditTool) => {
 		self.changeActive();
 	}),
-	new EditTool("redo", "重做", "icon-redo", () => {
-		redo();
-	}),
-	new EditTool("undo", "撤销", "icon-undo", () => {
+	new EditTool("undo", "撤销(Ctrl + z)", "icon-undo", () => {
 		pop();
+	}),
+	new EditTool("redo", "重做(Ctrl + Z)", "icon-redo", () => {
+		redo();
 	}),
 ])
 
@@ -302,7 +315,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	let selectEnd = textarea.value.selectionEnd;
 	let text = data.text;
 	let end: number;
-	const {before, after} = insertUnit.insert(argsMap);
+	const {before, after} = insertUnit.insert(argsMap.value);
 	if (insertUnit.replace) {
 		text = insertIntoString(before, text, start, selectEnd);
 		end = start + before.length;
@@ -315,7 +328,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	}
 	data.text = text;
 	nextTick(() => {
-		if (insertUnit.keepSelect) {
+		if (insertUnit.keepSelect && start != selectEnd) {
 			textarea.value.selectionStart = start;
 			textarea.value.selectionEnd = end + after.length;
 		} else {
@@ -474,11 +487,11 @@ const onKeyDown = (e: KeyboardEvent) => {
 				isReplace.value = false;
 			}
 		} else {
-			for (let i = 0; i < insertUnits.length; i++) {
-				if (insertUnits[i].key == e.key) {
+			for (let i = 0; i < insertUnits.value.length; i++) {
+				if (insertUnits.value[i].key == e.key) {
 					e.preventDefault();
 					data.pushFlag = "symbol";
-					insertIntoTextarea(insertUnits[i]);
+					insertIntoTextarea(insertUnits.value[i]);
 					break;
 				}
 			}

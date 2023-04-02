@@ -17,5 +17,4 @@ export declare const limit: (input: number, min: number, max: number) => number;
  * @param end 替换终点，默认等于起点（即不进行替换）
  */
 export declare const insertIntoString: (inserter: string, target: string, start: number, end?: number) => string;
-export declare const defaultInsertUnits: InsertUnit[];
 export declare const getArgsMap: (insertTextList: InsertUnit[]) => Map<string, Ref>;

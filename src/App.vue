@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
-		<MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
+		<MarkdownEditor v-model="text" :extra-insert-units="[insertUnits]"></MarkdownEditor>
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>

@@ -1,19 +1,19 @@
-# potmot-editor
+# potmot-vue-editor
 
-一个基于 vue3、ts、marked、prismjs 的简单 markdown 编辑器
+一个基于 vue3、typescript、marked、prismjs 的简单 markdown 编辑器，开箱即用
 
 ## 介绍
 
-> 当前版本 v0.5 2023/3/28
+> 当前版本 v0.5 2023/4/2
 
-目前本 Editor 项目包含 MarkdownEditor, MarkdownCard, MarkdownOutline 三个组件，其中 Editor 依赖于 Card
+目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview
 
 ### 使用
 
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.9
+npm install potmot-vue-editor@0.5.10
 ```
 
 main.js 中引用
@@ -39,7 +39,7 @@ app.use(editor)
 | placeholder | String | 无字符时展示 | 否，默认值 "" |
 | startWithFullScreen | Boolean | 是否默认全屏 | 否，默认值 false |
 | defaultInsertUnits | Boolean | 是否使用默认插入 | 否，默认值 true |
-| extraInsertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [] |
+| extraInsertUnits | InsertUnit[][] | 拓展插入单元，具体见下 | 否，默认值 [] |
 
 **InsertUnit 插入单元**
 
@@ -47,9 +47,11 @@ app.use(editor)
 
 在 MarkdownEditor 中配置 extra-insert-units props 即可配置插入功能
 
+因为支持批量导入插入单元组，所以该变量为一个二维数组，导入时请注意
+
 ```html
 
-<MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
+<MarkdownEditor v-model="text" :extra-insert-units="[insertUnits]"></MarkdownEditor>
 ```
 
 具体 insertUnit 如下书写
@@ -106,7 +108,7 @@ const insertUnits = <InsertUnit[]>[
 ]
 ```
 
-### 2. MarkdownPreview 展示卡片
+### 2. MarkdownPreview 预览
 
 提供了基于 marked 的 markdown 与 html展示
 

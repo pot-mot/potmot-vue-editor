@@ -24,7 +24,7 @@ declare class InsertUnit {
     key: string;
     label: string;
     insert: (args: Map<string, Ref>) => InsertText;
-    arguments: InsertArgument<any>[];
-    replace: boolean;
-    keepSelect: boolean;
+    arguments: InsertArgument<any>[] = [];
+    replace?: boolean;
+    keepSelect?: boolean;
 }
