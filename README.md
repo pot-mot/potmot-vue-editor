@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.12
+npm install potmot-vue-editor@0.5.13
 ```
 
 main.js 中引用
@@ -56,9 +56,12 @@ app.use(editor)
 
 ```typescript
 import {ref} from "vue";
-import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "potmot-vue-editor/dist/declare/insertUnit";
+import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
 
-const text = ref("")
+const text = ref("");
+
+const selectArg = ref("")
+const inputArg = ref("")
 
 const insertUnits = <InsertUnit[]>[
     {
@@ -85,7 +88,7 @@ const insertUnits = <InsertUnit[]>[
                 label: "input-arg",
                 // 返回响应式参数
                 getRef: () => {
-                    return ref("");
+                    return inputArg;
                 },
                 type: "string",
             },
@@ -93,7 +96,7 @@ const insertUnits = <InsertUnit[]>[
                 name: "foo in select",
                 label: "select-arg",
                 getRef: () => {
-                    return ref("option1");
+                    return selectArg;
                 },
                 options: ["option1", "option2"],
             }

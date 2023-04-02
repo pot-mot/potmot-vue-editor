@@ -147,7 +147,7 @@ const argsMap = ref(new Map<string, Ref>)
 
 watch(() => props.extraInsertUnits, () => {
 	insertUnits.value = getExtraInsertUnits();
-	argsMap.value =  getArgsMap(insertUnits.value)
+	argsMap.value = getArgsMap(insertUnits.value)
 }, {immediate: true})
 
 const changeInputArg = (name: string, e: InputEvent) => {
@@ -482,11 +482,22 @@ const onKeyDown = (e: KeyboardEvent) => {
 				isReplace.value = false;
 			}
 		} else {
-			for (let i = 0; i < insertUnits.value.length; i++) {
-				if (e.key && insertUnits.value[i].key == e.key) {
+			for (const insertUnit of insertUnits.value) {
+				if (!insertUnit.key) continue;
+
+				if (insertUnit.key instanceof Array) {
+					for (const item of insertUnit.key) {
+						if (item == e.key) {
+							e.preventDefault();
+							data.pushFlag = "symbol";
+							insertIntoTextarea(insertUnit);
+							break;
+						}
+					}
+				}else if (insertUnit.key == e.key) {
 					e.preventDefault();
 					data.pushFlag = "symbol";
-					insertIntoTextarea(insertUnits.value[i]);
+					insertIntoTextarea(insertUnit);
 					break;
 				}
 			}

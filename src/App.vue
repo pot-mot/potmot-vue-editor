@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
-		<MarkdownEditor v-model="text"></MarkdownEditor>
+		<MarkdownEditor v-model="text" :extra-insert-units="[insertUnits]"></MarkdownEditor>
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>
@@ -10,6 +10,9 @@ import {ref} from "vue";
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
 
 const text = ref("");
+
+const selectArg = ref("")
+const inputArg = ref("")
 
 const insertUnits = <InsertUnit[]>[
 	{
@@ -36,7 +39,7 @@ const insertUnits = <InsertUnit[]>[
 				label: "input-arg",
 				// 返回响应式参数
 				getRef: () => {
-					return ref("");
+					return inputArg;
 				},
 				type: "string",
 			},
@@ -44,7 +47,7 @@ const insertUnits = <InsertUnit[]>[
 				name: "foo in select",
 				label: "select-arg",
 				getRef: () => {
-					return ref("option1");
+					return selectArg;
 				},
 				options: ["option1", "option2"],
 			}

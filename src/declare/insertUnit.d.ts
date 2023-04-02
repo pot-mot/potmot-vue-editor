@@ -21,7 +21,7 @@ declare class OptionInsertArgument extends InsertArgument<string> {
 
 declare class InsertUnit {
     name: string;
-    key?: string;
+    key?: string | string[];
     label: string;
     insert: (args: Map<string, Ref>) => InsertText;
     arguments: InsertArgument<any>[];

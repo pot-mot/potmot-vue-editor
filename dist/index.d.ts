@@ -46,9 +46,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -130,7 +131,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -322,9 +323,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -406,7 +408,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -598,9 +600,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -682,7 +685,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -873,9 +876,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -957,7 +961,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -1149,9 +1153,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -1233,7 +1238,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -1424,9 +1429,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -1508,7 +1514,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -1699,9 +1705,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -1783,7 +1790,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -1976,9 +1983,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -2060,7 +2068,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -2252,9 +2260,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -2336,7 +2345,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -2528,9 +2537,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -2612,7 +2622,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -2804,9 +2814,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -2888,7 +2899,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -3079,9 +3090,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -3163,7 +3175,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -3354,9 +3366,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -3438,7 +3451,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -3630,9 +3643,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -3714,7 +3728,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -3906,9 +3920,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -3990,7 +4005,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -4181,9 +4196,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -4265,7 +4281,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -4457,9 +4473,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -4541,7 +4558,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -4733,9 +4750,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -4817,7 +4835,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -5009,9 +5027,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -5093,7 +5112,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -5285,9 +5304,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -5369,7 +5389,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -5560,9 +5580,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -5644,7 +5665,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -5835,9 +5856,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -5919,7 +5941,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -6111,9 +6133,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -6195,7 +6218,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -6386,9 +6409,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -6470,7 +6494,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -6662,9 +6686,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -6746,7 +6771,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -6937,9 +6962,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -7021,7 +7047,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -7213,9 +7239,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -7297,7 +7324,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -7488,9 +7515,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -7572,7 +7600,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -7764,9 +7792,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -7848,7 +7877,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -8039,9 +8068,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -8123,7 +8153,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -8315,9 +8345,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -8399,7 +8430,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -8590,9 +8621,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -8674,7 +8706,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -8865,9 +8897,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -8949,7 +8982,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -9141,9 +9174,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -9225,7 +9259,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -9416,9 +9450,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -9500,7 +9535,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -9691,9 +9726,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -9775,7 +9811,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -9967,9 +10003,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -10051,7 +10088,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -10242,9 +10279,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -10326,7 +10364,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -10517,9 +10555,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -10601,7 +10640,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -10792,9 +10831,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -10876,7 +10916,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -11067,9 +11107,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -11151,7 +11192,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -11343,9 +11384,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -11427,7 +11469,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -11618,9 +11660,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -11702,7 +11745,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -11893,9 +11936,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -11977,7 +12021,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -12168,9 +12212,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -12252,7 +12297,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -12443,9 +12488,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -12527,7 +12573,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -12718,9 +12764,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -12802,7 +12849,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -12994,9 +13041,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -13078,7 +13126,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -13269,9 +13317,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -13353,7 +13402,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -13545,9 +13594,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -13629,7 +13679,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -13820,9 +13870,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -13904,7 +13955,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -14095,9 +14146,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -14179,7 +14231,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -14370,9 +14422,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -14454,7 +14507,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -14645,9 +14698,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -14729,7 +14783,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -14921,9 +14975,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -15005,7 +15060,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -15196,9 +15251,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -15280,7 +15336,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -15471,9 +15527,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -15555,7 +15612,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -15746,9 +15803,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -15830,7 +15888,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -16021,9 +16079,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -16105,7 +16164,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -16296,9 +16355,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -16380,7 +16440,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -16572,9 +16632,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -16656,7 +16717,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -16847,9 +16908,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -16931,7 +16993,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -17123,9 +17185,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -17207,7 +17270,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -17398,9 +17461,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -17482,7 +17546,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -17673,9 +17737,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -17757,7 +17822,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -17949,9 +18014,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -18033,7 +18099,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -18224,9 +18290,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -18308,7 +18375,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -18499,9 +18566,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -18583,7 +18651,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -18775,9 +18843,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -18859,7 +18928,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -19050,9 +19119,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -19134,7 +19204,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -19326,9 +19396,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -19410,7 +19481,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -19601,9 +19672,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -19685,7 +19757,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -19877,9 +19949,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -19961,7 +20034,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -20153,9 +20226,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -20237,7 +20311,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -20430,9 +20504,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -20514,7 +20589,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -20706,9 +20781,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -20790,7 +20866,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -20982,9 +21058,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -21066,7 +21143,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -21257,9 +21334,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -21341,7 +21419,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -21534,9 +21612,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -21618,7 +21697,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {
@@ -21810,9 +21889,10 @@ declare const _default: {
         }>> & {}>>;
         markdownCard: import("vue").Ref<any>;
         copy: (text: string) => void;
-        format: (markdownString: string) => string;
-        formatMarkdown: (markdownString: string) => string;
-        formatMath: (markdownString: string) => string;
+        formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+        format: (input: string) => string;
+        formatMarkdown: (input: string) => string;
+        formatMath: (input: string) => string;
         formatCode: (codeString: string) => string;
         setCodeLine: (code: string, before?: string, after?: string) => string;
         setCodeLineWithLanguage: (code: string, language: string) => string;
@@ -21894,7 +21974,7 @@ declare const _default: {
         getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
         insertUnits: import("vue").Ref<{
             name: string;
-            key?: string | undefined;
+            key?: string | string[] | undefined;
             label: string;
             insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
             arguments: {

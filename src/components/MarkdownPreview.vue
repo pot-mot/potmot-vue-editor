@@ -52,77 +52,84 @@ const copy = (text: string) => {
 	document.execCommand('copy');
 }
 
-const format = (markdownString: string) => {
+/**
+ * 格式化一个字符串在特定字符串包围中的部分
+ *
+ * @param input 入参
+ * @param side 包围的边缘
+ * @param insideProcess 对包围内字符串部分的处理函数
+ * @param outsideProcess 对包围外字符串部分的处理函数
+ */
+const formatSurround = (
+	input: string,
+	side: string | string[],
+	insideProcess: (input: string) => string,
+	outsideProcess: (input: string) => string = (input: string) => {return input}
+) => {
 	let res: string = "";
-	let flag = true;
-	let start = 0;
+	let flag = false;
+	let index = 0;
 
-	for (let i = 0; i < markdownString.length - 2; i++) {
-		if (markdownString.slice(i, i + 3) == '```') {
-			if (flag) {
-				res += formatMarkdown(markdownString.slice(start, i));
-				start = i;
-			} else {
-				res += formatCode(markdownString.slice(start + 3, i));
-				start = i + 3;
+	if (side instanceof Array) {
+		for (let i = 0; i < input.length; i++) {
+			for (const item of side) {
+				const sideLength = item.length;
+				if (input.slice(i, i + sideLength) == item) {
+					if (flag) {
+						res += insideProcess(input.slice(index + sideLength, i));
+						index = i + sideLength;
+					} else {
+						res += outsideProcess(input.slice(index, i));
+						index = i;
+					}
+
+					flag = !flag;
+					break;
+				}
 			}
-			flag = !flag;
 		}
-	}
+		return res + outsideProcess(input.slice(index));
+	} else {
+		let sideLength = side.length;
 
-	return res + formatMarkdown(markdownString.slice(start));
+		for (let i = 0; i < input.length - (sideLength - 1); i++) {
+			if (input.slice(i, i + sideLength) == side) {
+				if (flag) {
+					res += insideProcess(input.slice(index + sideLength, i));
+					index = i + sideLength;
+				} else {
+					res += outsideProcess(input.slice(index, i));
+					index = i;
+				}
+				flag = !flag;
+			}
+		}
+
+		return res + outsideProcess(input.slice(index));
+	}
 }
 
-const formatMarkdown = (markdownString: string) => {
+const format = (input: string) => {
+	return formatSurround(input, ["```", "~~~"], formatCode, formatMarkdown);
+}
+
+const formatMarkdown = (input: string) => {
 	try {
-		markdownString = marked.parse(markdownString)
+		const markdownString = marked.parse(input)
 			.replaceAll('<a ', '<a target="_blank" ')
-			.replaceAll('>\n', '>')
-			.replaceAll('<pre><code>', '```')
-			.replaceAll('</code></pre>', '```');
+			.replaceAll('>\n', '>');
 
-		let res: string = "";
-		let flag = true;
-		let start = 0;
-
-		for (let i = 0; i < markdownString.length - 2; i++) {
-			if (markdownString.slice(i, i + 3) == '```') {
-				if (flag) {
-					res += formatMath(markdownString.slice(start, i));
-					start = i;
-				} else {
-					res += setCodeLine(markdownString.slice(start + 3, i));
-					start = i + 3;
-				}
-				flag = !flag;
-			}
-		}
-		return res + formatMath(markdownString.slice(start));
+		return formatSurround(markdownString, ['<pre><code>', '</code></pre>'], setCodeLine, formatMath);
 	} catch (e) {
-		return "<span style='color: red'>[解析错误]</span><br>" + e + "<br>" + markdownString;
+		return "<span style='color: red'>[markdown 解析错误]</span><br>" + e + "<br>" + input;
 	}
 }
 
-const formatMath = (markdownString: string) => {
+const formatMath = (input: string) => {
 	try {
-		let res: string = "";
-		let flag = true;
-		let start = 0;
-		for (let i = 0; i < markdownString.length - 1; i++) {
-			if (markdownString.slice(i, i + 2) == '$$') {
-				if (flag) {
-					res += markdownString.slice(start, i);
-					start = i;
-				} else {
-					res += katex.renderToString(markdownString.slice(start + 2, i));
-					start = i + 2;
-				}
-				flag = !flag;
-			}
-		}
-		return res + markdownString.slice(start);
+		return formatSurround(input, "$$", katex.renderToString)
 	} catch (e) {
-		return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + markdownString;
+		return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + input;
 	}
 }
 

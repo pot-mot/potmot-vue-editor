@@ -51,7 +51,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     getExtraInsertUnits: () => InsertUnit[];
     insertUnits: Ref<{
         name: string;
-        key?: string | undefined;
+        key?: string | string[] | undefined;
         label: string;
         insert: (args: Map<string, Ref<any>>) => import("../declare/insertUnit").InsertText;
         arguments: {

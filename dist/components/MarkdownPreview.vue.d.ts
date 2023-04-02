@@ -42,9 +42,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }>> & {}>>;
     markdownCard: import("vue").Ref<any>;
     copy: (text: string) => void;
-    format: (markdownString: string) => string;
-    formatMarkdown: (markdownString: string) => string;
-    formatMath: (markdownString: string) => string;
+    formatSurround: (input: string, side: string | string[], insideProcess: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+    format: (input: string) => string;
+    formatMarkdown: (input: string) => string;
+    formatMath: (input: string) => string;
     formatCode: (codeString: string) => string;
     setCodeLine: (code: string, before?: string, after?: string) => string;
     setCodeLineWithLanguage: (code: string, language: string) => string;
