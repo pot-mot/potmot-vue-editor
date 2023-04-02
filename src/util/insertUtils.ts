@@ -1,7 +1,5 @@
-import {ref, Ref} from "vue";
-import {languageList} from "../constant/LanguageList";
-import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/insertUnit";
-
+import {Ref} from "vue";
+import type {InsertUnit} from "../declare/insertUnit";
 
 /**
  * 约束数值大小

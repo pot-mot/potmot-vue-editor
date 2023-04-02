@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.10
+npm install potmot-vue-editor@0.5.11
 ```
 
 main.js 中引用
@@ -38,8 +38,7 @@ app.use(editor)
 | v-model | Ref<String> | 绑定输入字符串 | 是 |
 | placeholder | String | 无字符时展示 | 否，默认值 "" |
 | startWithFullScreen | Boolean | 是否默认全屏 | 否，默认值 false |
-| defaultInsertUnits | Boolean | 是否使用默认插入 | 否，默认值 true |
-| extraInsertUnits | InsertUnit[][] | 拓展插入单元，具体见下 | 否，默认值 [] |
+| extraInsertUnits | InsertUnit[][] | 拓展插入单元，具体见下 | 否，默认值 [markdownInsertUnits, simpleInsertUnits] |
 
 **InsertUnit 插入单元**
 
@@ -50,11 +49,10 @@ app.use(editor)
 因为支持批量导入插入单元组，所以该变量为一个二维数组，导入时请注意
 
 ```html
-
 <MarkdownEditor v-model="text" :extra-insert-units="[insertUnits]"></MarkdownEditor>
 ```
 
-具体 insertUnit 如下书写
+具体 insertUnit 如下书写，可在按下 Ctrl + k 后插入一段测试用文本 `"create by args: \ninputArg: \nselectArg: "`
 
 ```typescript
 import {ref} from "vue";
@@ -107,6 +105,7 @@ const insertUnits = <InsertUnit[]>[
     },
 ]
 ```
+
 
 ### 2. MarkdownPreview 预览
 

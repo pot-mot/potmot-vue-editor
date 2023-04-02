@@ -100,9 +100,9 @@ export default {
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
-import {insertIntoString, getArgsMap} from "../util/insertUnit";
+import {insertIntoString, getArgsMap} from "../util/insertUtils";
 import {InsertUnit} from "../declare/insertUnit";
-import {defaultInsertUnits} from "../util/defaultInsertUnits";
+import {markdownInsertUnits, simpleInsertUnits} from "../util/InsertUnits";
 
 // 外部传入参数
 const props = defineProps({
@@ -120,15 +120,10 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
-	defaultInsertUnits: {
-		type: Boolean,
-		required: false,
-		default: true,
-	},
 	extraInsertUnits: {
 		type: Array as PropType<InsertUnit[][]>,
 		required: false,
-		default: []
+		default: [markdownInsertUnits, simpleInsertUnits]
 	}
 })
 
@@ -151,7 +146,7 @@ const insertUnits = ref(<InsertUnit[]>[])
 const argsMap = ref(new Map<string, Ref>)
 
 watch(() => props.extraInsertUnits, () => {
-	insertUnits.value = getExtraInsertUnits().concat(props.defaultInsertUnits? defaultInsertUnits : <InsertUnit[]>[])
+	insertUnits.value = getExtraInsertUnits();
 	argsMap.value =  getArgsMap(insertUnits.value)
 }, {immediate: true})
 

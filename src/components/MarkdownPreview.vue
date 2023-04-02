@@ -236,17 +236,17 @@ setInterval(setButtonEvent, 1000);
 		color: #333;
 	}
 
-	> pre {
+	pre {
 		padding: 0.5em 0;
 	}
 
-	> pre.fold {
+	pre.fold {
 		max-height: 15em;
 		overflow-y: hidden;
 		overflow-x: hidden;
 	}
 
-	> pre.show {
+	pre.show {
 		overflow-y: visible;
 		overflow-x: scroll;
 	}
@@ -282,11 +282,11 @@ setInterval(setButtonEvent, 1000);
 			border-bottom: 1px solid var(--border-color);
 		}
 
-		tr:nth-child(2n-1) {
+		> tr:nth-child(2n-1) {
 			background-color: var(--light-back-color);
 		}
 
-		tr:nth-child(2n) {
+		> tr:nth-child(2n) {
 			background-color: var(--deep-back-color);
 		}
 	}

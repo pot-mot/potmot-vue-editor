@@ -15,15 +15,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
-    defaultInsertUnits: {
-        type: BooleanConstructor;
-        required: false;
-        default: boolean;
-    };
     extraInsertUnits: {
         type: PropType<InsertUnit[][]>;
         required: false;
-        default: never[];
+        default: InsertUnit[][];
     };
 }, {
     props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -41,15 +36,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
             required: false;
             default: boolean;
         };
-        defaultInsertUnits: {
-            type: BooleanConstructor;
-            required: false;
-            default: boolean;
-        };
         extraInsertUnits: {
             type: PropType<InsertUnit[][]>;
             required: false;
-            default: never[];
+            default: InsertUnit[][];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -187,22 +177,16 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
-    defaultInsertUnits: {
-        type: BooleanConstructor;
-        required: false;
-        default: boolean;
-    };
     extraInsertUnits: {
         type: PropType<InsertUnit[][]>;
         required: false;
-        default: never[];
+        default: InsertUnit[][];
     };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     placeholder: string;
     startWithFullScreen: boolean;
-    defaultInsertUnits: boolean;
     extraInsertUnits: InsertUnit[][];
 }>;
 export default _sfc_main;

@@ -1,10 +1,9 @@
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/insertUnit";
 import {ref} from "vue";
 import {languageList} from "../constant/LanguageList";
-import {limit} from "./insertUnit";
+import {limit} from "./insertUtils";
 
-
-export const defaultInsertUnits: InsertUnit[] = [
+export const markdownInsertUnits: InsertUnit[] = [
     {
         name: "title",
         key: '#',
@@ -24,30 +23,11 @@ export const defaultInsertUnits: InsertUnit[] = [
                 label: "级别",
                 type: "number",
                 getRef: () => {
-                    return ref(3)
+                    return ref(1)
                 }
             }
         ],
         replace: true
-    },
-    {
-        name: "code",
-        key: '`',
-        label: "代码块",
-        insert: (args) => {
-            let codeLanguage = args.get("codeLanguage")?.value
-            return {before: "```" + codeLanguage + "\n", after: "\n```"};
-        },
-        arguments: [
-            <OptionInsertArgument>{
-                name: "codeLanguage",
-                label: "语言",
-                options: languageList,
-                getRef: () => {
-                    return ref("")
-                }
-            }
-        ]
     },
     {
         name: "form",
@@ -98,24 +78,23 @@ export const defaultInsertUnits: InsertUnit[] = [
         ]
     },
     {
-        name: "list",
+        name: "orderedList",
         key: "%",
-        label: "列表",
+        label: "有序列表",
         insert: (args) => {
-            let listLength = args.get("listLength")?.value
-            let listStart = args.get("listStart")?.value
-
+            let listLength = args.get("orderedListLength")?.value
+            let listStart = args.get("orderedListStart")?.value
             listLength = limit(listLength, 1, 99);
             listStart = limit(listStart, 0, 10000);
             let returnText = "\n";
             for (let i = 0; i < listLength - 1; i++) {
                 returnText += (i + listStart + 1) + ". \n";
             }
-            return {before: listStart + ". 文本", after: returnText}
+            return {before: listStart + ". ", after: " " + returnText}
         },
         arguments: [
             <InputInsertArgument<number>>{
-                name: "listLength",
+                name: "orderedListLength",
                 label: "项数",
                 type: "number",
                 getRef: () => {
@@ -123,7 +102,7 @@ export const defaultInsertUnits: InsertUnit[] = [
                 }
             },
             <InputInsertArgument<number>>{
-                name: "listStart",
+                name: "orderedListStart",
                 label: "首项",
                 type: "number",
                 getRef: () => {
@@ -132,6 +111,64 @@ export const defaultInsertUnits: InsertUnit[] = [
             },
         ]
     },
+    {
+        name: "unorderedList",
+        key: "-",
+        label: "无序列表",
+        insert: (args) => {
+            let listLength = args.get("unorderedListLength")?.value
+            listLength = limit(listLength, 1, 99);
+            let returnText = "";
+            for (let i = 0; i < listLength - 1; i++) {
+                returnText += "\n- ";
+            }
+            return {before: "- ", after: " " + returnText + "\n"}
+        },
+        arguments: [
+            <InputInsertArgument<number>>{
+                name: "unorderedListLength",
+                label: "项数",
+                type: "number",
+                getRef: () => {
+                    return ref(3)
+                }
+            }
+        ]
+    },
+    {
+        name: "link",
+        key: "@",
+        label: "链接",
+        insert: (args) => {
+            const label = args.get("linkLabel")?.value
+            const url = args.get("linkUrl")?.value
+            if (label.length > 0 && url.length > 0) return {before: "[" + label + "](" + url + ")", after: ""}
+            else if (label.length > 0) return {before: "[" + label + "](", after: ")"}
+            else if (url.length > 0) return {before: "[", after: "](" + url + ")"}
+            else return {before: "[", after: "]()"}
+        },
+        arguments: [
+            <InputInsertArgument<string>>{
+                name: "linkLabel",
+                label: "标题",
+                type: "string",
+                getRef: () => {
+                    return ref("")
+                }
+            },
+            <InputInsertArgument<string>>{
+                name: "linkUrl",
+                label: "URL",
+                type: "string",
+                getRef: () => {
+                    return ref("")
+                }
+            }
+        ]
+    }
+]
+
+export const simpleInsertUnits: InsertUnit[] = [
     {
         name: "break",
         key: "Enter",
@@ -142,44 +179,12 @@ export const defaultInsertUnits: InsertUnit[] = [
         arguments: []
     },
     {
-        name: "link",
-        key: "@",
-        label: "链接",
-        insert: (args) => {
-            const label = args.get("link-label")?.value
-            const address = args.get("link-address")?.value
-            if (label.length > 0 && address.length > 0) return {before: "[" + label + "](" + address + ")", after: ""}
-            else if (label.length > 0) return {before: "[" + label + "](", after: ")"}
-            else if (address.length > 0) return {before: "[", after: "](" + address + ")"}
-            else return {before: "[", after: "]()"}
-        },
-        arguments: [
-            <InputInsertArgument<string>>{
-                name: "link-label",
-                label: "标题",
-                type: "string",
-                getRef: () => {
-                    return ref("")
-                }
-            },
-            <InputInsertArgument<string>>{
-                name: "link-address",
-                label: "地址",
-                type: "string",
-                getRef: () => {
-                    return ref("")
-                }
-            }
-        ]
-    },
-    {
         name: "details",
         key: ">",
         label: "折叠块",
         insert: (args) => {
             const summary = args.get("summary")?.value
-            if (summary.length > 0) return {before: "<details>\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
-            else return {before: "<details>\n<summary>", after: "</summary>\n" + "\n</details>"}
+            return {before: "<details>\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
         },
         arguments: [
             <InputInsertArgument<string>>{
@@ -207,7 +212,26 @@ export const defaultInsertUnits: InsertUnit[] = [
                 label: "颜色",
                 type: "string",
                 getRef: () => {
-                    return ref("color")
+                    return ref("red")
+                }
+            }
+        ]
+    },
+    {
+        name: "code",
+        key: '`',
+        label: "代码块",
+        insert: (args) => {
+            let codeLanguage = args.get("codeLanguage")?.value
+            return {before: "```" + codeLanguage + "\n", after: "\n```"};
+        },
+        arguments: [
+            <OptionInsertArgument>{
+                name: "codeLanguage",
+                label: "语言",
+                options: languageList,
+                getRef: () => {
+                    return ref("")
                 }
             }
         ]

@@ -1,14 +1,13 @@
 <template>
 	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
-		<MarkdownEditor v-model="text" :extra-insert-units="[insertUnits]"></MarkdownEditor>
+		<MarkdownEditor v-model="text"></MarkdownEditor>
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import {Ref, ref} from "vue";
+import {ref} from "vue";
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
-import MarkdownOutline from "./components/MarkdownOutline.vue";
 
 const text = ref("");
 
