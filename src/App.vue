@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
-		<MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
+		<MarkdownEditor v-model="text" :insert-units="insertUnits"></MarkdownEditor>
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>
@@ -10,8 +10,8 @@ import {ref} from "vue";
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
 
 const text = ref("");
-const text2 = ref("");
 
+// 定义 ref 变量
 const selectArg = ref("")
 const inputArg = ref("")
 
@@ -31,7 +31,7 @@ const insertUnits = <InsertUnit[]>[
 			return {before: "create by args: ", after: "\ninputArg: " + inputArg + "\nselectArg: " + selectArg}
 		},
 		// 插入参数，name label getRef 为必须部分，type 参数对应 <input> ，options 参数对应 <select>
-		// 注意，insertArguments 需要为响应式数据
+		// 注意，arguments 需要为响应式数据
 		arguments: [
 			<InputInsertArgument<string>>{
 				// 名称，建议全英文
@@ -43,6 +43,10 @@ const insertUnits = <InsertUnit[]>[
 					return inputArg;
 				},
 				type: "string",
+				// 对 input 输入参数长度进行限制
+				inputLength: 10,
+				// input 框宽度
+				styleWidth: "3em"
 			},
 			<OptionInsertArgument>{
 				name: "foo in select",

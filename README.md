@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.13
+npm install potmot-vue-editor@0.5.14
 ```
 
 main.js 中引用
@@ -31,33 +31,35 @@ app.use(editor)
 
 提供了查找、替换、预览和自定义快速插入功能，为防止键位冲突，目前所有快捷插入均由Ctrl + 特定key触发
 
+#### 风险提示
+- 快速插入可能覆盖浏览器原有快捷键
+- 在全屏模式 Editor 会为根dom添加禁止滚动的样式
+
 **props 参数说明**
 
 |参数| 类型 | 说明 | 必须 |
 | -- | -- | -- | -- |
 | v-model | Ref<String> | 绑定输入字符串 | 是 |
 | placeholder | String | 无字符时展示 | 否，默认值 "" |
-| startWithFullScreen | Boolean | 是否默认全屏 | 否，默认值 false |
-| extraInsertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits] |
+| startWithFullScreen | Boolean | 是否以全屏启动 | 否，默认值 false |
+| insertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits] |
 
-**InsertUnit 插入单元**
+#### InsertUnit 插入单元
 
 插入单元是快捷插入工具，通过 Ctrl + 指定的key 触发，根据 insertArgument 生成一段特定的插入字符串。
 
 在 MarkdownEditor 中配置 extra-insert-units props 即可配置插入功能
 
 ```html
-<MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
+<MarkdownEditor v-model="text" :insert-units="insertUnits"></MarkdownEditor>
 ```
 
 具体 insertUnit 如下书写，可在按下 Ctrl + k 后插入一段测试用文本 `"create by args: \ninputArg: \nselectArg: "`
 
 ```typescript
-import {ref} from "vue";
-import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
-
 const text = ref("");
 
+// 定义 ref 变量
 const selectArg = ref("")
 const inputArg = ref("")
 
@@ -65,7 +67,8 @@ const insertUnits = <InsertUnit[]>[
     {
         // 唯一名称，建议全英文
         name: "foo",
-        //快捷键，通过 Ctrl + key 触发，具体参照 keyCode
+        // 快捷键，通过 Ctrl + key 触发，目前 key 可为数组，但并不是多键共同触发，而是平行可选
+        // 值具体参照 keyCode
         key: "f",
         // 在插入工具栏的展示标签
         label: "测试参数",
@@ -77,7 +80,7 @@ const insertUnits = <InsertUnit[]>[
             return {before: "create by args: ", after: "\ninputArg: " + inputArg + "\nselectArg: " + selectArg}
         },
         // 插入参数，name label getRef 为必须部分，type 参数对应 <input> ，options 参数对应 <select>
-        // 注意，insertArguments 需要为响应式数据
+        // 注意，arguments 需要为响应式数据
         arguments: [
             <InputInsertArgument<string>>{
                 // 名称，建议全英文
@@ -89,6 +92,10 @@ const insertUnits = <InsertUnit[]>[
                     return inputArg;
                 },
                 type: "string",
+                // 对 input 输入参数长度进行限制
+                inputLength: 10,
+                // input 框宽度
+                styleWidth: "3em"
             },
             <OptionInsertArgument>{
                 name: "foo in select",
@@ -103,7 +110,7 @@ const insertUnits = <InsertUnit[]>[
         replace: true,
         // 插入后是否对插入区域保持选中
         keepSelect: false,
-    },
+    }
 ]
 ```
 
