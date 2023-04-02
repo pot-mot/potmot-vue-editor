@@ -18,6 +18,13 @@ import {onMounted, ref} from "vue";
 import {marked} from "marked";
 import {languageList} from "../constant/LanguageList";
 
+/**
+ * 外部传入参数
+ *
+ * codeTheme 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计
+ * codeFold 是否开启代码块折叠
+ * codeFoldThreshold 代码块折叠阈值，行数到达后开启折叠
+ */
 const props = defineProps({
 	markdownText: {
 		type: String,

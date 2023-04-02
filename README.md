@@ -40,9 +40,9 @@ app.use(editor)
 |参数| 类型 | 说明 | 必须 |
 | -- | -- | -- | -- |
 | v-model | Ref<String> | 绑定输入字符串 | 是 |
-| placeholder | String | 无字符时展示 | 否，默认值 "" |
+| placeholder | String | 占位字符串 | 否，默认值 "" |
 | startWithFullScreen | Boolean | 是否以全屏启动 | 否，默认值 false |
-| insertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits] |
+| insertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits] |
 
 #### InsertUnit 插入单元
 
@@ -57,7 +57,7 @@ app.use(editor)
 具体 insertUnit 如下书写，可在按下 Ctrl + k 后插入一段测试用文本 `"create by args: \ninputArg: \nselectArg: "`
 
 ```typescript
-const text = ref("");
+import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "potmot-vue-editor/dist/declare/insertUnit";
 
 // 定义 ref 变量
 const selectArg = ref("")
@@ -131,7 +131,7 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 | 参数 | 类型 | 说明 | 必须 |
 |--------------|--|-------------------------|---------------------|
 | markdownText | String | 传入的markdown文本，将被解析成html | 是 |
-| codeTheme | String | 代码css样式主题，可自行追加css | 否，默认值 "potmot-dark" |
+| codeTheme | String | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计  | 否，默认值 "potmot-dark" |
 | codeFold | Boolean | 是否开启代码块折叠 | 否，默认值 false |
 | codeFoldThreshold | Number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
 

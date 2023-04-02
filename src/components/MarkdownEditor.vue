@@ -105,7 +105,13 @@ import {insertIntoString, getArgsMap} from "../util/insertUtils";
 import {InsertUnit} from "../declare/insertUnit";
 import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/InsertUnits";
 
-// 外部传入参数
+/**
+ * 外部传入参数
+ *
+ * placeholder 占位字符串
+ * startWithFullScreen 是否以全屏启动
+ * insertUnits 拓展插入单元
+ */
 const props = defineProps({
 	modelValue: {
 		type: String,
