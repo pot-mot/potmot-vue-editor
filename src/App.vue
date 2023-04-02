@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
-		<MarkdownEditor v-model="text" :extra-insert-units="[insertUnits]"></MarkdownEditor>
+		<MarkdownEditor v-model="text" :extra-insert-units="insertUnits"></MarkdownEditor>
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>
@@ -10,6 +10,7 @@ import {ref} from "vue";
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
 
 const text = ref("");
+const text2 = ref("");
 
 const selectArg = ref("")
 const inputArg = ref("")

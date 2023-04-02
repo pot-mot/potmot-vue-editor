@@ -12,7 +12,7 @@
 		</ul>
 		<div v-show="getEditToolActive('insert')" class="floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
-			<template v-for="item in insertUnits">
+			<template v-for="item in props.insertUnits">
 				<span class="insert-text">
 				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
 					  :title='item.key ? "快捷键[Ctrl + " + item.key + "]" : "无快捷键"'>
@@ -24,7 +24,8 @@
 							@change="(e) => {changeSelectArg(arg.name, e)}">
 						<option v-for="item in arg.options">{{ item }}</option>
 					</select>
-					<input v-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
+					<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
+						   :maxlength="arg.inputLength? arg.inputLength : 100" :style="arg.styleWidth ? 'width: ' + arg.styleWidth : ''"
 						   @input="(e) => {changeInputArg(arg.name, e)}">
 				</template>
 				</span>
@@ -102,7 +103,7 @@ import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/insertUtils";
 import {InsertUnit} from "../declare/insertUnit";
-import {markdownInsertUnits, simpleInsertUnits} from "../util/InsertUnits";
+import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/InsertUnits";
 
 // 外部传入参数
 const props = defineProps({
@@ -120,10 +121,10 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
-	extraInsertUnits: {
-		type: Array as PropType<InsertUnit[][]>,
+	insertUnits: {
+		type: Array as PropType<InsertUnit[]>,
 		required: false,
-		default: [markdownInsertUnits, simpleInsertUnits]
+		default: [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits]
 	}
 })
 
@@ -133,22 +134,9 @@ const textarea = ref();
 const previewCard = ref();
 const floatPreviewCard = ref();
 
-// 设置拓展插入
-const getExtraInsertUnits = (): InsertUnit[] => {
-	let result: InsertUnit[] = []
-	for (const item of props.extraInsertUnits) {
-		result = result.concat(item)
-	}
-	return result;
-}
-
-const insertUnits = ref(<InsertUnit[]>[])
 const argsMap = ref(new Map<string, Ref>)
 
-watch(() => props.extraInsertUnits, () => {
-	insertUnits.value = getExtraInsertUnits();
-	argsMap.value = getArgsMap(insertUnits.value)
-}, {immediate: true})
+argsMap.value = getArgsMap(props.insertUnits)
 
 const changeInputArg = (name: string, e: InputEvent) => {
 	argsMap.value.get(name)!.value = (<HTMLInputElement>e.target).value;
@@ -482,7 +470,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 				isReplace.value = false;
 			}
 		} else {
-			for (const insertUnit of insertUnits.value) {
+			for (const insertUnit of props.insertUnits) {
 				if (!insertUnit.key) continue;
 
 				if (insertUnit.key instanceof Array) {

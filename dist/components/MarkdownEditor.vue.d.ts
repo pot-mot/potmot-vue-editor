@@ -15,10 +15,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
-    extraInsertUnits: {
-        type: PropType<InsertUnit[][]>;
+    insertUnits: {
+        type: PropType<InsertUnit[]>;
         required: false;
-        default: InsertUnit[][];
+        default: InsertUnit[];
     };
 }, {
     props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -36,10 +36,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: PropType<InsertUnit[][]>;
+        insertUnits: {
+            type: PropType<InsertUnit[]>;
             required: false;
-            default: InsertUnit[][];
+            default: InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -48,20 +48,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     textarea: Ref<any>;
     previewCard: Ref<any>;
     floatPreviewCard: Ref<any>;
-    getExtraInsertUnits: () => InsertUnit[];
-    insertUnits: Ref<{
-        name: string;
-        key?: string | string[] | undefined;
-        label: string;
-        insert: (args: Map<string, Ref<any>>) => import("../declare/insertUnit").InsertText;
-        arguments: {
-            name: string;
-            label: string;
-            getRef: () => Ref<any>;
-        }[];
-        replace?: boolean | undefined;
-        keepSelect?: boolean | undefined;
-    }[]>;
     argsMap: Ref<Map<string, Ref<any>>>;
     changeInputArg: (name: string, e: InputEvent) => void;
     changeSelectArg: (name: string, e: Event) => void;
@@ -177,16 +163,16 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
-    extraInsertUnits: {
-        type: PropType<InsertUnit[][]>;
+    insertUnits: {
+        type: PropType<InsertUnit[]>;
         required: false;
-        default: InsertUnit[][];
+        default: InsertUnit[];
     };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     placeholder: string;
     startWithFullScreen: boolean;
-    extraInsertUnits: InsertUnit[][];
+    insertUnits: InsertUnit[];
 }>;
 export default _sfc_main;

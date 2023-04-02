@@ -95,10 +95,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -116,10 +116,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -128,20 +128,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -257,17 +243,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -372,10 +358,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -393,10 +379,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -405,20 +391,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -534,17 +506,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -649,10 +621,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -670,10 +642,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -682,20 +654,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -811,17 +769,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -925,10 +883,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -946,10 +904,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -958,20 +916,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -1087,17 +1031,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -1202,10 +1146,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -1223,10 +1167,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -1235,20 +1179,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -1364,17 +1294,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -1478,10 +1408,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -1499,10 +1429,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -1511,20 +1441,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -1640,17 +1556,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -1754,10 +1670,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -1775,10 +1691,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -1787,20 +1703,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -1916,17 +1818,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -2032,10 +1934,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -2053,10 +1955,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -2065,20 +1967,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -2194,17 +2082,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -2309,10 +2197,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -2330,10 +2218,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -2342,20 +2230,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -2471,17 +2345,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -2586,10 +2460,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -2607,10 +2481,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -2619,20 +2493,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -2748,17 +2608,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -2863,10 +2723,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -2884,10 +2744,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -2896,20 +2756,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -3025,17 +2871,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -3139,10 +2985,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -3160,10 +3006,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -3172,20 +3018,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -3301,17 +3133,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -3415,10 +3247,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -3436,10 +3268,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -3448,20 +3280,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -3577,17 +3395,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -3692,10 +3510,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -3713,10 +3531,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -3725,20 +3543,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -3854,17 +3658,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -3969,10 +3773,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -3990,10 +3794,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -4002,20 +3806,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -4131,17 +3921,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -4245,10 +4035,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -4266,10 +4056,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -4278,20 +4068,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -4407,17 +4183,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -4522,10 +4298,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -4543,10 +4319,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -4555,20 +4331,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -4684,17 +4446,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -4799,10 +4561,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -4820,10 +4582,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -4832,20 +4594,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -4961,17 +4709,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -5076,10 +4824,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -5097,10 +4845,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -5109,20 +4857,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -5238,17 +4972,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -5353,10 +5087,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -5374,10 +5108,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -5386,20 +5120,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -5515,17 +5235,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -5629,10 +5349,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -5650,10 +5370,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -5662,20 +5382,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -5791,17 +5497,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -5905,10 +5611,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -5926,10 +5632,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -5938,20 +5644,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -6067,17 +5759,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -6182,10 +5874,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -6203,10 +5895,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -6215,20 +5907,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -6344,17 +6022,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -6458,10 +6136,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -6479,10 +6157,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -6491,20 +6169,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -6620,17 +6284,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -6735,10 +6399,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -6756,10 +6420,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -6768,20 +6432,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -6897,17 +6547,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -7011,10 +6661,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -7032,10 +6682,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -7044,20 +6694,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -7173,17 +6809,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -7288,10 +6924,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -7309,10 +6945,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -7321,20 +6957,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -7450,17 +7072,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -7564,10 +7186,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -7585,10 +7207,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -7597,20 +7219,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -7726,17 +7334,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -7841,10 +7449,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -7862,10 +7470,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -7874,20 +7482,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -8003,17 +7597,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -8117,10 +7711,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -8138,10 +7732,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -8150,20 +7744,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -8279,17 +7859,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -8394,10 +7974,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -8415,10 +7995,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -8427,20 +8007,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -8556,17 +8122,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -8670,10 +8236,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -8691,10 +8257,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -8703,20 +8269,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -8832,17 +8384,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -8946,10 +8498,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -8967,10 +8519,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -8979,20 +8531,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -9108,17 +8646,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -9223,10 +8761,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -9244,10 +8782,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -9256,20 +8794,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -9385,17 +8909,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -9499,10 +9023,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -9520,10 +9044,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -9532,20 +9056,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -9661,17 +9171,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -9775,10 +9285,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -9796,10 +9306,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -9808,20 +9318,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -9937,17 +9433,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -10052,10 +9548,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -10073,10 +9569,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -10085,20 +9581,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -10214,17 +9696,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -10328,10 +9810,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -10349,10 +9831,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -10361,20 +9843,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -10490,17 +9958,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -10604,10 +10072,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -10625,10 +10093,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -10637,20 +10105,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -10766,17 +10220,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -10880,10 +10334,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -10901,10 +10355,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -10913,20 +10367,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -11042,17 +10482,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -11156,10 +10596,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -11177,10 +10617,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -11189,20 +10629,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -11318,17 +10744,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -11433,10 +10859,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -11454,10 +10880,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -11466,20 +10892,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -11595,17 +11007,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -11709,10 +11121,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -11730,10 +11142,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -11742,20 +11154,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -11871,17 +11269,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -11985,10 +11383,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -12006,10 +11404,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -12018,20 +11416,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -12147,17 +11531,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -12261,10 +11645,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -12282,10 +11666,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -12294,20 +11678,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -12423,17 +11793,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -12537,10 +11907,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -12558,10 +11928,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -12570,20 +11940,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -12699,17 +12055,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -12813,10 +12169,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -12834,10 +12190,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -12846,20 +12202,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -12975,17 +12317,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -13090,10 +12432,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -13111,10 +12453,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -13123,20 +12465,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -13252,17 +12580,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -13366,10 +12694,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -13387,10 +12715,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -13399,20 +12727,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -13528,17 +12842,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -13643,10 +12957,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -13664,10 +12978,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -13676,20 +12990,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -13805,17 +13105,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -13919,10 +13219,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -13940,10 +13240,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -13952,20 +13252,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -14081,17 +13367,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -14195,10 +13481,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -14216,10 +13502,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -14228,20 +13514,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -14357,17 +13629,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -14471,10 +13743,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -14492,10 +13764,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -14504,20 +13776,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -14633,17 +13891,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -14747,10 +14005,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -14768,10 +14026,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -14780,20 +14038,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -14909,17 +14153,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -15024,10 +14268,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -15045,10 +14289,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -15057,20 +14301,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -15186,17 +14416,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -15300,10 +14530,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -15321,10 +14551,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -15333,20 +14563,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -15462,17 +14678,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -15576,10 +14792,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -15597,10 +14813,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -15609,20 +14825,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -15738,17 +14940,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -15852,10 +15054,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -15873,10 +15075,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -15885,20 +15087,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -16014,17 +15202,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -16128,10 +15316,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -16149,10 +15337,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -16161,20 +15349,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -16290,17 +15464,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -16404,10 +15578,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -16425,10 +15599,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -16437,20 +15611,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -16566,17 +15726,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -16681,10 +15841,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -16702,10 +15862,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -16714,20 +15874,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -16843,17 +15989,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -16957,10 +16103,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -16978,10 +16124,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -16990,20 +16136,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -17119,17 +16251,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -17234,10 +16366,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -17255,10 +16387,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -17267,20 +16399,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -17396,17 +16514,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -17510,10 +16628,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -17531,10 +16649,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -17543,20 +16661,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -17672,17 +16776,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -17786,10 +16890,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -17807,10 +16911,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -17819,20 +16923,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -17948,17 +17038,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -18063,10 +17153,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -18084,10 +17174,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -18096,20 +17186,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -18225,17 +17301,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -18339,10 +17415,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -18360,10 +17436,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -18372,20 +17448,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -18501,17 +17563,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -18615,10 +17677,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -18636,10 +17698,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -18648,20 +17710,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -18777,17 +17825,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -18892,10 +17940,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -18913,10 +17961,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -18925,20 +17973,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -19054,17 +18088,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -19168,10 +18202,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -19189,10 +18223,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -19201,20 +18235,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -19330,17 +18350,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -19445,10 +18465,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -19466,10 +18486,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -19478,20 +18498,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -19607,17 +18613,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -19721,10 +18727,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -19742,10 +18748,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -19754,20 +18760,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -19883,17 +18875,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -19998,10 +18990,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -20019,10 +19011,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -20031,20 +19023,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -20160,17 +19138,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -20275,10 +19253,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -20296,10 +19274,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -20308,20 +19286,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -20437,17 +19401,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -20553,10 +19517,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -20574,10 +19538,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -20586,20 +19550,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -20715,17 +19665,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -20830,10 +19780,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -20851,10 +19801,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -20863,20 +19813,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -20992,17 +19928,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -21107,10 +20043,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -21128,10 +20064,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -21140,20 +20076,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -21269,17 +20191,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -21383,10 +20305,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -21404,10 +20326,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -21416,20 +20338,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -21545,17 +20453,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -21661,10 +20569,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -21682,10 +20590,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -21694,20 +20602,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -21823,17 +20717,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -21938,10 +20832,10 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
@@ -21959,10 +20853,10 @@ declare const _default: {
                 required: false;
                 default: boolean;
             };
-            extraInsertUnits: {
-                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+            insertUnits: {
+                type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
                 required: false;
-                default: import("./declare/insertUnit").InsertUnit[][];
+                default: import("./declare/insertUnit").InsertUnit[];
             };
         }>> & {
             "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -21971,20 +20865,6 @@ declare const _default: {
         textarea: import("vue").Ref<any>;
         previewCard: import("vue").Ref<any>;
         floatPreviewCard: import("vue").Ref<any>;
-        getExtraInsertUnits: () => import("./declare/insertUnit").InsertUnit[];
-        insertUnits: import("vue").Ref<{
-            name: string;
-            key?: string | string[] | undefined;
-            label: string;
-            insert: (args: Map<string, import("vue").Ref<any>>) => import("./declare/insertUnit").InsertText;
-            arguments: {
-                name: string;
-                label: string;
-                getRef: () => import("vue").Ref<any>;
-            }[];
-            replace?: boolean | undefined;
-            keepSelect?: boolean | undefined;
-        }[]>;
         argsMap: import("vue").Ref<Map<string, import("vue").Ref<any>>>;
         changeInputArg: (name: string, e: InputEvent) => void;
         changeSelectArg: (name: string, e: Event) => void;
@@ -22100,17 +20980,17 @@ declare const _default: {
             required: false;
             default: boolean;
         };
-        extraInsertUnits: {
-            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[][]>;
+        insertUnits: {
+            type: import("vue").PropType<import("./declare/insertUnit").InsertUnit[]>;
             required: false;
-            default: import("./declare/insertUnit").InsertUnit[][];
+            default: import("./declare/insertUnit").InsertUnit[];
         };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }, {
         placeholder: string;
         startWithFullScreen: boolean;
-        extraInsertUnits: import("./declare/insertUnit").InsertUnit[][];
+        insertUnits: import("./declare/insertUnit").InsertUnit[];
     }> | import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;

@@ -28,7 +28,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let level = 1;
                     return ref(level);
-                }
+                },
+                inputLength: 1,
             },
             <InputInsertArgument<number>>{
                 name: "titleMinimumThreshold",
@@ -37,7 +38,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let minimum = 4;
                     return ref(minimum)
-                }
+                },
+                inputLength: 1,
             }
         ],
         replace: true
@@ -55,7 +57,7 @@ export const markdownInsertUnits: InsertUnit[] = [
             let whiteSpace = "  ";
 
             tableHeight = limit(tableHeight, 1, 99);
-            tableWidth = limit(tableWidth, 1, 15);
+            tableWidth = limit(tableWidth, 1, 99);
 
             for (let i = 0; i < tableWidth; i++) {
                 formLineText += (whiteSpace + "|");
@@ -79,7 +81,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let tableHeight = 3;
                     return ref(tableHeight);
-                }
+                },
+                inputLength: 2,
             },
             <InputInsertArgument<number>>{
                 name: "tableWidth",
@@ -88,7 +91,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let tableWidth = 2;
                     return ref(tableWidth);
-                }
+                },
+                inputLength: 2,
             },
         ]
     },
@@ -99,7 +103,7 @@ export const markdownInsertUnits: InsertUnit[] = [
             let listLength = args.get("orderedListLength")!.value
             let listStart = args.get("orderedListStart")!.value
             listLength = limit(listLength, 1, 99);
-            listStart = limit(listStart, 0, 10000);
+            listStart = limit(listStart, 0, 9999);
             let returnText = "\n";
             for (let i = 0; i < listLength - 1; i++) {
                 returnText += (i + listStart + 1) + ". \n";
@@ -114,7 +118,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let orderedListLength = 3;
                     return ref(orderedListLength);
-                }
+                },
+                inputLength: 2,
             },
             <InputInsertArgument<number>>{
                 name: "orderedListStart",
@@ -123,7 +128,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let orderedListStart = 1;
                     return ref(orderedListStart);
-                }
+                },
+                inputLength: 4,
             },
         ]
     },
@@ -147,7 +153,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let unorderedListLength = 3;
                     return ref(unorderedListLength);
-                }
+                },
+                inputLength: 2,
             }
         ]
     },
@@ -159,9 +166,7 @@ export const markdownInsertUnits: InsertUnit[] = [
             const label = args.get("linkLabel")!.value
             const url = args.get("linkUrl")!.value
             if (label.length > 0 && url.length > 0) return {before: "[" + label + "](" + url + ")", after: ""}
-            else if (label.length > 0) return {before: "[" + label + "](", after: ")"}
-            else if (url.length > 0) return {before: "[", after: "](" + url + ")"}
-            else return {before: "[", after: "]()"}
+            else return {before: "[" + label + "](" + url, after: ")"}
         },
         arguments: [
             <InputInsertArgument<string>>{
@@ -171,7 +176,7 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let linkLabel = "";
                     return ref(linkLabel);
-                }
+                },
             },
             <InputInsertArgument<string>>{
                 name: "linkUrl",
@@ -180,7 +185,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let linkUrl = "";
                     return ref(linkUrl);
-                }
+                },
+                styleWidth: "12em",
             }
         ]
     },
@@ -191,9 +197,7 @@ export const markdownInsertUnits: InsertUnit[] = [
             const label = args.get("pictureName")!.value
             const url = args.get("pictureUrl")!.value
             if (label.length > 0 && url.length > 0) return {before: "![" + label + "](" + url + ")", after: ""}
-            else if (label.length > 0) return {before: "![" + label + "](", after: ")"}
-            else if (url.length > 0) return {before: "![", after: "](" + url + ")"}
-            else return {before: "![", after: "]()"}
+            else return {before: "![" + label + "](" + url, after: ")"}
         },
         arguments: [
             <InputInsertArgument<string>>{
@@ -212,7 +216,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 getRef: () => {
                     let pictureUrl = "";
                     return ref(pictureUrl);
-                }
+                },
+                styleWidth: "12em",
             }
         ]
     }
@@ -227,47 +232,6 @@ export const simpleInsertUnits: InsertUnit[] = [
             return {before: "<br>", after: ""}
         },
         arguments: []
-    },
-    {
-        name: "details",
-        key: ">",
-        label: "折叠块",
-        insert: (args) => {
-            const summary = args.get("summary")!.value
-            return {before: "<details>\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
-        },
-        arguments: [
-            <InputInsertArgument<string>>{
-                name: "summary",
-                label: "标识",
-                type: "string",
-                getRef: () => {
-                    let summary = "";
-                    return ref(summary);
-                }
-            }
-        ],
-        keepSelect: true
-    },
-    {
-        name: "warning",
-        key: "!",
-        label: "标亮",
-        insert: (args) => {
-            let warningColor = args.get("warningColor")!.value
-            return {before: "<span style='color: " + warningColor + ";'>", after: "</span>"}
-        },
-        arguments: [
-            <InputInsertArgument<string>>{
-                name: "warningColor",
-                label: "颜色",
-                type: "string",
-                getRef: () => {
-                    let color = "red";
-                    return ref(color);
-                }
-            }
-        ]
     },
     {
         name: "code",
@@ -298,4 +262,61 @@ export const simpleInsertUnits: InsertUnit[] = [
         },
         arguments: []
     }
+]
+
+export const htmlInsertUnits: InsertUnit[] = [
+    {
+        name: "details",
+        key: ">",
+        label: "折叠块",
+        insert: (args) => {
+            const summary = args.get("summary")!.value
+            return {before: "<details>\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
+        },
+        arguments: [
+            <InputInsertArgument<string>>{
+                name: "summary",
+                label: "标识",
+                type: "string",
+                getRef: () => {
+                    let summary = "";
+                    return ref(summary);
+                },
+                styleWidth: "6em",
+            }
+        ],
+        keepSelect: true
+    },
+    {
+        name: "warning",
+        key: "!",
+        label: "标亮",
+        insert: (args) => {
+            const warningColor = args.get("warningColor")!.value
+            const label = args.get("warningLabel")!.value
+            return {before: "<" + label + " style='color: " + warningColor + ";'>", after: "</" + label + ">"}
+        },
+        arguments: [
+            <InputInsertArgument<string>>{
+                name: "warningColor",
+                label: "颜色",
+                type: "string",
+                getRef: () => {
+                    let color = "red";
+                    return ref(color);
+                },
+                styleWidth: "4em",
+            },
+            <InputInsertArgument<string>>{
+                name: "warningLabel",
+                label: "标签",
+                type: "string",
+                getRef: () => {
+                    let label = "span";
+                    return ref(label);
+                },
+                styleWidth: "4em",
+            }
+        ]
+    },
 ]
