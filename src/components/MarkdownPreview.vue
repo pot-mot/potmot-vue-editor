@@ -71,7 +71,9 @@ const formatSurround = (
 	input: string,
 	side: string | string[],
 	insideProcess: (input: string) => string,
-	outsideProcess: (input: string) => string = (input: string) => {return input}
+	outsideProcess: (input: string) => string = (input: string) => {
+		return input
+	}
 ) => {
 	let res: string = "";
 	let flag = false;
@@ -315,11 +317,11 @@ setInterval(setButtonEvent, 1000);
 			border-bottom: 1px solid var(--border-color);
 		}
 
-		> tr:nth-child(2n-1) {
+		tr:nth-child(2n-1) {
 			background-color: var(--light-back-color);
 		}
 
-		> tr:nth-child(2n) {
+		tr:nth-child(2n) {
 			background-color: var(--deep-back-color);
 		}
 	}
