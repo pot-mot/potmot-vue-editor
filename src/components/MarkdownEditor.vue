@@ -25,7 +25,8 @@
 						<option v-for="item in arg.options">{{ item }}</option>
 					</select>
 					<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
-						   :maxlength="arg.inputLength? arg.inputLength : 100" :style="arg.styleWidth ? 'width: ' + arg.styleWidth : ''"
+						   :maxlength="arg.inputLength? arg.inputLength : 100"
+						   :style="arg.styleWidth ? 'width: ' + arg.styleWidth : ''"
 						   @input="(e) => {changeInputArg(arg.name, e)}">
 				</template>
 				</span>
@@ -45,16 +46,7 @@
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</div>
 		</div>
-		<div
-			v-show="getEditToolActive('preview') && !isFullScreen" v-drag
-			class="floating-card preview-card"
-			@mouseenter="setHandleScrollFlag('floatPreviewCard')">
-			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('preview', false)"/>
-			<div class="container" ref="floatPreviewCard">
-				<MarkdownPreview :markdown-text="data.text"/>
-			</div>
-		</div>
-		<div style="height: 0;width: 0;overflow: hidden;position: fixed;top: 500vh;left: 500vw;">
+		<div class="outOfView">
 			<div
 				ref="textareaCountLine"
 				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
@@ -62,6 +54,7 @@
 		</div>
 		<div class="container" :class="containerClass">
 			<textarea
+				:class="[!isFullScreen && isPreview ? 'outOfView':'']"
 				ref="textarea"
 				v-model="data.text"
 				:placeholder="props.placeholder"
@@ -69,13 +62,13 @@
 				@keydown="onKeyDown"
 				@keyup="onKeyUp"
 				@mousedown="onMouseDown"
-				@mouseenter="setHandleScrollFlag('textarea')">
+				@mouseover="() => {scrollKey = 'textarea'}">
 			</textarea>
 			<div
-				v-show="isFullScreen && isPreview"
+				:class="[!isPreview ? 'outOfView':'']"
 				ref="previewCard"
 				class="preview-card"
-				@mouseenter="setHandleScrollFlag('previewCard')">
+				@mouseover="() => {scrollKey = 'preview'}">
 				<MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
 			</div>
 		</div>
@@ -108,7 +101,7 @@ import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/I
 // 数据
 const data = reactive({
 	// 同步滚动条
-	handleScrollFlag: "textarea",
+	handleScrollFlag: "edit",
 	beforeFullScreenTop: 0,
 
 	text: "",
@@ -158,7 +151,6 @@ watch(() => data.text, () => {
 
 const textarea = ref();
 const previewCard = ref();
-const floatPreviewCard = ref();
 
 const argsMap = ref(new Map<string, Ref>)
 
@@ -277,6 +269,17 @@ const isFullScreen = computed({
 	}
 })
 
+watch(() => isFullScreen.value, async (newValue) => {
+	isPreview.value = newValue;
+	if (newValue) {
+		data.handleScrollFlag = "edit";
+	} else {
+		await nextTick(() => {
+			document.documentElement.scrollTop = data.beforeFullScreenTop;
+		})
+	}
+})
+
 const isReplace = computed({
 	get() {
 		return getEditToolActive('replace');
@@ -292,6 +295,7 @@ const isPreview = computed({
 	},
 	set(newValue: boolean) {
 		setEditToolActive('preview', newValue);
+
 	}
 })
 
@@ -333,7 +337,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 }
 
 // 组件初始化
-onMounted(async () => {
+onMounted(() => {
 	data.text = props.modelValue;
 	data.history = [];
 	data.stackTop = -1;
@@ -343,50 +347,19 @@ onMounted(async () => {
 		isFullScreen.value = true;
 		isPreview.value = true;
 	}
-
-	await nextTick(() => {
-		textarea.value.addEventListener('scroll', () => {
-			handleScroll('textarea', textarea.value, previewCard.value);
-		});
-		previewCard.value.addEventListener('scroll', () => {
-			handleScroll('previewCard', previewCard.value, textarea.value);
-		});
-		textarea.value.addEventListener('scroll', () => {
-			handleScroll('textarea', textarea.value, floatPreviewCard.value);
-		});
-		floatPreviewCard.value.addEventListener('scroll', () => {
-			handleScroll('floatPreviewCard', floatPreviewCard.value, textarea.value);
-		});
-	})
-})
-
-// 监听全屏样式
-watch(() => isFullScreen.value, async () => {
-	if (isFullScreen.value) {
-		data.beforeFullScreenTop = document.documentElement.scrollTop;
-		isPreview.value = true;
-		data.handleScrollFlag = "textarea";
-		await nextTick(() => {
-			handleScroll('textarea', textarea.value, previewCard.value);
-		})
-	} else {
-		isPreview.value = false;
-		await nextTick(() => {
-			document.documentElement.scrollTop = data.beforeFullScreenTop;
-			handleScroll('textarea', textarea.value, floatPreviewCard.value);
-		})
-	}
 })
 
 // 滚动同步
-const handleScroll = (key: string, from: HTMLElement, to: HTMLElement) => {
-	if (data.handleScrollFlag !== key) return;
-	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
+const handleScroll = (from: HTMLElement, to: HTMLElement) => {
+	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight)  / (from.scrollHeight - from.offsetHeight);
 }
 
-const setHandleScrollFlag = (flag: string) => {
-	data.handleScrollFlag = flag;
-}
+let scrollKey = ref("textarea")
+
+setInterval(() => {
+	if (scrollKey.value == 'textarea') handleScroll(textarea.value, previewCard.value);
+	if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
+}, 20)
 
 // 历史记录
 const push = (start: number = textarea.value.selectionStart, end: number = textarea.value.selectionEnd) => {
@@ -487,7 +460,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 							break;
 						}
 					}
-				}else if (insertUnit.key == e.key) {
+				} else if (insertUnit.key == e.key) {
 					e.preventDefault();
 					data.pushFlag = "symbol";
 					insertIntoTextarea(insertUnit);
@@ -834,6 +807,13 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 <style lang="scss">
 @import "../asserts/iconfont/iconfont.css";
 
+.outOfView {
+	visibility: hidden;
+	position: fixed;
+	top: 5000vh;
+	left: 5000vw;
+}
+
 .editor {
 	--back-ground-color: #f5f5f5;
 	padding: 0;
@@ -908,7 +888,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 .editor.non-full > .container {
 	height: calc(99% - 3.5em);
 
-	> .edit-card {
+	> .edit-card,
+	> .preview-card {
 		width: 100%;
 		height: 100%;
 		border: 1px solid #eee;
@@ -988,25 +969,6 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 
 		.icon-close:hover {
 			color: #D00;
-		}
-	}
-
-	.floating-card.preview-card {
-		background-color: #fff;
-		border: #aaa 1px solid;
-		cursor: all-scroll;
-		padding: 0.5em;
-		overflow: hidden;
-
-		> .container {
-			min-height: 20em;
-			width: 35em;
-			max-width: 80vw;
-			max-height: 60vh;
-			margin-top: 1em;
-			padding-bottom: 3em;
-			overflow: auto;
-			border: #eee 1px solid;
 		}
 	}
 
