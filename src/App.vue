@@ -1,6 +1,9 @@
 <template>
-	<div style="height: 60vh;width: 60vw;margin: auto;line-height: 1.6em;">
-		<MarkdownEditor v-model="text" :insert-units="insertUnits"></MarkdownEditor>
+	<div style="height: 120vh;width: 60vw;margin: auto;line-height: 1.6em;">
+		<div style="height: 60vh;">
+			<MarkdownEditor v-model="text" :insert-units="insertUnits"></MarkdownEditor>
+		</div>
+
 		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>

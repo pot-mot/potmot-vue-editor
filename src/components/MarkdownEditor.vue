@@ -105,6 +105,22 @@ import {insertIntoString, getArgsMap} from "../util/insertUtils";
 import {InsertUnit} from "../declare/insertUnit";
 import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/InsertUnits";
 
+// 数据
+const data = reactive({
+	// 同步滚动条
+	handleScrollFlag: "textarea",
+	beforeFullScreenTop: 0,
+
+	text: "",
+	pushFlag: "",
+
+	// 历史记录相关
+	history: <EditorHistory[]>[],
+	stackTop: -1,
+	replaceFrom: "",
+	replaceTo: "",
+})
+
 /**
  * 外部传入参数
  *
@@ -135,6 +151,10 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue']);
+
+watch(() => data.text, () => {
+	emit('update:modelValue', data.text);
+})
 
 const textarea = ref();
 const previewCard = ref();
@@ -206,22 +226,6 @@ const setEditData = () => {
 }
 
 setInterval(setEditData, 100);
-
-// 数据
-const data = reactive({
-	// 同步滚动条
-	handleScrollFlag: "textarea",
-	beforeFullScreenTop: 0,
-
-	text: "",
-	pushFlag: "",
-
-	// 历史记录相关
-	history: <EditorHistory[]>[],
-	stackTop: -1,
-	replaceFrom: "",
-	replaceTo: "",
-})
 
 // 工具列表
 const editToolList = reactive(<EditTool[]>[
@@ -356,24 +360,19 @@ onMounted(async () => {
 	})
 })
 
-watch(() => data.text, () => {
-	emit('update:modelValue', data.text);
-})
-
+// 监听全屏样式
 watch(() => isFullScreen.value, async () => {
 	if (isFullScreen.value) {
 		data.beforeFullScreenTop = document.documentElement.scrollTop;
 		isPreview.value = true;
 		data.handleScrollFlag = "textarea";
 		await nextTick(() => {
-			document.body.classList.add("disable-scroll");
 			handleScroll('textarea', textarea.value, previewCard.value);
 		})
 	} else {
-		document.body.classList.remove("disable-scroll");
 		isPreview.value = false;
 		await nextTick(() => {
-			document.body.scrollTo(0, data.beforeFullScreenTop);
+			document.documentElement.scrollTop = data.beforeFullScreenTop;
 			handleScroll('textarea', textarea.value, floatPreviewCard.value);
 		})
 	}
@@ -834,15 +833,6 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 
 <style lang="scss">
 @import "../asserts/iconfont/iconfont.css";
-
-.disable-scroll {
-	overflow: hidden;
-
-	> ::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-	}
-}
 
 .editor {
 	--back-ground-color: #f5f5f5;

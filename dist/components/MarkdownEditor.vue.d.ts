@@ -21,6 +21,21 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: InsertUnit[];
     };
 }, {
+    data: {
+        handleScrollFlag: string;
+        beforeFullScreenTop: number;
+        text: string;
+        pushFlag: string;
+        history: {
+            start: number;
+            end: number;
+            text: string;
+            scrollTop: number;
+        }[];
+        stackTop: number;
+        replaceFrom: string;
+        replaceTo: string;
+    };
     props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
         modelValue: {
             type: StringConstructor;
@@ -81,21 +96,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
         };
     };
     setEditData: () => void;
-    data: {
-        handleScrollFlag: string;
-        beforeFullScreenTop: number;
-        text: string;
-        pushFlag: string;
-        history: {
-            start: number;
-            end: number;
-            text: string;
-            scrollTop: number;
-        }[];
-        stackTop: number;
-        replaceFrom: string;
-        replaceTo: string;
-    };
     editToolList: {
         name: string;
         active: boolean;

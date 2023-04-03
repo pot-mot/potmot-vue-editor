@@ -4,7 +4,7 @@
 
 ## 介绍
 
-> 当前版本 v0.5 2023/4/2
+> 当前版本 v0.5 2023/4/3
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.14
+npm install potmot-vue-editor@0.5.15
 ```
 
 main.js 中引用
@@ -33,7 +33,6 @@ app.use(editor)
 
 #### 风险提示
 - 快速插入可能覆盖浏览器原有快捷键
-- 在全屏模式 Editor 会为根dom添加禁止滚动的样式
 
 **props 参数说明**
 

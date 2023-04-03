@@ -101,6 +101,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -161,21 +176,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -364,6 +364,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -424,21 +439,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -627,6 +627,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -687,21 +702,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -889,6 +889,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -949,21 +964,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -1152,6 +1152,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -1212,21 +1227,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -1414,6 +1414,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -1474,21 +1489,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -1676,6 +1676,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -1736,21 +1751,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -1940,6 +1940,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -2000,21 +2015,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -2203,6 +2203,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -2263,21 +2278,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -2466,6 +2466,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -2526,21 +2541,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -2729,6 +2729,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -2789,21 +2804,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -2991,6 +2991,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -3051,21 +3066,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -3253,6 +3253,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -3313,21 +3328,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -3516,6 +3516,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -3576,21 +3591,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -3779,6 +3779,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -3839,21 +3854,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -4041,6 +4041,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -4101,21 +4116,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -4304,6 +4304,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -4364,21 +4379,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -4567,6 +4567,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -4627,21 +4642,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -4830,6 +4830,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -4890,21 +4905,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -5093,6 +5093,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -5153,21 +5168,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -5355,6 +5355,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -5415,21 +5430,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -5617,6 +5617,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -5677,21 +5692,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -5880,6 +5880,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -5940,21 +5955,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -6142,6 +6142,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -6202,21 +6217,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -6405,6 +6405,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -6465,21 +6480,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -6667,6 +6667,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -6727,21 +6742,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -6930,6 +6930,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -6990,21 +7005,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -7192,6 +7192,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -7252,21 +7267,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -7455,6 +7455,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -7515,21 +7530,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -7717,6 +7717,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -7777,21 +7792,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -7980,6 +7980,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -8040,21 +8055,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -8242,6 +8242,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -8302,21 +8317,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -8504,6 +8504,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -8564,21 +8579,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -8767,6 +8767,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -8827,21 +8842,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -9029,6 +9029,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -9089,21 +9104,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -9291,6 +9291,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -9351,21 +9366,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -9554,6 +9554,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -9614,21 +9629,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -9816,6 +9816,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -9876,21 +9891,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -10078,6 +10078,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -10138,21 +10153,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -10340,6 +10340,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -10400,21 +10415,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -10602,6 +10602,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -10662,21 +10677,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -10865,6 +10865,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -10925,21 +10940,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -11127,6 +11127,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -11187,21 +11202,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -11389,6 +11389,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -11449,21 +11464,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -11651,6 +11651,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -11711,21 +11726,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -11913,6 +11913,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -11973,21 +11988,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -12175,6 +12175,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -12235,21 +12250,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -12438,6 +12438,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -12498,21 +12513,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -12700,6 +12700,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -12760,21 +12775,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -12963,6 +12963,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -13023,21 +13038,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -13225,6 +13225,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -13285,21 +13300,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -13487,6 +13487,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -13547,21 +13562,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -13749,6 +13749,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -13809,21 +13824,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -14011,6 +14011,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -14071,21 +14086,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -14274,6 +14274,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -14334,21 +14349,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -14536,6 +14536,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -14596,21 +14611,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -14798,6 +14798,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -14858,21 +14873,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -15060,6 +15060,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -15120,21 +15135,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -15322,6 +15322,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -15382,21 +15397,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -15584,6 +15584,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -15644,21 +15659,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -15847,6 +15847,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -15907,21 +15922,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -16109,6 +16109,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -16169,21 +16184,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -16372,6 +16372,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -16432,21 +16447,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -16634,6 +16634,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -16694,21 +16709,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -16896,6 +16896,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -16956,21 +16971,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -17159,6 +17159,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -17219,21 +17234,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -17421,6 +17421,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -17481,21 +17496,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -17683,6 +17683,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -17743,21 +17758,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -17946,6 +17946,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -18006,21 +18021,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -18208,6 +18208,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -18268,21 +18283,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -18471,6 +18471,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -18531,21 +18546,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -18733,6 +18733,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -18793,21 +18808,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -18996,6 +18996,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -19056,21 +19071,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -19259,6 +19259,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -19319,21 +19334,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -19523,6 +19523,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -19583,21 +19598,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -19786,6 +19786,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -19846,21 +19861,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -20049,6 +20049,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -20109,21 +20124,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -20311,6 +20311,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -20371,21 +20386,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -20575,6 +20575,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -20635,21 +20650,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
@@ -20838,6 +20838,21 @@ declare const _default: {
             default: import("./declare/insertUnit").InsertUnit[];
         };
     }, {
+        data: {
+            handleScrollFlag: string;
+            beforeFullScreenTop: number;
+            text: string;
+            pushFlag: string;
+            history: {
+                start: number;
+                end: number;
+                text: string;
+                scrollTop: number;
+            }[];
+            stackTop: number;
+            replaceFrom: string;
+            replaceTo: string;
+        };
         props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
             modelValue: {
                 type: StringConstructor;
@@ -20898,21 +20913,6 @@ declare const _default: {
             };
         };
         setEditData: () => void;
-        data: {
-            handleScrollFlag: string;
-            beforeFullScreenTop: number;
-            text: string;
-            pushFlag: string;
-            history: {
-                start: number;
-                end: number;
-                text: string;
-                scrollTop: number;
-            }[];
-            stackTop: number;
-            replaceFrom: string;
-            replaceTo: string;
-        };
         editToolList: {
             name: string;
             active: boolean;
