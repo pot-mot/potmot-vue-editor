@@ -46,6 +46,14 @@
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</div>
 		</div>
+		<div v-show="getEditToolActive('outline')" class="outline-box floating-card" v-drag>
+			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
+			<MarkdownOutline
+				:markdown-text="data.text"
+				:target="previewCard"
+				:click="() => {scrollKey = 'preview'}">
+			</MarkdownOutline>
+		</div>
 		<div class="container" :class="containerClass">
 			<textarea
 				:style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
@@ -237,6 +245,9 @@ const editToolList = reactive(<EditTool[]>[
 		self.changeActive();
 	}),
 	new EditTool("preview", "预览", "icon-browse", (self: EditTool) => {
+		self.changeActive();
+	}),
+	new EditTool("outline", "大纲", "icon-bulletpoint", (self: EditTool) => {
 		self.changeActive();
 	}),
 	new EditTool("undo", "撤销(Ctrl + z)", "icon-undo", () => {
@@ -1014,18 +1025,25 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	z-index: 11;
 }
 
-.editor {
-	.replace-box {
-		padding-top: 2em;
+.editor .replace-box {
+	padding-top: 2em;
 
-		> textarea {
-			height: 4em;
-			margin-right: 0.5em;
-			width: 100%;
-			border: 1px solid #e5e5e5;
-			padding: 0.5em;
-		}
+	> textarea {
+		height: 4em;
+		margin-right: 0.5em;
+		width: 100%;
+		border: 1px solid #e5e5e5;
+		padding: 0.5em;
 	}
+}
+
+.editor .outline-box {
+	padding: 1em 0.5em;
+	background-color: #fff;
+	min-width: 20em;
+	line-height: 1.6em;
+	border: 1px solid #ccc;
+	cursor: all-scroll;
 }
 
 .editor .insert-text {

@@ -1,9 +1,8 @@
 <template>
 	<ul class="outline">
-		<li v-for="head in heads" :key="head.text">
-			<a :style="'padding-left: ' + (head.level - 1) + 'em;'" :href="`#${head.text}`">
-				{{ head.text }}
-			</a>
+		<li v-for="head in heads" :key="head.text" :style="'padding-left: ' + (head.level - 1) + 'em;'"
+			@click="jumpTo(head.text)">
+			{{ head.text }}
 		</li>
 	</ul>
 </template>
@@ -22,6 +21,20 @@ const props = defineProps({
 	markdownText: {
 		type: String,
 		required: true,
+	},
+	policy: {
+		type: String,
+		required: false,
+		default: "offset"
+	},
+	target: {
+		type: HTMLElement,
+		required: false,
+		default: document.documentElement,
+	},
+	click: {
+		type: Function,
+		required: false,
 	}
 })
 
@@ -47,6 +60,20 @@ watch(() => props.markdownText, () => {
 })
 
 let heads = ref<Headline[]>([]);
+
+const jumpTo = (id: string) => {
+	if (props.click) props.click(id)
+
+	if (!props.target) return;
+
+	if (props.policy == "anchor") {
+		props.target.querySelector('#' + id)?.scrollIntoView();
+	} else if (props.policy == "offset") {
+		const head = <HTMLHeadElement>(props.target.querySelector('#' + id))
+		const dif =  head.offsetTop - props.target.offsetTop
+		props.target.scrollTop = dif - 20;
+	}
+}
 </script>
 
 <style lang="scss">
@@ -55,6 +82,7 @@ let heads = ref<Headline[]>([]);
 	padding: 0;
 	list-style: none;
 	line-height: inherit;
+
 	> li {
 		> a {
 			display: block;
@@ -62,6 +90,7 @@ let heads = ref<Headline[]>([]);
 			color: inherit;
 			text-decoration: none;
 		}
+
 		> a:hover {
 			background-color: #eeeeee;
 		}

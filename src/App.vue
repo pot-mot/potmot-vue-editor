@@ -3,8 +3,6 @@
 		<div style="height: 60vh;">
 			<MarkdownEditor v-model="text"></MarkdownEditor>
 		</div>
-		<MarkdownPreview :markdown-text="text" :code-fold="true"></MarkdownPreview>
-		<MarkdownOutline :markdown-text="text"></MarkdownOutline>
 	</div>
 </template>
 
