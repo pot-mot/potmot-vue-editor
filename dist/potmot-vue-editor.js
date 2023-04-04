@@ -744,7 +744,7 @@ const or = () => "ontouchstart" in document, A0 = {
       }, "替换全部", 40, Yn)])])), [[Zt, v("replace")], [ft(A0)]]), ce("div", {
         class: Tr(["container", ft(w)])
       }, [xt(ce("textarea", {
-        style: Ur([!ft(E) && ft(N) ? "position: absolute; top: 0;" : ""]),
+        style: Ur([!ft(E) && ft(N) ? "position: absolute; visibility: hidden;" : ""]),
         ref_key: "textarea",
         ref: n,
         "onUpdate:modelValue": z[4] || (z[4] = (W) => r.text = W),

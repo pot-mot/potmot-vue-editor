@@ -48,7 +48,7 @@
 		</div>
 		<div class="container" :class="containerClass">
 			<textarea
-				:style="[!isFullScreen && isPreview ? 'position: absolute; top: 0;':'']"
+				:style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
 				ref="textarea"
 				v-model="data.text"
 				:placeholder="props.placeholder"
