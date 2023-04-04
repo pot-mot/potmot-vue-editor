@@ -46,15 +46,9 @@
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</div>
 		</div>
-		<div class="outOfView">
-			<div
-				ref="textareaCountLine"
-				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
-				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
-		</div>
 		<div class="container" :class="containerClass">
 			<textarea
-				:class="[!isFullScreen && isPreview ? 'outOfView':'']"
+				:style="[!isFullScreen && isPreview ? 'position: absolute; top: 0;':'']"
 				ref="textarea"
 				v-model="data.text"
 				:placeholder="props.placeholder"
@@ -65,12 +59,15 @@
 				@mouseover="() => {scrollKey = 'textarea'}">
 			</textarea>
 			<div
-				:class="[!isPreview ? 'outOfView':'']"
 				ref="previewCard"
 				class="preview-card"
 				@mouseover="() => {scrollKey = 'preview'}">
 				<MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
 			</div>
+			<div
+				ref="textareaCountLine"
+				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
+				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
 		</div>
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
@@ -358,7 +355,7 @@ let scrollKey = ref("textarea")
 
 setInterval(() => {
 	if (scrollKey.value == 'textarea') handleScroll(textarea.value, previewCard.value);
-	if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
+	else if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
 }, 20)
 
 // 历史记录
@@ -807,13 +804,6 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 <style lang="scss">
 @import "../asserts/iconfont/iconfont.css";
 
-.outOfView {
-	visibility: hidden;
-	position: fixed;
-	top: 5000vh;
-	left: 5000vw;
-}
-
 .editor {
 	--back-ground-color: #f5f5f5;
 	padding: 0;
@@ -870,6 +860,9 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor > .container {
+	position: relative;
+	overflow: hidden;
+
 	> .edit-card,
 	> .preview-card {
 		display: block;
@@ -900,6 +893,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 .editor.full {
 	&.pc > .container {
 		padding-left: 0.5%;
+		height: calc(99vh - 4em);
 		display: grid;
 
 		&.edit-preview {
@@ -920,8 +914,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	}
 
 	&.mobile > .container {
-		height: calc(99% - 4em);
 		padding-left: 0.5%;
+		height: calc(99vh - 4em);
 		display: grid;
 
 		&.edit-preview {
