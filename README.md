@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.5.17
+npm install potmot-vue-editor@0.5.18
 ```
 
 main.js 中引用
@@ -47,7 +47,7 @@ app.use(editor)
 
 插入单元是快捷插入工具，通过 Ctrl + 指定的key 触发，根据 insertArgument 生成一段特定的插入字符串。
 
-在 MarkdownEditor 中配置 extra-insert-units props 即可配置插入功能
+在 MarkdownEditor 中配置 insert-units props 即可配置插入功能
 
 ```html
 <MarkdownEditor v-model="text" :insert-units="insertUnits"></MarkdownEditor>

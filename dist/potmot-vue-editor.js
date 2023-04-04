@@ -402,7 +402,7 @@ const or = () => "ontouchstart" in document, A0 = {
       }
     });
     nt(() => E.value, async (_) => {
-      _ ? (N.value = !or(), r.handleScrollFlag = "edit") : (N.value = !1, await Ve(() => {
+      _ ? (N.value = !or(), r.handleScrollFlag = "edit", r.beforeFullScreenTop = document.documentElement.scrollTop) : (N.value = !1, await Ve(() => {
         document.documentElement.scrollTop = r.beforeFullScreenTop;
       }));
     });

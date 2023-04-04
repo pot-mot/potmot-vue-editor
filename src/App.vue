@@ -1,5 +1,5 @@
 <template>
-	<div style="height: 120vh;width: 60vw;margin: auto;line-height: 1.6em;">
+	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 		<div style="height: 60vh;">
 			<MarkdownEditor v-model="text"></MarkdownEditor>
 		</div>

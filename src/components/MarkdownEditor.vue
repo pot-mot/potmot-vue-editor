@@ -270,6 +270,7 @@ watch(() => isFullScreen.value, async (newValue) => {
 	if (newValue) {
 		isPreview.value = !isMobile();
 		data.handleScrollFlag = "edit";
+		data.beforeFullScreenTop = document.documentElement.scrollTop;
 	} else {
 		isPreview.value = false;
 		await nextTick(() => {
