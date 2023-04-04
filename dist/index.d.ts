@@ -56,6 +56,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -175,6 +176,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -192,6 +194,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -318,6 +321,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -437,6 +441,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -454,6 +459,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -580,6 +586,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -699,6 +706,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -716,6 +724,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -841,6 +850,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -960,6 +970,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -977,6 +988,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -1103,6 +1115,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -1222,6 +1235,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -1239,6 +1253,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -1364,6 +1379,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -1483,6 +1499,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -1500,6 +1517,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -1625,6 +1643,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -1744,6 +1763,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -1761,6 +1781,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -1888,6 +1909,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -2007,6 +2029,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -2024,6 +2047,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -2150,6 +2174,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -2269,6 +2294,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -2286,6 +2312,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -2412,6 +2439,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -2531,6 +2559,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -2548,6 +2577,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -2674,6 +2704,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -2793,6 +2824,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -2810,6 +2842,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -2935,6 +2968,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -3054,6 +3088,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -3071,6 +3106,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -3196,6 +3232,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -3315,6 +3352,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -3332,6 +3370,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -3458,6 +3497,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -3577,6 +3617,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -3594,6 +3635,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -3720,6 +3762,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -3839,6 +3882,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -3856,6 +3900,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -3981,6 +4026,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -4100,6 +4146,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -4117,6 +4164,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -4243,6 +4291,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -4362,6 +4411,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -4379,6 +4429,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -4505,6 +4556,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -4624,6 +4676,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -4641,6 +4694,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -4767,6 +4821,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -4886,6 +4941,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -4903,6 +4959,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -5029,6 +5086,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -5148,6 +5206,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -5165,6 +5224,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -5290,6 +5350,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -5409,6 +5470,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -5426,6 +5488,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -5551,6 +5614,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -5670,6 +5734,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -5687,6 +5752,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -5813,6 +5879,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -5932,6 +5999,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -5949,6 +6017,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -6074,6 +6143,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -6193,6 +6263,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -6210,6 +6281,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -6336,6 +6408,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -6455,6 +6528,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -6472,6 +6546,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -6597,6 +6672,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -6716,6 +6792,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -6733,6 +6810,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -6859,6 +6937,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -6978,6 +7057,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -6995,6 +7075,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -7120,6 +7201,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -7239,6 +7321,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -7256,6 +7339,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -7382,6 +7466,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -7501,6 +7586,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -7518,6 +7604,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -7643,6 +7730,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -7762,6 +7850,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -7779,6 +7868,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -7905,6 +7995,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -8024,6 +8115,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -8041,6 +8133,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -8166,6 +8259,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -8285,6 +8379,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -8302,6 +8397,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -8427,6 +8523,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -8546,6 +8643,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -8563,6 +8661,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -8689,6 +8788,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -8808,6 +8908,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -8825,6 +8926,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -8950,6 +9052,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -9069,6 +9172,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -9086,6 +9190,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -9211,6 +9316,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -9330,6 +9436,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -9347,6 +9454,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -9473,6 +9581,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -9592,6 +9701,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -9609,6 +9719,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -9734,6 +9845,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -9853,6 +9965,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -9870,6 +9983,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -9995,6 +10109,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -10114,6 +10229,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -10131,6 +10247,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -10256,6 +10373,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -10375,6 +10493,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -10392,6 +10511,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -10517,6 +10637,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -10636,6 +10757,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -10653,6 +10775,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -10779,6 +10902,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -10898,6 +11022,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -10915,6 +11040,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -11040,6 +11166,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -11159,6 +11286,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -11176,6 +11304,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -11301,6 +11430,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -11420,6 +11550,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -11437,6 +11568,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -11562,6 +11694,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -11681,6 +11814,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -11698,6 +11832,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -11823,6 +11958,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -11942,6 +12078,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -11959,6 +12096,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -12084,6 +12222,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -12203,6 +12342,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -12220,6 +12360,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -12346,6 +12487,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -12465,6 +12607,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -12482,6 +12625,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -12607,6 +12751,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -12726,6 +12871,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -12743,6 +12889,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -12869,6 +13016,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -12988,6 +13136,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -13005,6 +13154,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -13130,6 +13280,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -13249,6 +13400,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -13266,6 +13418,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -13391,6 +13544,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -13510,6 +13664,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -13527,6 +13682,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -13652,6 +13808,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -13771,6 +13928,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -13788,6 +13946,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -13913,6 +14072,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -14032,6 +14192,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -14049,6 +14210,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -14175,6 +14337,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -14294,6 +14457,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -14311,6 +14475,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -14436,6 +14601,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -14555,6 +14721,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -14572,6 +14739,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -14697,6 +14865,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -14816,6 +14985,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -14833,6 +15003,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -14958,6 +15129,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -15077,6 +15249,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -15094,6 +15267,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -15219,6 +15393,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -15338,6 +15513,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -15355,6 +15531,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -15480,6 +15657,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -15599,6 +15777,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -15616,6 +15795,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -15742,6 +15922,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -15861,6 +16042,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -15878,6 +16060,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -16003,6 +16186,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -16122,6 +16306,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -16139,6 +16324,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -16265,6 +16451,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -16384,6 +16571,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -16401,6 +16589,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -16526,6 +16715,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -16645,6 +16835,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -16662,6 +16853,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -16787,6 +16979,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -16906,6 +17099,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -16923,6 +17117,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -17049,6 +17244,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -17168,6 +17364,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -17185,6 +17382,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -17310,6 +17508,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -17429,6 +17628,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -17446,6 +17646,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -17571,6 +17772,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -17690,6 +17892,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -17707,6 +17910,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -17833,6 +18037,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -17952,6 +18157,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -17969,6 +18175,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -18094,6 +18301,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -18213,6 +18421,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -18230,6 +18439,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -18356,6 +18566,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -18475,6 +18686,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -18492,6 +18704,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -18617,6 +18830,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -18736,6 +18950,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -18753,6 +18968,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -18879,6 +19095,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -18998,6 +19215,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -19015,6 +19233,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -19141,6 +19360,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -19260,6 +19480,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -19277,6 +19498,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -19404,6 +19626,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -19523,6 +19746,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -19540,6 +19764,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -19666,6 +19891,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -19785,6 +20011,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -19802,6 +20029,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -19928,6 +20156,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -20047,6 +20276,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -20064,6 +20294,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -20189,6 +20420,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -20308,6 +20540,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -20325,6 +20558,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -20452,6 +20686,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -20571,6 +20806,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -20588,6 +20824,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;
@@ -20714,6 +20951,7 @@ declare const _default: {
         foldCode: (e: MouseEvent) => void;
         copyCode: (e: MouseEvent) => void;
         setButtonEvent: () => void;
+        buttonInterval: number;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -20833,6 +21071,7 @@ declare const _default: {
             };
         };
         setEditData: () => void;
+        editEditInterval: number;
         editToolList: {
             name: string;
             active: boolean;
@@ -20850,6 +21089,7 @@ declare const _default: {
         insertIntoTextarea: (insertUnit: import("./declare/insertUnit").InsertUnit) => void;
         handleScroll: (from: HTMLElement, to: HTMLElement) => void;
         scrollKey: import("vue").Ref<string>;
+        scrollKeyInterval: number;
         push: (start?: number, end?: number) => void;
         replaceTop: (start?: number, end?: number) => void;
         clearHistory: () => void;

@@ -14,7 +14,7 @@ import Prism from "prismjs";
 import katex from 'katex';
 import 'katex/dist/katex.css'
 
-import {onMounted, ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 import {marked} from "marked";
 import {languageList} from "../constant/LanguageList";
 
@@ -219,6 +219,7 @@ const copyCode = (e: MouseEvent) => {
 	}
 }
 
+// 设置按钮点击事件
 const setButtonEvent = () => {
 	if (markdownCard.value == undefined) return;
 
@@ -237,9 +238,16 @@ const setButtonEvent = () => {
 	}
 }
 
-onMounted(setButtonEvent);
+let buttonInterval = 0;
 
-setInterval(setButtonEvent, 1000);
+onMounted(() => {
+	setButtonEvent();
+	buttonInterval = setInterval(setButtonEvent, 1000);
+});
+
+onBeforeUnmount(() => {
+	clearInterval(buttonInterval);
+})
 </script>
 
 <style lang="scss">

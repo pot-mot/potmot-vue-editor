@@ -89,7 +89,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
+import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/insertUtils";
 import {InsertUnit} from "../declare/insertUnit";
@@ -214,7 +214,16 @@ const setEditData = () => {
 	}
 }
 
-setInterval(setEditData, 100);
+let editEditInterval = 0;
+
+onMounted(() => {
+	setEditData();
+	editEditInterval = setInterval(setEditData, 100);
+})
+
+onBeforeUnmount(() => {
+	clearInterval(editEditInterval)
+})
 
 // 工具列表
 const editToolList = reactive(<EditTool[]>[
@@ -361,10 +370,21 @@ const handleScroll = (from: HTMLElement, to: HTMLElement) => {
 
 let scrollKey = ref("textarea")
 
-setInterval(() => {
-	if (scrollKey.value == 'textarea') handleScroll(textarea.value, previewCard.value);
-	else if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
-}, 20)
+let scrollKeyInterval = 0
+
+onMounted(() => {
+	scrollKeyInterval = setInterval(() => {
+		if (!textarea.value) return;
+		if (!previewCard.value) return;
+		if (scrollKey.value == 'textarea') handleScroll(textarea.value, previewCard.value);
+		else if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
+	}, 20)
+})
+
+onBeforeUnmount(() => {
+	clearInterval(scrollKeyInterval)
+})
+
 
 // 历史记录
 const push = (start: number = textarea.value.selectionStart, end: number = textarea.value.selectionEnd) => {

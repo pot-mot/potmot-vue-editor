@@ -95,6 +95,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         };
     };
     setEditData: () => void;
+    editEditInterval: number;
     editToolList: {
         name: string;
         active: boolean;
@@ -112,6 +113,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     insertIntoTextarea: (insertUnit: InsertUnit) => void;
     handleScroll: (from: HTMLElement, to: HTMLElement) => void;
     scrollKey: Ref<string>;
+    scrollKeyInterval: number;
     push: (start?: number, end?: number) => void;
     replaceTop: (start?: number, end?: number) => void;
     clearHistory: () => void;
