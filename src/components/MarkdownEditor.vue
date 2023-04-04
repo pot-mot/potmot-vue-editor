@@ -267,10 +267,11 @@ const isFullScreen = computed({
 })
 
 watch(() => isFullScreen.value, async (newValue) => {
-	isPreview.value = newValue;
 	if (newValue) {
+		isPreview.value = !isMobile();
 		data.handleScrollFlag = "edit";
 	} else {
+		isPreview.value = false;
 		await nextTick(() => {
 			document.documentElement.scrollTop = data.beforeFullScreenTop;
 		})
@@ -292,9 +293,15 @@ const isPreview = computed({
 	},
 	set(newValue: boolean) {
 		setEditToolActive('preview', newValue);
-
 	}
 })
+
+watch(() => isPreview.value, async (newValue) => {
+	if (isMobile()) {
+		scrollKey.value = newValue ? 'preview' : 'edit';
+	}
+})
+
 
 // 核心容器样式类
 const containerClass = computed(() => {
@@ -348,7 +355,7 @@ onMounted(() => {
 
 // 滚动同步
 const handleScroll = (from: HTMLElement, to: HTMLElement) => {
-	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight)  / (from.scrollHeight - from.offsetHeight);
+	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
 }
 
 let scrollKey = ref("textarea")
@@ -919,12 +926,12 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 		display: grid;
 
 		&.edit-preview {
-			grid-template-rows: 49.5% 49%;
+			grid-template-rows: 0 100%;
 			grid-gap: 0.5%;
 		}
 
 		&.edit {
-			grid-template-rows: 99%;
+			grid-template-rows: 100%;
 		}
 
 		> .edit-card,
