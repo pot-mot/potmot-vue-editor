@@ -247,7 +247,7 @@ const editToolList = reactive(<EditTool[]>[
 	new EditTool("preview", "预览", "icon-browse", (self: EditTool) => {
 		self.changeActive();
 	}),
-	new EditTool("outline", "大纲", "icon-bulletpoint", (self: EditTool) => {
+	new EditTool("outline", "大纲", "icon-file-tree", (self: EditTool) => {
 		self.changeActive();
 	}),
 	new EditTool("undo", "撤销(Ctrl + z)", "icon-undo", () => {
