@@ -63,54 +63,62 @@ const copy = (text: string) => {
  * 格式化一个字符串在特定字符串包围中的部分
  *
  * @param input 入参
- * @param side 包围的边缘
+ * @param surround 包围 包含起点和终点
  * @param insideProcess 对包围内字符串部分的处理函数
  * @param outsideProcess 对包围外字符串部分的处理函数
+ * @param debug 展示内外截断后的结果
  */
 const formatSurround = (
 	input: string,
-	side: string | string[],
+	surround: { start: string, end: string } | { start: string, end: string }[],
 	insideProcess: (input: string) => string,
 	outsideProcess: (input: string) => string = (input: string) => {
 		return input
 	}
 ) => {
-	let res: string = "";
-	let flag = false;
-	let index = 0;
+	if (surround instanceof Array) {
+		let res: string = "";
+		let flag = false;
+		let index = 0;
+		let end = ""
 
-	if (side instanceof Array) {
 		for (let i = 0; i < input.length; i++) {
-			for (const item of side) {
-				const sideLength = item.length;
-				if (input.slice(i, i + sideLength) == item) {
-					if (flag) {
-						res += insideProcess(input.slice(index + sideLength, i));
-						index = i + sideLength;
-					} else {
-						res += outsideProcess(input.slice(index, i));
-						index = i;
-					}
-
-					flag = !flag;
+			for (const item of surround) {
+				if (!flag && input.slice(i, i + item.start.length) == item.start) {
+					flag = true;
+					res += outsideProcess(input.slice(index, i));
+					i += item.start.length;
+					index = i;
+					end = item.end
 					break;
 				}
 			}
+			if (flag && input.slice(i, i + end.length) == end) {
+				flag = false;
+				res += insideProcess(input.slice(index, i));
+				i += end.length
+				index = i;
+			}
 		}
+
 		return res + outsideProcess(input.slice(index));
 	} else {
-		let sideLength = side.length;
+		let {start, end} = surround;
+		let res: string = "";
+		let flag = false;
+		let index = 0;
 
-		for (let i = 0; i < input.length - (sideLength - 1); i++) {
-			if (input.slice(i, i + sideLength) == side) {
-				if (flag) {
-					res += insideProcess(input.slice(index + sideLength, i));
-					index = i + sideLength;
-				} else {
-					res += outsideProcess(input.slice(index, i));
-					index = i;
-				}
-				flag = !flag;
+		for (let i = 0; i < input.length; i++) {
+			if (!flag && input.slice(i, i + start.length) == start) {
+				flag = true;
+				res += outsideProcess(input.slice(index, i));
+				i += start.length;
+				index = i;
+			} else if (flag && input.slice(i, i + end.length) == end) {
+				flag = false;
+				res += insideProcess(input.slice(index, i));
+				i += end.length
+				index = i;
 			}
 		}
 
@@ -119,7 +127,7 @@ const formatSurround = (
 }
 
 const format = (input: string) => {
-	return formatSurround(input, ["```", "~~~"], formatCode, formatMarkdown);
+	return formatSurround(input, [{start: "```", end: "```"}, {start: "~~~", end: "~~~"}], formatCode, formatMarkdown);
 }
 
 const formatMarkdown = (input: string) => {
@@ -128,7 +136,7 @@ const formatMarkdown = (input: string) => {
 			.replaceAll('<a ', '<a target="_blank" ')
 			.replaceAll('>\n', '>');
 
-		return formatSurround(markdownString, ['<pre><code>', '</code></pre>'], setCodeLine, formatMath);
+		return formatSurround(markdownString, {start: '<pre><code>', end: '</code></pre>'}, setCodeLine, formatMath);
 	} catch (e) {
 		return "<span style='color: red'>[markdown 解析错误]</span><br>" + e + "<br>" + input;
 	}
@@ -136,7 +144,7 @@ const formatMarkdown = (input: string) => {
 
 const formatMath = (input: string) => {
 	try {
-		return formatSurround(input, "$$", katex.renderToString)
+		return formatSurround(input, {start: "$$", end: "$$"}, katex.renderToString)
 	} catch (e) {
 		return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + input;
 	}
