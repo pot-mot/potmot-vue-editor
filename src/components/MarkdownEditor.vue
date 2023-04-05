@@ -1016,6 +1016,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 		font-size: 0.8em;
 		cursor: all-scroll;
 		min-width: 20em;
+		max-height: 70vh;
 		line-height: 1.6em;
 		border: 1px solid #ccc;
 	}
@@ -1044,10 +1045,13 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 .editor .outline-box {
 	padding: 1em 0.5em;
 	background-color: #fff;
-	min-width: 20em;
+	width: 25em;
+	max-height: 70vh;
 	line-height: 1.6em;
 	border: 1px solid #ccc;
 	cursor: all-scroll;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .editor .insert-text {

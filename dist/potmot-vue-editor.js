@@ -1,7 +1,7 @@
 var kn = Object.defineProperty;
 var Tn = (a, e, t) => e in a ? kn(a, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : a[e] = t;
 var Mt = (a, e, t) => (Tn(a, typeof e != "symbol" ? e + "" : e, t), t);
-import { ref as fe, defineComponent as a0, reactive as Jt, watch as bt, computed as Qt, onMounted as Ht, onBeforeUnmount as mr, nextTick as We, resolveComponent as A0, openBlock as Ee, createElementBlock as Se, normalizeClass as Ir, unref as ut, createElementVNode as ue, Fragment as Ot, renderList as Ut, withModifiers as lt, withDirectives as yt, toDisplayString as Fe, normalizeStyle as Yr, createCommentVNode as I0, vShow as $t, vModelText as Rr, createVNode as R0, isRef as Nr, createTextVNode as An } from "vue";
+import { ref as fe, defineComponent as a0, reactive as Qt, watch as bt, computed as Ut, onMounted as Gt, onBeforeUnmount as mr, nextTick as We, resolveComponent as A0, openBlock as Ee, createElementBlock as Se, normalizeClass as Ir, unref as Qe, createElementVNode as ue, Fragment as Ot, renderList as qt, withModifiers as ot, withDirectives as yt, toDisplayString as Fe, normalizeStyle as Yr, createCommentVNode as I0, vShow as $t, vModelText as Rr, createVNode as R0, isRef as Nr, createTextVNode as An } from "vue";
 const cr = () => "ontouchstart" in document, _r = {
   mounted(a) {
     cr() ? a.addEventListener("touchstart", (e) => {
@@ -330,7 +330,7 @@ const cr = () => "ontouchstart" in document, _r = {
   setup(a, {
     emit: e
   }) {
-    const t = a, r = Jt({
+    const t = a, r = Qt({
       // 文本编辑相关
       text: "",
       pushFlag: "",
@@ -343,7 +343,7 @@ const cr = () => "ontouchstart" in document, _r = {
     bt(() => r.text, () => {
       e("update:modelValue", r.text);
     });
-    const n = fe(), i = fe(), l = Qt(() => O.value ? T.value ? "edit-preview" : "edit" : "");
+    const n = fe(), i = fe(), l = Ut(() => O.value ? T.value ? "edit-preview" : "edit" : "");
     class o {
       constructor(P, H, se, G = () => {
       }) {
@@ -358,7 +358,7 @@ const cr = () => "ontouchstart" in document, _r = {
         this.active = !this.active;
       }
     }
-    const c = Jt({
+    const c = Qt({
       selectLength: 0,
       startPlace: {
         x: 1,
@@ -372,12 +372,12 @@ const cr = () => "ontouchstart" in document, _r = {
       n.value && (c.startPlace = je(n.value.selectionStart, r.text), n.value.selectionStart == n.value.selectionEnd ? c.endPlace = c.startPlace : c.endPlace = je(n.value.selectionEnd, r.text), c.selectLength = n.value.selectionEnd - n.value.selectionStart);
     };
     let m = 0;
-    Ht(() => {
+    Gt(() => {
       p(), m = setInterval(p, 100);
     }), mr(() => {
       clearInterval(m);
     });
-    const v = Jt([new o("fullScreen", "全屏/收起全屏", "icon-full-screen", (_) => {
+    const v = Qt([new o("fullScreen", "全屏/收起全屏", "icon-full-screen", (_) => {
       _.changeActive();
     }), new o("insert", "快捷插入", "icon-bulletpoint", (_) => {
       _.changeActive();
@@ -402,7 +402,7 @@ const cr = () => "ontouchstart" in document, _r = {
           H.active = P;
           break;
         }
-    }, O = Qt({
+    }, O = Ut({
       get() {
         return x("fullScreen");
       },
@@ -416,14 +416,14 @@ const cr = () => "ontouchstart" in document, _r = {
         document.documentElement.scrollTop = S;
       }));
     });
-    const I = Qt({
+    const I = Ut({
       get() {
         return x("replace");
       },
       set(_) {
         b("replace", _);
       }
-    }), T = Qt({
+    }), T = Ut({
       get() {
         return x("preview");
       },
@@ -446,7 +446,7 @@ const cr = () => "ontouchstart" in document, _r = {
         _.keepSelect && P != H ? (n.value.selectionStart = P, n.value.selectionEnd = G + ye.length) : (n.value.selectionStart = P + J.length, n.value.selectionEnd = P + J.length), z();
       });
     };
-    Ht(() => {
+    Gt(() => {
       r.text = t.modelValue, r.history = [], r.stackTop = -1, z(), t.startWithFullScreen && (O.value = !0, T.value = !0);
     });
     let N = fe("textarea");
@@ -457,7 +457,7 @@ const cr = () => "ontouchstart" in document, _r = {
       cr() && (N.value = _ ? "preview" : "edit");
     });
     let F = 0;
-    Ht(() => {
+    Gt(() => {
       F = setInterval(() => {
         n.value && i.value && (N.value == "textarea" ? C(n.value, i.value) : N.value == "preview" && C(i.value, n.value));
       }, 20);
@@ -644,7 +644,7 @@ const cr = () => "ontouchstart" in document, _r = {
       }
     };
     let he = fe();
-    const Y = Jt({
+    const Y = Qt({
       index: -1,
       indexes: []
     });
@@ -675,7 +675,7 @@ const cr = () => "ontouchstart" in document, _r = {
       setTimeout(() => {
         Ne(he.value.scrollHeight - n.value.clientHeight / 2.4), n.value.selectionStart = Y.indexes[Y.index], n.value.selectionEnd = Y.indexes[Y.index] + r.replaceFrom.length;
       }, 50);
-    }, it = () => {
+    }, st = () => {
       n.value != null && (Y.index > 0 && Y.index--, setTimeout(() => {
         Ne(he.value.scrollHeight - n.value.clientHeight / 2.4), n.value.focus(), n.value.selectionStart = Y.indexes[Y.index], n.value.selectionEnd = Y.indexes[Y.index] + r.replaceFrom.length;
       }, 50));
@@ -685,7 +685,7 @@ const cr = () => "ontouchstart" in document, _r = {
       }, 50));
     }, qe = () => {
       r.text.slice(n.value.selectionStart, n.value.selectionEnd) == r.replaceFrom && (r.text = r.text.slice(0, n.value.selectionStart) + r.replaceTo + r.text.slice(n.value.selectionEnd), z());
-    }, st = () => {
+    }, lt = () => {
       r.replaceFrom.length <= 0 ? alert("替换文本不可为空") : (r.text = r.text.replaceAll(r.replaceFrom, r.replaceTo), We(() => {
         z();
       }));
@@ -707,25 +707,25 @@ const cr = () => "ontouchstart" in document, _r = {
     return (_, P) => {
       const H = A0("MarkdownOutline"), se = A0("MarkdownPreview");
       return Ee(), Se("div", {
-        class: Ir([[ut(O) ? "full" : "non-full", ut(cr)() ? "mobile" : "pc"], "editor"])
-      }, [ue("ul", On, [(Ee(!0), Se(Ot, null, Ut(v, (G) => (Ee(), Se("li", null, [ue("span", {
-        onMousedown: lt((J) => G.method(G), ["prevent", "stop"]),
+        class: Ir([[Qe(O) ? "full" : "non-full", Qe(cr)() ? "mobile" : "pc"], "editor"])
+      }, [ue("ul", On, [(Ee(!0), Se(Ot, null, qt(v, (G) => (Ee(), Se("li", null, [ue("span", {
+        onMousedown: ot((J) => G.method(G), ["prevent", "stop"]),
         title: G.label,
         class: Ir(["iconfont", [G.active ? "chosen" : "", G.icon]])
       }, null, 42, Cn)]))), 256))]), yt((Ee(), Se("div", Mn, [ue("span", {
         class: "iconfont icon-close",
-        onMousedown: P[0] || (P[0] = lt((G) => b("insert", !1), ["prevent", "stop"]))
-      }, null, 32), (Ee(!0), Se(Ot, null, Ut(t.insertUnits, (G) => (Ee(), Se(Ot, null, [ue("span", Dn, [ue("span", {
+        onMousedown: P[0] || (P[0] = ot((G) => b("insert", !1), ["prevent", "stop"]))
+      }, null, 32), (Ee(!0), Se(Ot, null, qt(t.insertUnits, (G) => (Ee(), Se(Ot, null, [ue("span", Dn, [ue("span", {
         class: "hover-color-blue",
-        onMousedown: lt((J) => R(G), ["prevent", "stop"]),
+        onMousedown: ot((J) => R(G), ["prevent", "stop"]),
         title: G.key ? "快捷键[Ctrl + " + G.key + "]" : "无快捷键"
-      }, Fe(G.label), 41, Ln), (Ee(!0), Se(Ot, null, Ut(G.arguments, (J) => (Ee(), Se(Ot, null, [ue("label", null, Fe(J.label), 1), "options" in J ? (Ee(), Se("select", {
+      }, Fe(G.label), 41, Ln), (Ee(!0), Se(Ot, null, qt(G.arguments, (J) => (Ee(), Se(Ot, null, [ue("label", null, Fe(J.label), 1), "options" in J ? (Ee(), Se("select", {
         key: 0,
         value: w.value.get(J.name).value,
         onChange: (ye) => {
           A(J.name, ye);
         }
-      }, [(Ee(!0), Se(Ot, null, Ut(J.options, (ye) => (Ee(), Se("option", null, Fe(ye), 1))), 256))], 40, zn)) : "type" in J ? (Ee(), Se("input", {
+      }, [(Ee(!0), Se(Ot, null, qt(J.options, (ye) => (Ee(), Se("option", null, Fe(ye), 1))), 256))], 40, zn)) : "type" in J ? (Ee(), Se("input", {
         key: 1,
         type: J.type,
         value: w.value.get(J.name).value,
@@ -734,9 +734,9 @@ const cr = () => "ontouchstart" in document, _r = {
         onInput: (ye) => {
           E(J.name, ye);
         }
-      }, null, 44, Pn)) : I0("", !0)], 64))), 256))]), Bn], 64))), 256))])), [[$t, x("insert")], [ut(_r)]]), yt((Ee(), Se("div", Fn, [ue("span", {
+      }, null, 44, Pn)) : I0("", !0)], 64))), 256))]), Bn], 64))), 256))])), [[$t, x("insert")], [Qe(_r)]]), yt((Ee(), Se("div", Fn, [ue("span", {
         class: "iconfont icon-close",
-        onMousedown: P[1] || (P[1] = lt((G) => b("replace", !1), ["prevent", "stop"]))
+        onMousedown: P[1] || (P[1] = ot((G) => b("replace", !1), ["prevent", "stop"]))
       }, null, 32), yt(ue("textarea", {
         "onUpdate:modelValue": P[2] || (P[2] = (G) => r.replaceFrom = G),
         placeholder: "查找文本"
@@ -745,34 +745,34 @@ const cr = () => "ontouchstart" in document, _r = {
         placeholder: "替换文本"
       }, null, 512), [[Rr, r.replaceTo]]), ue("div", Un, [ue("span", {
         class: "hover-color-blue",
-        onMousedown: lt(Be, ["prevent", "stop"]),
+        onMousedown: ot(Be, ["prevent", "stop"]),
         style: {
           padding: "0.1em"
         }
       }, "↓", 40, qn), ue("span", {
         class: "hover-color-blue",
-        onMousedown: lt(it, ["prevent", "stop"]),
+        onMousedown: ot(st, ["prevent", "stop"]),
         style: {
           padding: "0.1em"
         }
       }, "↑", 40, Hn), ue("span", null, Fe(Y.index + 1) + "/" + Fe(Y.indexes.length), 1), ue("span", {
         class: "hover-color-blue",
-        onMousedown: lt(qe, ["prevent", "stop"])
+        onMousedown: ot(qe, ["prevent", "stop"])
       }, "替换选中", 40, Gn), ue("span", {
         class: "hover-color-blue",
-        onMousedown: lt(st, ["prevent", "stop"])
-      }, "替换全部", 40, Yn)])])), [[$t, x("replace")], [ut(_r)]]), yt((Ee(), Se("div", Vn, [ue("span", {
+        onMousedown: ot(lt, ["prevent", "stop"])
+      }, "替换全部", 40, Yn)])])), [[$t, x("replace")], [Qe(_r)]]), yt((Ee(), Se("div", Vn, [ue("span", {
         class: "iconfont icon-close",
-        onMousedown: P[4] || (P[4] = lt((G) => b("outline", !1), ["prevent", "stop"]))
+        onMousedown: P[4] || (P[4] = ot((G) => b("outline", !1), ["prevent", "stop"]))
       }, null, 32), R0(H, {
         target: i.value,
         click: () => {
           Nr(N) ? N.value = "preview" : N = "preview";
         }
-      }, null, 8, ["target", "click"])])), [[$t, x("outline")], [ut(_r)]]), ue("div", {
-        class: Ir(["container", ut(l)])
+      }, null, 8, ["target", "click"])])), [[$t, x("outline")], [Qe(_r)]]), ue("div", {
+        class: Ir(["container", Qe(l)])
       }, [yt(ue("textarea", {
-        style: Yr([!ut(O) && ut(T) ? "position: absolute; visibility: hidden;" : ""]),
+        style: Yr([!Qe(O) && Qe(T) ? "position: absolute; visibility: hidden;" : ""]),
         ref_key: "textarea",
         ref: n,
         "onUpdate:modelValue": P[5] || (P[5] = (G) => r.text = G),
@@ -838,43 +838,48 @@ const Jn = {
     }
   },
   setup(a) {
-    const e = a;
-    function t(l) {
-      const o = [], c = /<h([1-6]) id="(.*?)">(.*?)</g;
-      let p;
-      for (; p = c.exec(l); )
-        console.log(p[0], p[1], p[2], p[3]), o.push({
-          level: p[1],
-          id: p[2],
-          text: p[3]
-        });
+    const e = a, t = Ut(() => {
+      let o = 7;
+      for (const c of i.value)
+        c.level < o && (o = c.level);
       return o;
+    });
+    function r(o) {
+      const c = [], p = /<h([1-6]) id="(.*?)">(.*?)</g;
+      let m;
+      for (; m = p.exec(o); )
+        c.push({
+          level: Number.parseInt(m[1]),
+          id: m[2],
+          text: m[3]
+        });
+      return c;
     }
-    let r = 0;
-    Ht(() => {
-      r = setInterval(() => {
-        n.value = t(e.target.innerHTML);
+    let n = 0;
+    Gt(() => {
+      n = setInterval(() => {
+        i.value = r(e.target.innerHTML);
       }, 500);
     }), mr(() => {
-      clearInterval(r);
+      clearInterval(n);
     });
-    let n = fe([]);
-    const i = (l) => {
-      var o;
-      if (e.click && e.click(l), !!e.target) {
+    let i = fe([]);
+    const l = (o) => {
+      var c;
+      if (e.click && e.click(o), !!e.target) {
         if (e.policy == "anchor")
-          (o = e.target.querySelector("#" + l)) == null || o.scrollIntoView();
+          (c = e.target.querySelector("#" + o)) == null || c.scrollIntoView();
         else if (e.policy == "offset") {
-          const p = e.target.querySelector("#" + l).offsetTop - e.target.offsetTop;
-          e.target.scrollTop = p - 16;
+          const m = e.target.querySelector("#" + o).offsetTop - e.target.offsetTop;
+          e.target.scrollTop = m - 16;
         }
       }
     };
-    return (l, o) => (Ee(), Se("ul", Jn, [(Ee(!0), Se(Ot, null, Ut(ut(n), (c) => (Ee(), Se("li", {
-      key: c.id,
-      style: Yr(e.style(c.level)),
-      onClick: (p) => i(c.id)
-    }, Fe(c.text), 13, Qn))), 128))]));
+    return (o, c) => (Ee(), Se("ul", Jn, [(Ee(!0), Se(Ot, null, qt(Qe(i), (p) => (Ee(), Se("li", {
+      key: p.id,
+      style: Yr(e.style(p.level - Qe(t))),
+      onClick: (m) => l(p.id)
+    }, Fe(p.text), 13, Qn))), 128))]));
   }
 });
 var N0 = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, Vr = {}, ri = {
@@ -1522,8 +1527,8 @@ var N0 = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                 if (ve) {
                   if (Y = p(Ie, ie, w, Ae), !Y || Y.index >= w.length)
                     break;
-                  var it = Y.index, Pe = Y.index + Y[0].length, Ne = ie;
-                  for (Ne += ne.value.length; it >= Ne; )
+                  var st = Y.index, Pe = Y.index + Y[0].length, Ne = ie;
+                  for (Ne += ne.value.length; st >= Ne; )
                     ne = ne.next, Ne += ne.value.length;
                   if (Ne -= ne.value.length, ie = Ne, ne.value instanceof c)
                     continue;
@@ -1532,12 +1537,12 @@ var N0 = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
                   he--, de = w.slice(ie, Ne), Y.index -= ie;
                 } else if (Y = p(Ie, 0, de, Ae), !Y)
                   continue;
-                var it = Y.index, Be = Y[0], qe = de.slice(0, it), st = de.slice(it + Be.length), je = ie + de.length;
+                var st = Y.index, Be = Y[0], qe = de.slice(0, st), lt = de.slice(st + Be.length), je = ie + de.length;
                 C && je > C.reach && (C.reach = je);
                 var _ = ne.prev;
                 qe && (_ = x(E, _, qe), ie += qe.length), b(E, _, he);
                 var P = new c(F, te ? o.tokenize(Be, te) : Be, Te, Be);
-                if (ne = x(E, _, P), st && x(E, ne, st), he > 1) {
+                if (ne = x(E, _, P), lt && x(E, ne, lt), he > 1) {
                   var H = {
                     cause: F + "," + ae,
                     reach: je
@@ -6206,40 +6211,40 @@ class wt {
    * Get the style of a superscript given a base in the current style.
    */
   sup() {
-    return Qe[mi[this.id]];
+    return et[mi[this.id]];
   }
   /**
    * Get the style of a subscript given a base in the current style.
    */
   sub() {
-    return Qe[fi[this.id]];
+    return et[fi[this.id]];
   }
   /**
    * Get the style of a fraction numerator given the fraction in the current
    * style.
    */
   fracNum() {
-    return Qe[gi[this.id]];
+    return et[gi[this.id]];
   }
   /**
    * Get the style of a fraction denominator given the fraction in the current
    * style.
    */
   fracDen() {
-    return Qe[vi[this.id]];
+    return et[vi[this.id]];
   }
   /**
    * Get the cramped version of a style (in particular, cramping a cramped style
    * doesn't change the style).
    */
   cramp() {
-    return Qe[bi[this.id]];
+    return et[bi[this.id]];
   }
   /**
    * Get a text or display version of this style.
    */
   text() {
-    return Qe[yi[this.id]];
+    return et[yi[this.id]];
   }
   /**
    * Return true if this style is tightly spaced (scriptstyle/scriptscriptstyle)
@@ -6248,11 +6253,11 @@ class wt {
     return this.size >= 2;
   }
 }
-var i0 = 0, fr = 1, Lt = 2, dt = 3, Vt = 4, Ye = 5, zt = 6, Oe = 7, Qe = [new wt(i0, 0, !1), new wt(fr, 0, !0), new wt(Lt, 1, !1), new wt(dt, 1, !0), new wt(Vt, 2, !1), new wt(Ye, 2, !0), new wt(zt, 3, !1), new wt(Oe, 3, !0)], mi = [Vt, Ye, Vt, Ye, zt, Oe, zt, Oe], fi = [Ye, Ye, Ye, Ye, Oe, Oe, Oe, Oe], gi = [Lt, dt, Vt, Ye, zt, Oe, zt, Oe], vi = [dt, dt, Ye, Ye, Oe, Oe, Oe, Oe], bi = [fr, fr, dt, dt, Ye, Ye, Oe, Oe], yi = [i0, fr, Lt, dt, Lt, dt, Lt, dt], V = {
-  DISPLAY: Qe[i0],
-  TEXT: Qe[Lt],
-  SCRIPT: Qe[Vt],
-  SCRIPTSCRIPT: Qe[zt]
+var i0 = 0, fr = 1, Lt = 2, dt = 3, Xt = 4, Ye = 5, zt = 6, Oe = 7, et = [new wt(i0, 0, !1), new wt(fr, 0, !0), new wt(Lt, 1, !1), new wt(dt, 1, !0), new wt(Xt, 2, !1), new wt(Ye, 2, !0), new wt(zt, 3, !1), new wt(Oe, 3, !0)], mi = [Xt, Ye, Xt, Ye, zt, Oe, zt, Oe], fi = [Ye, Ye, Ye, Ye, Oe, Oe, Oe, Oe], gi = [Lt, dt, Xt, Ye, zt, Oe, zt, Oe], vi = [dt, dt, Ye, Ye, Oe, Oe, Oe, Oe], bi = [fr, fr, dt, dt, Ye, Ye, Oe, Oe], yi = [i0, fr, Lt, dt, Lt, dt, Lt, dt], V = {
+  DISPLAY: et[i0],
+  TEXT: et[Lt],
+  SCRIPT: et[Xt],
+  SCRIPTSCRIPT: et[zt]
 }, Xr = [{
   // Latin characters beyond the Latin-1 characters we have metrics for.
   // Needed for Czech, Hungarian and Turkish text, for example.
@@ -6748,7 +6753,7 @@ l0,-` + (t + 144) + `c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
       throw new Error("Unknown stretchy delimiter.");
   }
 };
-class jt {
+class Kt {
   // HtmlDomNode
   // Never used; needed for satisfying interface.
   constructor(e) {
@@ -6778,7 +6783,7 @@ class jt {
     return this.children.map(e).join("");
   }
 }
-var et = {
+var tt = {
   "AMS-Regular": {
     32: [0, 0, 0, 0, 0.25],
     65: [0, 0.68889, 0, 0, 0.72222],
@@ -9009,13 +9014,13 @@ var et = {
   я: "r"
 };
 function Oi(a, e) {
-  et[a] = e;
+  tt[a] = e;
 }
 function s0(a, e, t) {
-  if (!et[e])
+  if (!tt[e])
     throw new Error("Font metrics not found for font: " + e + ".");
-  var r = a.charCodeAt(0), n = et[e][r];
-  if (!n && a[0] in C0 && (r = C0[a[0]].charCodeAt(0), n = et[e][r]), !n && t === "text" && ya(r) && (n = et[e][77]), n)
+  var r = a.charCodeAt(0), n = tt[e][r];
+  if (!n && a[0] in C0 && (r = C0[a[0]].charCodeAt(0), n = tt[e][r]), !n && t === "text" && ya(r) && (n = tt[e][77]), n)
     return {
       depth: n[0],
       height: n[1],
@@ -9339,7 +9344,7 @@ var jr = {
     t += this.children[l].toMarkup();
   return t += "</" + e + ">", t;
 };
-class Kt {
+class Wt {
   constructor(e, t, r, n) {
     this.children = void 0, this.attributes = void 0, this.classes = void 0, this.height = void 0, this.depth = void 0, this.width = void 0, this.maxFontSize = void 0, this.style = void 0, xa.call(this, e, r, n), this.children = t || [];
   }
@@ -9498,7 +9503,7 @@ function L0(a) {
   throw new Error("Expected symbolNode but got " + String(a) + ".");
 }
 function Pi(a) {
-  if (a instanceof Kt)
+  if (a instanceof Wt)
     return a;
   throw new Error("Expected span<HtmlDomNode> but got " + String(a) + ".");
 }
@@ -10347,19 +10352,19 @@ var ar = [
   }
   e.height = t, e.depth = r, e.maxFontSize = n;
 }, Le = function(e, t, r, n) {
-  var i = new Kt(e, t, r, n);
+  var i = new Wt(e, t, r, n);
   return o0(i), i;
-}, Ta = (a, e, t, r) => new Kt(a, e, t, r), Vi = function(e, t, r) {
+}, Ta = (a, e, t, r) => new Wt(a, e, t, r), Vi = function(e, t, r) {
   var n = Le([e], [], t);
   return n.height = Math.max(r || t.fontMetrics().defaultRuleThickness, t.minRuleThickness), n.style.borderBottomWidth = B(n.height), n.maxFontSize = 1, n;
 }, Xi = function(e, t, r, n) {
   var i = new l0(e, t, r, n);
   return o0(i), i;
 }, Aa = function(e) {
-  var t = new jt(e);
+  var t = new Kt(e);
   return o0(t), t;
 }, ji = function(e, t) {
-  return e instanceof jt ? Le([], [e], t) : e;
+  return e instanceof Kt ? Le([], [e], t) : e;
 }, Ki = function(e) {
   if (e.positionType === "individualShift") {
     for (var t = e.children, r = [t[0]], n = -t[0].shift - t[0].elem.depth, i = n, l = 1; l < t.length; l++) {
@@ -10548,20 +10553,20 @@ var ar = [
 }, _t = {
   number: 4,
   unit: "mu"
-}, ot = {
+}, ut = {
   number: 5,
   unit: "mu"
 }, Qi = {
   mord: {
     mop: me,
     mbin: _t,
-    mrel: ot,
+    mrel: ut,
     minner: me
   },
   mop: {
     mord: me,
     mop: me,
-    mrel: ot,
+    mrel: ut,
     minner: me
   },
   mbin: {
@@ -10571,22 +10576,22 @@ var ar = [
     minner: _t
   },
   mrel: {
-    mord: ot,
-    mop: ot,
-    mopen: ot,
-    minner: ot
+    mord: ut,
+    mop: ut,
+    mopen: ut,
+    minner: ut
   },
   mopen: {},
   mclose: {
     mop: me,
     mbin: _t,
-    mrel: ot,
+    mrel: ut,
     minner: me
   },
   mpunct: {
     mord: me,
     mop: me,
-    mrel: ot,
+    mrel: ut,
     mopen: me,
     mclose: me,
     mpunct: me,
@@ -10596,7 +10601,7 @@ var ar = [
     mord: me,
     mop: me,
     mbin: _t,
-    mrel: ot,
+    mrel: ut,
     mopen: me,
     mpunct: me,
     minner: me
@@ -10684,7 +10689,7 @@ var yr = function(e) {
   n === void 0 && (n = [null, null]);
   for (var i = [], l = 0; l < e.length; l++) {
     var o = re(e[l], t);
-    if (o instanceof jt) {
+    if (o instanceof Kt) {
       var c = o.children;
       i.push(...c);
     } else
@@ -10729,7 +10734,7 @@ var yr = function(e) {
   }
   n && e.pop();
 }, _a = function(e) {
-  return e instanceof jt || e instanceof l0 || e instanceof Kt && e.hasClass("enclosing") ? e : null;
+  return e instanceof Kt || e instanceof l0 || e instanceof Wt && e.hasClass("enclosing") ? e : null;
 }, is = function a(e, t) {
   var r = _a(e);
   if (r) {
@@ -10744,7 +10749,7 @@ var yr = function(e) {
   return e;
 }, Zr = function(e, t) {
   return e ? (t && (e = is(e, t)), ns[e.classes[0]] || null) : null;
-}, Xt = function(e, t) {
+}, jt = function(e, t) {
   var r = ["nulldelimiter"].concat(e.baseSizingClasses());
   return mt(t.concat(r));
 }, re = function(e, t, r) {
@@ -10788,7 +10793,7 @@ function Jr(a, e) {
   return m;
 }
 function Oa(a) {
-  return new jt(a);
+  return new Kt(a);
 }
 class He {
   constructor(e, t, r) {
@@ -10838,7 +10843,7 @@ class He {
     return this.children.map((e) => e.toText()).join("");
   }
 }
-class Gt {
+class Yt {
   constructor(e) {
     this.text = void 0, this.text = e;
   }
@@ -10894,7 +10899,7 @@ class ss {
 }
 var D = {
   MathNode: He,
-  TextNode: Gt,
+  TextNode: Yt,
   SpaceNode: ss,
   newDocumentFragment: Oa
 }, Xe = function(e, t, r) {
@@ -10954,15 +10959,15 @@ var D = {
         continue;
       } else if (c.type === "mi" && c.children.length === 1 && l.type === "mn") {
         var p = c.children[0];
-        if (p instanceof Gt && p.text === ".") {
+        if (p instanceof Yt && p.text === ".") {
           l.children.push(...c.children);
           continue;
         }
       } else if (l.type === "mi" && l.children.length === 1) {
         var m = l.children[0];
-        if (m instanceof Gt && m.text === "̸" && (c.type === "mo" || c.type === "mi" || c.type === "mn")) {
+        if (m instanceof Yt && m.text === "̸" && (c.type === "mo" || c.type === "mi" || c.type === "mn")) {
           var v = c.children[0];
-          v instanceof Gt && v.text.length > 0 && (v.text = v.text.slice(0, 1) + "̸" + v.text.slice(1), i.pop());
+          v instanceof Yt && v.text.length > 0 && (v.text = v.text.slice(0, 1) + "̸" + v.text.slice(1), i.pop());
         }
       }
     }
@@ -12033,7 +12038,7 @@ $({
     };
   }
 });
-var qt = function(e, t, r) {
+var Ht = function(e, t, r) {
   var n = ce.math[e] && ce.math[e].replace, i = s0(n || e, t, r);
   if (!i)
     throw new Error("Unsupported symbol " + e + " and font size " + t + ".");
@@ -12061,7 +12066,7 @@ var qt = function(e, t, r) {
     elem: i
   };
 }, Pr = function(e, t, r) {
-  var n = et["Size4-Regular"][e.charCodeAt(0)] ? et["Size4-Regular"][e.charCodeAt(0)][4] : et["Size1-Regular"][e.charCodeAt(0)][4], i = new kt("inner", Ni(e, Math.round(1e3 * t))), l = new pt([i], {
+  var n = tt["Size4-Regular"][e.charCodeAt(0)] ? tt["Size4-Regular"][e.charCodeAt(0)][4] : tt["Size1-Regular"][e.charCodeAt(0)][4], i = new kt("inner", Ni(e, Math.round(1e3 * t))), l = new pt([i], {
     width: B(n),
     height: B(t),
     // Override CSS rule `.katex svg { width: 100% }`
@@ -12081,9 +12086,9 @@ var qt = function(e, t, r) {
   o = p = m = e, c = null;
   var b = "Size1-Regular";
   e === "\\uparrow" ? p = m = "⏐" : e === "\\Uparrow" ? p = m = "‖" : e === "\\downarrow" ? o = p = "⏐" : e === "\\Downarrow" ? o = p = "‖" : e === "\\updownarrow" ? (o = "\\uparrow", p = "⏐", m = "\\downarrow") : e === "\\Updownarrow" ? (o = "\\Uparrow", p = "‖", m = "\\Downarrow") : W.contains(ks, e) ? (p = "∣", v = "vert", x = 333) : W.contains(Ts, e) ? (p = "∥", v = "doublevert", x = 556) : e === "[" || e === "\\lbrack" ? (o = "⎡", p = "⎢", m = "⎣", b = "Size4-Regular", v = "lbrack", x = 667) : e === "]" || e === "\\rbrack" ? (o = "⎤", p = "⎥", m = "⎦", b = "Size4-Regular", v = "rbrack", x = 667) : e === "\\lfloor" || e === "⌊" ? (p = o = "⎢", m = "⎣", b = "Size4-Regular", v = "lfloor", x = 667) : e === "\\lceil" || e === "⌈" ? (o = "⎡", p = m = "⎢", b = "Size4-Regular", v = "lceil", x = 667) : e === "\\rfloor" || e === "⌋" ? (p = o = "⎥", m = "⎦", b = "Size4-Regular", v = "rfloor", x = 667) : e === "\\rceil" || e === "⌉" ? (o = "⎤", p = m = "⎥", b = "Size4-Regular", v = "rceil", x = 667) : e === "(" || e === "\\lparen" ? (o = "⎛", p = "⎜", m = "⎝", b = "Size4-Regular", v = "lparen", x = 875) : e === ")" || e === "\\rparen" ? (o = "⎞", p = "⎟", m = "⎠", b = "Size4-Regular", v = "rparen", x = 875) : e === "\\{" || e === "\\lbrace" ? (o = "⎧", c = "⎨", m = "⎩", p = "⎪", b = "Size4-Regular") : e === "\\}" || e === "\\rbrace" ? (o = "⎫", c = "⎬", m = "⎭", p = "⎪", b = "Size4-Regular") : e === "\\lgroup" || e === "⟮" ? (o = "⎧", m = "⎩", p = "⎪", b = "Size4-Regular") : e === "\\rgroup" || e === "⟯" ? (o = "⎫", m = "⎭", p = "⎪", b = "Size4-Regular") : e === "\\lmoustache" || e === "⎰" ? (o = "⎧", m = "⎭", p = "⎪", b = "Size4-Regular") : (e === "\\rmoustache" || e === "⎱") && (o = "⎫", m = "⎩", p = "⎪", b = "Size4-Regular");
-  var O = qt(o, b, i), S = O.height + O.depth, I = qt(p, b, i), T = I.height + I.depth, w = qt(m, b, i), E = w.height + w.depth, A = 0, R = 1;
+  var O = Ht(o, b, i), S = O.height + O.depth, I = Ht(p, b, i), T = I.height + I.depth, w = Ht(m, b, i), E = w.height + w.depth, A = 0, R = 1;
   if (c !== null) {
-    var N = qt(c, b, i);
+    var N = Ht(c, b, i);
     A = N.height + N.depth, R = 2;
   }
   var C = S + E + A, F = Math.max(0, Math.ceil((t - C) / (R * T))), z = C + F * R * T, ae = n.fontMetrics().axisHeight;
@@ -12126,7 +12131,7 @@ var qt = function(e, t, r) {
   return k.makeSvgSpan(["hide-tail"], [c], i);
 }, As = function(e, t) {
   var r = t.havingBaseSizing(), n = Xa("\\surd", e * r.sizeMultiplier, Va, r), i = r.sizeMultiplier, l = Math.max(0, t.minRuleThickness - t.fontMetrics().sqrtRuleThickness), o, c = 0, p = 0, m = 0, v;
-  return n.type === "small" ? (m = 1e3 + 1e3 * l + Br, e < 1 ? i = 1 : e < 1.4 && (i = 0.7), c = (1 + l + Fr) / i, p = (1 + l) / i, o = $r("sqrtMain", c, m, l, t), o.style.minWidth = "0.853em", v = 0.833 / i) : n.type === "large" ? (m = (1e3 + Br) * Yt[n.size], p = (Yt[n.size] + l) / i, c = (Yt[n.size] + l + Fr) / i, o = $r("sqrtSize" + n.size, c, m, l, t), o.style.minWidth = "1.02em", v = 1 / i) : (c = e + l + Fr, p = e + l, m = Math.floor(1e3 * e + l) + Br, o = $r("sqrtTall", c, m, l, t), o.style.minWidth = "0.742em", v = 1.056), o.height = p, o.style.height = B(c), {
+  return n.type === "small" ? (m = 1e3 + 1e3 * l + Br, e < 1 ? i = 1 : e < 1.4 && (i = 0.7), c = (1 + l + Fr) / i, p = (1 + l) / i, o = $r("sqrtMain", c, m, l, t), o.style.minWidth = "0.853em", v = 0.833 / i) : n.type === "large" ? (m = (1e3 + Br) * Vt[n.size], p = (Vt[n.size] + l) / i, c = (Vt[n.size] + l + Fr) / i, o = $r("sqrtSize" + n.size, c, m, l, t), o.style.minWidth = "1.02em", v = 1 / i) : (c = e + l + Fr, p = e + l, m = Math.floor(1e3 * e + l) + Br, o = $r("sqrtTall", c, m, l, t), o.style.minWidth = "0.742em", v = 1.056), o.height = p, o.style.height = B(c), {
     span: o,
     advanceWidth: v,
     // Calculate the actual line width.
@@ -12135,11 +12140,11 @@ var qt = function(e, t, r) {
     // have thicker rules.
     ruleWidth: (t.fontMetrics().sqrtRuleThickness + l) * i
   };
-}, Ga = ["(", "\\lparen", ")", "\\rparen", "[", "\\lbrack", "]", "\\rbrack", "\\{", "\\lbrace", "\\}", "\\rbrace", "\\lfloor", "\\rfloor", "⌊", "⌋", "\\lceil", "\\rceil", "⌈", "⌉", "\\surd"], Is = ["\\uparrow", "\\downarrow", "\\updownarrow", "\\Uparrow", "\\Downarrow", "\\Updownarrow", "|", "\\|", "\\vert", "\\Vert", "\\lvert", "\\rvert", "\\lVert", "\\rVert", "\\lgroup", "\\rgroup", "⟮", "⟯", "\\lmoustache", "\\rmoustache", "⎰", "⎱"], Ya = ["<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt"], Yt = [0, 1.2, 1.8, 2.4, 3], Rs = function(e, t, r, n, i) {
+}, Ga = ["(", "\\lparen", ")", "\\rparen", "[", "\\lbrack", "]", "\\rbrack", "\\{", "\\lbrace", "\\}", "\\rbrace", "\\lfloor", "\\rfloor", "⌊", "⌋", "\\lceil", "\\rceil", "⌈", "⌉", "\\surd"], Is = ["\\uparrow", "\\downarrow", "\\updownarrow", "\\Uparrow", "\\Downarrow", "\\Updownarrow", "|", "\\|", "\\vert", "\\Vert", "\\lvert", "\\rvert", "\\lVert", "\\rVert", "\\lgroup", "\\rgroup", "⟮", "⟯", "\\lmoustache", "\\rmoustache", "⎰", "⎱"], Ya = ["<", ">", "\\langle", "\\rangle", "/", "\\backslash", "\\lt", "\\gt"], Vt = [0, 1.2, 1.8, 2.4, 3], Rs = function(e, t, r, n, i) {
   if (e === "<" || e === "\\lt" || e === "⟨" ? e = "\\langle" : (e === ">" || e === "\\gt" || e === "⟩") && (e = "\\rangle"), W.contains(Ga, e) || W.contains(Ya, e))
     return qa(e, t, !1, r, n, i);
   if (W.contains(Is, e))
-    return Ha(e, Yt[t], !1, r, n, i);
+    return Ha(e, Vt[t], !1, r, n, i);
   throw new L("Illegal delimiter: '" + e + "'");
 }, Ns = [{
   type: "small",
@@ -12206,7 +12211,7 @@ var qt = function(e, t, r) {
   throw new Error("Add support for delim type '" + e.type + "' here.");
 }, Xa = function(e, t, r, n) {
   for (var i = Math.min(2, 3 - n.style.size), l = i; l < r.length && r[l].type !== "stack"; l++) {
-    var o = qt(e, Os(r[l]), "math"), c = o.height + o.depth;
+    var o = Ht(e, Os(r[l]), "math"), c = o.height + o.depth;
     if (r[l].type === "small") {
       var p = n.havingBaseStyle(r[l].style);
       c *= p.sizeMultiplier;
@@ -12239,7 +12244,7 @@ var qt = function(e, t, r) {
 }, ht = {
   sqrtImage: As,
   sizedDelim: Rs,
-  sizeToMaxHeight: Yt,
+  sizeToMaxHeight: Vt,
   customSizedDelim: ja,
   leftRightDelim: Cs
 }, Y0 = {
@@ -12393,14 +12398,14 @@ $({
       t[l].isMiddle ? i = !0 : (r = Math.max(t[l].height, r), n = Math.max(t[l].depth, n));
     r *= e.sizeMultiplier, n *= e.sizeMultiplier;
     var o;
-    if (a.left === "." ? o = Xt(e, ["mopen"]) : o = ht.leftRightDelim(a.left, r, n, e, a.mode, ["mopen"]), t.unshift(o), i)
+    if (a.left === "." ? o = jt(e, ["mopen"]) : o = ht.leftRightDelim(a.left, r, n, e, a.mode, ["mopen"]), t.unshift(o), i)
       for (var c = 1; c < t.length; c++) {
         var p = t[c], m = p.isMiddle;
         m && (t[c] = ht.leftRightDelim(m.delim, r, n, m.options, a.mode, []));
       }
     var v;
     if (a.right === ".")
-      v = Xt(e, ["mclose"]);
+      v = jt(e, ["mclose"]);
     else {
       var x = a.rightColor ? e.withColor(a.rightColor) : e;
       v = ht.leftRightDelim(a.right, r, n, x, a.mode, ["mclose"]);
@@ -12441,7 +12446,7 @@ $({
   htmlBuilder: (a, e) => {
     var t;
     if (a.delim === ".")
-      t = Xt(e, []);
+      t = jt(e, []);
     else {
       t = ht.sizedDelim(a.delim, 1, e, a.mode, []);
       var r = {
@@ -12678,7 +12683,7 @@ $({
   }
 });
 var Ka = {};
-function rt(a) {
+function at(a) {
   for (var {
     type: e,
     names: t,
@@ -12793,7 +12798,7 @@ function At(a, e, t) {
 function v0(a) {
   return a.slice(0, 1) === "d" ? "display" : "text";
 }
-var at = function(e, t) {
+var nt = function(e, t) {
   var r, n, i = e.body.length, l = e.hLinesBeforeRow, o = 0, c = new Array(i), p = [], m = Math.max(
     // From LaTeX \showthe\arrayrulewidth. Equals 0.04 em.
     t.fontMetrics().arrayRuleWidth,
@@ -12809,10 +12814,10 @@ var at = function(e, t) {
     unit: "ex"
   }, t) : 12 * v, S = 3 * v, I = e.arraystretch * O, T = 0.7 * I, w = 0.3 * I, E = 0;
   function A(Ke) {
-    for (var Zt = 0; Zt < Ke.length; ++Zt)
-      Zt > 0 && (E += 0.25), p.push({
+    for (var Jt = 0; Jt < Ke.length; ++Jt)
+      Jt > 0 && (E += 0.25), p.push({
         pos: E,
-        isDashed: Ke[Zt]
+        isDashed: Ke[Jt]
       });
   }
   for (A(l[0]), r = 0; r < e.body.length; ++r) {
@@ -12847,8 +12852,8 @@ var at = function(e, t) {
       if (Pe || (Te = k.makeSpan(["arraycolsep"], []), Te.style.width = B(t.fontMetrics().doubleRuleSep), ve.push(Te)), Y.separator === "|" || Y.separator === ":") {
         var Ne = Y.separator === "|" ? "solid" : "dashed", Me = k.makeSpan(["vertical-separator"], [], t);
         Me.style.height = B(E), Me.style.borderRightWidth = B(m), Me.style.borderRightStyle = Ne, Me.style.margin = "0 " + B(-m / 2);
-        var it = E - te;
-        it && (Me.style.verticalAlign = B(-it)), ve.push(Me);
+        var st = E - te;
+        st && (Me.style.verticalAlign = B(-st)), ve.push(Me);
       } else
         throw new L("Invalid separator type: " + Y.separator);
       _e++, Y = Ae[_e] || {}, Pe = !1;
@@ -12858,10 +12863,10 @@ var at = function(e, t) {
       (n > 0 || e.hskipBeforeAndAfter) && (Be = W.deflt(Y.pregap, x), Be !== 0 && (Te = k.makeSpan(["arraycolsep"], []), Te.style.width = B(Be), ve.push(Te)));
       var qe = [];
       for (r = 0; r < i; ++r) {
-        var st = c[r], je = st[n];
+        var lt = c[r], je = lt[n];
         if (je) {
-          var _ = st.pos - te;
-          je.depth = st.depth, je.height = st.height, qe.push({
+          var _ = lt.pos - te;
+          je.depth = lt.depth, je.height = lt.height, qe.push({
             type: "elem",
             elem: je,
             shift: _
@@ -12907,7 +12912,7 @@ var at = function(e, t) {
   c: "center ",
   l: "left ",
   r: "right "
-}, nt = function(e, t) {
+}, it = function(e, t) {
   for (var r = [], n = new D.MathNode("mtd", [], ["mtr-glue"]), i = new D.MathNode("mtd", [], ["mml-eqn-num"]), l = 0; l < e.body.length; l++) {
     for (var o = e.body[l], c = [], p = 0; p < o.length; p++)
       c.push(new D.MathNode("mtd", [le(o[p], t)]));
@@ -12981,7 +12986,7 @@ var at = function(e, t) {
   }
   return l.colSeparationType = b ? "align" : "alignat", l;
 };
-rt({
+at({
   type: "array",
   names: ["array", "darray"],
   props: {
@@ -13014,10 +13019,10 @@ rt({
     };
     return At(a.parser, i, v0(a.envName));
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["matrix", "pmatrix", "bmatrix", "Bmatrix", "vmatrix", "Vmatrix", "matrix*", "pmatrix*", "bmatrix*", "Bmatrix*", "vmatrix*", "Vmatrix*"],
   props: {
@@ -13063,10 +13068,10 @@ rt({
       // \right uninfluenced by \color in array
     } : i;
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["smallmatrix"],
   props: {
@@ -13078,10 +13083,10 @@ rt({
     }, t = At(a.parser, e, "script");
     return t.colSeparationType = "small", t;
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["subarray"],
   props: {
@@ -13108,10 +13113,10 @@ rt({
       throw new L("{subarray} can contain only one column");
     return i;
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["cases", "dcases", "rcases", "drcases"],
   props: {
@@ -13146,20 +13151,20 @@ rt({
       rightColor: void 0
     };
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["align", "align*", "aligned", "split"],
   props: {
     numArgs: 0
   },
   handler: Za,
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["gathered", "gather", "gather*"],
   props: {
@@ -13180,20 +13185,20 @@ rt({
     };
     return At(a.parser, e, "display");
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["alignat", "alignat*", "alignedat"],
   props: {
     numArgs: 1
   },
   handler: Za,
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["equation", "equation*"],
   props: {
@@ -13210,10 +13215,10 @@ rt({
     };
     return At(a.parser, e, "display");
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
-rt({
+at({
   type: "array",
   names: ["CD"],
   props: {
@@ -13222,8 +13227,8 @@ rt({
   handler(a) {
     return Ar(a), ws(a.parser);
   },
-  htmlBuilder: at,
-  mathmlBuilder: nt
+  htmlBuilder: nt,
+  mathmlBuilder: it
 });
 h("\\nonumber", "\\gdef\\@eqnsw{0}");
 h("\\notag", "\\nonumber");
@@ -13442,7 +13447,7 @@ var en = (a, e) => {
   var A;
   t.size === V.DISPLAY.size ? A = e.fontMetrics().delim1 : t.size === V.SCRIPTSCRIPT.size ? A = e.havingStyle(V.SCRIPT).fontMetrics().delim2 : A = e.fontMetrics().delim2;
   var R, N;
-  return a.leftDelim == null ? R = Xt(e, ["mopen"]) : R = ht.customSizedDelim(a.leftDelim, A, !0, e.havingStyle(t), a.mode, ["mopen"]), a.continued ? N = k.makeSpan([]) : a.rightDelim == null ? N = Xt(e, ["mclose"]) : N = ht.customSizedDelim(a.rightDelim, A, !0, e.havingStyle(t), a.mode, ["mclose"]), k.makeSpan(["mord"].concat(i.sizingClasses(e)), [R, k.makeSpan(["mfrac"], [I]), N], e);
+  return a.leftDelim == null ? R = jt(e, ["mopen"]) : R = ht.customSizedDelim(a.leftDelim, A, !0, e.havingStyle(t), a.mode, ["mopen"]), a.continued ? N = k.makeSpan([]) : a.rightDelim == null ? N = jt(e, ["mclose"]) : N = ht.customSizedDelim(a.rightDelim, A, !0, e.havingStyle(t), a.mode, ["mclose"]), k.makeSpan(["mord"].concat(i.sizingClasses(e)), [R, k.makeSpan(["mfrac"], [I]), N], e);
 }, y0 = (a, e) => {
   var t = new D.MathNode("mfrac", [le(a.numer, e), le(a.denom, e)]);
   if (!a.hasBarLine)
@@ -14349,14 +14354,14 @@ var rn = (a, e, t, r, n, i, l) => {
   }
   var I = 0, T = 0;
   return (c instanceof Ve || i.name === "\\oiint" || i.name === "\\oiiint") && !i.suppressBaseShift && (I = (c.height - c.depth) / 2 - e.fontMetrics().axisHeight, T = c.italic), n ? rn(c, t, r, e, l, T, I) : (I && (c.style.position = "relative", c.style.top = B(I)), c);
-}, Wt = (a, e) => {
+}, Zt = (a, e) => {
   var t;
   if (a.symbol)
     t = new He("mo", [Xe(a.name, a.mode)]), W.contains(an, a.name) && t.setAttribute("largeop", "false");
   else if (a.body)
     t = new He("mo", ze(a.body, e));
   else {
-    t = new He("mi", [new Gt(a.name.slice(1))]);
+    t = new He("mi", [new Yt(a.name.slice(1))]);
     var r = new He("mo", [Xe("⁡", "text")]);
     a.parentIsSupSub ? t = new He("mrow", [t, r]) : t = Oa([t, r]);
   }
@@ -14396,7 +14401,7 @@ $({
     };
   },
   htmlBuilder: Bt,
-  mathmlBuilder: Wt
+  mathmlBuilder: Zt
 });
 $({
   type: "op",
@@ -14419,7 +14424,7 @@ $({
     };
   },
   htmlBuilder: Bt,
-  mathmlBuilder: Wt
+  mathmlBuilder: Zt
 });
 var Ps = {
   "∫": "\\int",
@@ -14450,7 +14455,7 @@ $({
     };
   },
   htmlBuilder: Bt,
-  mathmlBuilder: Wt
+  mathmlBuilder: Zt
 });
 $({
   type: "op",
@@ -14473,7 +14478,7 @@ $({
     };
   },
   htmlBuilder: Bt,
-  mathmlBuilder: Wt
+  mathmlBuilder: Zt
 });
 $({
   type: "op",
@@ -14496,7 +14501,7 @@ $({
     };
   },
   htmlBuilder: Bt,
-  mathmlBuilder: Wt
+  mathmlBuilder: Zt
 });
 var nn = (a, e) => {
   var t, r, n = !1, i;
@@ -15837,7 +15842,7 @@ h("\\pmod", "\\pod{{\\rm mod}\\mkern6mu#1}");
 h("\\mod", "\\allowbreak\\mathchoice{\\mkern18mu}{\\mkern12mu}{\\mkern12mu}{\\mkern12mu}{\\rm mod}\\,\\,#1");
 h("\\newline", "\\\\\\relax");
 h("\\TeX", "\\textrm{\\html@mathml{T\\kern-.1667em\\raisebox{-.5ex}{E}\\kern-.125emX}{TeX}}");
-var un = B(et["Main-Regular"]["T".charCodeAt(0)][1] - 0.7 * et["Main-Regular"]["A".charCodeAt(0)][1]);
+var un = B(tt["Main-Regular"]["T".charCodeAt(0)][1] - 0.7 * tt["Main-Regular"]["A".charCodeAt(0)][1]);
 h("\\LaTeX", "\\textrm{\\html@mathml{" + ("L\\kern-.36em\\raisebox{" + un + "}{\\scriptstyle A}") + "\\kern-.15em\\TeX}{LaTeX}}");
 h("\\KaTeX", "\\textrm{\\html@mathml{" + ("K\\kern-.17em\\raisebox{" + un + "}{\\scriptstyle A}") + "\\kern-.15em\\TeX}{KaTeX}}");
 h("\\hspace", "\\@ifstar\\@hspacer\\@hspace");
@@ -17557,7 +17562,7 @@ var Zs = function(e, t) {
    * to change. Use at your own risk.
    */
   __domTree: {
-    Span: Kt,
+    Span: Wt,
     Anchor: l0,
     SymbolNode: Ve,
     SvgNode: pt,
@@ -18734,7 +18739,7 @@ class xn {
     return this.getNextSafeSlug(r, t.dryrun);
   }
 }
-class tt {
+class rt {
   constructor(e) {
     this.options = e || Ft, this.options.renderer = this.options.renderer || new T0(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.textRenderer = new wn(), this.slugger = new xn();
   }
@@ -18742,13 +18747,13 @@ class tt {
    * Static Parse Method
    */
   static parse(e, t) {
-    return new tt(t).parse(e);
+    return new rt(t).parse(e);
   }
   /**
    * Static Parse Inline Method
    */
   static parseInline(e, t) {
-    return new tt(t).parseInline(e);
+    return new rt(t).parseInline(e);
   }
   /**
    * Parse Loop
@@ -18925,7 +18930,7 @@ function K(a, e, t) {
       let p;
       if (!c)
         try {
-          e.walkTokens && K.walkTokens(i, e.walkTokens), p = tt.parse(i, e);
+          e.walkTokens && K.walkTokens(i, e.walkTokens), p = rt.parse(i, e);
         } catch (m) {
           c = m;
         }
@@ -18955,10 +18960,10 @@ Please report this to https://github.com/markedjs/marked.`, e.silent)
     const n = gt.lex(a, e);
     if (e.walkTokens) {
       if (e.async)
-        return Promise.all(K.walkTokens(n, e.walkTokens)).then(() => tt.parse(n, e)).catch(r);
+        return Promise.all(K.walkTokens(n, e.walkTokens)).then(() => rt.parse(n, e)).catch(r);
       K.walkTokens(n, e.walkTokens);
     }
-    return tt.parse(n, e);
+    return rt.parse(n, e);
   } catch (n) {
     r(n);
   }
@@ -19051,7 +19056,7 @@ K.parseInline = function(a, e) {
   e = Je({}, K.defaults, e || {}), yn(e);
   try {
     const t = gt.lexInline(a, e);
-    return e.walkTokens && K.walkTokens(t, e.walkTokens), tt.parseInline(t, e);
+    return e.walkTokens && K.walkTokens(t, e.walkTokens), rt.parseInline(t, e);
   } catch (t) {
     if (t.message += `
 Please report this to https://github.com/markedjs/marked.`, e.silent)
@@ -19059,8 +19064,8 @@ Please report this to https://github.com/markedjs/marked.`, e.silent)
     throw t;
   }
 };
-K.Parser = tt;
-K.parser = tt.parse;
+K.Parser = rt;
+K.parser = rt.parse;
 K.Renderer = T0;
 K.TextRenderer = wn;
 K.Lexer = gt;
@@ -19073,7 +19078,7 @@ K.setOptions;
 K.use;
 K.walkTokens;
 K.parseInline;
-tt.parse;
+rt.parse;
 gt.lex;
 const gl = ["innerHTML"], vl = {
   name: "MarkdownPreview"
@@ -19213,7 +19218,7 @@ const gl = ["innerHTML"], vl = {
         S[I].removeEventListener("click", x), S[I].addEventListener("click", x);
     };
     let O = 0;
-    return Ht(() => {
+    return Gt(() => {
       b(), O = setInterval(b, 1e3);
     }), mr(() => {
       clearInterval(O);

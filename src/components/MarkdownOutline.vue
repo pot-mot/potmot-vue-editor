@@ -1,6 +1,6 @@
 <template>
 	<ul class="outline">
-		<li v-for="head in heads" :key="head.id" :style="props.style(head.level)"
+		<li v-for="head in heads" :key="head.id" :style="props.style(head.level - maxLevel)"
 			@click="jumpTo(head.id)">
 			{{ head.text }}
 		</li>
@@ -14,7 +14,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue";
 
 const props = defineProps({
 	target: {
@@ -40,8 +40,18 @@ const props = defineProps({
 	}
 })
 
+const maxLevel = computed(() => {
+	let max = 7;
+	for (const head of heads.value) {
+		if (head.level < max) {
+			max = head.level
+		}
+	}
+	return max;
+})
+
 interface Headline {
-	level: string;
+	level: number;
 	id: string;
 	text: string;
 }
@@ -51,8 +61,7 @@ function getHeadFromHtmlText(html: string): Headline[] {
 	const regex = /<h([1-6]) id="(.*?)">(.*?)</g;
 	let match: RegExpExecArray | null;
 	while (match = regex.exec(html)) {
-		console.log(match[0], match[1], match[2], match[3])
-		heads.push({level: match[1], id: match[2], text: match[3]});
+		heads.push({level: Number.parseInt(match[1]), id: match[2], text: match[3]});
 	}
 	return heads;
 }

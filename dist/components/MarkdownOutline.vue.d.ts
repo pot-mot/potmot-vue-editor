@@ -1,5 +1,5 @@
 interface Headline {
-    level: string;
+    level: number;
     id: string;
     text: string;
 }
@@ -51,10 +51,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
             default: (level: number) => string;
         };
     }>> & {}>>;
+    maxLevel: import("vue").ComputedRef<number>;
     getHeadFromHtmlText: (html: string) => Headline[];
     interval: number;
     heads: import("vue").Ref<{
-        level: string;
+        level: number;
         id: string;
         text: string;
     }[]>;
