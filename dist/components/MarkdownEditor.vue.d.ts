@@ -22,8 +22,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }, {
     data: {
-        handleScrollFlag: string;
-        beforeFullScreenTop: number;
         text: string;
         pushFlag: string;
         history: {
@@ -62,9 +60,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     emit: (event: "update:modelValue", ...args: any[]) => void;
     textarea: Ref<any>;
     previewCard: Ref<any>;
-    argsMap: Ref<Map<string, Ref<any>>>;
-    changeInputArg: (name: string, e: InputEvent) => void;
-    changeSelectArg: (name: string, e: Event) => void;
+    containerClass: import("vue").ComputedRef<"" | "edit-preview" | "edit">;
     EditTool: {
         new (name: string, label: string, icon: string, method?: Function): {
             name: string;
@@ -107,12 +103,15 @@ declare const _sfc_main: import("vue").DefineComponent<{
     getEditToolActive: (key: string) => boolean;
     setEditToolActive: (key: string, newValue: boolean) => void;
     isFullScreen: import("vue").WritableComputedRef<boolean>;
+    beforeFullScreenTop: number;
     isReplace: import("vue").WritableComputedRef<boolean>;
     isPreview: import("vue").WritableComputedRef<boolean>;
-    containerClass: import("vue").ComputedRef<"" | "edit" | "edit-preview">;
+    argsMap: Ref<Map<string, Ref<any>>>;
+    changeInputArg: (name: string, e: InputEvent) => void;
+    changeSelectArg: (name: string, e: Event) => void;
     insertIntoTextarea: (insertUnit: InsertUnit) => void;
-    handleScroll: (from: HTMLElement, to: HTMLElement) => void;
     scrollKey: Ref<string>;
+    handleScroll: (from: HTMLElement, to: HTMLElement) => void;
     scrollKeyInterval: number;
     push: (start?: number, end?: number) => void;
     replaceTop: (start?: number, end?: number) => void;

@@ -6,7 +6,7 @@
 
 > 当前版本 v0.5 2023/4/3
 
-目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview
+目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
 ### 使用
 
@@ -130,27 +130,28 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 | 参数 | 类型 | 说明 | 必须 |
 |--------------|--|-------------------------|---------------------|
 | markdownText | String | 传入的markdown文本，将被解析成html | 是 |
-| codeTheme | String | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计  | 否，默认值 "potmot-dark" |
+| codeTheme | String | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
 | codeFold | Boolean | 是否开启代码块折叠 | 否，默认值 false |
 | codeFoldThreshold | Number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
 
 ### 3. Outline 大纲
 
-根据传入的Markdown根据正则匹配h标签生成a标签大纲，同名标题追加-n数字下标进行区分，除marked无额外依赖，也无默认样式
+在target中根据正则匹配寻找带id的标题元素生成ul大纲
+
+请尽可能不要有id相同的标题
 
 ```html
-
 <MarkdownOutline :markdown-text="text"></MarkdownOutline>
 ```
 
-例如，当 text 值为 `# html\n## html` 时，该组件会生成如下：
+**props 参数说明**
 
-```html
-<ul class="outline">
-    <li><a href="#html" style="padding-left: 0em;">html</a></li>
-    <li><a href="#html-1" style="padding-left: 1em;">html-1</a></li>
-</ul>
-```
+| 参数 | 类型 | 说明 | 必须 |
+|--------------|--|-------------------------|---------------------|
+| target | HTMLElement | 寻找的根元素 | 否，默认值 document.documentElement |
+| policy | String | 跳转策略，目前提供 "anchor" (基于scrollIntoView) 和 "offset" (基于偏移量计算) | 否，默认值 "offset" |
+| click | Function | 点击item时的触发事件，传入参数为点击标题的id | 否 |
+
 
 ## 依赖
 

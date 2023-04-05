@@ -49,7 +49,6 @@
 		<div v-show="getEditToolActive('outline')" class="outline-box floating-card" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
 			<MarkdownOutline
-				:markdown-text="data.text"
 				:target="previewCard"
 				:click="() => {scrollKey = 'preview'}">
 			</MarkdownOutline>

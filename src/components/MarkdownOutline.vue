@@ -1,7 +1,7 @@
 <template>
 	<ul class="outline">
-		<li v-for="head in heads" :key="head.text" :style="'padding-left: ' + (head.level - 1) + 'em;'"
-			@click="jumpTo(head.text)">
+		<li v-for="head in heads" :key="head.id" :style="props.style(head.level)"
+			@click="jumpTo(head.id)">
 			{{ head.text }}
 		</li>
 	</ul>
@@ -14,49 +14,59 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {ref, watch} from "vue";
-import {marked} from "marked";
+import {onBeforeUnmount, onMounted, ref, watch} from "vue";
 
 const props = defineProps({
-	markdownText: {
-		type: String,
-		required: true,
+	target: {
+		type: HTMLElement,
+		required: false,
+		default: document.documentElement,
 	},
 	policy: {
 		type: String,
 		required: false,
 		default: "offset"
 	},
-	target: {
-		type: HTMLElement,
-		required: false,
-		default: document.documentElement,
-	},
 	click: {
 		type: Function,
 		required: false,
+	},
+	style: {
+		type: Function,
+		required: false,
+		default: (level: number) => {
+			return "padding-left: " + (level - 0.5) + "em;"
+		}
 	}
 })
 
 interface Headline {
 	level: string;
+	id: string;
 	text: string;
 }
 
 function getHeadFromHtmlText(html: string): Headline[] {
 	const heads: Headline[] = [];
-	const regex = /<h([1-6]) id="(.*?)">/g;
+	const regex = /<h([1-6]) id="(.*?)">(.*?)</g;
 	let match: RegExpExecArray | null;
 	while (match = regex.exec(html)) {
-		const tagName = match[1];
-		const tagText = match[2];
-		heads.push({level: tagName, text: tagText});
+		console.log(match[0], match[1], match[2], match[3])
+		heads.push({level: match[1], id: match[2], text: match[3]});
 	}
 	return heads;
 }
 
-watch(() => props.markdownText, () => {
-	heads.value = getHeadFromHtmlText(marked.parse(props.markdownText));
+let interval = 0;
+
+onMounted(() => {
+	interval = setInterval(() => {
+		heads.value = getHeadFromHtmlText(props.target.innerHTML)
+	}, 500)
+})
+
+onBeforeUnmount(() => {
+	clearInterval(interval);
 })
 
 let heads = ref<Headline[]>([]);
@@ -70,8 +80,8 @@ const jumpTo = (id: string) => {
 		props.target.querySelector('#' + id)?.scrollIntoView();
 	} else if (props.policy == "offset") {
 		const head = <HTMLHeadElement>(props.target.querySelector('#' + id))
-		const dif =  head.offsetTop - props.target.offsetTop
-		props.target.scrollTop = dif - 20;
+		const dif = head.offsetTop - props.target.offsetTop
+		props.target.scrollTop = dif - 16;
 	}
 }
 </script>
@@ -84,14 +94,12 @@ const jumpTo = (id: string) => {
 	line-height: inherit;
 
 	> li {
-		> a {
-			display: block;
-			font-style: normal;
-			color: inherit;
-			text-decoration: none;
-		}
+		display: block;
+		font-style: normal;
+		color: inherit;
+		text-decoration: none;
 
-		> a:hover {
+		&:hover {
 			background-color: #eeeeee;
 		}
 	}
