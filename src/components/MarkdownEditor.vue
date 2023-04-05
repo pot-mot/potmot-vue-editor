@@ -75,7 +75,7 @@
 			<div
 				ref="textareaCountLine"
 				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
-				style="white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
+				style="visibility: hidden;white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
 		</div>
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
@@ -105,10 +105,7 @@ import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/I
 
 // 数据
 const data = reactive({
-	// 同步滚动条
-	handleScrollFlag: "edit",
-	beforeFullScreenTop: 0,
-
+	// 文本编辑相关
 	text: "",
 	pushFlag: "",
 
@@ -148,6 +145,9 @@ const props = defineProps({
 	}
 })
 
+/**
+ * v-model 部分
+ */
 const emit = defineEmits(['update:modelValue']);
 
 watch(() => data.text, () => {
@@ -157,16 +157,12 @@ watch(() => data.text, () => {
 const textarea = ref();
 const previewCard = ref();
 
-const argsMap = ref(new Map<string, Ref>)
-
-argsMap.value = getArgsMap(props.insertUnits)
-
-const changeInputArg = (name: string, e: InputEvent) => {
-	argsMap.value.get(name)!.value = (<HTMLInputElement>e.target).value;
-}
-const changeSelectArg = (name: string, e: Event) => {
-	argsMap.value.get(name)!.value = (<HTMLSelectElement>e.target).value;
-}
+// 核心容器样式类
+const containerClass = computed(() => {
+	if (!isFullScreen.value) return '';
+	if (isPreview.value) return 'edit-preview';
+	return 'edit';
+})
 
 class EditTool {
 	name: string = "";
@@ -286,15 +282,17 @@ const isFullScreen = computed({
 	}
 })
 
+let beforeFullScreenTop = 0
+
 watch(() => isFullScreen.value, async (newValue) => {
 	if (newValue) {
 		isPreview.value = !isMobile();
-		data.handleScrollFlag = "edit";
-		data.beforeFullScreenTop = document.documentElement.scrollTop;
+		scrollKey.value = "edit"
+		beforeFullScreenTop = document.documentElement.scrollTop;
 	} else {
 		isPreview.value = false;
 		await nextTick(() => {
-			document.documentElement.scrollTop = data.beforeFullScreenTop;
+			document.documentElement.scrollTop = beforeFullScreenTop;
 		})
 	}
 })
@@ -317,21 +315,20 @@ const isPreview = computed({
 	}
 })
 
-watch(() => isPreview.value, async (newValue) => {
-	if (isMobile()) {
-		scrollKey.value = newValue ? 'preview' : 'edit';
-	}
-})
+/**
+ * 插入工具
+ */
+const argsMap = ref(new Map<string, Ref>)
 
+argsMap.value = getArgsMap(props.insertUnits)
 
-// 核心容器样式类
-const containerClass = computed(() => {
-	if (!isFullScreen.value) return '';
-	if (isPreview.value) return 'edit-preview';
-	return 'edit';
-})
+const changeInputArg = (name: string, e: InputEvent) => {
+	argsMap.value.get(name)!.value = (<HTMLInputElement>e.target).value;
+}
+const changeSelectArg = (name: string, e: Event) => {
+	argsMap.value.get(name)!.value = (<HTMLSelectElement>e.target).value;
+}
 
-// 文本插入
 const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	let start = textarea.value.selectionStart;
 	let selectEnd = textarea.value.selectionEnd;
@@ -374,12 +371,20 @@ onMounted(() => {
 	}
 })
 
-// 滚动同步
+/**
+ * 滚动同步
+  */
+let scrollKey = ref("textarea")
+
 const handleScroll = (from: HTMLElement, to: HTMLElement) => {
 	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
 }
 
-let scrollKey = ref("textarea")
+watch(() => isPreview.value, async (newValue) => {
+	if (isMobile()) {
+		scrollKey.value = newValue ? 'preview' : 'edit';
+	}
+})
 
 let scrollKeyInterval = 0
 

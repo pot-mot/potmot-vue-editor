@@ -270,12 +270,13 @@ export const htmlInsertUnits: InsertUnit[] = [
         key: ">",
         label: "折叠块",
         insert: (args) => {
-            const summary = args.get("summary")!.value
-            return {before: "<details>\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
+            const summary = args.get("detailIsSummary")!.value
+            const isOpen = args.get("detailIsOpen")!.value
+            return {before: "<details" + (isOpen == '展开' ? ' open':'') + ">\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
         },
         arguments: [
             <InputInsertArgument<string>>{
-                name: "summary",
+                name: "detailIsSummary",
                 label: "标识",
                 type: "string",
                 getRef: () => {
@@ -283,6 +284,15 @@ export const htmlInsertUnits: InsertUnit[] = [
                     return ref(summary);
                 },
                 styleWidth: "6em",
+            },
+            <OptionInsertArgument>{
+                name: "detailIsOpen",
+                label: "默认状态",
+                getRef: () => {
+                    let detailIsOpen = "收起";
+                    return ref(detailIsOpen);
+                },
+                options: ["收起", "展开"]
             }
         ],
         keepSelect: true
