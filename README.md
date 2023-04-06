@@ -4,7 +4,7 @@
 
 ## 介绍
 
-> 当前版本 v0.6 2023/4/5
+> 当前版本 v0.7 2023/4/6
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.6.1
+npm install potmot-vue-editor@0.7.0
 ```
 
 main.js 中引用
@@ -29,10 +29,7 @@ app.use(editor)
 
 使用v-model绑定字符串
 
-提供了查找、替换、预览和自定义快速插入功能，为防止键位冲突，目前所有快捷插入均由Ctrl + 特定key触发
-
-#### 风险提示
-- 快速插入可能覆盖浏览器原有快捷键
+提供了查找、替换、预览和自定义快速键功能
 
 **props 参数说明**
 
@@ -41,7 +38,14 @@ app.use(editor)
 | v-model | Ref<String> | 绑定输入字符串 | 是 |
 | placeholder | String | 占位字符串 | 否，默认值 "" |
 | startWithFullScreen | Boolean | 是否以全屏启动 | 否，默认值 false |
-| insertUnits | InsertUnit[] | 拓展插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits] |
+| ShortcutKeys | EditorShortcutKey[] | 自定义快捷键，具体见下 | 否，默认值 [] |
+| insertUnits | InsertUnit[] | 插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits] |
+
+#### EditorShortcutKey 编辑器快捷键
+
+自定义快捷键可覆盖原有快捷键
+
+// TODO 文档待补充
 
 #### InsertUnit 插入单元
 
@@ -49,70 +53,7 @@ app.use(editor)
 
 在 MarkdownEditor 中配置 insert-units props 即可配置插入功能
 
-```html
-<MarkdownEditor v-model="text" :insert-units="insertUnits"></MarkdownEditor>
-```
-
-具体 insertUnit 如下书写，可在按下 Ctrl + k 后插入一段测试用文本 `"create by args: \ninputArg: \nselectArg: "`
-
-```typescript
-import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "potmot-vue-editor/dist/declare/insertUnit";
-
-// 定义 ref 变量
-const selectArg = ref("")
-const inputArg = ref("")
-
-const insertUnits = <InsertUnit[]>[
-    {
-        // 唯一名称，建议全英文
-        name: "foo",
-        // 快捷键，通过 Ctrl + key 触发，目前 key 可为数组，但并不是多键共同触发，而是平行可选
-        // 值具体参照 keyCode
-        key: "f",
-        // 在插入工具栏的展示标签
-        label: "测试参数",
-        // 插入函数，唯一参数 args 为一个 Map<string, Ref> ，根据 key 可以找到对应的 insertArguments
-        insert: (args) => {
-            const inputArg = args.get('foo in input')?.value
-            const selectArg = args.get('foo in select')?.value
-            // 需要返回一个前后段的字符串，插入当前光标两侧
-            return {before: "create by args: ", after: "\ninputArg: " + inputArg + "\nselectArg: " + selectArg}
-        },
-        // 插入参数，name label getRef 为必须部分，type 参数对应 <input> ，options 参数对应 <select>
-        // 注意，arguments 需要为响应式数据
-        arguments: [
-            <InputInsertArgument<string>>{
-                // 名称，建议全英文
-                name: "foo in input",
-                // 参数标签
-                label: "input-arg",
-                // 返回响应式参数
-                getRef: () => {
-                    return inputArg;
-                },
-                type: "string",
-                // 对 input 输入参数长度进行限制
-                inputLength: 10,
-                // input 框宽度
-                styleWidth: "3em"
-            },
-            <OptionInsertArgument>{
-                name: "foo in select",
-                label: "select-arg",
-                getRef: () => {
-                    return selectArg;
-                },
-                options: ["option1", "option2"],
-            }
-        ],
-        // 是否替换掉选中段文字，如果 false 就会在选中段两侧插入
-        replace: true,
-        // 插入后是否对插入区域保持选中
-        keepSelect: false,
-    }
-]
-```
-
+// TODO 文档待补充
 
 ### 2. MarkdownPreview 预览
 

@@ -1,5 +1,5 @@
 import { PropType, Ref } from "vue";
-import { InsertUnit } from "../declare/insertUnit";
+import { EditorShortcutKey, InsertUnit } from "../declare/insertUnit";
 declare const _sfc_main: import("vue").DefineComponent<{
     modelValue: {
         type: StringConstructor;
@@ -14,6 +14,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: BooleanConstructor;
         required: false;
         default: boolean;
+    };
+    shortcutKeys: {
+        type: PropType<EditorShortcutKey[]>;
+        required: false;
+        default: never[];
     };
     insertUnits: {
         type: PropType<InsertUnit[]>;
@@ -48,6 +53,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
             type: BooleanConstructor;
             required: false;
             default: boolean;
+        };
+        shortcutKeys: {
+            type: PropType<EditorShortcutKey[]>;
+            required: false;
+            default: never[];
         };
         insertUnits: {
             type: PropType<InsertUnit[]>;
@@ -163,6 +173,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    shortcutKeys: {
+        type: PropType<EditorShortcutKey[]>;
+        required: false;
+        default: never[];
+    };
     insertUnits: {
         type: PropType<InsertUnit[]>;
         required: false;
@@ -173,6 +188,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {
     placeholder: string;
     startWithFullScreen: boolean;
+    shortcutKeys: EditorShortcutKey[];
     insertUnits: InsertUnit[];
 }>;
 export default _sfc_main;

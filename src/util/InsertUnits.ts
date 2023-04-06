@@ -5,7 +5,6 @@ import {limit} from "./insertUtils";
 
 export const markdownInsertUnits: InsertUnit[] = [
     {
-        name: "title",
         key: '#',
         ctrl: true,
         label: "标题",
@@ -48,7 +47,6 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "form",
         key: "|",
         ctrl: true,
         label: "表格",
@@ -103,7 +101,6 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "orderedList",
         label: "有序列表",
         insert: (args) => {
             let listLength = args.get("orderedListLength")!.value
@@ -142,7 +139,6 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "unorderedList",
         label: "无序列表",
         insert: (args) => {
             let listLength = args.get("unorderedListLength")!.value
@@ -169,7 +165,6 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "link",
         key: "@",
         ctrl: true,
         label: "链接",
@@ -204,7 +199,6 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "picture",
         label: "图片",
         insert: (args) => {
             const label = args.get("pictureName")!.value
@@ -240,7 +234,6 @@ export const markdownInsertUnits: InsertUnit[] = [
 
 export const simpleInsertUnits: InsertUnit[] = [
     {
-        name: "break",
         key: "Enter",
         ctrl: true,
         label: "换行",
@@ -252,7 +245,6 @@ export const simpleInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "code",
         key: ['`','~'],
         ctrl: true,
         label: "代码块",
@@ -275,7 +267,6 @@ export const simpleInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "kalex-math",
         label: "数学算式",
         key: "$",
         ctrl: true,
@@ -290,7 +281,6 @@ export const simpleInsertUnits: InsertUnit[] = [
 
 export const htmlInsertUnits: InsertUnit[] = [
     {
-        name: "details",
         key: ">",
         ctrl: true,
         label: "折叠块",
@@ -325,7 +315,6 @@ export const htmlInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        name: "warning",
         ctrl: true,
         key: '!',
         label: "标亮",

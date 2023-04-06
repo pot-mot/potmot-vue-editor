@@ -125,6 +125,7 @@ const data = reactive({
  *
  * placeholder 占位字符串
  * startWithFullScreen 是否以全屏启动
+ * shortcutKeys 覆盖快捷键
  * insertUnits 拓展插入单元
  */
 const props = defineProps({
@@ -142,7 +143,7 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
-	keyEvents: {
+	shortcutKeys: {
 		type: Array as PropType<EditorShortcutKey[]>,
 		required: false,
 		default: []
@@ -473,13 +474,13 @@ const redo = () => {
 // 文本编辑
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
-	for (const keyEvent of props.keyEvents) {
-		if (!keyEvent.key) continue;
+	for (const shortcutKey of props.shortcutKeys) {
+		if (!shortcutKey.key) continue;
 
-		if (judgeKeyForEditorKeyEvent(keyEvent, e)) {
-			if (keyEvent.prevent) e.preventDefault();
-			keyEvent.method();
-			if (keyEvent.reject) break;
+		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
+			if (shortcutKey.prevent) e.preventDefault();
+			shortcutKey.method();
+			if (shortcutKey.reject) return;
 		}
 	}
 
@@ -490,7 +491,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 			if (insertUnit.prevent) e.preventDefault();
 			data.pushFlag = "symbol";
 			insertIntoTextarea(insertUnit);
-			if (insertUnit.reject) break;
+			if (insertUnit.reject) return;
 		}
 	}
 	if (e.ctrlKey) {

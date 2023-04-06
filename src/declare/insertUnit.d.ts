@@ -38,7 +38,6 @@ declare class EditorShortcutKey extends EditorKeyEvent {
 
 
 declare class InsertUnit extends EditorKeyEvent{
-    name: string;
     label: string;
     // 插入事件，参数有参数map，text 当前编辑文本和 textarea
     insert: (args: Map<string, Ref>, text: string, textarea: HTMLTextAreaElement) => InsertText;

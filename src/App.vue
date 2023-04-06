@@ -1,14 +1,14 @@
 <template>
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 		<div style="height: 60vh;">
-			<MarkdownEditor v-model="text"></MarkdownEditor>
+			<MarkdownEditor v-model="text" :shortcut-keys="ShortcutKeys" :insert-units="insertUnits"></MarkdownEditor>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "./declare/insertUnit";
+import type {InputInsertArgument, InsertUnit, OptionInsertArgument, EditorShortcutKey} from "./declare/insertUnit";
 
 const text = ref("");
 
@@ -16,12 +16,25 @@ const text = ref("");
 const selectArg = ref("")
 const inputArg = ref("")
 
+const ShortcutKeys = <EditorShortcutKey[]>[
+	{
+		key: ['z', 'Z'],
+		ctrl: true,
+		method: () => {
+			console.log("覆盖原生撤销");
+		},
+		// 覆盖原生事件
+		prevent: true,
+		// 拒绝后续事件
+		reject: true,
+	}
+]
+
 const insertUnits = <InsertUnit[]>[
 	{
-		// 唯一名称，建议全英文
-		name: "foo",
-		//快捷键，通过 Ctrl + key 触发，具体参照 keyCode
+		//通过 Ctrl + f 触发
 		key: "f",
+		ctrl: true,
 		// 在插入工具栏的展示标签
 		label: "测试参数",
 		// 插入函数，唯一参数 args 为一个 Map<string, Ref> ，根据 key 可以找到对应的 insertArguments
@@ -62,6 +75,10 @@ const insertUnits = <InsertUnit[]>[
 		replace: true,
 		// 插入后是否对插入区域保持选中
 		keepSelect: false,
+		// 覆盖原生事件
+		prevent: true,
+		// 拒绝后续事件
+		reject: true,
 	},
 ]
 
