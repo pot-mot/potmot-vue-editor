@@ -14,7 +14,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 
 const props = defineProps({
 	target: {

@@ -1,5 +1,5 @@
 <template>
-	<div ref="markdownCard" class="markdown-card" v-html="format(props.markdownText)"></div>
+	<div ref="markdownCard" class="markdown-card" v-html="parse(props.markdownText)"></div>
 </template>
 
 <script lang="ts">
@@ -49,29 +49,20 @@ const props = defineProps({
 
 let markdownCard = ref();
 
-const copy = (text: string) => {
-	const handleCopy = (e: ClipboardEvent) => {
-		e.preventDefault();
-		e.clipboardData && e.clipboardData.setData('text/plain', text);
-		document.removeEventListener('copy', handleCopy);
-	};
-	document.addEventListener('copy', handleCopy);
-	document.execCommand('copy');
-}
-
 /**
- * 格式化一个字符串在特定字符串包围中的部分
+ * 转化一个字符串在特定字符串包围中或包围外的部分
  *
  * @param input 入参
  * @param surround 包围 包含起点和终点
  * @param insideProcess 对包围内字符串部分的处理函数
  * @param outsideProcess 对包围外字符串部分的处理函数
- * @param debug 展示内外截断后的结果
  */
-const formatSurround = (
+const parseSurround = (
 	input: string,
 	surround: { start: string, end: string } | { start: string, end: string }[],
-	insideProcess: (input: string) => string,
+	insideProcess: (input: string) => string = (input: string) => {
+		return input
+	},
 	outsideProcess: (input: string) => string = (input: string) => {
 		return input
 	}
@@ -110,47 +101,66 @@ const formatSurround = (
 
 		for (let i = 0; i < input.length; i++) {
 			if (!flag && input.slice(i, i + start.length) == start) {
-				flag = true;
 				res += outsideProcess(input.slice(index, i));
 				i += start.length;
 				index = i;
+				i--;
+				flag = true;
 			} else if (flag && input.slice(i, i + end.length) == end) {
-				flag = false;
 				res += insideProcess(input.slice(index, i));
 				i += end.length
 				index = i;
+				i--;
+				flag = false;
 			}
 		}
-
 		return res + outsideProcess(input.slice(index));
 	}
 }
 
-const format = (input: string) => {
-	return formatSurround(input, [{start: "```", end: "```"}, {start: "~~~", end: "~~~"}], formatCode, formatMarkdown);
+const parse = (input: string) => {
+	return parseSurround(input, [{start: "```", end: "```"}, {start: "~~~", end: "~~~"}], parseCode, parseMarkdown);
 }
 
-const formatMarkdown = (input: string) => {
+const parseMarkdown = (input: string) => {
 	try {
-		const markdownString = marked.parse(input)
-			.replaceAll('<a ', '<a target="_blank" ')
-			.replaceAll('>\n', '>');
-
-		return formatSurround(markdownString, {start: '<pre><code>', end: '</code></pre>'}, setCodeLine, formatMath);
+		const markdownString = marked.parse(input);
+		return parseSurround(markdownString, {start: '<pre><code>', end: '</code></pre>'}, setCodeLine, parseMath);
 	} catch (e) {
 		return "<span style='color: red'>[markdown 解析错误]</span><br>" + e + "<br>" + input;
 	}
 }
 
-const formatMath = (input: string) => {
+const parseMath = (input: string) => {
 	try {
-		return formatSurround(input, {start: "$$", end: "$$"}, katex.renderToString)
+		return parseSurround(input, {start: "$$", end: "$$"}, katex.renderToString, parseParagraph)
 	} catch (e) {
 		return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + input;
 	}
 }
 
-const formatCode = (codeString: string) => {
+const parseParagraph = (input: string) => {
+	return input
+		.replaceAll('<a ', '<a target="_blank" ')
+		.replaceAll('>\n', '>')
+		.replaceAll('\n<', '<')
+}
+
+const parseDebug = (input: string) => {
+	parseSurround(input, {start: '<', end: '>'},
+		(insider: string) => {
+			console.log("insider: " + insider);
+			return insider;
+		},
+		(outsider: string) => {
+			console.log("outsider: " + outsider);
+			return outsider;
+		}
+	)
+	return input;
+}
+
+const parseCode = (codeString: string) => {
 	try {
 		let code = codeString.replaceAll("\\`", "`");
 		let language = "";
@@ -167,7 +177,6 @@ const formatCode = (codeString: string) => {
 	}
 }
 
-// 无指定语言的代码块
 const setCodeLine = (code: string, before: string = "", after: string = "") => {
 	if (code[code.length - 1] == '\n') {
 		code = code.slice(0, code.length - 1);
@@ -187,7 +196,6 @@ const setCodeLine = (code: string, before: string = "", after: string = "") => {
 	return res;
 }
 
-// 带语言的代码块
 const setCodeLineWithLanguage = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
@@ -198,6 +206,9 @@ const setCodeLineWithLanguage = (code: string, language: string) => {
 	return setCodeLine(code, '', '<div class="code-language">' + language + "</div>");
 }
 
+/*
+	代码块相关操作
+ */
 const foldCode = (e: MouseEvent) => {
 	let node = <HTMLElement>e.target;
 	let pre = <HTMLElement>node.parentNode;
@@ -213,6 +224,16 @@ const foldCode = (e: MouseEvent) => {
 		node.textContent = "展开";
 		node.classList.add("show");
 	}
+}
+
+const copy = (text: string) => {
+	const handleCopy = (e: ClipboardEvent) => {
+		e.preventDefault();
+		e.clipboardData && e.clipboardData.setData('text/plain', text);
+		document.removeEventListener('copy', handleCopy);
+	};
+	document.addEventListener('copy', handleCopy);
+	document.execCommand('copy');
 }
 
 const copyCode = (e: MouseEvent) => {

@@ -1,4 +1,4 @@
-import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/insertUnit";
+import {EditorKeyEvent, InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/insertUnit";
 import {ref} from "vue";
 import {languageList} from "../constant/LanguageList";
 import {limit} from "./insertUtils";
@@ -7,6 +7,7 @@ export const markdownInsertUnits: InsertUnit[] = [
     {
         name: "title",
         key: '#',
+        ctrl: true,
         label: "标题",
         insert: (args) => {
             let level = args.get("titleLevel")!.value
@@ -42,11 +43,14 @@ export const markdownInsertUnits: InsertUnit[] = [
                 inputLength: 1,
             }
         ],
-        replace: true
+        replace: true,
+        reject: true,
+        prevent: true,
     },
     {
         name: "form",
         key: "|",
+        ctrl: true,
         label: "表格",
         insert: (args) => {
             let tableHeight = args.get("tableHeight")!.value
@@ -94,7 +98,9 @@ export const markdownInsertUnits: InsertUnit[] = [
                 },
                 inputLength: 2,
             },
-        ]
+        ],
+        reject: true,
+        prevent: true,
     },
     {
         name: "orderedList",
@@ -131,7 +137,9 @@ export const markdownInsertUnits: InsertUnit[] = [
                 },
                 inputLength: 4,
             },
-        ]
+        ],
+        reject: true,
+        prevent: true,
     },
     {
         name: "unorderedList",
@@ -156,11 +164,14 @@ export const markdownInsertUnits: InsertUnit[] = [
                 },
                 inputLength: 2,
             }
-        ]
+        ],
+        reject: true,
+        prevent: true,
     },
     {
         name: "link",
         key: "@",
+        ctrl: true,
         label: "链接",
         insert: (args) => {
             const label = args.get("linkLabel")!.value
@@ -188,7 +199,9 @@ export const markdownInsertUnits: InsertUnit[] = [
                 },
                 styleWidth: "12em",
             }
-        ]
+        ],
+        reject: true,
+        prevent: true,
     },
     {
         name: "picture",
@@ -219,7 +232,9 @@ export const markdownInsertUnits: InsertUnit[] = [
                 },
                 styleWidth: "12em",
             }
-        ]
+        ],
+        reject: true,
+        prevent: true,
     }
 ]
 
@@ -227,15 +242,19 @@ export const simpleInsertUnits: InsertUnit[] = [
     {
         name: "break",
         key: "Enter",
+        ctrl: true,
         label: "换行",
         insert: () => {
             return {before: "<br>", after: ""}
         },
-        arguments: []
+        arguments: [],
+        reject: true,
+        prevent: true,
     },
     {
         name: "code",
         key: ['`','~'],
+        ctrl: true,
         label: "代码块",
         insert: (args) => {
             let codeLanguage = args.get("codeLanguage")!.value
@@ -251,16 +270,21 @@ export const simpleInsertUnits: InsertUnit[] = [
                     return ref(language);
                 }
             }
-        ]
+        ],
+        reject: true,
+        prevent: true,
     },
     {
         name: "kalex-math",
         label: "数学算式",
         key: "$",
+        ctrl: true,
         insert: () => {
             return {before: " $$ ", after: " $$ "};
         },
-        arguments: []
+        arguments: [],
+        reject: true,
+        prevent: true,
     }
 ]
 
@@ -268,6 +292,7 @@ export const htmlInsertUnits: InsertUnit[] = [
     {
         name: "details",
         key: ">",
+        ctrl: true,
         label: "折叠块",
         insert: (args) => {
             const summary = args.get("detailIsSummary")!.value
@@ -295,11 +320,14 @@ export const htmlInsertUnits: InsertUnit[] = [
                 options: ["收起", "展开"]
             }
         ],
-        keepSelect: true
+        keepSelect: true,
+        reject: true,
+        prevent: true,
     },
     {
         name: "warning",
-        key: "!",
+        ctrl: true,
+        key: '!',
         label: "标亮",
         insert: (args) => {
             const warningColor = args.get("warningColor")!.value
@@ -327,6 +355,40 @@ export const htmlInsertUnits: InsertUnit[] = [
                 },
                 styleWidth: "4em",
             }
-        ]
+        ],
+        reject: true,
+        prevent: true,
     },
 ]
+
+/**
+ * 判断按键事件是否符合快捷键要求
+ *
+ * @param editorKeyEvent 编辑器按键事件
+ * @param event 触发事件
+ */
+export const judgeKeyForEditorKeyEvent = (editorKeyEvent: EditorKeyEvent, event: KeyboardEvent) => {
+    if (editorKeyEvent.ctrl != undefined && editorKeyEvent.ctrl != event.ctrlKey) {
+        return false;
+    }
+
+    if (editorKeyEvent.alt != undefined && editorKeyEvent.alt != event.altKey) {
+        return false;
+    }
+
+    if (editorKeyEvent.shift != undefined && editorKeyEvent.shift != event.shiftKey) {
+        return false;
+    }
+
+    if (editorKeyEvent.key instanceof Array) {
+        for (const key of editorKeyEvent.key) {
+            if (key == event.key) {
+                return true;
+            }
+        }
+    } else if (editorKeyEvent.key != undefined && editorKeyEvent.key == event.key) {
+        return true;
+    }
+
+    return false;
+}

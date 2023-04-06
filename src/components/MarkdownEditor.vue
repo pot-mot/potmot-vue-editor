@@ -15,7 +15,7 @@
 			<template v-for="item in props.insertUnits">
 				<span class="insert-text">
 				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
-					  :title='item.key ? "快捷键[Ctrl + " + item.key + "]" : "无快捷键"'>
+					  :title='item.key ? item.key + (item.ctrl? " + Ctrl":"") + (item.shift? " + Shift":"") + (item.alt? " + Alt":"") : "无快捷键"'>
 					{{ item.label }}
 				</span>
 				<template v-for="arg in item.arguments">
@@ -99,8 +99,13 @@ export default {
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/insertUtils";
-import {InsertUnit} from "../declare/insertUnit";
-import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/InsertUnits";
+import {EditorShortcutKey, InsertUnit} from "../declare/insertUnit";
+import {
+	htmlInsertUnits,
+	judgeKeyForEditorKeyEvent,
+	markdownInsertUnits,
+	simpleInsertUnits
+} from "../util/InsertUnits";
 
 // 数据
 const data = reactive({
@@ -136,6 +141,11 @@ const props = defineProps({
 		type: Boolean,
 		required: false,
 		default: false,
+	},
+	keyEvents: {
+		type: Array as PropType<EditorShortcutKey[]>,
+		required: false,
+		default: []
 	},
 	insertUnits: {
 		type: Array as PropType<InsertUnit[]>,
@@ -333,7 +343,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	let selectEnd = textarea.value.selectionEnd;
 	let text = data.text;
 	let end: number;
-	const {before, after} = insertUnit.insert(argsMap.value);
+	const {before, after} = insertUnit.insert(argsMap.value, data.text, textarea.value);
 	if (insertUnit.replace) {
 		text = insertIntoString(before, text, start, selectEnd);
 		end = start + before.length;
@@ -372,7 +382,7 @@ onMounted(() => {
 
 /**
  * 滚动同步
-  */
+ */
 let scrollKey = ref("textarea")
 
 const handleScroll = (from: HTMLElement, to: HTMLElement) => {
@@ -463,6 +473,26 @@ const redo = () => {
 // 文本编辑
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
+	for (const keyEvent of props.keyEvents) {
+		if (!keyEvent.key) continue;
+
+		if (judgeKeyForEditorKeyEvent(keyEvent, e)) {
+			if (keyEvent.prevent) e.preventDefault();
+			keyEvent.method();
+			if (keyEvent.reject) break;
+		}
+	}
+
+	for (const insertUnit of props.insertUnits) {
+		if (!insertUnit.key) continue;
+
+		if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
+			if (insertUnit.prevent) e.preventDefault();
+			data.pushFlag = "symbol";
+			insertIntoTextarea(insertUnit);
+			if (insertUnit.reject) break;
+		}
+	}
 	if (e.ctrlKey) {
 		if (e.key == 'x' || e.key == 'X') {
 			data.pushFlag = "cut";
@@ -486,26 +516,6 @@ const onKeyDown = (e: KeyboardEvent) => {
 				isReplace.value = true;
 			} else {
 				isReplace.value = false;
-			}
-		} else {
-			for (const insertUnit of props.insertUnits) {
-				if (!insertUnit.key) continue;
-
-				if (insertUnit.key instanceof Array) {
-					for (const item of insertUnit.key) {
-						if (item == e.key) {
-							e.preventDefault();
-							data.pushFlag = "symbol";
-							insertIntoTextarea(insertUnit);
-							break;
-						}
-					}
-				} else if (insertUnit.key == e.key) {
-					e.preventDefault();
-					data.pushFlag = "symbol";
-					insertIntoTextarea(insertUnit);
-					break;
-				}
 			}
 		}
 	} else {
@@ -933,47 +943,45 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	}
 }
 
-.editor.full {
-	&.pc > .container {
-		padding-left: 0.5%;
-		height: calc(99vh - 4em);
-		display: grid;
+.editor.full.pc > .container {
+	padding-left: 0.5%;
+	height: calc(99vh - 4em);
+	display: grid;
 
-		&.edit-preview {
-			grid-template-columns: 49.5% 49%;
-			grid-gap: 0.5%;
-		}
-
-		&.edit {
-			grid-template-columns: 99%;
-		}
-
-		> .edit-card,
-		> .preview-card {
-			height: calc(100vh - 4em);
-			background-color: white;
-			padding-bottom: 50vh;
-		}
+	&.edit-preview {
+		grid-template-columns: 49.5% 49% 0;
+		grid-gap: 0.5%;
 	}
 
-	&.mobile > .container {
-		padding-left: 0.5%;
-		height: calc(99vh - 4em);
-		display: grid;
+	&.edit {
+		grid-template-columns: 99%;
+	}
 
-		&.edit-preview {
-			grid-template-rows: 0 100%;
-			grid-gap: 0.5%;
-		}
+	> .edit-card,
+	> .preview-card {
+		height: calc(100vh - 4.5em);
+		background-color: white;
+		padding-bottom: 50vh;
+	}
+}
 
-		&.edit {
-			grid-template-rows: 100%;
-		}
+.editor.full.mobile > .container {
+	padding-left: 0.5%;
+	height: calc(99vh - 4em);
+	display: grid;
 
-		> .edit-card,
-		> .preview-card {
-			background-color: white;
-		}
+	&.edit-preview {
+		grid-template-rows: 0 100%;
+		grid-gap: 0.5%;
+	}
+
+	&.edit {
+		grid-template-rows: 100%;
+	}
+
+	> .edit-card,
+	> .preview-card {
+		background-color: white;
 	}
 }
 
