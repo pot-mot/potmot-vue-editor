@@ -1,27 +1,27 @@
 import {Ref} from "vue";
 
-declare class InsertText {
+interface InsertText {
     before: string;
     after: string;
 }
 
-declare class InsertArgument<T> {
+interface InsertArgument<T> {
     name: string;
     label: string;
     getRef: () => Ref<T>;
 }
 
-declare class InputInsertArgument<T> extends InsertArgument<any> {
+interface InputInsertArgument<T> extends InsertArgument<any> {
     type: string;
     inputLength?: number;
     styleWidth?: string;
 }
 
-declare class OptionInsertArgument extends InsertArgument<string> {
+interface OptionInsertArgument extends InsertArgument<string> {
     options: string[];
 }
 
-declare class EditorKeyEvent {
+interface EditorKeyEvent {
     key?: string | string[];
     ctrl?: boolean;
     alt?: boolean;
@@ -32,12 +32,18 @@ declare class EditorKeyEvent {
     reject?: boolean;
 }
 
-declare class EditorShortcutKey extends EditorKeyEvent {
+interface EditorShortcutKey extends EditorKeyEvent {
     method: Function;
 }
 
+interface EditTool extends EditorShortcutKey{
+    name: string;
+    label: string;
+    icon: string;
+    active: boolean;
+}
 
-declare class InsertUnit extends EditorKeyEvent{
+interface InsertUnit extends EditorKeyEvent{
     label: string;
     // 插入事件，参数有参数map，text 当前编辑文本和 textarea
     insert: (args: Map<string, Ref>, text: string, textarea: HTMLTextAreaElement) => InsertText;

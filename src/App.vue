@@ -1,14 +1,14 @@
 <template>
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 		<div style="height: 60vh;">
-			<MarkdownEditor v-model="text" :shortcut-keys="ShortcutKeys" :insert-units="insertUnits"></MarkdownEditor>
+			<MarkdownEditor v-model="text"></MarkdownEditor>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import type {InputInsertArgument, InsertUnit, OptionInsertArgument, EditorShortcutKey} from "./declare/insertUnit";
+import type {InputInsertArgument, InsertUnit, OptionInsertArgument, EditorShortcutKey} from "./declare/InsertUnit";
 
 const text = ref("");
 

@@ -99,13 +99,14 @@ export default {
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/insertUtils";
-import {EditorShortcutKey, InsertUnit} from "../declare/insertUnit";
 import {
 	htmlInsertUnits,
 	judgeKeyForEditorKeyEvent,
 	markdownInsertUnits,
 	simpleInsertUnits
-} from "../util/InsertUnits";
+} from "../util/insertUnits";
+import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/InsertUnit";
+import {useHistoryStack} from "../util/history";
 
 // 数据
 const data = reactive({
@@ -113,9 +114,6 @@ const data = reactive({
 	text: "",
 	pushFlag: "",
 
-	// 历史记录相关
-	history: <EditorHistory[]>[],
-	stackTop: -1,
 	replaceFrom: "",
 	replaceTo: "",
 })
@@ -174,40 +172,6 @@ const containerClass = computed(() => {
 	return 'edit';
 })
 
-class EditTool {
-	name: string = "";
-	active: boolean = false;
-	label: string = "";
-	icon: string = "";
-	method: Function;
-
-	constructor(name: string, label: string, icon: string, method: Function = () => {
-	}) {
-		this.name = name;
-		this.label = label;
-		this.icon = icon;
-		this.method = method;
-	}
-
-	changeActive() {
-		this.active = !this.active;
-	}
-}
-
-class EditorHistory {
-	start: number;
-	end: number;
-	text: string;
-	scrollTop: number;
-
-	constructor(start: number, end: number, text: string, scrollTop: number) {
-		this.start = start;
-		this.end = end;
-		this.text = text;
-		this.scrollTop = scrollTop;
-	}
-}
-
 // 统计数据
 const statisticalData = reactive({
 	selectLength: 0,
@@ -241,27 +205,69 @@ onBeforeUnmount(() => {
 
 // 工具列表
 const editToolList = reactive(<EditTool[]>[
-	new EditTool("fullScreen", "全屏/收起全屏", "icon-full-screen", (self: EditTool) => {
-		self.changeActive();
-	}),
-	new EditTool("insert", "快捷插入", "icon-bulletpoint", (self: EditTool) => {
-		self.changeActive();
-	}),
-	new EditTool("replace", "文本查找与替换", "icon-search-list", (self: EditTool) => {
-		self.changeActive();
-	}),
-	new EditTool("preview", "预览", "icon-browse", (self: EditTool) => {
-		self.changeActive();
-	}),
-	new EditTool("outline", "大纲", "icon-file-tree", (self: EditTool) => {
-		self.changeActive();
-	}),
-	new EditTool("undo", "撤销(Ctrl + z)", "icon-undo", () => {
-		pop();
-	}),
-	new EditTool("redo", "重做(Ctrl + Z)", "icon-redo", () => {
-		redo();
-	}),
+	{
+		name: "fullScreen",
+		label: "全屏/收起全屏",
+		icon: "icon-full-screen",
+		active: false,
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	{
+		name: "insert",
+		label: "快捷插入",
+		icon: "icon-bulletpoint",
+		active: false,
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	{
+		name: "replace",
+		label: "文本查找与替换",
+		icon: "icon-search-list",
+		active: false,
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	{
+		name: "preview",
+		label: "预览",
+		icon: "icon-browse",
+		active: false,
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	{
+		name: "outline",
+		label: "大纲",
+		icon: "icon-file-tree",
+		active: false,
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	{
+		name: "undo",
+		label: "撤销",
+		icon: "icon-undo",
+		active: false,
+		method: () => {
+			pop();
+		}
+	},
+	{
+		name: "redo",
+		label: "重做",
+		icon: "icon-redo",
+		active: false,
+		method: () => {
+			redo();
+		}
+	}
 ])
 
 const getEditToolActive = (key: string) => {
@@ -371,8 +377,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 // 组件初始化
 onMounted(() => {
 	data.text = props.modelValue;
-	data.history = [];
-	data.stackTop = -1;
+	clear();
 	push();
 
 	if (props.startWithFullScreen) {
@@ -413,63 +418,40 @@ onBeforeUnmount(() => {
 
 
 // 历史记录
-const push = (start: number = textarea.value.selectionStart, end: number = textarea.value.selectionEnd) => {
-	if (data.stackTop >= 200) {
-		data.history.splice(0, 100);
-	}
-	data.stackTop++;
-	data.history[data.stackTop] = {
-		start,
-		end,
+const defaultHistory = () => {
+	return {
+		start: textarea.value ? textarea.value.selectionStart : 0,
+		end: textarea.value ? textarea.value.selectionEnd : 0,
 		text: data.text,
-		scrollTop: textarea.value.scrollTop,
-	};
-}
-
-const replaceTop = (start: number = textarea.value.selectionStart, end: number = textarea.value.selectionStart) => {
-	data.history[data.stackTop] = {
-		start,
-		end,
-		text: data.text,
-		scrollTop: textarea.value.scrollTop,
-	};
-}
-
-const clearHistory = () => {
-	if (data.stackTop < data.history.length - 1) {
-		data.history = data.history.slice(0, data.stackTop + 1);
+		scrollTop: textarea.value ? textarea.value.scrollTop : 0,
 	}
 }
 
-const pop = () => {
-	if (data.stackTop >= 1) {
-		data.stackTop--;
-		const historyTop = data.history[data.stackTop];
+const {
+	redo,
+	push,
+	pop,
+	clear,
+	top,
+} = useHistoryStack(400,
+	(historyTop: EditorHistory) => {
 		data.text = historyTop.text;
 		nextTick(() => {
 			textarea.value.selectionStart = historyTop.start;
 			textarea.value.selectionEnd = historyTop.end;
 			textarea.value.scrollTo(0, historyTop.scrollTop);
 		})
-	} else {
-		alert("无法再次撤销");
-	}
-}
-
-const redo = () => {
-	if (data.stackTop < data.history.length - 1) {
-		data.stackTop++;
-		let historyTop = data.history[data.stackTop];
-		data.text = historyTop.text;
-		nextTick(() => {
-			textarea.value.selectionStart = historyTop.start;
-			textarea.value.selectionEnd = historyTop.end;
-			textarea.value.scrollTo(0, historyTop.scrollTop);
-		})
-	} else {
-		alert("已是最新，无法重做");
-	}
-}
+	},
+	() => {
+	},
+	() => {
+		alert("已是最后，无法继续撤销");
+	},
+	() => {
+		alert("已是最新，无法继续重做");
+	},
+	defaultHistory,
+);
 
 // 文本编辑
 // 键盘按下事件
@@ -564,9 +546,6 @@ const onKeyDown = (e: KeyboardEvent) => {
 			}
 			insertAroundText({before: e.key, after});
 		} else {
-			if (data.pushFlag != 'input') {
-				clearHistory();
-			}
 			setTimeout(() => {
 				changeFlag("input");
 			}, 100);
@@ -596,7 +575,7 @@ const changeFlag = (flag: string) => {
 		data.pushFlag = flag;
 		push();
 	} else {
-		replaceTop();
+		top.value = defaultHistory();
 	}
 }
 
@@ -677,7 +656,12 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 			if (temp.length == newTemp.length) return;
 			data.text = data.text.slice(0, start - temp.length) + newTemp + data.text.slice(end);
 			nextTick(() => {
-				push(start, start);
+				push({
+					start: start,
+					end: start,
+					scrollTop: textarea.value.scrollTop,
+					text: data.text,
+				});
 			})
 		} else {
 			const temp = data.text.slice(start, end);
@@ -687,7 +671,12 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 			nextTick(() => {
 				textarea.value.selectionStart = start;
 				textarea.value.selectionEnd = start + newTemp.length;
-				push(start, textarea.value.selectionEnd);
+				push({
+					start: start,
+					end: textarea.value.selectionEnd,
+					scrollTop: textarea.value.scrollTop,
+					text: data.text,
+				});
 			})
 		}
 	} else {
@@ -696,7 +685,12 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 			nextTick(() => {
 				textarea.value.selectionStart = start + 1;
 				textarea.value.selectionEnd = start + 1;
-				push(start + 1, start + 1);
+				push({
+					start: start + 1,
+					end: start + 1,
+					scrollTop: textarea.value.scrollTop,
+					text: data.text,
+				});
 			})
 		} else {
 			const temp = data.text.slice(start, textarea.value.selectionEnd);
@@ -706,7 +700,12 @@ const batchKeydown = (e: KeyboardEvent, insertString: string) => {
 			nextTick(() => {
 				textarea.value.selectionStart = start;
 				textarea.value.selectionEnd = start + newTemp.length;
-				push(start, textarea.value.selectionEnd);
+				push({
+					start: start,
+					end: textarea.value.selectionEnd,
+					scrollTop: textarea.value.scrollTop,
+					text: data.text,
+				});
 			})
 		}
 	}

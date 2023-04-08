@@ -1,4 +1,4 @@
-import {EditorKeyEvent, InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/insertUnit";
+import {EditorKeyEvent, InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/InsertUnit";
 import {ref} from "vue";
 import {languageList} from "../constant/LanguageList";
 import {limit} from "./insertUtils";
