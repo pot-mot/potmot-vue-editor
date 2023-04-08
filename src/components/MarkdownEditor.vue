@@ -61,7 +61,7 @@
 				:placeholder="props.placeholder"
 				class="edit-card"
 				@keydown="onKeyDown"
-				@mousedown="onMouseDown"
+				@mouseup="onMouseUp"
 				@mouseover="() => {scrollKey = 'textarea'}">
 			</textarea>
 			<div
@@ -88,9 +88,9 @@
 	</div>
 
 	<div v-if="props.debug">
-		<div v-if="historyData.stack.length > 0">当前栈顶：{{historyData.stackTop}} "{{top.text}}"</div>
+		<div v-if="historyData.stack.length > 0">当前栈顶：{{ historyData.stackTop }} "{{ top.text }}"</div>
 		<ul v-for="(item, index) in historyData.stack">
-			<li>{{index}} "{{item.text}}"</li>
+			<li>{{ index }} "{{ item.text }}" start: {{ item.start }} end: {{ item.end }}</li>
 		</ul>
 	</div>
 </template>
@@ -577,35 +577,18 @@ const onKeyDown = (e: KeyboardEvent) => {
 		}
 	}
 
-	if (e.key == '(' || e.key == '[' || e.key == '{') {
+	if (e.key == 'Backspace' || e.key == 'Delete') {
+		setTimeout(() => {
+			flagPush("back");
+		}, 40);
+	}else if (e.key == '(' || e.key == '[' || e.key == '{') {
 		e.preventDefault();
 		pushFlag = "symbol";
-		let after = "";
-		switch (e.key) {
-			case "(":
-				after = ")";
-				break;
-			case "[":
-				after = "]";
-				break;
-			case "{":
-				after = "}";
-				break;
-		}
-		insertAroundText({before: e.key, after});
+		insertAroundText({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'});
 	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
 		e.preventDefault();
 		pushFlag = "symbol";
-		let after = "";
-		switch (e.key) {
-			case "'":
-				after = "'";
-				break;
-			case '"':
-				after = '"';
-				break;
-		}
-		insertAroundText({before: e.key, after});
+		insertAroundText({before: e.key, after: e.key == '"' ? '"' : "'"});
 	} else if (e.key.startsWith("Arrow")) {
 		setTimeout(() => {
 			flagPush("jump");
@@ -622,10 +605,10 @@ const onKeyDown = (e: KeyboardEvent) => {
 }
 
 // 鼠标按下事件
-const onMouseDown = () => {
+const onMouseUp = () => {
 	setTimeout(() => {
 		flagPush("jump");
-	}, 100);
+	}, 40);
 }
 
 // 文本联想（括号和引号）

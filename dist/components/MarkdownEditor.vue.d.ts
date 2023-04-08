@@ -1,5 +1,5 @@
 import { PropType, Ref } from "vue";
-import { EditorShortcutKey, InsertUnit } from "../declare/insertUnit";
+import type { EditorShortcutKey, InsertUnit } from "../declare/EditorUtil";
 declare const _sfc_main: import("vue").DefineComponent<{
     modelValue: {
         type: StringConstructor;
@@ -25,20 +25,12 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: InsertUnit[];
     };
-}, {
-    data: {
-        text: string;
-        pushFlag: string;
-        history: {
-            start: number;
-            end: number;
-            text: string;
-            scrollTop: number;
-        }[];
-        stackTop: number;
-        replaceFrom: string;
-        replaceTo: string;
+    debug: {
+        type: BooleanConstructor;
+        required: false;
+        default: boolean;
     };
+}, {
     props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
         modelValue: {
             type: StringConstructor;
@@ -64,31 +56,21 @@ declare const _sfc_main: import("vue").DefineComponent<{
             required: false;
             default: InsertUnit[];
         };
+        debug: {
+            type: BooleanConstructor;
+            required: false;
+            default: boolean;
+        };
     }>> & {
         "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     }>>;
-    emit: (event: "update:modelValue", ...args: any[]) => void;
     textarea: Ref<any>;
     previewCard: Ref<any>;
     containerClass: import("vue").ComputedRef<"" | "edit-preview" | "edit">;
-    EditTool: {
-        new (name: string, label: string, icon: string, method?: Function): {
-            name: string;
-            active: boolean;
-            label: string;
-            icon: string;
-            method: Function;
-            changeActive(): void;
-        };
+    data: {
+        text: string;
     };
-    EditorHistory: {
-        new (start: number, end: number, text: string, scrollTop: number): {
-            start: number;
-            end: number;
-            text: string;
-            scrollTop: number;
-        };
-    };
+    emit: (event: "update:modelValue", ...args: any[]) => void;
     statisticalData: {
         selectLength: number;
         startPlace: {
@@ -104,11 +86,16 @@ declare const _sfc_main: import("vue").DefineComponent<{
     editEditInterval: number;
     editToolList: {
         name: string;
-        active: boolean;
         label: string;
         icon: string;
+        active: boolean;
         method: Function;
-        changeActive: () => void;
+        key?: string | string[] | undefined;
+        ctrl?: boolean | undefined;
+        alt?: boolean | undefined;
+        shift?: boolean | undefined;
+        prevent?: boolean | undefined;
+        reject?: boolean | undefined;
     }[];
     getEditToolActive: (key: string) => boolean;
     setEditToolActive: (key: string, newValue: boolean) => void;
@@ -123,15 +110,43 @@ declare const _sfc_main: import("vue").DefineComponent<{
     scrollKey: Ref<string>;
     handleScroll: (from: HTMLElement, to: HTMLElement) => void;
     scrollKeyInterval: number;
-    push: (start?: number, end?: number) => void;
-    replaceTop: (start?: number, end?: number) => void;
-    clearHistory: () => void;
-    pop: () => void;
+    defaultHistory: () => {
+        start: any;
+        end: any;
+        text: string;
+        scrollTop: any;
+    };
+    historyData: {
+        stack: {
+            start: number;
+            end: number;
+            text: string;
+            scrollTop: number;
+        }[];
+        stackTop: number;
+    };
     redo: () => void;
+    undo: () => void;
+    push: (historyTop?: EditorHistory) => void;
+    top: import("vue").WritableComputedRef<{
+        start: number;
+        end: number;
+        text: string;
+        scrollTop: number;
+    }>;
+    pushFlag: string;
+    flagPush: (flag: string) => void;
+    shortcutKeys: {
+        method: Function;
+        key?: string | string[] | undefined;
+        ctrl?: boolean | undefined;
+        alt?: boolean | undefined;
+        shift?: boolean | undefined;
+        prevent?: boolean | undefined;
+        reject?: boolean | undefined;
+    }[];
     onKeyDown: (e: KeyboardEvent) => void;
-    onKeyUp: (e: KeyboardEvent) => void;
     onMouseDown: () => void;
-    changeFlag: (flag: string) => void;
     insertAroundText: (insertText: {
         before: string;
         after: string;
@@ -142,6 +157,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     searchData: {
         index: number;
         indexes: number[];
+    };
+    replaceData: {
+        replaceFrom: string;
+        replaceTo: string;
     };
     setSearchData: () => void;
     jumpTo: (target: number) => void;
@@ -183,6 +202,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: InsertUnit[];
     };
+    debug: {
+        type: BooleanConstructor;
+        required: false;
+        default: boolean;
+    };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
@@ -190,5 +214,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     startWithFullScreen: boolean;
     shortcutKeys: EditorShortcutKey[];
     insertUnits: InsertUnit[];
+    debug: boolean;
 }>;
 export default _sfc_main;

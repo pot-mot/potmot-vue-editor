@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import type { InsertUnit } from "../declare/insertUnit";
+import type { InsertUnit } from "../declare/EditorUtil";
 /**
  * 约束数值大小
  *
