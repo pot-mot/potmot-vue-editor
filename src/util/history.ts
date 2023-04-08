@@ -32,7 +32,7 @@ export const useHistoryStack = (
     const historyData = reactive({
         // 历史记录相关
         stack: <EditorHistory[]>[],
-        stackTop: -1,
+        stackTop: 0,
     })
 
     const push = (historyTop: EditorHistory = pushDefault()) => {
@@ -43,10 +43,13 @@ export const useHistoryStack = (
         historyData.stackTop++;
         historyData.stack[historyData.stackTop] = historyTop;
         postHook(top.value, historyData);
+        if (historyData.stackTop < historyData.stack.length) {
+            historyData.stack.splice(historyData.stackTop + 1)
+        }
     }
 
     const pop = () => {
-        if (historyData.stackTop >= 1) {
+        if (historyData.stackTop > 0) {
             preHook(top.value, historyData);
             historyData.stackTop--;
             postHook(top.value, historyData);
@@ -55,6 +58,10 @@ export const useHistoryStack = (
         }
     }
 
+    // 撤销
+    const undo = pop;
+
+    // 重做
     const redo = () => {
         if (historyData.stackTop < historyData.stack.length - 1) {
             preHook(top.value, historyData);
@@ -81,17 +88,10 @@ export const useHistoryStack = (
         historyData.stackTop = -1;
     }
 
-    const isEmpty = () => {
-
-    }
-
-    const isOnTop = () => {
-
-    }
-
     return {
         historyData,
         redo,
+        undo,
         push,
         pop,
         clear,

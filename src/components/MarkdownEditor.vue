@@ -35,9 +35,9 @@
 		</div>
 		<div v-show="getEditToolActive('replace')" class="replace-box floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
-			<textarea v-model="data.replaceFrom" placeholder="查找文本"/>
+			<textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
 			<br>
-			<textarea v-model="data.replaceTo" placeholder="替换文本"/>
+			<textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
 			<div style="display: flex; justify-content: space-around">
 				<span class="hover-color-blue" @mousedown.prevent.stop="searchNext" style="padding: 0.1em;">↓</span>
 				<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious" style="padding: 0.1em;">↑</span>
@@ -61,7 +61,6 @@
 				:placeholder="props.placeholder"
 				class="edit-card"
 				@keydown="onKeyDown"
-				@keyup="onKeyUp"
 				@mousedown="onMouseDown"
 				@mouseover="() => {scrollKey = 'textarea'}">
 			</textarea>
@@ -87,6 +86,13 @@
 			<li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
 		</ul>
 	</div>
+
+	<div v-if="props.debug">
+		<div v-if="historyData.stack.length > 0">当前栈顶：{{historyData.stackTop}} "{{top.text}}"</div>
+		<ul v-for="(item, index) in historyData.stack">
+			<li>{{index}} "{{item.text}}"</li>
+		</ul>
+	</div>
 </template>
 
 <script lang="ts">
@@ -99,24 +105,10 @@ export default {
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/insertUtils";
-import {
-	htmlInsertUnits,
-	judgeKeyForEditorKeyEvent,
-	markdownInsertUnits,
-	simpleInsertUnits
-} from "../util/insertUnits";
-import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/InsertUnit";
+import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/insertUnits";
+import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {useHistoryStack} from "../util/history";
-
-// 数据
-const data = reactive({
-	// 文本编辑相关
-	text: "",
-	pushFlag: "",
-
-	replaceFrom: "",
-	replaceTo: "",
-})
+import {judgeKeyForEditorKeyEvent} from "../util/EditorEvent";
 
 /**
  * 外部传入参数
@@ -150,18 +142,15 @@ const props = defineProps({
 		type: Array as PropType<InsertUnit[]>,
 		required: false,
 		default: [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits]
+	},
+	debug: {
+		type: Boolean,
+		required: false,
+		default: false,
 	}
 })
 
-/**
- * v-model 部分
- */
-const emit = defineEmits(['update:modelValue']);
-
-watch(() => data.text, () => {
-	emit('update:modelValue', data.text);
-})
-
+// 盒型数据
 const textarea = ref();
 const previewCard = ref();
 
@@ -170,6 +159,17 @@ const containerClass = computed(() => {
 	if (!isFullScreen.value) return '';
 	if (isPreview.value) return 'edit-preview';
 	return 'edit';
+})
+
+// 数据
+const data = reactive({
+	text: ""
+})
+
+const emit = defineEmits(['update:modelValue']);
+
+watch(() => data.text, () => {
+	emit('update:modelValue', data.text);
 })
 
 // 统计数据
@@ -256,7 +256,7 @@ const editToolList = reactive(<EditTool[]>[
 		icon: "icon-undo",
 		active: false,
 		method: () => {
-			pop();
+			undo();
 		}
 	},
 	{
@@ -278,7 +278,6 @@ const getEditToolActive = (key: string) => {
 	}
 	return false;
 }
-
 
 const setEditToolActive = (key: string, newValue: boolean) => {
 	for (const item of editToolList) {
@@ -377,8 +376,6 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 // 组件初始化
 onMounted(() => {
 	data.text = props.modelValue;
-	clear();
-	push();
 
 	if (props.startWithFullScreen) {
 		isFullScreen.value = true;
@@ -417,7 +414,9 @@ onBeforeUnmount(() => {
 })
 
 
-// 历史记录
+/**
+ * 历史记录
+ */
 const defaultHistory = () => {
 	return {
 		start: textarea.value ? textarea.value.selectionStart : 0,
@@ -428,10 +427,10 @@ const defaultHistory = () => {
 }
 
 const {
+	historyData,
 	redo,
+	undo,
 	push,
-	pop,
-	clear,
 	top,
 } = useHistoryStack(400,
 	(historyTop: EditorHistory) => {
@@ -453,7 +452,93 @@ const {
 	defaultHistory,
 );
 
+// 当前操作类别
+let pushFlag = "jump";
+onMounted(() => {
+	top.value = defaultHistory();
+})
+
+// 报持历史操作一致性的触发器，根据输入标志符是否改变判断是否压入历史栈
+const flagPush = (flag: string) => {
+	if (pushFlag != flag) {
+		pushFlag = flag;
+		push();
+	} else {
+		top.value = defaultHistory();
+	}
+}
+
 // 文本编辑
+const shortcutKeys = reactive(<EditorShortcutKey[]>[
+	{
+		key: ['x', 'X'],
+		ctrl: true,
+		method: () => {
+			pushFlag = "cut";
+			setTimeout(push, 200);
+		}
+	},
+	{
+		key: ['v', 'V'],
+		ctrl: true,
+		method: () => {
+			pushFlag = "copy";
+			setTimeout(push, 200);
+		}
+	},
+	{
+		key: ['z', 'Z'],
+		ctrl: true,
+		method: (e: KeyboardEvent) => {
+			pushFlag = "symbol";
+			if (e.key == 'z') {
+				undo();
+			} else {
+				redo();
+			}
+		},
+		prevent: true,
+		reject: true,
+	},
+	{
+		key: ['r', 'f'],
+		ctrl: true,
+		method: () => {
+			pushFlag = "replace";
+			replaceData.replaceFrom = data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
+			isReplace.value = true;
+		},
+		prevent: true,
+		reject: true,
+	},
+	{
+		key: "Enter",
+		method: () => {
+			pushFlag = "blank";
+			batchEnter();
+		},
+		prevent: true,
+		reject: true,
+	},
+	{
+		key: "Tab",
+		method: (e: KeyboardEvent) => {
+			pushFlag = "tab";
+			batchKeydown(e, '\t');
+		},
+		prevent: true,
+		reject: true,
+	},
+	{
+		key: "Escape",
+		method: () => {
+			if (isFullScreen.value) {
+				isFullScreen.value = false;
+			}
+		},
+	}
+])
+
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
 	for (const shortcutKey of props.shortcutKeys) {
@@ -461,7 +546,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 
 		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
 			if (shortcutKey.prevent) e.preventDefault();
-			shortcutKey.method();
+			shortcutKey.method(e);
 			if (shortcutKey.reject) return;
 		}
 	}
@@ -471,112 +556,70 @@ const onKeyDown = (e: KeyboardEvent) => {
 
 		if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
 			if (insertUnit.prevent) e.preventDefault();
-			data.pushFlag = "symbol";
+			pushFlag = "symbol";
 			insertIntoTextarea(insertUnit);
 			if (insertUnit.reject) return;
 		}
 	}
-	if (e.ctrlKey) {
-		if (e.key == 'x' || e.key == 'X') {
-			data.pushFlag = "cut";
-			setTimeout(push, 200);
-		} else if (e.key == 'v' || e.key == 'V') {
-			data.pushFlag = "copy";
-			setTimeout(push, 200);
-		} else if (e.key == 'z' || e.key == 'Z') {
-			e.preventDefault();
-			data.pushFlag = "symbol";
-			if (e.key == 'z') {
-				pop();
-			} else {
-				redo();
-			}
-		} else if (e.key == 'r' || e.key == 'R') {
-			e.preventDefault();
-			if (e.key == 'r') {
-				data.pushFlag = "symbol";
-				data.replaceFrom = data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
-				isReplace.value = true;
-			} else {
-				isReplace.value = false;
-			}
-		}
-	} else {
-		if (e.key == 'Enter') {
-			e.preventDefault();
-			data.pushFlag = "blank";
-			batchEnter();
-		} else if (e.key == 'Ctrl' || e.key == 'Shift' || e.key.startsWith("Arrow") || e.key == 'Enter' || e.key == ' ') {
-			return;
-		} else if (e.key == 'Escape') {
-			if (isFullScreen.value) {
-				isFullScreen.value = false;
-			}
-		} else if (e.key == 'Tab') {
-			e.preventDefault();
-			data.pushFlag = "blank";
-			batchKeydown(e, '\t');
-		} else if (e.key == '(' || e.key == '[' || e.key == '{') {
-			e.preventDefault();
-			data.pushFlag = "symbol";
-			let after = "";
-			switch (e.key) {
-				case "(":
-					after = ")";
-					break;
-				case "[":
-					after = "]";
-					break;
-				case "{":
-					after = "}";
-					break;
-			}
-			insertAroundText({before: e.key, after});
-		} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
-			e.preventDefault();
-			data.pushFlag = "symbol";
-			let after = "";
-			switch (e.key) {
-				case "'":
-					after = "'";
-					break;
-				case '"':
-					after = '"';
-					break;
-			}
-			insertAroundText({before: e.key, after});
-		} else {
-			setTimeout(() => {
-				changeFlag("input");
-			}, 100);
+
+	for (const shortcutKey of shortcutKeys) {
+		if (!shortcutKey.key) continue;
+
+		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
+			if (shortcutKey.prevent) e.preventDefault();
+			shortcutKey.method(e);
+			if (shortcutKey.reject) return;
 		}
 	}
-}
-
-// 键盘抬起事件
-const onKeyUp = (e: KeyboardEvent) => {
-	if (e.key == 'Enter' || e.key == ' ') {
-		changeFlag("blank");
+	if (e.key == '(' || e.key == '[' || e.key == '{') {
+		e.preventDefault();
+		pushFlag = "symbol";
+		let after = "";
+		switch (e.key) {
+			case "(":
+				after = ")";
+				break;
+			case "[":
+				after = "]";
+				break;
+			case "{":
+				after = "}";
+				break;
+		}
+		insertAroundText({before: e.key, after});
+	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
+		e.preventDefault();
+		pushFlag = "symbol";
+		let after = "";
+		switch (e.key) {
+			case "'":
+				after = "'";
+				break;
+			case '"':
+				after = '"';
+				break;
+		}
+		insertAroundText({before: e.key, after});
 	} else if (e.key.startsWith("Arrow")) {
-		changeFlag("jump");
+		setTimeout(() => {
+			flagPush("jump");
+		}, 40);
+	} else if (e.key == ' ') {
+		setTimeout(() => {
+			flagPush("blank");
+		}, 40);
+	} else if (e.key != 'Shift' && e.key != 'Control' && e.key != 'Alt' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
+		setTimeout(() => {
+			flagPush("input");
+		}, 40);
 	}
 }
 
 // 鼠标按下事件
 const onMouseDown = () => {
 	setTimeout(() => {
-		changeFlag("jump");
+		flagPush("jump");
 	}, 100);
-}
-
-// 报持历史操作一致性的触发器，根据输入标志符是否改变判断是否压入历史栈
-const changeFlag = (flag: string) => {
-	if (data.pushFlag != flag) {
-		data.pushFlag = flag;
-		push();
-	} else {
-		top.value = defaultHistory();
-	}
 }
 
 // 文本联想（括号和引号）
@@ -721,10 +764,16 @@ const searchData = reactive({
 	indexes: <number[]>[],
 })
 
-watch(() => data.replaceFrom, () => {
+const replaceData = reactive({
+	replaceFrom: "",
+	replaceTo: "",
+})
+
+
+watch(() => replaceData.replaceFrom, () => {
 	setSearchData();
 	if (!isReplace) return;
-	if (data.replaceFrom.length <= 0) return;
+	if (replaceData.replaceFrom.length <= 0) return;
 	searchCurrent();
 })
 
@@ -753,19 +802,19 @@ const setSearchData = () => {
 	if (textarea.value == undefined) return;
 	textareaCountLine.value.style.width = textarea.value.scrollWidth + 'px';
 
-	if (data.replaceFrom.length <= 0) return;
+	if (replaceData.replaceFrom.length <= 0) return;
 	if (data.text.length <= 0) return;
 
-	let index = data.text.indexOf(data.replaceFrom, 0);
+	let index = data.text.indexOf(replaceData.replaceFrom, 0);
 	let count = 0;
 	while (index >= 0) {
-		let temp = data.text.indexOf(data.replaceFrom, index);
+		let temp = data.text.indexOf(replaceData.replaceFrom, index);
 		if (temp < 0) break;
-		if (textarea.value.selectionStart == temp && textarea.value.selectionEnd - textarea.value.selectionStart == data.replaceFrom.length) {
+		if (textarea.value.selectionStart == temp && textarea.value.selectionEnd - textarea.value.selectionStart == replaceData.replaceFrom.length) {
 			searchData.index = count;
 		}
 		searchData.indexes.push(temp);
-		index = temp + data.replaceFrom.length;
+		index = temp + replaceData.replaceFrom.length;
 		count++;
 	}
 }
@@ -779,7 +828,7 @@ const searchCurrent = () => {
 	setTimeout(() => {
 		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
 		textarea.value.selectionStart = searchData.indexes[searchData.index];
-		textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
 	}, 50)
 }
 
@@ -794,7 +843,7 @@ const searchPrevious = () => {
 		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
 		textarea.value.focus();
 		textarea.value.selectionStart = searchData.indexes[searchData.index];
-		textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
 	}, 50)
 }
 
@@ -809,22 +858,22 @@ const searchNext = () => {
 		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
 		textarea.value.focus();
 		textarea.value.selectionStart = searchData.indexes[searchData.index];
-		textarea.value.selectionEnd = searchData.indexes[searchData.index] + data.replaceFrom.length;
+		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
 	}, 50)
 }
 
 const replaceOne = () => {
-	if (data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd) == data.replaceFrom) {
-		data.text = data.text.slice(0, textarea.value.selectionStart) + data.replaceTo + data.text.slice(textarea.value.selectionEnd);
+	if (data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd) == replaceData.replaceFrom) {
+		data.text = data.text.slice(0, textarea.value.selectionStart) + replaceData.replaceTo + data.text.slice(textarea.value.selectionEnd);
 		push();
 	}
 }
 
 const replaceAll = () => {
-	if (data.replaceFrom.length <= 0) {
+	if (replaceData.replaceFrom.length <= 0) {
 		alert("替换文本不可为空");
 	} else {
-		data.text = data.text.replaceAll(data.replaceFrom, data.replaceTo);
+		data.text = data.text.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
 		nextTick(() => {
 			push();
 		})
