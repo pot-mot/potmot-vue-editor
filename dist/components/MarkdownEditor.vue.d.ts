@@ -146,7 +146,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         reject?: boolean | undefined;
     }[];
     onKeyDown: (e: KeyboardEvent) => void;
-    onMouseDown: () => void;
+    onMouseUp: () => void;
     insertAroundText: (insertText: {
         before: string;
         after: string;

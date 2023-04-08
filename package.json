@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.7.0",
+  "version": "0.7.1",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -28,7 +28,8 @@
     "package.json",
     "README.md",
     "LICENSE",
-    "dist"
+    "dist",
+    "src/declare"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

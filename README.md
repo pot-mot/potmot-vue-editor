@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.7.0
+npm install potmot-vue-editor@0.7.1
 ```
 
 main.js 中引用
@@ -38,22 +38,55 @@ app.use(editor)
 | v-model | Ref<String> | 绑定输入字符串 | 是 |
 | placeholder | String | 占位字符串 | 否，默认值 "" |
 | startWithFullScreen | Boolean | 是否以全屏启动 | 否，默认值 false |
-| ShortcutKeys | EditorShortcutKey[] | 自定义快捷键，具体见下 | 否，默认值 [] |
-| insertUnits | InsertUnit[] | 插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits] |
+| ShortcutKeys | EditorShortcutKey[] | 自定义快捷键 | 否，默认值 [] |
+| insertUnits | InsertUnit[] | 插入单元 | 否，默认值 [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits] |
 
-#### EditorShortcutKey 编辑器快捷键
+- EditorKeyEvent 编辑器按键事件
 
-自定义快捷键可覆盖原有快捷键
+```typescript
+interface EditorKeyEvent {
+    key?: string | string[];
+    ctrl?: boolean;
+    alt?: boolean;
+    shift?: boolean;
+    // 是否取消默认事件
+    prevent?: boolean;
+    // 是否取消后续事件
+    reject?: boolean;
+}
+```
 
-// TODO 文档待补充
+- EditorShortcutKey 编辑器快捷键
 
-#### InsertUnit 插入单元
+自定义快捷键，可覆盖原有快捷键
 
-插入单元是快捷插入工具，通过 Ctrl + 指定的key 触发，根据 insertArgument 生成一段特定的插入字符串。
+```typescript
+interface EditorShortcutKey extends EditorKeyEvent {
+    method: Function;
+}
 
-在 MarkdownEditor 中配置 insert-units props 即可配置插入功能
+interface EditTool extends EditorShortcutKey{
+    name: string;
+    label: string;
+    icon: string;
+    active: boolean;
+}
+```
 
-// TODO 文档待补充
+- InsertUnit 插入单元
+
+插入单元是快捷插入工具，根据 insertArgument 生成一段特定的插入字符串。
+
+```typescript
+interface InsertUnit extends EditorKeyEvent{
+    label: string;
+    // 插入事件，参数有参数map，text 当前编辑文本和 textarea
+    insert: (args: Map<string, Ref>, text: string, textarea: HTMLTextAreaElement) => InsertText;
+    arguments: InsertArgument<any>[];
+    replace?: boolean;
+    keepSelect?: boolean;
+}
+```
 
 ### 2. MarkdownPreview 预览
 
