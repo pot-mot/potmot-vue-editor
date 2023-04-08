@@ -454,8 +454,13 @@ const {
 
 // 当前操作类别
 let pushFlag = "jump";
+
 onMounted(() => {
 	top.value = defaultHistory();
+
+	textarea.value.addEventListener('compositionend', () => {
+		top.value = defaultHistory();
+	})
 })
 
 // 报持历史操作一致性的触发器，根据输入标志符是否改变判断是否压入历史栈
@@ -571,6 +576,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 			if (shortcutKey.reject) return;
 		}
 	}
+
 	if (e.key == '(' || e.key == '[' || e.key == '{') {
 		e.preventDefault();
 		pushFlag = "symbol";
