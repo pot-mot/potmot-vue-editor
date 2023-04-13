@@ -31,6 +31,11 @@ const props = defineProps({
 		type: Function,
 		required: false,
 	},
+	intervalTime: {
+		type: Number,
+		required: false,
+		default: 50,
+	},
 	style: {
 		type: Function,
 		required: false,
@@ -71,7 +76,7 @@ let interval = 0;
 onMounted(() => {
 	interval = setInterval(() => {
 		heads.value = getHeadFromHtmlText(props.target.innerHTML)
-	}, 500)
+	}, props.intervalTime)
 })
 
 onBeforeUnmount(() => {
@@ -90,7 +95,7 @@ const jumpTo = (id: string) => {
 	} else if (props.policy == "offset") {
 		const head = <HTMLHeadElement>(props.target.querySelector('#' + id))
 		const dif = head.offsetTop - props.target.offsetTop
-		props.target.scrollTop = dif - 16;
+		props.target.scrollTop = dif;
 	}
 }
 </script>

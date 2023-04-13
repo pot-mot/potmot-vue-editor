@@ -60,10 +60,10 @@ let markdownCard = ref();
 const parseSurround = (
 	input: string,
 	surround: { start: string, end: string } | { start: string, end: string }[],
-	insideProcess: (input: string) => string = (input: string) => {
+	insideProcess: (input: string, index?: number) => string = (input: string) => {
 		return input
 	},
-	outsideProcess: (input: string) => string = (input: string) => {
+	outsideProcess: (input: string, index?: number) => string = (input: string) => {
 		return input
 	}
 ) => {
@@ -74,13 +74,13 @@ const parseSurround = (
 		let end = ""
 
 		for (let i = 0; i < input.length; i++) {
-			for (const item of surround) {
-				if (!flag && input.slice(i, i + item.start.length) == item.start) {
+			for (let j = 0; j < surround.length; j++) {
+				if (!flag && input.slice(i, i + surround[j].start.length) == surround[j].start) {
 					flag = true;
-					res += outsideProcess(input.slice(index, i));
-					i += item.start.length;
+					res += outsideProcess(input.slice(index, i), j);
+					i += surround[j].start.length;
 					index = i;
-					end = item.end
+					end = surround[j].end
 					break;
 				}
 			}
@@ -119,45 +119,41 @@ const parseSurround = (
 }
 
 const parse = (input: string) => {
-	return parseSurround(input, [{start: "```", end: "```"}, {start: "~~~", end: "~~~"}], parseCode, parseMarkdown);
+	return parseSurround(input, {start: "$$", end: "$$"},
+		(input: string) => {
+			try {
+				return katex.renderToString(input, {strict: false, displayMode: true});
+			} catch (e) {
+				return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + input;
+			}
+		},
+		(input: string) => {
+			return parseSurround(input, [{start: "```", end: "```"}, {start: "~~~", end: "~~~"}],
+				parseCode,
+				parseMarkdown
+			)
+		})
 }
 
 const parseMarkdown = (input: string) => {
+	return parseSurround(marked.parse(input), {start: '<pre><code>', end: '</code></pre>'},
+		(input) => {
+			return setCodeLine(input)
+		},
+		parseParagraph
+	);
+}
+
+
+const parseParagraph = (input: string) => {
 	try {
-		const markdownString = marked.parse(input);
-		return parseSurround(markdownString, {start: '<pre><code>', end: '</code></pre>'}, setCodeLine, parseMath);
+		return input
+			.replaceAll('<a ', '<a target="_blank" ')
+			.replaceAll('>\n', '>')
+			.replaceAll('\n<', '<')
 	} catch (e) {
 		return "<span style='color: red'>[markdown 解析错误]</span><br>" + e + "<br>" + input;
 	}
-}
-
-const parseMath = (input: string) => {
-	try {
-		return parseSurround(input, {start: "$$", end: "$$"}, katex.renderToString, parseParagraph)
-	} catch (e) {
-		return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + input;
-	}
-}
-
-const parseParagraph = (input: string) => {
-	return input
-		.replaceAll('<a ', '<a target="_blank" ')
-		.replaceAll('>\n', '>')
-		.replaceAll('\n<', '<')
-}
-
-const parseDebug = (input: string) => {
-	parseSurround(input, {start: '<', end: '>'},
-		(insider: string) => {
-			console.log("insider: " + insider);
-			return insider;
-		},
-		(outsider: string) => {
-			console.log("outsider: " + outsider);
-			return outsider;
-		}
-	)
-	return input;
 }
 
 const parseCode = (codeString: string) => {

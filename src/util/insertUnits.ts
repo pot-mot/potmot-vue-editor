@@ -271,7 +271,7 @@ export const simpleInsertUnits: InsertUnit[] = [
         key: "$",
         ctrl: true,
         insert: () => {
-            return {before: " $$ ", after: " $$ "};
+            return {before: "$$\n", after: "\n$$"};
         },
         arguments: [],
         reject: true,
