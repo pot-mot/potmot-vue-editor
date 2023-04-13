@@ -21,6 +21,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: FunctionConstructor;
         required: false;
     };
+    intervalTime: {
+        type: NumberConstructor;
+        required: false;
+        default: number;
+    };
     style: {
         type: FunctionConstructor;
         required: false;
@@ -44,6 +49,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         click: {
             type: FunctionConstructor;
             required: false;
+        };
+        intervalTime: {
+            type: NumberConstructor;
+            required: false;
+            default: number;
         };
         style: {
             type: FunctionConstructor;
@@ -78,6 +88,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: FunctionConstructor;
         required: false;
     };
+    intervalTime: {
+        type: NumberConstructor;
+        required: false;
+        default: number;
+    };
     style: {
         type: FunctionConstructor;
         required: false;
@@ -86,6 +101,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }>>, {
     target: HTMLElement;
     policy: string;
+    intervalTime: number;
     style: Function;
 }>;
 export default _sfc_main;

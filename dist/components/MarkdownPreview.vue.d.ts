@@ -47,20 +47,18 @@ declare const _sfc_main: import("vue").DefineComponent<{
     } | {
         start: string;
         end: string;
-    }[], insideProcess?: (input: string) => string, outsideProcess?: (input: string) => string) => string;
+    }[], insideProcess?: (input: string, index?: number) => string, outsideProcess?: (input: string, index?: number) => string) => string;
     parse: (input: string) => string;
-    parseMarkdown: (input: string) => string;
-    parseMath: (input: string) => string;
+    parseMarkdownAndInlineMath: (input: string) => string;
     parseParagraph: (input: string) => string;
-    parseDebug: (input: string) => string;
     parseCode: (codeString: string) => string;
-    setCodeLine: (code: string, before?: string, after?: string) => string;
     setCodeLineWithLanguage: (code: string, language: string) => string;
+    setCodeLine: (code: string, before?: string, after?: string) => string;
+    once: boolean;
     foldCode: (e: MouseEvent) => void;
     copy: (text: string) => void;
     copyCode: (e: MouseEvent) => void;
     setButtonEvent: () => void;
-    buttonInterval: number;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     markdownText: {
         type: StringConstructor;
