@@ -14,7 +14,7 @@ import Prism from "prismjs";
 import katex from 'katex';
 import 'katex/dist/katex.css'
 
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import {marked} from "marked";
 import {languageList} from "../constant/LanguageList";
 
@@ -173,25 +173,6 @@ const parseCode = (codeString: string) => {
 	}
 }
 
-const setCodeLine = (code: string, before: string = "", after: string = "") => {
-	if (code[code.length - 1] == '\n') {
-		code = code.slice(0, code.length - 1);
-	}
-	let codes = code.split("\n");
-	let res = '<code>' + before;
-	for (let i = 0; i < codes.length; i++) {
-		res += '<span class="count"></span>' + codes[i] + '\n';
-	}
-	let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"/>' + after;
-	res += '</code>';
-	if (props.codeFold && codes.length > props.codeFoldThreshold) {
-		res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
-	} else {
-		res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
-	}
-	return res;
-}
-
 const setCodeLineWithLanguage = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
@@ -201,6 +182,32 @@ const setCodeLineWithLanguage = (code: string, language: string) => {
 	}
 	return setCodeLine(code, '', '<div class="code-language">' + language + "</div>");
 }
+
+const setCodeLine = (code: string, before: string = "", after: string = "") => {
+	if (code[code.length - 1] == '\n') {
+		code = code.slice(0, code.length - 1);
+	}
+	let codes = code.split("\n");
+	let res = '<code>' + before;
+	for (let i = 0; i < codes.length; i++) {
+		res += '<span class="count"></span>' + codes[i] + '\n';
+	}
+
+	if (once) {
+		let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"></div>' + after;
+		res += '</code>';
+		if (props.codeFold && codes.length > props.codeFoldThreshold) {
+			res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
+		} else {
+			res = '<pre class="' + props.codeTheme + '">' + res + postfix + '</pre>';
+		}
+	} else {
+		res = '<pre class="' + props.codeTheme + '">' + res + after + '</pre>';
+	}
+	return res;
+}
+
+let once = true;
 
 /*
 	代码块相关操作
@@ -251,28 +258,20 @@ const setButtonEvent = () => {
 	if (props.codeFold) {
 		const foldButtons = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.code-fold-button'));
 		for (let i = 0; i < foldButtons.length; i++) {
-			foldButtons[i].removeEventListener("click", foldCode);
 			foldButtons[i].addEventListener("click", foldCode);
 		}
 	}
 
 	const copyButtons = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.code-copy-button'));
 	for (let i = 0; i < copyButtons.length; i++) {
-		copyButtons[i].removeEventListener("click", copyCode);
 		copyButtons[i].addEventListener("click", copyCode);
 	}
 }
 
-let buttonInterval = 0;
-
 onMounted(() => {
 	setButtonEvent();
-	buttonInterval = setInterval(setButtonEvent, 1000);
+	once = false;
 });
-
-onBeforeUnmount(() => {
-	clearInterval(buttonInterval);
-})
 </script>
 
 <style lang="scss">
