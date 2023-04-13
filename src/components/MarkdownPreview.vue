@@ -130,17 +130,31 @@ const parse = (input: string) => {
 		(input: string) => {
 			return parseSurround(input, [{start: "```", end: "```"}, {start: "~~~", end: "~~~"}],
 				parseCode,
-				parseMarkdown
+				parseMarkdownAndInlineMath
 			)
 		})
 }
 
-const parseMarkdown = (input: string) => {
-	return parseSurround(marked.parse(input), {start: '<pre><code>', end: '</code></pre>'},
+const parseMarkdownAndInlineMath = (input: string) => {
+	let index = 0;
+	let save: string[] = [];
+	input = parseSurround(input, {start: '$', end: '$'},
+		(input) => {
+			save.push(input);
+			return "call katex.renderToString" + index++ + " call"
+		});
+	return parseSurround(marked.parse(input),
+		{start: '<pre><code>', end: '</code></pre>'},
 		(input) => {
 			return setCodeLine(input)
 		},
-		parseParagraph
+		(input) => {
+			return parseSurround(input, {start: "call katex.renderToString", end: " call"},
+				(input: string) => {
+					return katex.renderToString(save[parseInt(input)], {strict: false});
+				},
+				parseParagraph);
+		}
 	);
 }
 

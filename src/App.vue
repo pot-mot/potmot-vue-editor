@@ -1,7 +1,7 @@
 <template>
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 		<div style="height: 60vh;">
-			<MarkdownEditor v-model="text" :debug="true"></MarkdownEditor>
+			<MarkdownEditor v-model="text" :debug="false"></MarkdownEditor>
 		</div>
 	</div>
 </template>
