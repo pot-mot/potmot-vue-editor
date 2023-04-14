@@ -206,10 +206,9 @@ const setCodeLine = (code: string, before: string = "", after: string = "") => {
 	for (let i = 0; i < codes.length; i++) {
 		res += '<span class="count"></span>' + codes[i] + '\n';
 	}
-
+	res += '</code>';
 	if (once) {
 		let postfix = '<div class="code-copy-button iconfont icon-copy" title="复制"></div>' + after;
-		res += '</code>';
 		if (props.codeFold && codes.length > props.codeFoldThreshold) {
 			res = '<pre class="fold ' + props.codeTheme + '">' + res + '<div class="code-fold-button show">展开</div>' + postfix + '</pre>';
 		} else {

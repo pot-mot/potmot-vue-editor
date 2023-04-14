@@ -19319,9 +19319,9 @@ const bl = ["innerHTML"], yl = {
       for (let I = 0; I < w.length; I++)
         E += '<span class="count"></span>' + w[I] + `
 `;
-      if (m) {
+      if (E += "</code>", m) {
         let I = '<div class="code-copy-button iconfont icon-copy" title="复制"></div>' + T;
-        E += "</code>", e.codeFold && w.length > e.codeFoldThreshold ? E = '<pre class="fold ' + e.codeTheme + '">' + E + '<div class="code-fold-button show">展开</div>' + I + "</pre>" : E = '<pre class="' + e.codeTheme + '">' + E + I + "</pre>";
+        e.codeFold && w.length > e.codeFoldThreshold ? E = '<pre class="fold ' + e.codeTheme + '">' + E + '<div class="code-fold-button show">展开</div>' + I + "</pre>" : E = '<pre class="' + e.codeTheme + '">' + E + I + "</pre>";
       } else
         E = '<pre class="' + e.codeTheme + '">' + E + T + "</pre>";
       return E;
