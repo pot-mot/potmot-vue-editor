@@ -134,7 +134,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         text: string;
         scrollTop: number;
     }>;
-    pushFlag: string;
+    pushFlag: Ref<string>;
     flagPush: (flag: string) => void;
     shortcutKeys: {
         method: Function;

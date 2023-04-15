@@ -88,6 +88,7 @@
 	</div>
 
 	<div v-if="props.debug">
+		<div>当前类别：{{ pushFlag }}</div>
 		<div v-if="historyData.stack.length > 0">当前栈顶：{{ historyData.stackTop }} "{{ top.text }}"</div>
 		<ul v-for="(item, index) in historyData.stack">
 			<li>{{ index }} "{{ item.text }}" start: {{ item.start }} end: {{ item.end }}</li>
@@ -362,6 +363,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 		text = insertIntoString(after, text, end);
 	}
 	data.text = text;
+	pushFlag.value = "insert";
 	nextTick(() => {
 		if (insertUnit.keepSelect && start != selectEnd) {
 			textarea.value.selectionStart = start;
@@ -454,7 +456,7 @@ const {
 );
 
 // 当前操作类别
-let pushFlag = "jump";
+let pushFlag = ref("jump");
 
 onMounted(() => {
 	top.value = defaultHistory();
@@ -466,8 +468,8 @@ onMounted(() => {
 
 // 报持历史操作一致性的触发器，根据输入标志符是否改变判断是否压入历史栈
 const flagPush = (flag: string) => {
-	if (pushFlag != flag) {
-		pushFlag = flag;
+	if (pushFlag.value != flag) {
+		pushFlag.value = flag;
 		push();
 	} else {
 		top.value = defaultHistory();
@@ -480,7 +482,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: ['x', 'X'],
 		ctrl: true,
 		method: () => {
-			pushFlag = "cut";
+			pushFlag.value = "cut";
 			setTimeout(push, 200);
 		}
 	},
@@ -488,7 +490,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: ['v', 'V'],
 		ctrl: true,
 		method: () => {
-			pushFlag = "copy";
+			pushFlag.value = "copy";
 			setTimeout(push, 200);
 		}
 	},
@@ -496,7 +498,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: ['z', 'Z'],
 		ctrl: true,
 		method: (e: KeyboardEvent) => {
-			pushFlag = "symbol";
+			pushFlag.value = "symbol";
 			if (e.key == 'z') {
 				undo();
 			} else {
@@ -510,7 +512,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: ['r', 'f'],
 		ctrl: true,
 		method: () => {
-			pushFlag = "replace";
+			pushFlag.value = "replace";
 			replaceData.replaceFrom = data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
 			isReplace.value = true;
 		},
@@ -520,7 +522,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 	{
 		key: "Enter",
 		method: () => {
-			pushFlag = "blank";
+			pushFlag.value = "blank";
 			batchEnter();
 		},
 		prevent: true,
@@ -529,7 +531,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 	{
 		key: "Tab",
 		method: (e: KeyboardEvent) => {
-			pushFlag = "tab";
+			pushFlag.value = "tab";
 			batchKeydown(e, '\t');
 		},
 		prevent: true,
@@ -562,7 +564,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 
 		if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
 			if (insertUnit.prevent) e.preventDefault();
-			pushFlag = "symbol";
+			pushFlag.value = "symbol";
 			insertIntoTextarea(insertUnit);
 			if (insertUnit.reject) return;
 		}
@@ -582,13 +584,13 @@ const onKeyDown = (e: KeyboardEvent) => {
 		setTimeout(() => {
 			flagPush("back");
 		}, 40);
-	}else if (e.key == '(' || e.key == '[' || e.key == '{') {
+	} else if (e.key == '(' || e.key == '[' || e.key == '{') {
 		e.preventDefault();
-		pushFlag = "symbol";
+		pushFlag.value = "symbol";
 		insertAroundText({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'});
 	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
 		e.preventDefault();
-		pushFlag = "symbol";
+		pushFlag.value = "symbol";
 		insertAroundText({before: e.key, after: e.key == '"' ? '"' : "'"});
 	} else if (e.key.startsWith("Arrow")) {
 		setTimeout(() => {

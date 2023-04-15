@@ -138,7 +138,7 @@ const parse = (input: string) => {
 const parseMarkdownAndInlineMath = (input: string) => {
 	let index = 0;
 	let save: string[] = [];
-	input = parseSurround(input, {start: '$', end: '$'},
+	input = parseSurround(input, {start: '$ ', end: ' $'},
 		(input) => {
 			save.push(input);
 			return "call katex.renderToString" + index++ + " call"
@@ -146,12 +146,16 @@ const parseMarkdownAndInlineMath = (input: string) => {
 	return parseSurround(marked.parse(input),
 		{start: '<pre><code>', end: '</code></pre>'},
 		(input) => {
-			return setCodeLine(input)
+			return setCodeLine(input);
 		},
 		(input) => {
 			return parseSurround(input, {start: "call katex.renderToString", end: " call"},
 				(input: string) => {
-					return katex.renderToString(save[parseInt(input)], {strict: false});
+					try {
+						return katex.renderToString(save[parseInt(input)], {strict: false});
+					} catch (e) {
+						return "<span style='color: red'>[数学算式解析错误]</span><br>" + e + "<br>" + input;
+					}
 				},
 				parseParagraph);
 		}
