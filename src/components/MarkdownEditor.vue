@@ -72,8 +72,10 @@
 			</div>
 			<div
 				ref="textareaCountLine"
-				v-text="data.text.substring(0, searchData.indexes[searchData.index])"
-				style="visibility: hidden;white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;width: 100%;border: 1px solid #eee;"/>
+				style="visibility: hidden;white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;border: 1px solid #eee;"
+				v-text="textareaCountLineSubText"
+				:style="textareaCountLineStyle">
+			</div>
 		</div>
 		<ul class="statistical-list" v-if="textarea !== undefined">
 			<li>字数 {{ data.text.length }}</li>
@@ -405,8 +407,10 @@ let scrollKeyInterval = 0
 
 onMounted(() => {
 	scrollKeyInterval = setInterval(() => {
-		if (!textarea.value) return;
-		if (!previewCard.value) return;
+		if (!textarea.value || !previewCard.value ||
+			textarea.value.scrollHeight <= textarea.value.clientHeight ||
+			previewCard.value.scrollHeight <= textarea.value.clientHeight
+		) return;
 		if (scrollKey.value == 'textarea') handleScroll(textarea.value, previewCard.value);
 		else if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
 	}, 20)
@@ -766,7 +770,6 @@ watch(() => replaceData.replaceFrom, () => {
 	setSearchData();
 	if (!isReplace) return;
 	if (replaceData.replaceFrom.length <= 0) return;
-	searchCurrent();
 })
 
 watch(() => data.text, () => {
@@ -779,12 +782,10 @@ watch(() => isReplace.value, () => {
 
 watch(() => isPreview.value, () => {
 	setSearchData();
-	isReplace.value = false;
 })
 
 watch(() => isFullScreen.value, () => {
 	setSearchData();
-	isReplace.value = false;
 })
 
 
@@ -816,12 +817,30 @@ const jumpTo = (target: number) => {
 	textarea.value.scrollTop = target;
 }
 
-const searchCurrent = () => {
+let textareaCountLineStyle = ref("")
+let textareaCountLineSubText = ref("")
+
+const searchCurrent = (
+	jumpEnd: Function = () => {
+		textarea.value.focus()
+	}
+) => {
+	textareaCountLineSubText.value = data.text.substring(0, searchData.indexes[searchData.index]);
+
+	textareaCountLineStyle.value = "width: " + textarea.value.clientWidth + 'px;';
+
 	setTimeout(() => {
-		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+		scrollKey.value = 'textarea';
+
+		if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
+			jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+		} else {
+			jumpTo(0);
+		}
+		jumpEnd();
 		textarea.value.selectionStart = searchData.indexes[searchData.index];
 		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-	}, 50)
+	}, 100 + data.text.length/2000)
 }
 
 const searchPrevious = () => {
@@ -830,13 +849,7 @@ const searchPrevious = () => {
 	if (searchData.index > 0) {
 		searchData.index--;
 	}
-
-	setTimeout(() => {
-		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
-		textarea.value.focus();
-		textarea.value.selectionStart = searchData.indexes[searchData.index];
-		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-	}, 50)
+	searchCurrent();
 }
 
 const searchNext = () => {
@@ -845,13 +858,7 @@ const searchNext = () => {
 	if (searchData.index < searchData.indexes.length - 1) {
 		searchData.index++;
 	}
-
-	setTimeout(() => {
-		jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
-		textarea.value.focus();
-		textarea.value.selectionStart = searchData.indexes[searchData.index];
-		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-	}, 50)
+	searchCurrent();
 }
 
 const replaceOne = () => {
@@ -990,7 +997,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 	display: grid;
 
 	&.edit-preview {
-		grid-template-columns: 49.5% 49% 0;
+		grid-template-columns: 49.5% 49%;
 		grid-gap: 0.5%;
 	}
 
