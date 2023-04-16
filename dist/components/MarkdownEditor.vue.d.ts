@@ -164,7 +164,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     setSearchData: () => void;
     jumpTo: (target: number) => void;
-    searchCurrent: () => void;
+    textareaCountLineStyle: Ref<string>;
+    textareaCountLineSubText: Ref<string>;
+    searchCurrent: (jumpEnd?: Function) => void;
     searchPrevious: () => void;
     searchNext: () => void;
     replaceOne: () => void;
