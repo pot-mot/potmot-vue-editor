@@ -35,7 +35,7 @@
 		</div>
 		<div v-show="getEditToolActive('replace')" class="replace-box floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
-			<textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
+			<textarea v-model="replaceData.replaceFrom" placeholder="查找文本" @change="() => {replaceData.replaceFrom.length > 0 ? searchCurrent() : () => {}}"/>
 			<br>
 			<textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
 			<div style="display: flex; justify-content: space-around">
@@ -767,9 +767,12 @@ const replaceData = reactive({
 
 
 watch(() => replaceData.replaceFrom, () => {
+	if (replaceData.replaceFrom.length <= 0) {
+		searchData.index = -1;
+		searchData.indexes = [];
+		return;
+	}
 	setSearchData();
-	if (!isReplace) return;
-	if (replaceData.replaceFrom.length <= 0) return;
 })
 
 watch(() => data.text, () => {
@@ -829,18 +832,20 @@ const searchCurrent = (
 
 	textareaCountLineStyle.value = "width: " + textarea.value.clientWidth + 'px;';
 
-	setTimeout(() => {
-		scrollKey.value = 'textarea';
+	nextTick(() => {
+		setTimeout(() => {
+			scrollKey.value = 'textarea';
 
-		if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
-			jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
-		} else {
-			jumpTo(0);
-		}
-		jumpEnd();
-		textarea.value.selectionStart = searchData.indexes[searchData.index];
-		textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-	}, 100 + data.text.length/2000)
+			if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
+				jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+			} else {
+				jumpTo(0);
+			}
+			jumpEnd();
+			textarea.value.selectionStart = searchData.indexes[searchData.index];
+			textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
+		}, 50 + data.text.length/5000)
+	})
 }
 
 const searchPrevious = () => {
