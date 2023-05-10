@@ -59,64 +59,40 @@ let markdownCard = ref();
  */
 const parseSurround = (
 	input: string,
-	surround: { start: string, end: string } | { start: string, end: string }[],
+	surround: { start: string; end: string } | { start: string; end: string }[],
 	insideProcess: (input: string, index?: number) => string = (input: string) => {
-		return input
+		return input;
 	},
 	outsideProcess: (input: string, index?: number) => string = (input: string) => {
-		return input
+		return input;
 	}
 ) => {
-	if (surround instanceof Array) {
-		let res: string = "";
-		let flag = false;
-		let index = 0;
-		let end = ""
+	const surroundArray = Array.isArray(surround) ? surround : [surround];
+	let res: string = "";
+	let flag = false;
+	let index = 0;
+	let end = "";
 
-		for (let i = 0; i < input.length; i++) {
-			for (let j = 0; j < surround.length; j++) {
-				if (!flag && input.slice(i, i + surround[j].start.length) == surround[j].start) {
-					flag = true;
-					res += outsideProcess(input.slice(index, i), j);
-					i += surround[j].start.length;
-					index = i;
-					end = surround[j].end
-					break;
-				}
-			}
-			if (flag && input.slice(i, i + end.length) == end) {
-				flag = false;
-				res += insideProcess(input.slice(index, i));
-				i += end.length
-				index = i;
-			}
+	for (let i = 0; i < input.length; i++) {
+		const currentSurround = surroundArray.find(
+			(s) => !flag && input.slice(i, i + s.start.length) == s.start
+		);
+		if (currentSurround) {
+			flag = true;
+			res += outsideProcess(input.slice(index, i), surroundArray.indexOf(currentSurround));
+			i += currentSurround.start.length - 1;
+			index = i + 1;
+			end = currentSurround.end;
+		} else if (flag && input.slice(i, i + end.length) == end) {
+			flag = false;
+			res += insideProcess(input.slice(index, i));
+			i += end.length - 1;
+			index = i + 1;
 		}
-
-		return res + outsideProcess(input.slice(index));
-	} else {
-		let {start, end} = surround;
-		let res: string = "";
-		let flag = false;
-		let index = 0;
-
-		for (let i = 0; i < input.length; i++) {
-			if (!flag && input.slice(i, i + start.length) == start) {
-				res += outsideProcess(input.slice(index, i));
-				i += start.length;
-				index = i;
-				i--;
-				flag = true;
-			} else if (flag && input.slice(i, i + end.length) == end) {
-				res += insideProcess(input.slice(index, i));
-				i += end.length
-				index = i;
-				i--;
-				flag = false;
-			}
-		}
-		return res + outsideProcess(input.slice(index));
 	}
-}
+
+	return res + outsideProcess(input.slice(index));
+};
 
 const parse = (input: string) => {
 	return parseSurround(input, {start: "$$", end: "$$"},
@@ -162,7 +138,6 @@ const parseMarkdownAndInlineMath = (input: string) => {
 	);
 }
 
-
 const parseParagraph = (input: string) => {
 	try {
 		return input
@@ -191,6 +166,9 @@ const parseCode = (codeString: string) => {
 	}
 }
 
+/*
+	代码块相关操作解析
+ */
 const setCodeLineWithLanguage = (code: string, language: string) => {
 	for (const item of languageList) {
 		if (item == language) {
@@ -291,9 +269,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss">
-@import "../asserts/code/code.css";
-
+<style lang="scss" scoped>
 .markdown-card {
 	--border-color: #ddd;
 	--deep-back-color: #eee;
@@ -318,21 +294,6 @@ onMounted(() => {
 		padding: 0.5em;
 		font-style: italic;
 		color: #333;
-	}
-
-	pre {
-		padding: 0.5em 0;
-	}
-
-	pre.fold {
-		max-height: 15em;
-		overflow-y: hidden;
-		overflow-x: hidden;
-	}
-
-	pre.show {
-		overflow-y: visible;
-		overflow-x: scroll;
 	}
 
 	ol > li {

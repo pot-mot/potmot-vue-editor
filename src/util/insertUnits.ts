@@ -287,7 +287,7 @@ export const htmlInsertUnits: InsertUnit[] = [
         insert: (args) => {
             const summary = args.get("detailIsSummary")!.value
             const isOpen = args.get("detailIsOpen")!.value
-            return {before: "<details" + (isOpen == '展开' ? ' open':'') + ">\n<summary>" + summary + "</summary>\n", after: "\n</details>"}
+            return {before: ":::" + (isOpen == '展开' ? '+':'') + summary + "\n", after: "\n:::"}
         },
         arguments: [
             <InputInsertArgument<string>>{

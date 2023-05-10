@@ -29,7 +29,8 @@
     "README.md",
     "LICENSE",
     "dist",
-    "src/declare"
+    "src/declare",
+    "src/asserts"
   ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

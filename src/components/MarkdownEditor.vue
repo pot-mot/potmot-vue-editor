@@ -68,7 +68,7 @@
 				ref="previewCard"
 				class="preview-card"
 				@mouseover="() => {scrollKey = 'preview'}">
-				<MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
+				<MarkdownPreviewV2 :markdown-text="data.text"></MarkdownPreviewV2>
 			</div>
 			<div
 				ref="textareaCountLine"
@@ -112,6 +112,8 @@ import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/i
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {useHistoryStack} from "../util/history";
 import {judgeKeyForEditorKeyEvent} from "../util/EditorEvent";
+import MarkdownOutline from "./MarkdownOutline.vue";
+import MarkdownPreviewV2 from "./MarkdownPreviewV2.vue";
 
 /**
  * 外部传入参数
@@ -306,7 +308,7 @@ let beforeFullScreenTop = 0
 watch(() => isFullScreen.value, async (newValue) => {
 	if (newValue) {
 		isPreview.value = !isMobile();
-		scrollKey.value = "edit"
+		scrollKey.value = "textarea"
 		beforeFullScreenTop = document.documentElement.scrollTop;
 	} else {
 		isPreview.value = false;
@@ -399,7 +401,7 @@ const handleScroll = (from: HTMLElement, to: HTMLElement) => {
 
 watch(() => isPreview.value, async (newValue) => {
 	if (isMobile()) {
-		scrollKey.value = newValue ? 'preview' : 'edit';
+		scrollKey.value = newValue ? 'preview' : 'textarea';
 	}
 })
 
@@ -553,6 +555,8 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
+	scrollKey.value = "textarea";
+
 	for (const shortcutKey of props.shortcutKeys) {
 		if (!shortcutKey.key) continue;
 
@@ -907,8 +911,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 </script>
 
-<style lang="scss">
-@import "../asserts/iconfont/iconfont.css";
+<style lang="scss" scoped>
+@import "../asserts/iconfont.css";
 
 .editor {
 	--back-ground-color: #f5f5f5;

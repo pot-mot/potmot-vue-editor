@@ -1,0 +1,85 @@
+.markdown-card {
+  --border-color: #ddd;
+  --deep-back-color: #eee;
+  --light-back-color: #fafafa;
+
+  margin: 0;
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  h1, h2, h3, h4 {
+    padding: 0.2em 0;
+  }
+
+  blockquote {
+    border-left: 0.4em solid var(--border-color);
+    background-color: var(--light-back-color);
+    padding: 0.5em;
+    font-style: italic;
+    color: #333;
+  }
+
+  pre {
+    padding: 0.5em 0;
+  }
+
+  pre.fold {
+    max-height: 15em;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+
+  pre.show {
+    overflow-y: visible;
+    overflow-x: scroll;
+  }
+
+  ol > li {
+    list-style-type: decimal;
+    margin-left: 2em;
+    line-height: inherit;
+  }
+
+  ul > li {
+    list-style-type: disc;
+    margin-left: 2em;
+    line-height: inherit;
+  }
+
+  table {
+    border-collapse: collapse;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    border: 1px solid var(--border-color);
+
+    td,
+    th {
+      padding: 0.2em 0.4em;
+      border: none;
+      min-width: 3em;
+      max-width: 100%;
+    }
+
+    th {
+      background-color: var(--deep-back-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tr:nth-child(2n-1) {
+      background-color: var(--light-back-color);
+    }
+
+    tr:nth-child(2n) {
+      background-color: var(--deep-back-color);
+    }
+
+  }
+
+  img {
+    width: 100%;
+  }
+}

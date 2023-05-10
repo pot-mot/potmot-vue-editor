@@ -94,13 +94,12 @@ const jumpTo = (id: string) => {
 		props.target.querySelector('#' + id)?.scrollIntoView();
 	} else if (props.policy == "offset") {
 		const head = <HTMLHeadElement>(props.target.querySelector('#' + id))
-		const dif = head.offsetTop - props.target.offsetTop
-		props.target.scrollTop = dif;
+		props.target.scrollTop = head.offsetTop - props.target.offsetTop;
 	}
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .outline {
 	margin: 0;
 	padding: 0;

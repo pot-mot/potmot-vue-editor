@@ -3,6 +3,11 @@
     src: url(consola.ttf);
 }
 
+@font-face {
+    font-family: "iconfont"; /* Project id  */
+    src: url('iconfont.ttf?t=1673615946702') format('truetype');
+}
+
 .potmot-dark {
     --code-back-color: #474949;
     --code-font-color: #d5d5d5;
@@ -35,6 +40,21 @@
     --comment-color: #aaa;
     --variable-color: #b48e06;
     --entity-color: #466db6;
+}
+
+pre {
+    padding: 0.5em 0;
+}
+
+pre.fold {
+    max-height: 15em;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+pre.show {
+    overflow-y: visible;
+    overflow-x: scroll;
 }
 
 code,
@@ -176,45 +196,33 @@ pre .count:before {
     text-align: center;
 }
 
-.code-fold-button {
-    text-align: center;
-    user-select: none;
-    color: var(--code-font-color);
-}
-
-.code-fold-button:hover {
-    color: var(--code-font-color);
-}
-
-.code-fold-button.show {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    bottom: 0;
-    padding-top: 1.5em;
-    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, var(--code-font-color) 100%);
-}
-
-.code-fold-button.show:hover {
-    color: var(--code-font-color);
-}
-
-.iconfont.code-copy-button {
+.code-copy-button {
     position: absolute;
     top: 0;
     right: 0;
     cursor: default;
     padding: 0;
     margin: 0;
+
+    font-family: "iconfont", system-ui;
+    font-size: 1em;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    display: inline-block;
+    width: 2em;
 }
 
-.iconfont.code-copy-button:before {
+.code-copy-button:before {
+    content: "\e63d";
+
     font-size: 1.1em;
     padding: 0 0.4em;
     color: #aaa;
 }
 
-.iconfont.code-copy-button:hover:before {
+.code-copy-button:hover:before {
     color: #ccc;
 }
 
