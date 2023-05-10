@@ -1,10 +1,10 @@
 # potmot-vue-editor
 
-一个基于 vue3、typescript、marked、prismjs、katex 的简单 markdown 编辑器，开箱即用
+一个基于 vue3、typescript、marked、prismjs、katex、mermaid 的简单 markdown 编辑器，开箱即用
 
 ## 介绍
 
-> 当前版本 v0.7 2023/4/6
+> 当前版本 v0.8 2023/5/10
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
@@ -105,8 +105,6 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 |--------------|--|-------------------------|---------------------|
 | markdownText | String | 传入的markdown文本，将被解析成html | 是 |
 | codeTheme | String | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
-| codeFold | Boolean | 是否开启代码块折叠 | 否，默认值 false |
-| codeFoldThreshold | Number | 代码块折叠阈值，行数到达后开启折叠 | 否，默认值 20 |
 
 ### 3. Outline 大纲
 

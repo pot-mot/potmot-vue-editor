@@ -281,7 +281,7 @@ export const simpleInsertUnits: InsertUnit[] = [
 
 export const htmlInsertUnits: InsertUnit[] = [
     {
-        key: ">",
+        key: ":",
         ctrl: true,
         label: "折叠块",
         insert: (args) => {
@@ -320,8 +320,9 @@ export const htmlInsertUnits: InsertUnit[] = [
         label: "标亮",
         insert: (args) => {
             const warningColor = args.get("warningColor")!.value
-            const label = args.get("warningLabel")!.value
-            return {before: "<" + label + " style='color: " + warningColor + ";'>", after: "</" + label + ">"}
+
+            if (warningColor == 'red') return {before: "!", after: "!"}
+            return {before: "!(" + warningColor + ")", after: "!"}
         },
         arguments: [
             <InputInsertArgument<string>>{
@@ -334,16 +335,6 @@ export const htmlInsertUnits: InsertUnit[] = [
                 },
                 styleWidth: "4em",
             },
-            <InputInsertArgument<string>>{
-                name: "warningLabel",
-                label: "标签",
-                type: "string",
-                getRef: () => {
-                    let label = "span";
-                    return ref(label);
-                },
-                styleWidth: "4em",
-            }
         ],
         reject: true,
         prevent: true,

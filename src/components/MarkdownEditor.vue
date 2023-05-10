@@ -113,7 +113,7 @@ import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUti
 import {useHistoryStack} from "../util/history";
 import {judgeKeyForEditorKeyEvent} from "../util/EditorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
-import MarkdownPreviewV2 from "./MarkdownPreviewV2.vue";
+import MarkdownPreviewV2 from "./MarkdownPreview.vue";
 
 /**
  * 外部传入参数

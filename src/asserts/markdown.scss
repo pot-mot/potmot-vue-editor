@@ -25,29 +25,7 @@
 
   pre {
     padding: 0.5em 0;
-  }
-
-  pre.fold {
-    max-height: 15em;
-    overflow-y: hidden;
-    overflow-x: hidden;
-  }
-
-  pre.show {
-    overflow-y: visible;
-    overflow-x: scroll;
-  }
-
-  ol > li {
-    list-style-type: decimal;
-    margin-left: 2em;
-    line-height: inherit;
-  }
-
-  ul > li {
-    list-style-type: disc;
-    margin-left: 2em;
-    line-height: inherit;
+    margin: 0.5em 0;
   }
 
   table {
