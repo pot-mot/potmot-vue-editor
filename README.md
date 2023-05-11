@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.8.2
+npm install potmot-vue-editor@0.8.3
 ```
 
 main.js 中引用
@@ -137,7 +137,6 @@ package.json 目前依赖:
 {
   "dependencies": {
     "d3": "^4.13.0",
-    "file-saver": "^2.0.5",
     "katex": "^0.16.4",
     "marked": "^4.2.12",
     "mermaid": "^10.1.0",

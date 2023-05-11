@@ -10,12 +10,12 @@
 				</span>
 			</li>
 		</ul>
-		<div v-show="getEditToolActive('insert')" class="floating-card tool-menu" v-drag>
+		<div v-show="getEditToolActive('insert')" ref="toolMenu" class="floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
 			<template v-for="item in props.insertUnits">
 				<span class="insert-text">
 				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
-					  :title='item.key ? item.key + (item.ctrl? " + Ctrl":"") + (item.shift? " + Shift":"") + (item.alt? " + Alt":"") : "无快捷键"'>
+					  :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'>
 					{{ item.label }}
 				</span>
 				<template v-for="arg in item.arguments">
@@ -33,9 +33,10 @@
 				<br>
 			</template>
 		</div>
-		<div v-show="getEditToolActive('replace')" class="replace-box floating-card tool-menu" v-drag>
+		<div v-show="getEditToolActive('replace')" ref="replaceBox" class="replace-box floating-card tool-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
-			<textarea v-model="replaceData.replaceFrom" placeholder="查找文本" @change="() => {replaceData.replaceFrom.length > 0 ? searchCurrent() : () => {}}"/>
+			<textarea v-model="replaceData.replaceFrom" placeholder="查找文本"
+					  @change="() => {replaceData.replaceFrom.length > 0 ? searchCurrent() : () => {}}"/>
 			<br>
 			<textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
 			<div style="display: flex; justify-content: space-around">
@@ -46,7 +47,7 @@
 				<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</div>
 		</div>
-		<div v-show="getEditToolActive('outline')" class="outline-box floating-card" v-drag>
+		<div v-show="getEditToolActive('outline')" ref="outlineBox" class="outline-box floating-card" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
 			<MarkdownOutline
 				:target="previewCard"
@@ -108,10 +109,10 @@ export default {
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/editor/insertUtils";
-import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/editor/insertUnits";
+import {markdownInsertUnits, simpleInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {useHistoryStack} from "../util/editor/history";
-import {judgeKeyForEditorKeyEvent} from "../util/editor/EditorEvent";
+import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 
@@ -146,7 +147,7 @@ const props = defineProps({
 	insertUnits: {
 		type: Array as PropType<InsertUnit[]>,
 		required: false,
-		default: [...markdownInsertUnits, ...simpleInsertUnits, ...htmlInsertUnits]
+		default: [...markdownInsertUnits, ...simpleInsertUnits]
 	},
 	debug: {
 		type: Boolean,
@@ -158,6 +159,10 @@ const props = defineProps({
 // 盒型数据
 const textarea = ref();
 const previewCard = ref();
+
+const toolMenu = ref();
+const replaceBox = ref();
+const outlineBox = ref();
 
 // 核心容器样式类
 const containerClass = computed(() => {
@@ -200,14 +205,34 @@ const setEditData = () => {
 
 let editEditInterval = 0;
 
+let mouseX = 0;
+let mouseY = 0;
+
+const getMousePlace = (e: MouseEvent) => {
+	mouseX = e.pageX;
+	mouseY = e.pageY;
+}
+
 onMounted(() => {
 	setEditData();
 	editEditInterval = setInterval(setEditData, 100);
+	window.addEventListener('mousemove', getMousePlace);
 })
 
 onBeforeUnmount(() => {
 	clearInterval(editEditInterval)
+	window.removeEventListener('mousemove', getMousePlace)
 })
+
+const resetToolPlace = (element: HTMLElement) => {
+	if (isFullScreen.value) {
+		element.style.top = '100px'
+		element.style.left = '100px'
+	} else {
+		element.style.top = mouseY + 'px'
+		element.style.left = mouseX + 'px'
+	}
+}
 
 // 工具列表
 const editToolList = reactive(<EditTool[]>[
@@ -227,6 +252,7 @@ const editToolList = reactive(<EditTool[]>[
 		active: false,
 		method: (self: EditTool) => {
 			self.active = !self.active
+			resetToolPlace(toolMenu.value)
 		}
 	},
 	{
@@ -236,6 +262,7 @@ const editToolList = reactive(<EditTool[]>[
 		active: false,
 		method: (self: EditTool) => {
 			self.active = !self.active
+			resetToolPlace(replaceBox.value)
 		}
 	},
 	{
@@ -254,6 +281,7 @@ const editToolList = reactive(<EditTool[]>[
 		active: false,
 		method: (self: EditTool) => {
 			self.active = !self.active
+			resetToolPlace(outlineBox.value)
 		}
 	},
 	{
@@ -848,7 +876,7 @@ const searchCurrent = (
 			jumpEnd();
 			textarea.value.selectionStart = searchData.indexes[searchData.index];
 			textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-		}, 50 + data.text.length/5000)
+		}, 50 + data.text.length / 5000)
 	})
 }
 

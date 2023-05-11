@@ -18,10 +18,11 @@ import {
 	warningRule
 } from "../util/preview/markedRules";
 import Prism from "prismjs";
-import {prismLanguageList} from "../constant/LanguageList";
+import {prismLanguageList} from "../constant/typeList";
 import {copyCode, setCodeLine} from "../util/preview/codeUtil";
 import mermaid from "mermaid";
 import 'katex/dist/katex.css'
+import {random} from "mermaid/dist/utils";
 
 /**
  * 外部传入参数
@@ -86,11 +87,10 @@ const mermaidRender = () => {
 
 	const items = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
 
-	let i = 0
 	for (const item of items) {
-		i ++
 		if (item.innerText.indexOf("<svg") != -1) continue
-		mermaid.render('mermaid' + i, item.innerHTML.replaceAll('&gt;', ">"))
+		const id = Math.floor(Math.random() * 10000000000)
+		mermaid.render('mermaid' + id, item.innerHTML.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
 			.then(res => {
 				item.innerHTML = res.svg
 			})

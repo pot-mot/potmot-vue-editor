@@ -1,6 +1,6 @@
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../declare/EditorUtil";
 import {ref} from "vue";
-import {prismLanguageList} from "../../constant/LanguageList";
+import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "../../constant/typeList";
 import {limit} from "./insertUtils";
 
 export const markdownInsertUnits: InsertUnit[] = [
@@ -101,6 +101,7 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
+        key: '1',
         label: "有序列表",
         insert: (args) => {
             let listLength = args.get("orderedListLength")!.value
@@ -139,6 +140,7 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
+        key: "-",
         label: "无序列表",
         insert: (args) => {
             let listLength = args.get("unorderedListLength")!.value
@@ -245,7 +247,7 @@ export const simpleInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        key: ['`','~'],
+        key: ['`', '~'],
         ctrl: true,
         label: "代码块",
         insert: (args) => {
@@ -267,6 +269,40 @@ export const simpleInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
+        key: ['`', '~'],
+        alt: true,
+        label: "mermaid图",
+        insert: (args) => {
+            let mermaidTypeName = args.get("mermaidTypeName")!.value
+            let example = args.get("mermaidExample")!.value
+            let mermaidType = mermaidTypeMap.get(mermaidTypeName)!
+            return {
+                before: "```mermaid\n" + (example == '生成' ? mermaidType.example : mermaidType.name) + "\n",
+                after: "\n```"
+            };
+        },
+        arguments: [
+            <OptionInsertArgument>{
+                name: "mermaidTypeName",
+                label: "图类型",
+                options: mermaidTypeNameList,
+                getRef: () => {
+                    let mermaidTypeName: string = mermaidTypeNameList[0];
+                    return ref(mermaidTypeName);
+                }
+            },
+            <OptionInsertArgument>{
+                name: "mermaidExample",
+                label: "示例",
+                options: ['', '生成'],
+                getRef: () => {
+                    let mermaidType: string = '';
+                    return ref(mermaidType);
+                }
+            }
+        ]
+    },
+    {
         label: "数学算式",
         key: "$",
         ctrl: true,
@@ -276,10 +312,7 @@ export const simpleInsertUnits: InsertUnit[] = [
         arguments: [],
         reject: true,
         prevent: true,
-    }
-]
-
-export const htmlInsertUnits: InsertUnit[] = [
+    },
     {
         key: ":",
         ctrl: true,
@@ -287,7 +320,7 @@ export const htmlInsertUnits: InsertUnit[] = [
         insert: (args) => {
             const summary = args.get("detailIsSummary")!.value
             const isOpen = args.get("detailIsOpen")!.value
-            return {before: ":::" + (isOpen == '展开' ? '+':'') + summary + "\n", after: "\n:::"}
+            return {before: ":::" + (isOpen == '展开' ? '+' : '') + summary + "\n", after: "\n:::"}
         },
         arguments: [
             <InputInsertArgument<string>>{
