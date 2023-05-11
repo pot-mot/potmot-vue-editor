@@ -78,7 +78,7 @@ const setButtonEvent = () => {
 
 onMounted(() => {
 	mermaid.initialize({
-		theme: "default"
+		theme: "default",
 	})
 })
 
@@ -95,6 +95,7 @@ const mermaidRender = () => {
 				item.innerHTML = res.svg
 			})
 			.catch(e => {
+				document.getElementById('mermaid' + id)?.remove()
 				item.innerHTML = `<span style="color: red;">${e}</span>`
 			})
 	}

@@ -134,5 +134,35 @@ export const mermaidTypeMap = new Map<string, {name: string, example: string}>()
             "\"Cats\" : 85\n" +
             "\"Rats\" : 15"
     })
+    .set("思维导图", {
+        name: "mindmap",
+        example: "mindmap\n" +
+            "  root((mindmap))\n" +
+            "    Origins\n" +
+            "      Long history\n" +
+            "      ::icon(fa fa-book)\n" +
+            "      Popularisation\n" +
+            "        British popular psychology author Tony Buzan\n" +
+            "    Research\n" +
+            "      On effectiveness<br/>and features\n" +
+            "      On Automatic creation\n" +
+            "        Uses\n" +
+            "            Creative techniques\n" +
+            "            Strategic planning\n" +
+            "            Argument mapping\n" +
+            "    Tools\n" +
+            "      Pen and paper\n" +
+            "      Mermaid"
+    })
+    .set("时间线", {
+        name: "timeline",
+        example: "timeline\n" +
+            "    title History of Social Media Platform\n" +
+            "    2002 : LinkedIn\n" +
+            "    2004 : Facebook\n" +
+            "         : Google\n" +
+            "    2005 : Youtube\n" +
+            "    2006 : Twitter"
+    })
 
 export const mermaidTypeNameList = Array.from(mermaidTypeMap.keys())
