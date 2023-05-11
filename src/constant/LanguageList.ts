@@ -1,4 +1,4 @@
-export const languageList = [
+export const prismLanguageList = [
     'javascript', 'typescript',
     'css', 'css-extras', 'html', 'less', 'sass', 'scss',
     'svg', 'icon',
@@ -29,4 +29,4 @@ export const languageList = [
     'qml',
     'scheme',
     'swift'
-]
+].sort()

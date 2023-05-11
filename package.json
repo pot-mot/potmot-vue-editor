@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.8.0",
+  "version": "0.8.1",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -46,6 +46,7 @@
     "file-saver": "^2.0.5",
     "katex": "^0.16.4",
     "marked": "^4.2.12",
+    "mermaid": "^10.1.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {

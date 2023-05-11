@@ -1,6 +1,6 @@
-import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../declare/EditorUtil";
+import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../declare/EditorUtil";
 import {ref} from "vue";
-import {languageList} from "../constant/LanguageList";
+import {prismLanguageList} from "../../constant/LanguageList";
 import {limit} from "./insertUtils";
 
 export const markdownInsertUnits: InsertUnit[] = [
@@ -256,7 +256,7 @@ export const simpleInsertUnits: InsertUnit[] = [
             <OptionInsertArgument>{
                 name: "codeLanguage",
                 label: "语言",
-                options: languageList,
+                options: prismLanguageList,
                 getRef: () => {
                     let language = "";
                     return ref(language);

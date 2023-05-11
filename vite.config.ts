@@ -4,9 +4,6 @@ import {prismjsPlugin} from "vite-plugin-prismjs"
 import dts from 'vite-plugin-dts'
 import {resolve} from 'path'
 
-// @ts-ignore
-import {languageList} from "./src/constant/LanguageList";
-
 export default defineConfig({
     // 如果需要打包成lib文件取消注释即可
     build: {
@@ -30,7 +27,38 @@ export default defineConfig({
         vue(),
         dts(),
         prismjsPlugin({
-            languages: languageList,
+            languages: [
+                'javascript', 'typescript',
+                'css', 'css-extras', 'html', 'less', 'sass', 'scss',
+                'svg', 'icon',
+                'markup',
+                'http', 'uri', 'url',
+                'c', 'cpp', 'cmake', 'objc',
+                'rust',
+                'go',
+                'php', 'phpdoc',
+                'perl',
+                'java', 'javadoc', 'groovy', 'kotlin', 'kt', 'kts', 'scala',
+                'latex', 'tex', 'matlab',
+                'sql', 'graphql', 'mongodb',
+                'erlang',
+                'lua',
+                'python', 'py', 'django', 'jinja2',
+                'csharp', 'dotnet',
+                'cobol',
+                'makefile',
+                'json', 'json5', 'jsonp',
+                'xml', 'yaml', 'yml', 'ini', 'toml',
+                'bash', 'shell', 'batch',
+                'docker', 'dockerfile',
+                'git',
+                'vim',
+                'dns-zone',
+                'log',
+                'qml',
+                'scheme',
+                'swift'
+            ],
             css: false,
         }),
     ],

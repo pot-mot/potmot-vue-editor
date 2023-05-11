@@ -68,7 +68,7 @@
 				ref="previewCard"
 				class="preview-card"
 				@mouseover="() => {scrollKey = 'preview'}">
-				<MarkdownPreviewV2 :markdown-text="data.text"></MarkdownPreviewV2>
+				<MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
 			</div>
 			<div
 				ref="textareaCountLine"
@@ -107,13 +107,13 @@ export default {
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
-import {insertIntoString, getArgsMap} from "../util/insertUtils";
-import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/insertUnits";
+import {insertIntoString, getArgsMap} from "../util/editor/insertUtils";
+import {htmlInsertUnits, markdownInsertUnits, simpleInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
-import {useHistoryStack} from "../util/history";
-import {judgeKeyForEditorKeyEvent} from "../util/EditorEvent";
+import {useHistoryStack} from "../util/editor/history";
+import {judgeKeyForEditorKeyEvent} from "../util/editor/EditorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
-import MarkdownPreviewV2 from "./MarkdownPreview.vue";
+import MarkdownPreview from "./MarkdownPreview.vue";
 
 /**
  * 外部传入参数
