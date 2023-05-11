@@ -2,6 +2,7 @@ import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../
 import {ref} from "vue";
 import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "../../constant/typeList";
 import {limit} from "./insertUtils";
+import {getLeadingSpace} from "./textUtils";
 
 export const markdownInsertUnits: InsertUnit[] = [
     {
@@ -10,14 +11,11 @@ export const markdownInsertUnits: InsertUnit[] = [
         label: "标题",
         insert: (args) => {
             let level = args.get("titleLevel")!.value
-            let minimum = args.get("titleMinimumThreshold")!.value
-            minimum = limit(minimum, 1, 6);
-            level = limit(level, 1, minimum);
+            level = limit(level, 1, 6);
             let returnText = ""
             for (let i = 0; i < level; i++) {
                 returnText += "#";
             }
-            if (level < minimum) args.get("titleLevel")!.value++;
             return {before: returnText + " ", after: ""}
         },
         arguments: [
@@ -26,18 +24,8 @@ export const markdownInsertUnits: InsertUnit[] = [
                 label: "级别",
                 type: "number",
                 getRef: () => {
-                    let level = 1;
+                    let level = 3;
                     return ref(level);
-                },
-                inputLength: 1,
-            },
-            <InputInsertArgument<number>>{
-                name: "titleMinimumThreshold",
-                label: "最小级别",
-                type: "number",
-                getRef: () => {
-                    let minimum = 4;
-                    return ref(minimum)
                 },
                 inputLength: 1,
             }
@@ -102,17 +90,18 @@ export const markdownInsertUnits: InsertUnit[] = [
     },
     {
         key: '1',
+        ctrl: true,
         label: "有序列表",
-        insert: (args) => {
+        insert: (args, text, textarea) => {
             let listLength = args.get("orderedListLength")!.value
             let listStart = args.get("orderedListStart")!.value
             listLength = limit(listLength, 1, 99);
             listStart = limit(listStart, 0, 9999);
-            let returnText = "\n";
+            let returnText = "";
             for (let i = 0; i < listLength - 1; i++) {
-                returnText += (i + listStart + 1) + ". \n";
+                returnText += getLeadingSpace(text, textarea.selectionStart) + (i + listStart + 1) + ". ";
             }
-            return {before: listStart + ". ", after: " " + returnText}
+            return {before: listStart + ". ", after: returnText}
         },
         arguments: [
             <InputInsertArgument<number>>{
@@ -141,15 +130,16 @@ export const markdownInsertUnits: InsertUnit[] = [
     },
     {
         key: "-",
+        ctrl: true,
         label: "无序列表",
-        insert: (args) => {
+        insert: (args, text, textarea) => {
             let listLength = args.get("unorderedListLength")!.value
             listLength = limit(listLength, 1, 99);
             let returnText = "";
             for (let i = 0; i < listLength - 1; i++) {
-                returnText += "\n- ";
+                returnText += getLeadingSpace(text, textarea.selectionStart) + "- ";
             }
-            return {before: "- ", after: " " + returnText + "\n"}
+            return {before: "- ", after: returnText + "\n"}
         },
         arguments: [
             <InputInsertArgument<number>>{

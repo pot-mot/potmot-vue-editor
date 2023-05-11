@@ -115,6 +115,7 @@ import {useHistoryStack} from "../util/editor/history";
 import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
+import {getLeadingSpace} from "../util/editor/textUtils";
 
 /**
  * 外部传入参数
@@ -495,7 +496,7 @@ const flagPush = (flag: string) => {
 	}
 }
 
-// 文本编辑
+// 文本编辑快捷键
 const shortcutKeys = reactive(<EditorShortcutKey[]>[
 	{
 		key: ['x', 'X'],
@@ -628,7 +629,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 	}
 }
 
-// 鼠标按下事件
+// 鼠标抬起事件
 const onMouseUp = () => {
 	setTimeout(() => {
 		flagPush("jump");
@@ -663,32 +664,13 @@ const insertAroundText = (insertText: { before: string, after: string }) => {
 	})
 }
 
-// 复制前段文本缩进并插入（Enter）
+// 回车制表
 const batchEnter = () => {
 	const start = textarea.value.selectionStart;
-	let enterWithBlank = "\n";
-	let index = start;
-	if (data.text[index] == '\n') {
-		index--;
-	}
-	// 向前读取前一行的回车
-	while (data.text[index] != '\n' && index > 0) {
-		index--;
-	}
-	if (index != 0) {
-		index++;
-	}
-	// 读到第二个回车时向后读取 tab 和 blank
-	for (; index < data.text.length && index < start; index++) {
-		if (data.text[index] == ' ' || data.text[index] == '\t') {
-			enterWithBlank += data.text[index];
-		} else {
-			break;
-		}
-	}
-	data.text = insertIntoString(enterWithBlank, data.text, start);
+	const LeadingSpace = getLeadingSpace(data.text, start)
+	data.text = insertIntoString(LeadingSpace, data.text, start);
 	nextTick(() => {
-		textarea.value.selectionStart = start + enterWithBlank.length;
+		textarea.value.selectionStart = start + LeadingSpace.length;
 		textarea.value.selectionEnd = textarea.value.selectionStart;
 		push();
 	})

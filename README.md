@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.8.4
+npm install potmot-vue-editor@0.8.5
 ```
 
 main.js 中引用
@@ -24,7 +24,7 @@ import 'potmot-vue-editor/dist/style.css'
 
 // 如果使用本库预定义的简单样式，引入如下
 import 'potmot-vue-editor/src/asserts/code.css'
-import 'potmot-vue-editor/src/asserts/markdown.scss'
+import 'potmot-vue-editor/src/asserts/markdown.css'
 
 app.use(editor)
 ```
