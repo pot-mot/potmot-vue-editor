@@ -8,7 +8,7 @@ export const mathBlockRule: TokenizerAndRendererExtension = {
     start(src) {
         return src.match(/\$\$([\s\S]*?)\$\$/)?.index;
     },
-    tokenizer(src, tokens): marked.Tokens.Generic | void {
+    tokenizer(src): marked.Tokens.Generic | void {
         const rule = /^\$\$([\s\S]*?)\$\$/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
@@ -39,7 +39,7 @@ export const mathInlineRule: TokenizerAndRendererExtension = {
     start(src) {
         return src.match(/\$([\s\S]*?)\$/)?.index;
     },
-    tokenizer(src, tokens): marked.Tokens.Generic | void {
+    tokenizer(src): marked.Tokens.Generic | void {
         const rule = /^\$([\s\S]*?)\$/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
@@ -70,7 +70,7 @@ export const warningRule: TokenizerAndRendererExtension = {
     start(src) {
         return src.match(/!(\(.*\))?([\s\S]*?)!/)?.index;
     },
-    tokenizer(src, tokens): marked.Tokens.Generic | void {
+    tokenizer(src): marked.Tokens.Generic | void {
         const rule = /^!(\(.*\))?([\s\S]*?)!/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
@@ -98,7 +98,7 @@ export const detailRule: TokenizerAndRendererExtension = {
     start(src) {
         return src.match(/:::([\s\S]*?):::/)?.index;
     },
-    tokenizer(src, tokens): marked.Tokens.Generic | void {
+    tokenizer(src): marked.Tokens.Generic | void {
         const rule = /^:::(.*)\n([\s\S]*?):::/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {

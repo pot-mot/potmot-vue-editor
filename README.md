@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.8.1
+npm install potmot-vue-editor@0.8.2
 ```
 
 main.js 中引用
@@ -22,8 +22,9 @@ main.js 中引用
 import editor from 'potmot-vue-editor'
 import 'potmot-vue-editor/dist/style.css'
 
-// 如果使用预定义的代码样式，引入如下
+// 如果使用本库预定义的简单样式，引入如下
 import 'potmot-vue-editor/src/asserts/code.css'
+import 'potmot-vue-editor/src/asserts/markdown.scss'
 
 app.use(editor)
 ```
@@ -135,9 +136,11 @@ package.json 目前依赖:
 ```json
 {
   "dependencies": {
+    "d3": "^4.13.0",
     "file-saver": "^2.0.5",
     "katex": "^0.16.4",
     "marked": "^4.2.12",
+    "mermaid": "^10.1.0",
     "vue": "^3.2.37"
   }
 }

@@ -11,6 +11,7 @@ import {ref} from "vue";
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument, EditorShortcutKey} from "./declare/EditorUtil";
 import './asserts/code.css'
 import './asserts/markdown.scss'
+
 import MarkdownEditor from "./components/MarkdownEditor.vue";
 
 const text = ref("");

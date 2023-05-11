@@ -21,6 +21,7 @@ import Prism from "prismjs";
 import {prismLanguageList} from "../constant/LanguageList";
 import {copyCode, setCodeLine} from "../util/preview/codeUtil";
 import mermaid from "mermaid";
+import 'katex/dist/katex.css'
 
 /**
  * 外部传入参数
@@ -116,7 +117,6 @@ onBeforeUnmount(() => {
 })
 
 marked.setOptions({
-	async: true,
 	breaks: true,
 	smartLists: true
 })
