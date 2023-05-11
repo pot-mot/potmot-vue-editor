@@ -10,7 +10,7 @@
 				</span>
 			</li>
 		</ul>
-		<div v-show="getEditToolActive('insert')" ref="toolMenu" class="floating-card tool-menu" v-drag>
+		<div v-show="getEditToolActive('insert')" ref="insertMenu" class="floating-card insert-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
 			<template v-for="item in props.insertUnits">
 				<span class="insert-text">
@@ -33,7 +33,7 @@
 				<br>
 			</template>
 		</div>
-		<div v-show="getEditToolActive('replace')" ref="replaceBox" class="replace-box floating-card tool-menu" v-drag>
+		<div v-show="getEditToolActive('replace')" ref="replaceBox" class="replace-box floating-card insert-menu" v-drag>
 			<span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
 			<textarea v-model="replaceData.replaceFrom" placeholder="查找文本"
 					  @change="() => {replaceData.replaceFrom.length > 0 ? searchCurrent() : () => {}}"/>
@@ -160,7 +160,7 @@ const props = defineProps({
 const textarea = ref();
 const previewCard = ref();
 
-const toolMenu = ref();
+const insertMenu = ref();
 const replaceBox = ref();
 const outlineBox = ref();
 
@@ -205,33 +205,18 @@ const setEditData = () => {
 
 let editEditInterval = 0;
 
-let mouseX = 0;
-let mouseY = 0;
-
-const getMousePlace = (e: MouseEvent) => {
-	mouseX = e.pageX;
-	mouseY = e.pageY;
-}
-
 onMounted(() => {
 	setEditData();
 	editEditInterval = setInterval(setEditData, 100);
-	window.addEventListener('mousemove', getMousePlace);
 })
 
 onBeforeUnmount(() => {
 	clearInterval(editEditInterval)
-	window.removeEventListener('mousemove', getMousePlace)
 })
 
 const resetToolPlace = (element: HTMLElement) => {
-	if (isFullScreen.value) {
-		element.style.top = '100px'
-		element.style.left = '100px'
-	} else {
-		element.style.top = mouseY + 'px'
-		element.style.left = mouseX + 'px'
-	}
+	element.style.left = '0'
+	element.style.top = '2.5em'
 }
 
 // 工具列表
@@ -251,8 +236,8 @@ const editToolList = reactive(<EditTool[]>[
 		icon: "icon-bulletpoint",
 		active: false,
 		method: (self: EditTool) => {
+			if (self.active) resetToolPlace(insertMenu.value)
 			self.active = !self.active
-			resetToolPlace(toolMenu.value)
 		}
 	},
 	{
@@ -261,8 +246,8 @@ const editToolList = reactive(<EditTool[]>[
 		icon: "icon-search-list",
 		active: false,
 		method: (self: EditTool) => {
+			if (self.active) resetToolPlace(replaceBox.value)
 			self.active = !self.active
-			resetToolPlace(replaceBox.value)
 		}
 	},
 	{
@@ -280,8 +265,8 @@ const editToolList = reactive(<EditTool[]>[
 		icon: "icon-file-tree",
 		active: false,
 		method: (self: EditTool) => {
+			if (self.active) resetToolPlace(outlineBox.value)
 			self.active = !self.active
-			resetToolPlace(outlineBox.value)
 		}
 	},
 	{
@@ -983,6 +968,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor.non-full {
+	position: relative;
 	width: 100%;
 	height: 100%;
 }
@@ -1088,6 +1074,8 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 .editor {
 	.floating-card {
 		position: absolute;
+		top: 2.5em;
+		left: 0;
 
 		.icon-close {
 			position: absolute;
@@ -1102,7 +1090,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 		}
 	}
 
-	.floating-card.tool-menu {
+	.floating-card.insert-menu {
 		background-color: var(--back-ground-color);
 		user-select: none;
 		padding: 1em 0.5em;
