@@ -34,9 +34,9 @@ export const mathRender = (text: string): string => {
     }
 }
 
-export const mermaidRender = (text: string, element: HTMLElement) => {
+export const mermaidRender = (element: HTMLElement) => {
     const id = Math.floor(Math.random() * 10000000000)
-    mermaid.render('mermaid' + id, text.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
+    mermaid.render('mermaid' + id, element.innerHTML.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
         .then(res => {
             element.innerHTML = res.svg
         })

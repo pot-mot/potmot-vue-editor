@@ -1,0 +1,14 @@
+const items = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
+
+    for (const item of items) {
+        if (item.innerText.indexOf("<svg") != -1) continue
+        const id = Math.floor(Math.random() * 10000000000)
+        mermaid.render('mermaid' + id, item.innerHTML.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
+            .then(res => {
+                item.innerHTML = res.svg
+            })
+            .catch(e => {
+                document.getElementById('mermaid' + id)?.remove()
+                item.innerHTML = `<span style="color: red;">${e}</span>`
+            })
+    }

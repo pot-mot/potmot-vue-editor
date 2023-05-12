@@ -93,7 +93,7 @@ const renderMermaid = () => {
 
 	for (const item of items) {
 		if (item.innerText.indexOf("<svg") != -1) continue
-		mermaidRender(item.innerText, item)
+		mermaidRender(item)
 	}
 }
 
