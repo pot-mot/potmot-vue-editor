@@ -98,8 +98,9 @@ export const markdownInsertUnits: InsertUnit[] = [
             listLength = limit(listLength, 1, 99);
             listStart = limit(listStart, 0, 9999);
             let returnText = "";
+            const space = getLeadingSpace(text, textarea.selectionStart)
             for (let i = 0; i < listLength - 1; i++) {
-                returnText += getLeadingSpace(text, textarea.selectionStart) + (i + listStart + 1) + ". ";
+                returnText += space + (i + listStart + 1) + ". ";
             }
             return {before: listStart + ". ", after: returnText}
         },
@@ -136,8 +137,9 @@ export const markdownInsertUnits: InsertUnit[] = [
             let listLength = args.get("unorderedListLength")!.value
             listLength = limit(listLength, 1, 99);
             let returnText = "";
+            const space = getLeadingSpace(text, textarea.selectionStart)
             for (let i = 0; i < listLength - 1; i++) {
-                returnText += getLeadingSpace(text, textarea.selectionStart) + "- ";
+                returnText += space + "- ";
             }
             return {before: "- ", after: returnText + "\n"}
         },

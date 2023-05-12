@@ -1,71 +1,73 @@
 .markdown-card {
-  --border-color: #999;
-  --deep-back-color: #eee;
-  --light-back-color: #fafafa;
-  --hover-back-color: #e1e1e1;
+    --border-color: #999;
+    --deep-back-color: #eee;
+    --light-back-color: #fafafa;
+    --hover-back-color: #e1e1e1;
 
-  margin: 0;
+    margin: 0;
 }
 
 .markdown-card * {
-  box-sizing: border-box;
-  margin: 0;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 .markdown-card h1, h2, h3, h4 {
-  padding: 0.2em 0;
+    padding: 0.2em 0;
 }
 
 .markdown-card blockquote {
-  border-left: 0.4em solid var(--border-color);
-  background-color: var(--light-back-color);
-  padding: 0.5em;
-  font-style: italic;
-  color: #333;
+    border-left: 0.4em solid var(--border-color);
+    background-color: var(--light-back-color);
+    padding: 0.5em;
+    font-style: italic;
+    color: #333;
 }
 
 .markdown-card pre {
-  padding: 0.5em 0;
-  margin: 0.5em 0;
+    padding: 0.5em 0;
+    margin: 0.5em 0;
 }
 
 .markdown-card table {
-  border-collapse: collapse;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
-  border: 1px solid var(--border-color);
+    border-collapse: collapse;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    border: 1px solid var(--border-color);
 }
 
 .markdown-card td,
 .markdown-card th {
-  padding: 0.4em;
-  border: none;
-  min-width: 3em;
-  max-width: 100%;
+    padding: 0.4em;
+    border: none;
+    min-width: 3em;
+    max-width: 100%;
 }
 
 .markdown-card td:hover {
-  background-color: var(--hover-back-color);
+    background-color: var(--hover-back-color);
 }
 
 .markdown-card th {
-  background-color: var(--deep-back-color);
-  border-bottom: 1px solid var(--border-color);
+    background-color: var(--deep-back-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .markdown-card tr:nth-child(2n-1) {
-  background-color: var(--light-back-color);
+    background-color: var(--light-back-color);
 }
 
 .markdown-card tr:nth-child(2n) {
-  background-color: var(--deep-back-color);
+    background-color: var(--deep-back-color);
 }
 
-.markdown-card img {
-  width: 100%;
-  border: rgba(0,0,0,0) 2px solid;
+.markdown-card img,
+.markdown-card svg {
+    width: 100%;
+    border: rgba(0, 0, 0, 0) 2px solid;
 }
 
-.markdown-card img:hover {
-  border: #000 2px solid;
+.markdown-card img:hover,
+.markdown-card svg:hover {
+    border: #000 2px solid;
 }

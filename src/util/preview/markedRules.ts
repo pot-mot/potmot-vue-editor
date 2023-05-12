@@ -1,6 +1,6 @@
-import katex from 'katex';
 import {marked} from "marked";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
+import {mathRender} from "./render";
 
 export const mathBlockRule: TokenizerAndRendererExtension = {
     level: 'block',
@@ -25,11 +25,7 @@ export const mathBlockRule: TokenizerAndRendererExtension = {
         }
     },
     renderer(token: marked.Tokens.Generic): string {
-        try {
-            return katex.renderToString(token.text)
-        } catch (e) {
-            return `<span style='color: red'>[数学算式解析错误]</span><br>${token.text}`
-        }
+        return `<div class="math">${mathRender(token.text)}</div>`
     },
 };
 
@@ -56,11 +52,7 @@ export const mathInlineRule: TokenizerAndRendererExtension = {
         }
     },
     renderer(token: marked.Tokens.Generic): string {
-        try {
-            return katex.renderToString(token.text)
-        } catch (e) {
-            return `<span style='color: red'>[数学算式解析错误]</span><br>${token.text}`
-        }
+        return `<span class="math">${mathRender(token.text)}</span>`
     },
 };
 
@@ -79,7 +71,7 @@ export const warningRule: TokenizerAndRendererExtension = {
                     type: 'warning_inline',
                     raw: match[0],
                     text: match[2].trim(),
-                    color: match[1]?match[1].slice(1, -1).trim():'red'
+                    color: match[1] ? match[1].slice(1, -1).trim() : 'red'
                 };
             } catch (err) {
                 console.warn(err);

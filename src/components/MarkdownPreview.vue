@@ -9,20 +9,17 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref} from "vue";
-import {marked, Renderer} from "marked";
+import {onBeforeUnmount, ref} from "vue";
+import {marked, Renderer, Tokenizer} from "marked";
 import {
 	detailRule,
 	mathBlockRule,
 	mathInlineRule,
 	warningRule
 } from "../util/preview/markedRules";
-import Prism from "prismjs";
-import {prismLanguageList} from "../constant/typeList";
-import {copyCode, setCodeLine} from "../util/preview/codeUtil";
-import mermaid from "mermaid";
+import {copyCode} from "../util/preview/codeUtil";
 import 'katex/dist/katex.css'
-import {random} from "mermaid/dist/utils";
+import {codeRender, mathRender, mermaidRender} from "../util/preview/render";
 
 /**
  * 外部传入参数
@@ -49,21 +46,33 @@ const props = defineProps({
 
 let markdownCard = ref();
 
+const tokenizer = new Tokenizer()
+
+// @ts-ignore
+tokenizer.lheading = (src: string) => {
+	const cap = /^((?:.|\n(?!\n))+?)\n(=+|-+)\n/.exec(src);
+	if (cap) {
+		return {
+			type: 'heading',
+			raw: cap[0],
+			depth: cap[2].charAt(0) == '=' ? 1 : 2,
+			text: cap[1],
+			// @ts-ignore
+			tokens: tokenizer.lexer.inline(cap[1])
+		};
+	}
+}
+
 const renderer = new Renderer()
 
 renderer.code = (code: string, language: string): string => {
 	if (language == 'mermaid') {
 		return `<div class="mermaid">${code}</div>`
+	} else if (language == 'math') {
+		return `<div class="math">${mathRender(code)}</div>`
 	}
-
-	for (const item of prismLanguageList) {
-		if (item == language) {
-			code = Prism.highlight(code, Prism.languages[language], language);
-			break;
-		}
-	}
-
-	return `<pre class="${props.codeTheme}"><code>${setCodeLine(code)}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div></pre>`;
+	code = codeRender(code, language)
+	return `<pre class="${props.codeTheme}"><code>${code}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div></pre>`;
 }
 
 // 设置按钮点击事件
@@ -76,28 +85,15 @@ const setButtonEvent = () => {
 	}
 }
 
-onMounted(() => {
-	mermaid.initialize({
-		theme: "default",
-	})
-})
-
-const mermaidRender = () => {
+// 设置mermaid渲染块逻辑
+const renderMermaid = () => {
 	if (markdownCard.value == undefined) return;
 
 	const items = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
 
 	for (const item of items) {
 		if (item.innerText.indexOf("<svg") != -1) continue
-		const id = Math.floor(Math.random() * 10000000000)
-		mermaid.render('mermaid' + id, item.innerHTML.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
-			.then(res => {
-				item.innerHTML = res.svg
-			})
-			.catch(e => {
-				document.getElementById('mermaid' + id)?.remove()
-				item.innerHTML = `<span style="color: red;">${e}</span>`
-			})
+		mermaidRender(item.innerText, item)
 	}
 }
 
@@ -108,7 +104,7 @@ const eventInterval = setInterval(
 		if (oldMarkdownString == props.markdownText) return
 		oldMarkdownString = props.markdownText
 		setButtonEvent();
-		mermaidRender();
+		renderMermaid();
 	},
 	1000
 )
@@ -128,6 +124,6 @@ marked.use({
 
 // 转换代码
 const parse = (input: string): string => {
-	return marked.parse(input, {renderer}).replaceAll('<a ', '<a target="_blank" ')
+	return marked.parse(input, {tokenizer, renderer}).replaceAll('<a ', '<a target="_blank" ')
 }
 </script>

@@ -1,15 +1,3 @@
-export const setCodeLine = (code: string) => {
-    if (code[code.length - 1] == '\n') {
-        code = code.slice(0, code.length - 1);
-    }
-    let codes = code.split("\n");
-    let res = ''
-    for (let i = 0; i < codes.length; i++) {
-        res += '<span class="count"></span>' + codes[i] + '\n';
-    }
-    return res;
-}
-
 /*
 	代码复制操作
  */
