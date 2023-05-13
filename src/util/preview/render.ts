@@ -43,6 +43,8 @@ export const mathRender = (text: string): string => {
 }
 
 export const mermaidRender = (element: HTMLElement) => {
+    if (element.innerHTML.startsWith("<svg")) return
+
     const id = Math.floor(Math.random() * 10000000000)
     mermaid.render('mermaid' + id, element.innerHTML.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
         .then(res => {

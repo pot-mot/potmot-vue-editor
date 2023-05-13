@@ -14,7 +14,23 @@ import './asserts/markdown.css'
 
 import MarkdownEditor from "./components/MarkdownEditor.vue";
 
-const text = ref("");
+const text = ref("```mermaid\n" +
+    "classDiagram\n" +
+    "\tClass01 <|-- AveryLongClass : Cool\n" +
+    "\tClass03 *-- Class04\n" +
+    "\tClass05 o-- Class06\n" +
+    "\tClass07 .. Class08\n" +
+    "\tClass09 --> C2 : Where am i?\n" +
+    "\tClass09 --* C3\n" +
+    "\tClass09 --|> Class07\n" +
+    "\tClass07 : equals()\n" +
+    "\tClass07 : Object[] elementData\n" +
+    "\tClass01 : size()\n" +
+    "\tClass01 : int chimp\n" +
+    "\tClass01 : int gorilla\n" +
+    "\tClass08 <--> C2: Cool label\n" +
+    "\n" +
+    "```");
 
 // 定义 ref 变量
 const selectArg = ref("")
