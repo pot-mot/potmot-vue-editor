@@ -13,6 +13,7 @@ dist-ssr
 .env.*
 
 dist
+dist/*
 
 # Editor.vue directories and files
 .vscode/*
