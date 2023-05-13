@@ -3,6 +3,10 @@ import mermaid from "mermaid";
 import Prism from "prismjs";
 import {prismLanguageList} from "../../constant/typeList";
 
+const errResult = (e: any, msg: string): string => {
+    return `<div style='white-space: pre-line;'><span style="color: red;">[解析错误: ${msg}]</span><br><span style="color: red;">[</span>${e}<span style="color: red;">]</span></div>`
+}
+
 export const codeRender = (text: string, language: string): string => {
     const setLine = (code: string) => {
         if (code[code.length - 1] == '\n') {
@@ -16,21 +20,25 @@ export const codeRender = (text: string, language: string): string => {
         return res;
     }
 
-    for (const item of prismLanguageList) {
-        if (item == language) {
-            text = Prism.highlight(text, Prism.languages[language], language);
-            break
+    try {
+        for (const item of prismLanguageList) {
+            if (item == language) {
+                text = Prism.highlight(text, Prism.languages[language], language);
+                break
+            }
         }
-    }
 
-    return setLine(text)
+        return setLine(text)
+    } catch (e) {
+        return errResult(e, "code - " + language)
+    }
 }
 
 export const mathRender = (text: string): string => {
     try {
         return katex.renderToString(text)
     } catch (e) {
-        return `<span style='color: red'>[解析错误]</span><br><span>${e}</span><br><span style='color: red'>---</span>`
+        return errResult(e, "math - katex")
     }
 }
 
@@ -42,6 +50,6 @@ export const mermaidRender = (element: HTMLElement) => {
         })
         .catch(e => {
             document.getElementById('mermaid' + id)?.remove()
-            element.innerHTML = `<span style="color: red;">${e}</span>`
+            element.innerHTML = errResult(e, "graph - mermaid")
         })
 }
