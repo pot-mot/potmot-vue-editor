@@ -38,7 +38,7 @@ export const useHistoryStack = (
     const push = (historyTop: EditorHistory = pushDefault()) => {
         preHook(top.value, historyData);
         if (historyData.stackTop >= maxSize) {
-            historyData.stack.splice(0, maxSize / 2);
+            historyData.stack.splice(0, parseInt(maxSize / 2 + ''));
         }
         historyData.stackTop++;
         historyData.stack[historyData.stackTop] = historyTop;

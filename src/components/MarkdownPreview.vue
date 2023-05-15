@@ -1,5 +1,5 @@
 <template>
-    <div ref="markdownCard" class="markdown-card" v-html="parse(props.markdownText)"></div>
+    <div ref="markdownCard" class="markdown-card" v-html="html" @click="judgeCopyCode"></div>
 </template>
 
 <script lang="ts">
@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {marked, Renderer, Tokenizer} from "marked";
 import {
     detailRule,
@@ -177,13 +177,13 @@ renderer.code = (code: string, language: string): string => {
     return `<pre class="${props.codeTheme}"><code>${code}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div></pre>`;
 }
 
-// 设置按钮点击事件
-const setButtonEvent = () => {
-    if (markdownCard.value == undefined) return;
-
-    const items = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.code-copy-button'));
-    for (const item of items) {
-        item.addEventListener("click", copyCode);
+const judgeCopyCode = (e:MouseEvent) => {
+    if (e.target) {
+        const element = <HTMLElement>(e.target);
+        console.log(element)
+        if (element.classList.contains("code-copy-button")) {
+            copyCode(e);
+        }
     }
 }
 
@@ -203,14 +203,12 @@ let oldMarkdownString = ""
 let eventInterval: number
 
 onMounted(() => {
-    setButtonEvent();
     renderMermaid();
 
     eventInterval = setInterval(
         () => {
             if (oldMarkdownString == props.markdownText) return
             oldMarkdownString = props.markdownText
-            setButtonEvent();
             renderMermaid();
         },
         1000
@@ -229,6 +227,10 @@ marked.setOptions({
 
 marked.use({
     extensions: [mathBlockRule, mathInlineRule, warningRule, detailRule],
+})
+
+const html = computed(() => {
+    return parse(props.markdownText);
 })
 
 // 转换代码
