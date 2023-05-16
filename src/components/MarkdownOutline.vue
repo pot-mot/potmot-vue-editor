@@ -71,7 +71,7 @@ function getHeadFromHtmlText(html: string): Headline[] {
 	return heads;
 }
 
-let interval = 0;
+let interval: number;
 
 onMounted(() => {
 	interval = setInterval(() => {

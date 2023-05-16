@@ -1,5 +1,7 @@
 <template>
-    <div :class="[isFullScreen?'full':'non-full', isMobile()? 'mobile': 'pc']" class="editor">
+    <div class="editor"
+         :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
+         :style="isFullScreen ? '' : `width: ${props.width}; height: ${props.height};`">
         <ul class="toolbar">
             <li v-for="tool in editToolList">
 				<span
@@ -36,17 +38,23 @@
         <div v-show="getEditToolActive('replace')" ref="replaceBox" class="replace-box floating-card insert-menu"
              v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
-            <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"
-                      @change="() => {replaceData.replaceFrom.length > 0 ? searchCurrent() : () => {}}"/>
+            <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
             <br>
             <textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
-            <div style="display: flex; justify-content: space-around">
-                <span class="hover-color-blue" @mousedown.prevent.stop="searchNext" style="padding: 0.1em;">↓</span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious" style="padding: 0.1em;">↑</span>
-                <span> {{ searchData.index + 1 }}/{{ searchData.indexes.length }} </span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
-            </div>
+            <br>
+            <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+            <span style="display: inline-block;width: 1em;"></span>
+            <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+            <span style="display: inline-block;width: 1em;"></span>
+            <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
+            <input type="number" style="width: 3em;" @keydown.enter="searchByIndex"
+                   v-model="searchIndex">
+            <span>/{{ searchData.indexes.length }}</span>
+            <br>
+            <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
+            <span style="display: inline-block;width: 1em;"></span>
+            <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+
         </div>
         <div v-show="getEditToolActive('outline')" ref="outlineBox" class="outline-box floating-card" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
@@ -102,7 +110,7 @@ export default {
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
 import {insertIntoString, getArgsMap} from "../util/editor/insertUtils";
-import {markdownInsertUnits, simpleInsertUnits} from "../util/editor/insertUnits";
+import {markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {useHistoryStack} from "../util/editor/editHistory";
 import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
@@ -123,16 +131,23 @@ const props = defineProps({
         type: String,
         required: true,
     },
+
     placeholder: {
         type: String,
         required: false,
         default: "",
     },
-    startWithFullScreen: {
-        type: Boolean,
+    width: {
+        type: String,
         required: false,
-        default: false,
+        default: '960px',
     },
+    height: {
+        type: String,
+        required: false,
+        default: '540px',
+    },
+
     shortcutKeys: {
         type: Array as PropType<EditorShortcutKey[]>,
         required: false,
@@ -141,7 +156,18 @@ const props = defineProps({
     insertUnits: {
         type: Array as PropType<InsertUnit[]>,
         required: false,
-        default: [...markdownInsertUnits, ...simpleInsertUnits]
+        default: [...markdownInsertUnits, ...extendedInsertUnits]
+    },
+
+    scrollSync: {
+        type: Boolean,
+        required: false,
+        default: true,
+    },
+    startWithFullScreen: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 })
 
@@ -192,7 +218,7 @@ const setEditData = () => {
     }
 }
 
-let editEditInterval = 0;
+let editEditInterval: number;
 
 onMounted(() => {
     setEditData();
@@ -397,30 +423,32 @@ onMounted(() => {
  */
 let scrollKey = ref("textarea")
 
-const handleScroll = (from: HTMLElement, to: HTMLElement) => {
+const syncScroll = (from: HTMLElement, to: HTMLElement) => {
     to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
 }
 
-watch(() => isPreview.value, async (newValue) => {
+watch(() => isPreview.value, (newValue) => {
     if (isMobile()) {
         scrollKey.value = newValue ? 'preview' : 'textarea';
     }
 })
 
-let scrollKeyInterval = 0
+let scrollKeyInterval: number
 
 onMounted(() => {
+    if (!props.scrollSync) return
     scrollKeyInterval = setInterval(() => {
         if (!textarea.value || !previewCard.value ||
             textarea.value.scrollHeight <= textarea.value.clientHeight ||
             previewCard.value.scrollHeight <= textarea.value.clientHeight
         ) return;
-        if (scrollKey.value == 'textarea') handleScroll(textarea.value, previewCard.value);
-        else if (scrollKey.value == 'preview') handleScroll(previewCard.value, textarea.value);
+        if (scrollKey.value == 'textarea') syncScroll(textarea.value, previewCard.value);
+        else if (scrollKey.value == 'preview') syncScroll(previewCard.value, textarea.value);
     }, 20)
 })
 
 onBeforeUnmount(() => {
+    if (!props.scrollSync) return
     clearInterval(scrollKeyInterval)
 })
 
@@ -809,6 +837,22 @@ const jumpTo = (target: number) => {
 let textareaCountLineStyle = ref("")
 let textareaCountLineSubText = ref("")
 
+const searchIndex = ref(0)
+
+watch(() => searchData.index, () => {
+    searchIndex.value = searchData.index + 1
+})
+
+const searchByIndex = () => {
+    const index = searchIndex.value
+    if (index <= 0 || index > searchData.indexes.length) {
+        searchIndex.value = 0
+        return
+    }
+    searchData.index = index - 1
+    searchCurrent()
+}
+
 const searchCurrent = (
     jumpEnd: Function = () => {
         textarea.value.focus()
@@ -853,11 +897,17 @@ const searchNext = () => {
 }
 
 const replaceOne = () => {
-    if (data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd) == replaceData.replaceFrom) {
-        data.text = data.text.slice(0, textarea.value.selectionStart) + replaceData.replaceTo + data.text.slice(textarea.value.selectionEnd);
+    const start = textarea.value.selectionStart
+    const end = textarea.value.selectionEnd
+    data.text = data.text.slice(0, start) + replaceData.replaceTo + data.text.slice(end);
+    nextTick(() => {
+        textarea.value.selectionStart = start;
+        textarea.value.selectionEnd = start + replaceData.replaceTo.length;
         push();
-    }
+        searchNext();
+    })
 }
+
 
 const replaceAll = () => {
     if (replaceData.replaceFrom.length <= 0) {
@@ -898,6 +948,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 
 .editor {
   --back-ground-color: #f5f5f5;
+
   padding: 0;
   margin: 0;
   line-height: inherit;
@@ -938,8 +989,6 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 
 .editor.non-full {
   position: relative;
-  width: 100%;
-  height: 100%;
 }
 
 .editor.full {
@@ -948,7 +997,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 10;
+  z-index: 1000;
   background-color: var(--back-ground-color);
 }
 
@@ -1025,22 +1074,22 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
   }
 }
 
-.editor > .toolbar {
-  vertical-align: middle;
-  padding: 0;
-  margin: 0;
-  line-height: 2em;
-
-  > li {
-    position: relative;
-  }
-}
-
-.editor.full > .toolbar {
-  margin-left: 0.5em;
-}
-
 .editor {
+  > .toolbar {
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+    line-height: 2em;
+
+    > li {
+      position: relative;
+    }
+  }
+
+  &.full > .toolbar {
+    margin-left: 0.5em;
+  }
+
   .floating-card {
     position: absolute;
     top: 2.5em;
@@ -1077,7 +1126,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor.full .floating-card {
-  z-index: 11;
+  z-index: 1001;
 }
 
 .editor .replace-box {

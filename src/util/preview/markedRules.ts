@@ -60,10 +60,10 @@ export const warningRule: TokenizerAndRendererExtension = {
     level: 'inline',
     name: 'warning_inline',
     start(src) {
-        return src.match(/!(\(.*\))?([\s\S]*?)!/)?.index;
+        return src.match(/!!!(\(.*\))?([\s\S]*?)!!!/)?.index;
     },
     tokenizer(src): marked.Tokens.Generic | void {
-        const rule = /^!(\(.*\))?([\s\S]*?)!/;
+        const rule = /^!!!(\(.*\))?([\s\S]*?)!!!/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
             try {

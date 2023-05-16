@@ -25,7 +25,6 @@ import {codeRender, mathRender, mermaidRender} from "../util/preview/render";
  * 外部传入参数
  *
  * codeTheme 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计
- * editorType 编辑器模式，会关闭mermaid图表渲染
  */
 const props = defineProps({
     markdownText: {
@@ -37,11 +36,6 @@ const props = defineProps({
         required: false,
         default: 'potmot-dark',
     },
-    editorType: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
 })
 
 let markdownCard = ref();
@@ -69,12 +63,12 @@ renderer.link = (href, title, text): string => {
     // 定义基础 URL 的缓存对象
     const baseUrls: Record<string, string> = {};
 
-// 定义正则表达式
+    // 定义正则表达式
     const justDomain = /^[^:]+:\/*[^/]*$/; // 匹配只含有域名或协议和域名的 URL
     const protocol = /^([^:]+:)[\s\S]*$/; // 匹配 URL 的协议部分
     const domain = /^([^:]+:\/*[^/]*)[\s\S]*$/; // 匹配 URL 的域名部分
 
-// 从字符串 str 的结尾开始向前查找，删除所有与字符 c 匹配（或不匹配，根据 invert 参数的值）的字符，并返回处理后的字符串
+    // 从字符串 str 的结尾开始向前查找，删除所有与字符 c 匹配（或不匹配，根据 invert 参数的值）的字符，并返回处理后的字符串
     function rtrim(str: string, c: string, invert: boolean): string {
         const l = str.length;
         if (l === 0) {
@@ -96,7 +90,7 @@ renderer.link = (href, title, text): string => {
         return str.slice(0, l - suffLen);
     }
 
-// 根据基础 URL base 和相对路径 href 计算出完整的 URL，并返回
+    // 根据基础 URL base 和相对路径 href 计算出完整的 URL，并返回
     function resolveUrl(base: string, href: string): string {
         // 如果 base 的缓存不存在，则根据是否只含有域名或协议和域名来决定缓存的值
         const baseUrl = baseUrls[' ' + base] ?? (() => {
@@ -126,7 +120,7 @@ renderer.link = (href, title, text): string => {
         }
     }
 
-// 对传入的 URL href 进行一些过滤和处理，返回处理后的 URL
+    // 对传入的 URL href 进行一些过滤和处理，返回处理后的 URL
     function cleanUrl(sanitize: boolean, base: string, href: string): string | null {
         if (sanitize) { // 如果需要进行过滤
             // 将 href 进行解码和过滤，得到协议部分
@@ -177,7 +171,7 @@ renderer.code = (code: string, language: string): string => {
     return `<pre class="${props.codeTheme}"><code>${code}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div></pre>`;
 }
 
-const judgeCopyCode = (e:MouseEvent) => {
+const judgeCopyCode = (e: MouseEvent) => {
     if (e.target) {
         const element = <HTMLElement>(e.target);
         console.log(element)
@@ -187,7 +181,7 @@ const judgeCopyCode = (e:MouseEvent) => {
     }
 }
 
-// 设置mermaid渲染块逻辑
+// mermaid 渲染
 const renderMermaid = () => {
     if (markdownCard.value == undefined) return;
 
@@ -208,8 +202,13 @@ onMounted(() => {
     eventInterval = setInterval(
         () => {
             if (oldMarkdownString == props.markdownText) return
+            // 如果文本发生变化，保存变化并设置等待，如果一段时间没有发生变化，渲染 mermaid 和 katex
             oldMarkdownString = props.markdownText
-            renderMermaid();
+            setTimeout(() => {
+                if (props.markdownText == oldMarkdownString) {
+                    renderMermaid();
+                }
+            }, 500);
         },
         1000
     )
@@ -230,11 +229,8 @@ marked.use({
 })
 
 const html = computed(() => {
-    return parse(props.markdownText);
+    return marked.parse(props.markdownText, {tokenizer, renderer});
 })
 
-// 转换代码
-const parse = (input: string | any): string => {
-    return marked.parse(input, {tokenizer, renderer})
-}
+
 </script>

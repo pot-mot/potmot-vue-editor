@@ -1,7 +1,7 @@
 import katex from "katex";
 import mermaid from "mermaid";
 import Prism from "prismjs";
-import {prismLanguageList} from "../../constant/typeList";
+import {prismLanguageList} from "../editor/typeList";
 
 const errResult = (e: any, msg: string): string => {
     return `<div style='white-space: pre-line;'><span style="color: red;">[解析错误: ${msg}]</span><br><span style="color: red;">[</span>${e}<span style="color: red;">]</span></div>`

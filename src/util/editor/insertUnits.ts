@@ -1,6 +1,6 @@
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../declare/EditorUtil";
 import {ref} from "vue";
-import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "../../constant/typeList";
+import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "./typeList";
 import {limit} from "./insertUtils";
 import {getLeadingSpace} from "./textUtils";
 
@@ -193,6 +193,8 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
+        key: '!',
+        ctrl: true,
         label: "图片",
         insert: (args) => {
             const label = args.get("pictureName")!.value
@@ -223,20 +225,6 @@ export const markdownInsertUnits: InsertUnit[] = [
         ],
         reject: true,
         prevent: true,
-    }
-]
-
-export const simpleInsertUnits: InsertUnit[] = [
-    {
-        key: "Enter",
-        ctrl: true,
-        label: "换行",
-        insert: () => {
-            return {before: "<br>", after: ""}
-        },
-        arguments: [],
-        reject: true,
-        prevent: true,
     },
     {
         key: ['`', '~'],
@@ -257,6 +245,20 @@ export const simpleInsertUnits: InsertUnit[] = [
                 }
             }
         ],
+        reject: true,
+        prevent: true,
+    },
+]
+
+export const extendedInsertUnits: InsertUnit[] = [
+    {
+        key: "Enter",
+        ctrl: true,
+        label: "换行",
+        insert: () => {
+            return {before: "<br>", after: ""}
+        },
+        arguments: [],
         reject: true,
         prevent: true,
     },
@@ -340,14 +342,14 @@ export const simpleInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        ctrl: true,
+        alt: true,
         key: '!',
         label: "标亮",
         insert: (args) => {
             const warningColor = args.get("warningColor")!.value
 
-            if (warningColor == 'red') return {before: "!", after: "!"}
-            return {before: "!(" + warningColor + ")", after: "!"}
+            if (warningColor == 'red') return {before: "!!!", after: "!!!"}
+            return {before: "!!!(" + warningColor + ")", after: "!!!"}
         },
         arguments: [
             <InputInsertArgument<string>>{
