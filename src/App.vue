@@ -30,7 +30,7 @@ const text = ref("```mermaid\n" +
     "\tClass01 : int gorilla\n" +
     "\tClass08 <--> C2: Cool label\n" +
     "\n" +
-    "```");
+    "```" + "\n[百度](www.baidu.com)");
 
 // 定义 ref 变量
 const selectArg = ref("")

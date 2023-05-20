@@ -60,97 +60,7 @@ tokenizer.lheading = (src: string) => {
 const renderer = new Renderer()
 
 renderer.link = (href, title, text): string => {
-    // 定义基础 URL 的缓存对象
-    const baseUrls: Record<string, string> = {};
-
-    // 定义正则表达式
-    const justDomain = /^[^:]+:\/*[^/]*$/; // 匹配只含有域名或协议和域名的 URL
-    const protocol = /^([^:]+:)[\s\S]*$/; // 匹配 URL 的协议部分
-    const domain = /^([^:]+:\/*[^/]*)[\s\S]*$/; // 匹配 URL 的域名部分
-
-    // 从字符串 str 的结尾开始向前查找，删除所有与字符 c 匹配（或不匹配，根据 invert 参数的值）的字符，并返回处理后的字符串
-    function rtrim(str: string, c: string, invert: boolean): string {
-        const l = str.length;
-        if (l === 0) {
-            return '';
-        }
-
-        let suffLen = 0;
-        while (suffLen < l) {
-            const currChar = str.charAt(l - suffLen - 1);
-            if (currChar === c && !invert) {
-                suffLen++;
-            } else if (currChar !== c && invert) {
-                suffLen++;
-            } else {
-                break;
-            }
-        }
-
-        return str.slice(0, l - suffLen);
-    }
-
-    // 根据基础 URL base 和相对路径 href 计算出完整的 URL，并返回
-    function resolveUrl(base: string, href: string): string {
-        // 如果 base 的缓存不存在，则根据是否只含有域名或协议和域名来决定缓存的值
-        const baseUrl = baseUrls[' ' + base] ?? (() => {
-            if (justDomain.test(base)) {
-                return base + '/';
-            } else {
-                return rtrim(base, '/', true);
-            }
-        })();
-        baseUrls[' ' + base] = baseUrl;
-
-        // 判断 base 是否是相对路径
-        const relativeBase = !/:/.test(base);
-
-        if (href.startsWith('//')) { // 处理以 // 开头的 URL
-            if (relativeBase) {
-                return href;
-            }
-            return baseUrl.replace(protocol, '$1') + href;
-        } else if (href.startsWith('/')) { // 处理以 / 开头的 URL
-            if (relativeBase) {
-                return href;
-            }
-            return baseUrl.replace(domain, '$1') + href;
-        } else { // 处理其他情况
-            return baseUrl + href;
-        }
-    }
-
-    // 对传入的 URL href 进行一些过滤和处理，返回处理后的 URL
-    function cleanUrl(sanitize: boolean, base: string, href: string): string | null {
-        if (sanitize) { // 如果需要进行过滤
-            // 将 href 进行解码和过滤，得到协议部分
-            const prot = decodeURIComponent(href)
-                .replace(/[^\w:]/g, '')
-                .toLowerCase();
-            // 如果协议部分是 javascript:、vbscript: 或 data:，则返回 null
-            if (/^javascript:|^vbscript:|^data:/.test(prot)) {
-                return null;
-            }
-        }
-
-        if (base && !/^(?:[a-z][a-z0-9+.-]*:|^[?#])/i.test(href)) { // 如果 base 存在且 href 不是绝对路径或以 ? 或 # 开头的相对路径
-            href = resolveUrl(base, href); // 计算出完整的 URL
-        }
-
-        // 对 href 进行编码，并确保所有特殊字符都被正确地编码
-        try {
-            href = encodeURIComponent(href).replace(/%25/g, '%');
-        } catch (e) {
-            return null;
-        }
-
-        return href;
-    }
-
-    // @ts-ignore
-    href = cleanUrl(renderer.options.sanitize, renderer.options.baseUrl, href)
-
-    if (href === null) {
+    if (href == null) {
         return text;
     }
     let out = `<a target="_blank" href="${href}"`;
@@ -174,7 +84,6 @@ renderer.code = (code: string, language: string): string => {
 const judgeCopyCode = (e: MouseEvent) => {
     if (e.target) {
         const element = <HTMLElement>(e.target);
-        console.log(element)
         if (element.classList.contains("code-copy-button")) {
             copyCode(e);
         }

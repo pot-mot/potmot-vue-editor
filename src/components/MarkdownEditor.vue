@@ -1015,8 +1015,9 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
     border-radius: 3px;
     line-height: inherit;
     font-family: inherit;
-    overflow-y: scroll;
     overflow-x: visible;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
   }
 }
 
