@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.8.12
+npm install potmot-vue-editor@0.8.14
 ```
 
 main.js 中引用
@@ -29,6 +29,32 @@ import 'potmot-vue-editor/src/asserts/markdown.css'
 app.use(editor)
 ```
 
+最简使用场景，直接 v-model 绑上即用
+
+```html
+<MarkdownEditor v-model="text"></MarkdownEditor>
+```
+
+配合 slot 的使用场景，通过插槽配合实现自定义工具栏、大纲和预览
+
+```html
+<MarkdownEditor v-model="text">
+    <template #toolbar>
+        <div>这里是自由的工具栏</div>
+    </template>
+    <template #outline="{target, click}">
+        <MarkdownOutline :target="target" :click="click">
+            <template #item="{item}">
+                <div>{{item}}</div>
+            </template>
+        </MarkdownOutline>
+    </template>
+    <template #preview="{text}">
+        <MarkdownPreview :markdown-text="text"></MarkdownPreview>
+    </template>
+</MarkdownEditor>
+```
+
 ### 1. MarkdownEditor 编辑器
 
 使用v-model绑定字符串
@@ -36,7 +62,6 @@ app.use(editor)
 提供了查找、替换、预览和自定义快速键功能
 
 ```html
-
 <MarkdownEditor v-model="text" :shortcut-keys="ShortcutKeys"/>
 ```
 
@@ -136,16 +161,16 @@ const extendedInsertUnits: InsertUnit[] = [{
 code 代码块支持复制、标明行号、超过特定行进行折叠
 
 ```html
-
 <MarkdownPreview :markdown-text="text"></MarkdownPreview>
 ```
 
 **props 参数说明**
 
-| 参数           | 类型     | 说明                                                                                 | 必须                  |
-|--------------|--------|------------------------------------------------------------------------------------|---------------------|
-| markdownText | String | 传入的markdown文本，将被解析成html                                                            | 是                   |
-| codeTheme    | String | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
+| 参数           | 类型                              | 说明                                                                                 | 必须                  |
+|--------------|---------------------------------|------------------------------------------------------------------------------------|---------------------|
+| markdownText | String                          | 传入的markdown文本，将被解析成html                                                            | 是                   |
+| codeTheme    | String                          | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
+| extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照其文档                                                                | 否，默认值 []            |
 
 ### 3. Outline 大纲
 

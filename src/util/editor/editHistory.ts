@@ -11,7 +11,7 @@ import {computed, reactive} from "vue";
  * @param pushDefault 默认push对象
  */
 export const useHistoryStack = (
-    maxSize: number = 200,
+    maxSize: number = 1000,
     postHook: Function = () => {
     },
     preHook: Function = () => {
@@ -38,14 +38,12 @@ export const useHistoryStack = (
     const push = (historyTop: EditorHistory = pushDefault()) => {
         preHook(top.value, historyData);
         if (historyData.stackTop >= maxSize) {
-            historyData.stack.splice(0, parseInt(maxSize / 2 + ''));
+            historyData.stack.splice(0, Math.floor(maxSize / 2));
         }
         historyData.stackTop++;
-        historyData.stack[historyData.stackTop] = historyTop;
+        historyData.stack.push(historyTop);
         postHook(top.value, historyData);
-        if (historyData.stackTop < historyData.stack.length) {
-            historyData.stack.splice(historyData.stackTop + 1)
-        }
+        historyData.stack.splice(historyData.stackTop + 1);
     }
 
     const pop = () => {

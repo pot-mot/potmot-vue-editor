@@ -1,7 +1,21 @@
 <template>
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 		<div style="height: 60vh;">
-			<MarkdownEditor v-model="text" :debug="false"></MarkdownEditor>
+			<MarkdownEditor v-model="text">
+				<template #toolbar>
+					<div>这里是自由的工具栏</div>
+				</template>
+				<template #outline="{target, click}">
+					<MarkdownOutline :target="target" :click="click">
+						<template #item="{item}">
+							<div>{{item}}</div>
+						</template>
+					</MarkdownOutline>
+				</template>
+                <template #preview="{text}">
+					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
+                </template>
+			</MarkdownEditor>
 		</div>
 	</div>
 </template>
@@ -13,6 +27,8 @@ import './asserts/code.css'
 import './asserts/markdown.css'
 
 import MarkdownEditor from "./components/MarkdownEditor.vue";
+import MarkdownOutline from "./components/MarkdownOutline.vue";
+import MarkdownPreview from "./components/MarkdownPreview.vue";
 
 const text = ref("```mermaid\n" +
     "classDiagram\n" +

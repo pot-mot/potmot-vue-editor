@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, PropType, ref} from "vue";
 import {marked, Renderer, Tokenizer} from "marked";
 import {
     detailRule,
@@ -20,11 +20,10 @@ import {
 import {copyCode} from "../util/preview/codeUtil";
 import 'katex/dist/katex.css'
 import {codeRender, mathRender, mermaidRender} from "../util/preview/render";
+import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 
 /**
  * 外部传入参数
- *
- * codeTheme 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计
  */
 const props = defineProps({
     markdownText: {
@@ -36,6 +35,11 @@ const props = defineProps({
         required: false,
         default: 'potmot-dark',
     },
+    extension: {
+        type: Array as PropType<TokenizerAndRendererExtension[]>,
+        required: false,
+        default: []
+    }
 })
 
 let markdownCard = ref();
@@ -134,7 +138,7 @@ marked.setOptions({
 })
 
 marked.use({
-    extensions: [mathBlockRule, mathInlineRule, warningRule, detailRule],
+    extensions: [mathBlockRule, mathInlineRule, warningRule, detailRule, ...props.extension],
 })
 
 const html = computed(() => {

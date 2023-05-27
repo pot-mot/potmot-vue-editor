@@ -2,16 +2,18 @@
     <div class="editor"
          :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
          :style="isFullScreen ? '' : `width: ${props.width}; height: ${props.height};`">
-        <ul class="toolbar">
-            <li v-for="tool in editToolList">
+        <slot name="toolbar" :textarea="textarea" :editToolList="editToolList">
+            <ul class="toolbar">
+                <li v-for="tool in editToolList">
 				<span
                         @mousedown.prevent.stop="tool.method(tool)"
                         :title="tool.label"
                         class="iconfont"
                         :class="[tool.active ? 'chosen' : '',tool.icon]">
 				</span>
-            </li>
-        </ul>
+                </li>
+            </ul>
+		</slot>
         <div v-show="getEditToolActive('insert')" ref="insertMenu" class="floating-card insert-menu" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
             <template v-for="item in props.insertUnits">
@@ -54,14 +56,15 @@
             <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
             <span style="display: inline-block;width: 1em;"></span>
             <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
-
         </div>
         <div v-show="getEditToolActive('outline')" ref="outlineBox" class="outline-box floating-card" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
-            <MarkdownOutline
-                    :target="previewCard"
-                    :click="() => {scrollKey = 'preview'}">
-            </MarkdownOutline>
+            <slot name="outline" :target="previewCard" :click="() => {scrollKey = 'preview'}">
+                <MarkdownOutline
+                        :target="previewCard"
+                        :click="() => {scrollKey = 'preview'}">
+                </MarkdownOutline>
+            </slot>
         </div>
         <div class="container" :class="containerClass">
 			<textarea
@@ -78,7 +81,9 @@
                     ref="previewCard"
                     class="preview-card"
                     @mouseover="() => {scrollKey = 'preview'}">
-                <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
+                <slot name="preview" :text="data.text">
+                    <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
+                </slot>
             </div>
             <div
                     ref="textareaCountLine"
@@ -470,7 +475,7 @@ const {
     undo,
     push,
     top,
-} = useHistoryStack(400,
+} = useHistoryStack(2000,
     (historyTop: EditorHistory) => {
         data.text = historyTop.text;
         nextTick(() => {
@@ -1190,6 +1195,7 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 
 .editor ul.toolbar {
   cursor: auto;
+  list-style: none;
 
   > li {
     display: inline-block;

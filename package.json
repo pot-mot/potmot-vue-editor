@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.8.12",
+  "version": "0.8.14",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -29,6 +29,7 @@
     "README.md",
     "LICENSE",
     "dist",
+    "src/components",
     "src/declare",
     "src/asserts",
     "src/util"

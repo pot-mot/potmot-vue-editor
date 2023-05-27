@@ -1,8 +1,10 @@
 <template>
 	<ul class="outline">
-		<li v-for="head in heads" :key="head.id" :style="props.style(head.level - maxLevel)"
+		<li v-for="head in heads" :key="head.id"
 			@click="jumpTo(head.id)">
-			{{ head.text }}
+			<slot name="item" :item="head">
+				<div :style="`padding-left: ${head.level - maxLevel - 0.5}em;`">{{ head.text }}</div>
+			</slot>
 		</li>
 	</ul>
 </template>
@@ -36,13 +38,13 @@ const props = defineProps({
 		required: false,
 		default: 50,
 	},
-	style: {
-		type: Function,
+	offsetScroll: {
+      	type: Function,
 		required: false,
-		default: (level: number) => {
-			return "padding-left: " + (level - 0.5) + "em;"
-		}
-	}
+		default: (target: HTMLElement, item: HTMLElement) => {
+            target.scrollTop = item.offsetTop - target.offsetTop;
+        }
+	},
 })
 
 const maxLevel = computed(() => {
@@ -94,7 +96,7 @@ const jumpTo = (id: string) => {
 		props.target.querySelector('#' + id)?.scrollIntoView();
 	} else if (props.policy == "offset") {
 		const head = <HTMLHeadElement>(props.target.querySelector('#' + id))
-		props.target.scrollTop = head.offsetTop - props.target.offsetTop;
+		props.offsetScroll(props.target, head)
 	}
 }
 </script>
