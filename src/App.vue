@@ -2,11 +2,8 @@
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 		<div style="height: 60vh;">
 			<MarkdownEditor v-model="text">
-				<template #toolbar>
-					<div>这里是自由的工具栏</div>
-				</template>
-				<template #outline="{target, click}">
-					<MarkdownOutline :target="target" :click="click">
+				<template #outline="{target}">
+					<MarkdownOutline :target="target">
 						<template #item="{item}">
 							<div>{{item}}</div>
 						</template>
@@ -15,6 +12,9 @@
                 <template #preview="{text}">
 					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
                 </template>
+				<template #footer="{data}">
+					{{data}}
+				</template>
 			</MarkdownEditor>
 		</div>
 	</div>
@@ -46,7 +46,135 @@ const text = ref("```mermaid\n" +
     "\tClass01 : int gorilla\n" +
     "\tClass08 <--> C2: Cool label\n" +
     "\n" +
-    "```" + "\n[百度](www.baidu.com)");
+    "```\n" +
+    "\n" +
+    "```mermaid\n" +
+    "journey\n" +
+    "    title My working day\n" +
+    "    section Go to work\n" +
+    "      Make tea: 5: Me\n" +
+    "      Go upstairs: 3: Me\n" +
+    "      Do work: 1: Me, Cat\n" +
+    "    section Go home\n" +
+    "      Go downstairs: 5: Me\n" +
+    "      Sit down: 5: Me\n" +
+    "\n" +
+    "```\n" +
+    "sadsdadsaasddas\n" +
+    "sdasadsdadasdsadasdas\n" +
+    "sdaassadsdadassdadasasdsad\n" +
+    "sdasaddasdsaasdas\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "[百度](www.baidu.com)\n" +
+    "\n" +
+    "```mermaid\n" +
+    "sequenceDiagram\n" +
+    "    participant Alice\n" +
+    "    participant Bob\n" +
+    "    Alice->>John: Hello John, how are you?\n" +
+    "    loop Healthcheck\n" +
+    "        John->>John: Fight against hypochondria\n" +
+    "    end\n" +
+    "    Note right of John: Rational thoughts <br> prevail!\n" +
+    "    John-->>Alice: Great!\n" +
+    "    John->>Bob: How about you?\n" +
+    "    Bob-->>John: Jolly good!\n" +
+    "\n" +
+    "```\n" +
+    "sadsddasdsasaddsasadsad\n" +
+    "sasasdaasdsad\n" +
+    "\n" +
+    "hello good day\n" +
+    "\n" +
+    "```mermaid\n" +
+    "gantt\n" +
+    "dateFormat  YYYY-MM-DD\n" +
+    "title Adding GANTT diagram to mermaid\n" +
+    "excludes weekdays 2014-01-10\n" +
+    "\n" +
+    "section A section\n" +
+    "Completed task            :done,    des1, 2014-01-06,2014-01-08\n" +
+    "Active task               :active,  des2, 2014-01-09, 3d\n" +
+    "Future task               :         des3, after des2, 5d\n" +
+    "Future task2               :         des4, after des3, 5d\n" +
+    "\n" +
+    "```\n" +
+    "dassadsaddasdasdsadsdsasad\n" +
+    "\n" +
+    "sdadsasasdadsadassaddsa\n" +
+    "```mermaid\n" +
+    "classDiagram\n" +
+    "\tClass01 <|-- AveryLongClass : Cool\n" +
+    "\tClass03 *-- Class04\n" +
+    "\tClass05 o-- Class06\n" +
+    "\tClass07 .. Class08\n" +
+    "\tClass09 --> C2 : Where am i?\n" +
+    "\tClass09 --* C3\n" +
+    "\tClass09 --|> Class07\n" +
+    "\tClass07 : equals()\n" +
+    "\tClass07 : Object[] elementData\n" +
+    "\tClass01 : size()\n" +
+    "\tClass01 : int chimp\n" +
+    "\tClass01 : int gorilla\n" +
+    "\tClass08 <--> C2: Cool label\n" +
+    "\n" +
+    "```\n" +
+    "saddasdassadsadsddsa\n" +
+    "sadsadsadadsdadasdsadass\n" +
+    "\n" +
+    "```mermaid\n" +
+    "erDiagram\n" +
+    "    CUSTOMER ||--o{ ORDER : places\n" +
+    "    ORDER ||--|{ LINE-ITEM : contains\n" +
+    "    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses\n" +
+    "\n" +
+    "```\n" +
+    "sdaadsddasasddsadas\n" +
+    "sdaasdsadsadsdadassdadssadadsdas\n" +
+    "\n" +
+    "```mermaid\n" +
+    "gitGraph\n" +
+    "   commit\n" +
+    "   commit\n" +
+    "   branch develop\n" +
+    "   checkout develop\n" +
+    "   commit\n" +
+    "   commit\n" +
+    "   checkout main\n" +
+    "   merge develop\n" +
+    "   commit\n" +
+    "   commit\n" +
+    "\n" +
+    "```\n" +
+    "sdaasddadasdsdasdas\n" +
+    "asdsadsadsadasdsa\n" +
+    "dasasddasdasdsadas\n" +
+    "sadsaddsaasdsdaddddddddddddddddddd\n" +
+    "\n" +
+    "```mermaid\n" +
+    "stateDiagram-v2\n" +
+    "[*] --> Still\n" +
+    "Still --> [*]\n" +
+    "Still --> Moving\n" +
+    "Moving --> Still\n" +
+    "Moving --> Crash\n" +
+    "Crash --> [*]\n" +
+    "\n" +
+    "```\n" +
+    "sdadsasaasddsadsa\n" +
+    "sdaasddsadsasdasdadsdassadsadsaddassdadasdsadsadasdsasadsdasasdaaaaaaaaaaaaaaaaaaaaaasadsdadsasdaaaaaaaaaaaaasdsdasaddsadsadsadasasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasdasdsaddsaddsdassadsaddsadsasdsadsa\n" +
+    "```mermaid\n" +
+    "pie\n" +
+    "\"Dogs\" : 386\n" +
+    "\"Cats\" : 85\n" +
+    "\"Rats\" : 15\n" +
+    "\n" +
+    "```\n" +
+    "\n" +
+    "dsadsasadsadasdadsdsa\n" +
+    "saddsaasddasdasasddsaasdadsds");
 
 // 定义 ref 变量
 const selectArg = ref("")

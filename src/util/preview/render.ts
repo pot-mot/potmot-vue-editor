@@ -2,6 +2,7 @@ import katex from "katex";
 import mermaid from "mermaid";
 import Prism from "prismjs";
 import {prismLanguageList} from "../editor/typeList";
+import {decodeHTML} from "./htmlParse";
 
 const errResult = (e: any, msg: string): string => {
     return `<div style='white-space: pre-line;'><span style="color: red;">[解析错误: ${msg}]</span><br><span style="color: red;">[</span>${e}<span style="color: red;">]</span></div>`
@@ -42,13 +43,18 @@ export const mathRender = (text: string): string => {
     }
 }
 
+export const mermaidCache = new Map<string, string>()
+
 export const mermaidRender = (element: HTMLElement) => {
     if (element.innerHTML.startsWith("<svg")) return
 
-    const id = Math.floor(Math.random() * 10000000000)
-    mermaid.render('mermaid' + id, element.innerHTML.replaceAll('&gt;', ">").replaceAll('&lt;', "<"))
+    const id = Math.floor(Math.random() * 10000000)
+    const text = decodeHTML(element.innerHTML)
+    mermaid.render('mermaid' + id, text)
         .then(res => {
+            mermaidCache.set(text, res.svg)
             element.innerHTML = res.svg
+            element.classList.remove('mermaid')
         })
         .catch(e => {
             document.getElementById('mermaid' + id)?.remove()

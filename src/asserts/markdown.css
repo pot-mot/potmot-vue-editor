@@ -4,7 +4,10 @@
     --light-back-color: #f8f8f8;
     --hover-border-color: #333;
 
+    box-sizing: border-box;
     margin: 0;
+    max-width: 100%;
+    word-break: break-word;
 }
 
 .markdown-card * {
@@ -31,7 +34,7 @@
 
 .markdown-card table {
     border-collapse: collapse;
-    width: 100%;
+    max-width: 100%;
     padding: 0.2em 0;
     border: 1px solid var(--border-color);
 }
@@ -47,6 +50,7 @@
     min-width: 3em;
     max-width: 100%;
     padding: 0.5em;
+    word-break: break-word;
 }
 
 .markdown-card td:hover {

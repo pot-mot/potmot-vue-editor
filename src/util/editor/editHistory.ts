@@ -11,7 +11,7 @@ import {computed, reactive} from "vue";
  * @param pushDefault 默认push对象
  */
 export const useHistoryStack = (
-    maxSize: number = 1000,
+    maxSize: number = 200,
     postHook: Function = () => {
     },
     preHook: Function = () => {

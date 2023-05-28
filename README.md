@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.8.14
+npm install potmot-vue-editor@0.9.0
 ```
 
 main.js 中引用
@@ -32,18 +32,17 @@ app.use(editor)
 最简使用场景，直接 v-model 绑上即用
 
 ```html
+
 <MarkdownEditor v-model="text"></MarkdownEditor>
 ```
 
-配合 slot 的使用场景，通过插槽配合实现自定义工具栏、大纲和预览
+配合 slot 的使用场景，通过插槽配合实现自定义大纲、预览、统计数据
 
 ```html
+
 <MarkdownEditor v-model="text">
-    <template #toolbar>
-        <div>这里是自由的工具栏</div>
-    </template>
-    <template #outline="{target, click}">
-        <MarkdownOutline :target="target" :click="click">
+    <template #outline="{target}">
+        <MarkdownOutline :target="target">
             <template #item="{item}">
                 <div>{{item}}</div>
             </template>
@@ -51,6 +50,9 @@ app.use(editor)
     </template>
     <template #preview="{text}">
         <MarkdownPreview :markdown-text="text"></MarkdownPreview>
+    </template>
+    <template #footer="{data}">
+        {{data}}
     </template>
 </MarkdownEditor>
 ```
@@ -62,6 +64,7 @@ app.use(editor)
 提供了查找、替换、预览和自定义快速键功能
 
 ```html
+
 <MarkdownEditor v-model="text" :shortcut-keys="ShortcutKeys"/>
 ```
 
@@ -161,6 +164,7 @@ const extendedInsertUnits: InsertUnit[] = [{
 code 代码块支持复制、标明行号、超过特定行进行折叠
 
 ```html
+
 <MarkdownPreview :markdown-text="text"></MarkdownPreview>
 ```
 
@@ -174,22 +178,36 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 
 ### 3. Outline 大纲
 
-在target中根据正则匹配寻找带id的标题元素生成ul大纲
-
-请尽可能不要有id相同的标题
+在 target DOM 中根据正则匹配寻找特定元素以生成大纲
 
 ```html
 
 <MarkdownOutline :markdown-text="text"></MarkdownOutline>
 ```
 
+需要将找到的匹配正则转换为 OutlineItem，接口声明如下
+
+```typescript
+interface OutlineItem {
+    // 等级
+    level: number;
+    // 跳转目标id
+    id: string;
+    // 显示文字
+    text: string;
+}
+```
+
 **props 参数说明**
 
-| 参数     | 类型          | 说明                                                         | 必须                             |
-|--------|-------------|------------------------------------------------------------|--------------------------------|
-| target | HTMLElement | 寻找的根元素                                                     | 否，默认值 document.documentElement |
-| policy | String      | 跳转策略，目前提供 "anchor" (基于scrollIntoView) 和 "offset" (基于偏移量计算) | 否，默认值 "offset"                 |
-| click  | Function    | 点击item时的触发事件，传入参数为点击标题的id                                  | 否                              |
+| 参数           | 类型          | 说明                                                         | 必须                                                     |
+|--------------|-------------|------------------------------------------------------------|--------------------------------------------------------|
+| target       | HTMLElement | 寻找的根元素                                                     | 否，默认值 document.documentElement                         |
+| policy       | String      | 跳转策略，目前提供 "anchor" (基于scrollIntoView) 和 "offset" (基于偏移量计算) | 否，默认值 "offset"                                         |
+| click        | Function    | 点击事件，在点击条目后触发，参数是 OutlineItem                              | 否                                                      |
+| regex        | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
+| parse        | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
+| offsetScroll | Function    | 策略为 "offset" 时执行的滚动函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` | 
 
 ## 依赖
 

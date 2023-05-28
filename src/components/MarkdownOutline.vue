@@ -1,9 +1,9 @@
 <template>
 	<ul class="outline">
-		<li v-for="head in heads" :key="head.id"
-			@click="jumpTo(head.id)">
-			<slot name="item" :item="head">
-				<div :style="`padding-left: ${head.level - maxLevel - 0.5}em;`">{{ head.text }}</div>
+		<li v-for="item in items" :key="item.id"
+			@click="jumpTo(item)">
+			<slot name="item" :item="item">
+				<div :style="`padding-left: ${item.level - maxLevel - 0.5}em;`">{{ item.text }}</div>
 			</slot>
 		</li>
 	</ul>
@@ -33,51 +33,55 @@ const props = defineProps({
 		type: Function,
 		required: false,
 	},
-	intervalTime: {
-		type: Number,
+	regex: {
+        type: RegExp,
 		required: false,
-		default: 50,
+		default: /<h([1-6]) id="(.*?)">(.*?)</g
 	},
-	offsetScroll: {
-      	type: Function,
+	parse: {
+        type: Function,
 		required: false,
-		default: (target: HTMLElement, item: HTMLElement) => {
+		default: (match: RegExpExecArray): OutlineItem => {return {level: Number.parseInt(match[1]), id: match[2], text: match[3]}}
+	},
+    offsetScroll: {
+        type: Function,
+        required: false,
+        default: (target: HTMLElement, item: HTMLElement) => {
             target.scrollTop = item.offsetTop - target.offsetTop;
         }
-	},
+    },
+    intervalTime: {
+        type: Number,
+        required: false,
+        default: 50,
+    },
 })
 
 const maxLevel = computed(() => {
 	let max = 7;
-	for (const head of heads.value) {
-		if (head.level < max) {
-			max = head.level
+	for (const item of items.value) {
+		if (item.level < max) {
+			max = item.level
 		}
 	}
 	return max;
 })
 
-interface Headline {
-	level: number;
-	id: string;
-	text: string;
-}
-
-function getHeadFromHtmlText(html: string): Headline[] {
-	const heads: Headline[] = [];
-	const regex = /<h([1-6]) id="(.*?)">(.*?)</g;
+const getItemFromHtml = (html: string): OutlineItem[] => {
+	const items: OutlineItem[] = [];
+	const regex = props.regex;
 	let match: RegExpExecArray | null;
 	while (match = regex.exec(html)) {
-		heads.push({level: Number.parseInt(match[1]), id: match[2], text: match[3]});
+		items.push(props.parse(match));
 	}
-	return heads;
+	return items;
 }
 
 let interval: number;
 
 onMounted(() => {
 	interval = setInterval(() => {
-		heads.value = getHeadFromHtmlText(props.target.innerHTML)
+		items.value = getItemFromHtml(props.target.innerHTML)
 	}, props.intervalTime)
 })
 
@@ -85,18 +89,18 @@ onBeforeUnmount(() => {
 	clearInterval(interval);
 })
 
-let heads = ref<Headline[]>([]);
+let items = ref<OutlineItem[]>([]);
 
-const jumpTo = (id: string) => {
-	if (props.click) props.click(id)
+const jumpTo = (item: OutlineItem) => {
+	if (props.click) props.click(item)
 
 	if (!props.target) return;
 
 	if (props.policy == "anchor") {
-		props.target.querySelector('#' + id)?.scrollIntoView();
+		props.target.querySelector('#' + item.id)?.scrollIntoView();
 	} else if (props.policy == "offset") {
-		const head = <HTMLHeadElement>(props.target.querySelector('#' + id))
-		props.offsetScroll(props.target, head)
+		const element = <HTMLHeadElement>(props.target.querySelector('#' + item.id))
+		props.offsetScroll(props.target, element)
 	}
 }
 </script>
@@ -113,6 +117,7 @@ const jumpTo = (id: string) => {
 		font-style: normal;
 		color: inherit;
 		text-decoration: none;
+	  cursor: pointer;
 
 		&:hover {
 			background-color: #eeeeee;

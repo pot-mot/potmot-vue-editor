@@ -49,7 +49,7 @@ export const mermaidTypeMap = new Map<string, {name: string, example: string}>()
             "    loop Healthcheck\n" +
             "        John->>John: Fight against hypochondria\n" +
             "    end\n" +
-            "    Note right of John: Rational thoughts <br/>prevail!\n" +
+            "    Note right of John: Rational thoughts <br> prevail!\n" +
             "    John-->>Alice: Great!\n" +
             "    John->>Bob: How about you?\n" +
             "    Bob-->>John: Jolly good!"

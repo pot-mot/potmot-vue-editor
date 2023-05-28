@@ -2,9 +2,9 @@
     <div class="editor"
          :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
          :style="isFullScreen ? '' : `width: ${props.width}; height: ${props.height};`">
-        <slot name="toolbar" :textarea="textarea" :editToolList="editToolList">
-            <ul class="toolbar">
-                <li v-for="tool in editToolList">
+		<div class="toolbar">
+            <ul class="left">
+                <li v-for="tool in leftTools" v-show="tool.show">
 				<span
                         @mousedown.prevent.stop="tool.method(tool)"
                         :title="tool.label"
@@ -13,8 +13,18 @@
 				</span>
                 </li>
             </ul>
-		</slot>
-        <div v-show="getEditToolActive('insert')" ref="insertMenu" class="floating-card insert-menu" v-drag>
+            <ul class="right">
+                <li v-for="tool in rightTools" v-show="tool.show">
+				<span
+                        @mousedown.prevent.stop="tool.method(tool)"
+                        :title="tool.label"
+                        class="iconfont"
+                        :class="[tool.active ? 'chosen' : '',tool.icon]">
+				</span>
+                </li>
+            </ul>
+		</div>
+        <div v-show="getEditToolActive('insert')" :class="getEditToolPosition('insert')" ref="insertMenu" class="floating-card insert-menu" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
             <template v-for="item in props.insertUnits">
 				<span class="insert-text">
@@ -37,7 +47,7 @@
                 <br>
             </template>
         </div>
-        <div v-show="getEditToolActive('replace')" ref="replaceBox" class="replace-box floating-card insert-menu"
+        <div v-show="getEditToolActive('replace')" :class="getEditToolPosition('replace')"  ref="replaceBox" class="replace-box floating-card insert-menu"
              v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
             <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
@@ -57,12 +67,11 @@
             <span style="display: inline-block;width: 1em;"></span>
             <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
         </div>
-        <div v-show="getEditToolActive('outline')" ref="outlineBox" class="outline-box floating-card" v-drag>
+        <div v-show="getEditToolActive('outline')" :class="getEditToolPosition('outline')" ref="outlineBox" class="outline-box floating-card" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
-            <slot name="outline" :target="previewCard" :click="() => {scrollKey = 'preview'}">
+            <slot name="outline" :target="previewCard">
                 <MarkdownOutline
-                        :target="previewCard"
-                        :click="() => {scrollKey = 'preview'}">
+                        :target="previewCard">
                 </MarkdownOutline>
             </slot>
         </div>
@@ -74,13 +83,11 @@
                     :placeholder="props.placeholder"
                     class="edit-card"
                     @keydown="onKeyDown"
-                    @mouseup="onMouseUp"
-                    @mouseover="() => {scrollKey = 'textarea'}">
+                    @mouseup="onMouseUp">
 			</textarea>
             <div
                     ref="previewCard"
-                    class="preview-card"
-                    @mouseover="() => {scrollKey = 'preview'}">
+                    class="preview-card">
                 <slot name="preview" :text="data.text">
                     <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
                 </slot>
@@ -92,16 +99,18 @@
                     :style="textareaCountLineStyle">
             </div>
         </div>
-        <ul class="statistical-list" v-if="textarea !== undefined">
-            <li>字数 {{ data.text.length }}</li>
-            <li>
-                {{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
-                <span v-show="statisticalData.selectLength > 0">
+        <slot name="footer" :textarea="textarea" :data="statisticalData">
+            <ul class="statistical-list" v-if="textarea !== undefined">
+                <li>字数 {{ data.text.length }}</li>
+                <li>
+                    {{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
+                    <span v-show="statisticalData.selectLength > 0">
 					至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}
 				</span>
-            </li>
-            <li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
-        </ul>
+                </li>
+                <li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
+            </ul>
+        </slot>
     </div>
 </template>
 
@@ -125,11 +134,6 @@ import {getLeadingSpace} from "../util/editor/textUtils";
 
 /**
  * 外部传入参数
- *
- * placeholder 占位字符串
- * startWithFullScreen 是否以全屏启动
- * shortcutKeys 覆盖快捷键
- * insertUnits 拓展插入单元
  */
 const props = defineProps({
     modelValue: {
@@ -164,11 +168,6 @@ const props = defineProps({
         default: [...markdownInsertUnits, ...extendedInsertUnits]
     },
 
-    scrollSync: {
-        type: Boolean,
-        required: false,
-        default: true,
-    },
     startWithFullScreen: {
         type: Boolean,
         required: false,
@@ -234,29 +233,30 @@ onBeforeUnmount(() => {
     clearInterval(editEditInterval)
 })
 
-const resetToolPlace = (element: HTMLElement) => {
-    element.style.left = '0'
+const resetToolPlace = (element: HTMLElement, position: "left" | "right") => {
+    if (position == "left") {
+        element.style.left = '0'
+		element.style.right = 'auto'
+	} else if (position == "right") {
+        console.log(element.style.right)
+        element.style.left = 'auto'
+        element.style.right = '1em'
+        console.log(element.style.right)
+	}
     element.style.top = '2.5em'
 }
 
 // 工具列表
-const editToolList = reactive(<EditTool[]>[
-    {
-        name: "fullScreen",
-        label: "全屏/收起全屏",
-        icon: "icon-full-screen",
-        active: false,
-        method: (self: EditTool) => {
-            self.active = !self.active
-        }
-    },
+const editTools = reactive(<EditTool[]>[
     {
         name: "insert",
         label: "快捷插入",
         icon: "icon-bulletpoint",
         active: false,
+        show: true,
+        position: "left",
         method: (self: EditTool) => {
-            if (self.active) resetToolPlace(insertMenu.value)
+            if (self.active) resetToolPlace(insertMenu.value, self.position)
             self.active = !self.active
         }
     },
@@ -265,8 +265,10 @@ const editToolList = reactive(<EditTool[]>[
         label: "文本查找与替换",
         icon: "icon-search-list",
         active: false,
+        show: true,
+        position: "left",
         method: (self: EditTool) => {
-            if (self.active) resetToolPlace(replaceBox.value)
+            if (self.active) resetToolPlace(replaceBox.value, self.position)
             self.active = !self.active
         }
     },
@@ -275,6 +277,8 @@ const editToolList = reactive(<EditTool[]>[
         label: "预览",
         icon: "icon-browse",
         active: false,
+        show: true,
+        position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
         }
@@ -284,8 +288,10 @@ const editToolList = reactive(<EditTool[]>[
         label: "大纲",
         icon: "icon-file-tree",
         active: false,
+        show: true,
+        position: "right",
         method: (self: EditTool) => {
-            if (self.active) resetToolPlace(outlineBox.value)
+            if (self.active) resetToolPlace(outlineBox.value, self.position)
             self.active = !self.active
         }
     },
@@ -294,6 +300,8 @@ const editToolList = reactive(<EditTool[]>[
         label: "撤销",
         icon: "icon-undo",
         active: false,
+        show: true,
+        position: "left",
         method: () => {
             undo();
         }
@@ -303,27 +311,59 @@ const editToolList = reactive(<EditTool[]>[
         label: "重做",
         icon: "icon-redo",
         active: false,
+        show: true,
+        position: "left",
         method: () => {
             redo();
         }
-    }
+    },
+    {
+        name: "fullScreen",
+        label: "全屏/收起全屏",
+        icon: "icon-full-screen",
+        active: false,
+        show: true,
+        position: "right",
+        method: (self: EditTool) => {
+            self.active = !self.active
+        },
+    },
 ])
 
+const leftTools = computed(() => {
+    return editTools.filter(item => item.position == "left")
+})
+
+const rightTools = computed(() => {
+    return editTools.filter(item => item.position == "right")
+})
+
+const toolMap = computed(() => {
+    const map = new Map<string, EditTool>()
+	editTools.forEach(item => map.set(item.name, item))
+    return map
+})
+
 const getEditToolActive = (key: string) => {
-    for (const item of editToolList) {
-        if (item.name == key) {
-            return item.active;
-        }
+    const item = toolMap.value.get(key)
+    if (item) {
+        return item.active
+	}
+    return false
+}
+
+const getEditToolPosition = (key: string) => {
+    const item = toolMap.value.get(key)
+    if (item) {
+        return item.position
     }
-    return false;
+    return "left"
 }
 
 const setEditToolActive = (key: string, newValue: boolean) => {
-    for (const item of editToolList) {
-        if (item.name == key) {
-            item.active = newValue;
-            break;
-        }
+    const item = toolMap.value.get(key)
+    if (item) {
+        item.active = newValue
     }
 }
 
@@ -341,7 +381,6 @@ let beforeFullScreenTop = 0
 watch(() => isFullScreen.value, async (newValue) => {
     if (newValue) {
         isPreview.value = !isMobile();
-        scrollKey.value = "textarea"
         beforeFullScreenTop = document.documentElement.scrollTop;
     } else {
         isPreview.value = false;
@@ -426,35 +465,16 @@ onMounted(() => {
 /**
  * 滚动同步
  */
-let scrollKey = ref("textarea")
-
 const syncScroll = (from: HTMLElement, to: HTMLElement) => {
     to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
 }
 
-watch(() => isPreview.value, (newValue) => {
-    if (isMobile()) {
-        scrollKey.value = newValue ? 'preview' : 'textarea';
+watch(() => isPreview.value, () => {
+    if (isPreview.value) {
+        syncScroll(textarea.value, previewCard.value);
+    } else if (!isFullScreen.value && !isMobile()) {
+        syncScroll(previewCard.value, textarea.value);
     }
-})
-
-let scrollKeyInterval: number
-
-onMounted(() => {
-    if (!props.scrollSync) return
-    scrollKeyInterval = setInterval(() => {
-        if (!textarea.value || !previewCard.value ||
-            textarea.value.scrollHeight <= textarea.value.clientHeight ||
-            previewCard.value.scrollHeight <= textarea.value.clientHeight
-        ) return;
-        if (scrollKey.value == 'textarea') syncScroll(textarea.value, previewCard.value);
-        else if (scrollKey.value == 'preview') syncScroll(previewCard.value, textarea.value);
-    }, 20)
-})
-
-onBeforeUnmount(() => {
-    if (!props.scrollSync) return
-    clearInterval(scrollKeyInterval)
 })
 
 
@@ -475,7 +495,7 @@ const {
     undo,
     push,
     top,
-} = useHistoryStack(2000,
+} = useHistoryStack(400,
     (historyTop: EditorHistory) => {
         data.text = historyTop.text;
         nextTick(() => {
@@ -589,8 +609,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
-    scrollKey.value = "textarea";
-
     for (const shortcutKey of props.shortcutKeys) {
         if (!shortcutKey.key) continue;
 
@@ -869,8 +887,6 @@ const searchCurrent = (
 
     nextTick(() => {
         setTimeout(() => {
-            scrollKey.value = 'textarea';
-
             if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
                 jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
             } else {
@@ -1044,12 +1060,12 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
   display: grid;
 
   &.edit-preview {
-    grid-template-columns: 49.5% 49%;
-    grid-gap: 0.5%;
+    grid-template-columns: 49% 49%;
+    grid-gap: 1%;
   }
 
   &.edit {
-    grid-template-columns: 99%;
+    grid-template-columns: 98%;
   }
 
   > .edit-card,
@@ -1066,12 +1082,12 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
   display: grid;
 
   &.edit-preview {
-    grid-template-rows: 0 100%;
-    grid-gap: 0.5%;
+    grid-template-rows: 0 98%;
+    grid-gap: 1%;
   }
 
   &.edit {
-    grid-template-rows: 100%;
+    grid-template-rows: 98%;
   }
 
   > .edit-card,
@@ -1081,25 +1097,17 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
 }
 
 .editor {
-  > .toolbar {
-    vertical-align: middle;
-    padding: 0;
-    margin: 0;
-    line-height: 2em;
-
-    > li {
-      position: relative;
-    }
-  }
-
-  &.full > .toolbar {
-    margin-left: 0.5em;
-  }
-
   .floating-card {
     position: absolute;
     top: 2.5em;
-    left: 0;
+
+	&.left {
+      left: 0;
+	}
+
+    &.right {
+      right: 1em;
+    }
 
     .icon-close {
       position: absolute;
@@ -1192,15 +1200,40 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
   }
 }
 
+.editor.full > .toolbar {
+  margin-left: 0.5em;
+}
 
-.editor ul.toolbar {
+.editor > .toolbar {
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
+  line-height: 2em;
   cursor: auto;
   list-style: none;
 
-  > li {
+  > .left {
+	display: inline-block;
+	text-align: left;
+	width: 49%;
+    > li {
+      padding-right: 0.5rem;
+    }
+  }
+
+  > .right {
+    display: inline-block;
+	text-align: right;
+    width: 49%;
+	> li {
+      padding-left: 0.5rem;
+	}
+  }
+
+  > ul > li {
+    position: relative;
     display: inline-block;
     font-size: 0.9rem;
-    padding-right: 0.5rem;
 
     > span.iconfont:before {
       color: #999;
@@ -1218,18 +1251,16 @@ const getPlace = (start: number, text: string): { x: number, y: number } => {
   }
 }
 
-.editor {
-  > .statistical-list {
-    height: 1.6em;
-    line-height: 1.6em;
-    margin-left: 0.4em;
+.editor > .statistical-list {
+  height: 1.6em;
+  line-height: 1.6em;
+  margin-left: 0.4em;
 
-    > li {
-      font-size: 0.8em;
-      display: inline-block;
-      padding: 0 0.5em;
-      color: #333;
-    }
+  > li {
+    font-size: 0.8em;
+    display: inline-block;
+    padding: 0 0.5em;
+    color: #333;
   }
 }
 </style>

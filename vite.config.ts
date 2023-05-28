@@ -1,7 +1,6 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import {prismjsPlugin} from "vite-plugin-prismjs"
-import dts from 'vite-plugin-dts'
 import {resolve} from 'path'
 
 export default defineConfig({
@@ -25,7 +24,7 @@ export default defineConfig({
 
     plugins: [
         vue(),
-        dts(),
+        // dts(),
         prismjsPlugin({
             languages: [
                 'javascript', 'typescript',

@@ -19,7 +19,7 @@ import {
 } from "../util/preview/markedRules";
 import {copyCode} from "../util/preview/codeUtil";
 import 'katex/dist/katex.css'
-import {codeRender, mathRender, mermaidRender} from "../util/preview/render";
+import {codeRender, mathRender, mermaidCache, mermaidRender} from "../util/preview/render";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 
 /**
@@ -39,7 +39,7 @@ const props = defineProps({
         type: Array as PropType<TokenizerAndRendererExtension[]>,
         required: false,
         default: []
-    }
+    },
 })
 
 let markdownCard = ref();
@@ -77,6 +77,7 @@ renderer.link = (href, title, text): string => {
 
 renderer.code = (code: string, language: string): string => {
     if (language == 'mermaid') {
+        if (mermaidCache.has(code)) return `<div>${mermaidCache.get(code)}</div>`
         return `<div class="mermaid">${code}</div>`
     } else if (language == 'math') {
         return `<div class="math">${mathRender(code)}</div>`
@@ -115,7 +116,7 @@ onMounted(() => {
     eventInterval = setInterval(
         () => {
             if (oldMarkdownString == props.markdownText) return
-            // 如果文本发生变化，保存变化并设置等待，如果一段时间没有发生变化，渲染 mermaid 和 katex
+            // 如果文本发生变化，保存变化并设置等待，如果一段时间没有发生变化，渲染 mermaid
             oldMarkdownString = props.markdownText
             setTimeout(() => {
                 if (props.markdownText == oldMarkdownString) {
@@ -144,6 +145,4 @@ marked.use({
 const html = computed(() => {
     return marked.parse(props.markdownText, {tokenizer, renderer});
 })
-
-
 </script>
