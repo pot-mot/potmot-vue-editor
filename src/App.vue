@@ -3,11 +3,7 @@
 		<div style="height: 60vh;">
 			<MarkdownEditor v-model="text">
 				<template #outline="{target}">
-					<MarkdownOutline :target="target">
-						<template #item="{item}">
-							<div>{{item}}</div>
-						</template>
-					</MarkdownOutline>
+					<MarkdownOutline :target="target"></MarkdownOutline>
 				</template>
                 <template #preview="{text}">
 					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
@@ -30,7 +26,8 @@ import MarkdownEditor from "./components/MarkdownEditor.vue";
 import MarkdownOutline from "./components/MarkdownOutline.vue";
 import MarkdownPreview from "./components/MarkdownPreview.vue";
 
-const text = ref("```mermaid\n" +
+const text = ref("### class\n" +
+	"```mermaid\n" +
     "classDiagram\n" +
     "\tClass01 <|-- AveryLongClass : Cool\n" +
     "\tClass03 *-- Class04\n" +
@@ -69,6 +66,7 @@ const text = ref("```mermaid\n" +
     "\n" +
     "[百度](www.baidu.com)\n" +
     "\n" +
+    "### seq\n" +
     "```mermaid\n" +
     "sequenceDiagram\n" +
     "    participant Alice\n" +
@@ -124,6 +122,8 @@ const text = ref("```mermaid\n" +
     "saddasdassadsadsddsa\n" +
     "sadsadsadadsdadasdsadass\n" +
     "\n" +
+    "### er\n" +
+	"\n" +
     "```mermaid\n" +
     "erDiagram\n" +
     "    CUSTOMER ||--o{ ORDER : places\n" +

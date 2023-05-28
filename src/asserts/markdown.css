@@ -15,14 +15,40 @@
     margin: 0;
 }
 
-.markdown-card h1, h2, h3, h4 {
-    padding: 0.2em 0;
+.markdown-card h1,
+.markdown-card h2 {
+    padding-top: 0.5em;
+}
+
+.markdown-card h1,
+.markdown-card h2,
+.markdown-card h3,
+.markdown-card h4,
+.markdown-card h5,
+.markdown-card h6 {
+    padding-bottom: 0.5em;
+}
+
+.markdown-card * + h1,
+.markdown-card * + h2 {
+    padding-top: 1.2em;
+}
+
+.markdown-card * + h3,
+.markdown-card * + h4 {
+    padding-top: 1em;
+}
+
+.markdown-card li,
+.markdown-card ol {
+    padding-inline-start: 1.5rem;
 }
 
 .markdown-card blockquote {
     border-left: 0.4em solid var(--border-color);
     background-color: var(--light-back-color);
-    padding: 0.5em;
+    padding: 1rem;
+    border-radius: 0.5rem;
     font-style: italic;
     color: #333;
 }
@@ -55,6 +81,16 @@
 
 .markdown-card td:hover {
     outline: var(--hover-border-color) 1px solid;
+}
+
+.markdown-card a {
+    text-decoration: none;
+}
+
+.markdown-card p + p,
+.markdown-card p + pre,
+.markdown-card p + blockquote {
+    margin-top: 1rem;
 }
 
 .markdown-card img,

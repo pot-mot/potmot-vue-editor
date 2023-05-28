@@ -238,10 +238,8 @@ const resetToolPlace = (element: HTMLElement, position: "left" | "right") => {
         element.style.left = '0'
 		element.style.right = 'auto'
 	} else if (position == "right") {
-        console.log(element.style.right)
         element.style.left = 'auto'
         element.style.right = '1em'
-        console.log(element.style.right)
 	}
     element.style.top = '2.5em'
 }
@@ -278,7 +276,7 @@ const editTools = reactive(<EditTool[]>[
         icon: "icon-browse",
         active: false,
         show: true,
-        position: "left",
+        position: "right",
         method: (self: EditTool) => {
             self.active = !self.active
         }

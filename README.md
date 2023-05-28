@@ -4,7 +4,7 @@
 
 ## 介绍
 
-> 当前版本 v0.8 2023/5/10
+> 当前版本 v0.9 2023/5/28
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.9.0
+npm install potmot-vue-editor@0.9.1
 ```
 
 main.js 中引用
@@ -195,19 +195,22 @@ interface OutlineItem {
     id: string;
     // 显示文字
     text: string;
+    // 是否为 current，会为对应的 OutlineItem 加上 current 类
+    current: boolean;
 }
 ```
 
 **props 参数说明**
 
-| 参数           | 类型          | 说明                                                         | 必须                                                     |
-|--------------|-------------|------------------------------------------------------------|--------------------------------------------------------|
-| target       | HTMLElement | 寻找的根元素                                                     | 否，默认值 document.documentElement                         |
-| policy       | String      | 跳转策略，目前提供 "anchor" (基于scrollIntoView) 和 "offset" (基于偏移量计算) | 否，默认值 "offset"                                         |
-| click        | Function    | 点击事件，在点击条目后触发，参数是 OutlineItem                              | 否                                                      |
-| regex        | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
-| parse        | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
-| offsetScroll | Function    | 策略为 "offset" 时执行的滚动函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` | 
+| 参数         | 类型          | 说明                                                         | 必须                                                     |
+|------------|-------------|------------------------------------------------------------|--------------------------------------------------------|
+| target     | HTMLElement | 寻找的根元素                                                     | 否，默认值 document.documentElement                         |
+| policy     | String      | 跳转策略，目前提供 "anchor" (基于scrollIntoView) 和 "offset" (基于偏移量计算) | 否，默认值 "offset"                                         |
+| click      | Function    | 点击事件，在点击条目后触发，参数是 OutlineItem                              | 否                                                      |
+| regex      | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
+| parse      | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
+| handleJump | Function    | 策略为 "offset" 时执行的跳转函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` | 
+| current    | Function    | 判断目标是否为 current 的函数                                        | 否，声明为 `(target: HTMLElement, items: OutlineItem[])`    |
 
 ## 依赖
 

@@ -1,127 +1,193 @@
 <template>
-	<ul class="outline">
-		<li v-for="item in items" :key="item.id"
-			@click="jumpTo(item)">
-			<slot name="item" :item="item">
-				<div :style="`padding-left: ${item.level - maxLevel - 0.5}em;`">{{ item.text }}</div>
-			</slot>
-		</li>
-	</ul>
+    <ul class="outline">
+        <li v-for="item in items" :key="item.id"
+            @click="jumpTo(item)"
+            :class="{'current': item.current}">
+            <slot name="item" :item="item">
+                <div :style="`padding-left: ${item.level - maxLevel - 0.5}em;`">{{ item.text }}</div>
+            </slot>
+        </li>
+    </ul>
 </template>
 
 <script lang="ts">
 export default {
-	name: 'MarkdownOutline'
+    name: 'MarkdownOutline'
 }
 </script>
 
 <script lang="ts" setup>
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 
+let items = ref<OutlineItem[]>([]);
+
 const props = defineProps({
-	target: {
-		type: HTMLElement,
-		required: false,
-		default: document.documentElement,
-	},
-	policy: {
-		type: String,
-		required: false,
-		default: "offset"
-	},
-	click: {
-		type: Function,
-		required: false,
-	},
-	regex: {
-        type: RegExp,
-		required: false,
-		default: /<h([1-6]) id="(.*?)">(.*?)</g
-	},
-	parse: {
+    target: {
+        type: HTMLElement,
+        required: false,
+        default: document.documentElement,
+    },
+    policy: {
+        type: String,
+        required: false,
+        default: "offset"
+    },
+    click: {
         type: Function,
-		required: false,
-		default: (match: RegExpExecArray): OutlineItem => {return {level: Number.parseInt(match[1]), id: match[2], text: match[3]}}
-	},
-    offsetScroll: {
+        required: false,
+    },
+
+    handleJump: {
         type: Function,
         required: false,
         default: (target: HTMLElement, item: HTMLElement) => {
             target.scrollTop = item.offsetTop - target.offsetTop;
         }
     },
+
+    regex: {
+        type: RegExp,
+        required: false,
+        default: /<h([1-6]) id="(.*?)">(.*?)</g
+    },
+    parse: {
+        type: Function,
+        required: false,
+        default: (match: RegExpExecArray): OutlineItem => {
+            return {level: Number.parseInt(match[1]), id: match[2], text: match[3], current: false}
+        }
+    },
+
+    current: {
+        type: Function,
+        required: false,
+        default: (target: HTMLElement, items: OutlineItem[]) => {
+            if (!(target instanceof HTMLElement) || !Array.isArray(items)) {
+                return
+            }
+
+            let current = 0
+
+            for (let i = items.length - 1; i >= 0; i--) {
+                if (!items[i].id) return;
+                const element = target.querySelector(`#${items[i].id}`)
+                if (!element || !(element instanceof HTMLElement)) return;
+                if (element.getBoundingClientRect().top <= target.getBoundingClientRect().top + 40) {
+                    current = i
+                    break
+                }
+            }
+
+            for (let i = 0; i < items.length; i++) {
+                items[i].current = i == current;
+            }
+        }
+    },
+
     intervalTime: {
         type: Number,
         required: false,
-        default: 50,
+        default: 100,
     },
 })
 
 const maxLevel = computed(() => {
-	let max = 7;
-	for (const item of items.value) {
-		if (item.level < max) {
-			max = item.level
-		}
-	}
-	return max;
+    let max = 7;
+    for (const item of items.value) {
+        if (item.level < max) {
+            max = item.level
+        }
+    }
+    return max;
 })
 
-const getItemFromHtml = (html: string): OutlineItem[] => {
-	const items: OutlineItem[] = [];
-	const regex = props.regex;
-	let match: RegExpExecArray | null;
-	while (match = regex.exec(html)) {
-		items.push(props.parse(match));
-	}
-	return items;
+let oldHtml: string = ""
+
+const setItemFromHtml = (html: string) => {
+    if (html == oldHtml) return
+
+    oldHtml = html
+    const result: OutlineItem[] = [];
+    const regex = props.regex;
+    let match: RegExpExecArray | null;
+    while (match = regex.exec(html)) {
+        result.push(props.parse(match));
+    }
+    items.value = result;
+}
+
+let oldScrollHeight: number = 0
+let oldScrollTop: number = 0
+
+const setCurrent = () => {
+    if (!props.target) return;
+
+    const scrollHeight = props.target.scrollHeight
+    const scrollTop = props.target.scrollTop
+
+    if (scrollHeight == oldScrollHeight && scrollTop == oldScrollTop) return
+
+    oldScrollHeight = scrollHeight
+    oldScrollTop = scrollTop
+
+    props.current(props.target, items.value)
 }
 
 let interval: number;
 
 onMounted(() => {
-	interval = setInterval(() => {
-		items.value = getItemFromHtml(props.target.innerHTML)
-	}, props.intervalTime)
+    setItemFromHtml(props.target?.innerHTML)
+    setCurrent()
+
+    interval = setInterval(() => {
+        setItemFromHtml(props.target?.innerHTML)
+        setCurrent()
+    }, props.intervalTime)
 })
 
 onBeforeUnmount(() => {
-	clearInterval(interval);
+    clearInterval(interval);
 })
 
-let items = ref<OutlineItem[]>([]);
+const jumpTo = (clickedItem: OutlineItem) => {
+    if (props.click) props.click(clickedItem)
 
-const jumpTo = (item: OutlineItem) => {
-	if (props.click) props.click(item)
+    if (!props.target) return;
 
-	if (!props.target) return;
+    if (!clickedItem.id) return;
 
-	if (props.policy == "anchor") {
-		props.target.querySelector('#' + item.id)?.scrollIntoView();
-	} else if (props.policy == "offset") {
-		const element = <HTMLHeadElement>(props.target.querySelector('#' + item.id))
-		props.offsetScroll(props.target, element)
-	}
+    for (const item of items.value) {
+        item.current = item.id == clickedItem.id
+    }
+
+    if (props.policy == "anchor") {
+        props.target.querySelector('#' + clickedItem.id)?.scrollIntoView();
+    } else if (props.policy == "offset") {
+        const element = <HTMLHeadElement>(props.target.querySelector('#' + clickedItem.id))
+        props.handleJump(props.target, element)
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .outline {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	line-height: inherit;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: inherit;
 
-	> li {
-		display: block;
-		font-style: normal;
-		color: inherit;
-		text-decoration: none;
-	  cursor: pointer;
+  > li {
+    display: block;
+    font-style: normal;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow-x: hidden;
 
-		&:hover {
-			background-color: #eeeeee;
-		}
-	}
+      &.current {
+          font-weight: 600;
+      }
+  }
 }
 </style>
