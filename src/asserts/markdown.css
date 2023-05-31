@@ -21,25 +21,29 @@
 }
 
 .markdown-card h1,
-.markdown-card h2,
+.markdown-card h2 {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
 .markdown-card h3,
-.markdown-card h4,
+.markdown-card h4 {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
 .markdown-card h5,
 .markdown-card h6 {
-    padding-bottom: 0.5em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
 }
 
 .markdown-card * + h1,
 .markdown-card * + h2 {
-    padding-top: 1.2em;
+    margin-top: 0.5em;
 }
 
-.markdown-card * + h3,
-.markdown-card * + h4 {
-    padding-top: 1em;
-}
-
-.markdown-card li,
+.markdown-card ul,
 .markdown-card ol {
     padding-inline-start: 1.5rem;
 }

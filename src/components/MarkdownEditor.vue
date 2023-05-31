@@ -1,8 +1,10 @@
 <template>
-    <div class="editor"
-         :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
-         :style="isFullScreen ? '' : `width: ${props.width}; height: ${props.height};`">
-		<div class="toolbar">
+    <div
+            class="editor"
+            :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
+            :style="isFullScreen ? '' : `width: ${props.width}; height: ${props.height};`"
+            @contextmenu.prevent="setEditToolActive('insert', true)">
+        <div class="toolbar">
             <ul class="left">
                 <li v-for="tool in leftTools" v-show="tool.show">
 				<span
@@ -23,8 +25,9 @@
 				</span>
                 </li>
             </ul>
-		</div>
-        <div v-show="getEditToolActive('insert')" :class="getEditToolPosition('insert')" ref="insertMenu" class="floating-card insert-menu" v-drag>
+        </div>
+        <div v-show="getEditToolActive('insert')" :class="getEditToolPosition('insert')" ref="insertMenu"
+             class="floating-card insert-menu" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
             <template v-for="item in props.insertUnits">
 				<span class="insert-text">
@@ -47,7 +50,8 @@
                 <br>
             </template>
         </div>
-        <div v-show="getEditToolActive('replace')" :class="getEditToolPosition('replace')"  ref="replaceBox" class="replace-box floating-card insert-menu"
+        <div v-show="getEditToolActive('replace')" :class="getEditToolPosition('replace')" ref="replaceBox"
+             class="replace-box floating-card insert-menu"
              v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
             <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
@@ -67,7 +71,8 @@
             <span style="display: inline-block;width: 1em;"></span>
             <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
         </div>
-        <div v-show="getEditToolActive('outline')" :class="getEditToolPosition('outline')" ref="outlineBox" class="outline-box floating-card" v-drag>
+        <div v-show="getEditToolActive('outline')" :class="getEditToolPosition('outline')" ref="outlineBox"
+             class="outline-box floating-card" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
             <slot name="outline" :target="previewCard">
                 <MarkdownOutline
@@ -82,8 +87,7 @@
                     v-model="data.text"
                     :placeholder="props.placeholder"
                     class="edit-card"
-                    @keydown="onKeyDown"
-                    @mouseup="onMouseUp">
+                    @keydown="onKeyDown">
 			</textarea>
             <div
                     ref="previewCard"
@@ -99,7 +103,7 @@
                     :style="textareaCountLineStyle">
             </div>
         </div>
-        <slot name="footer" :textarea="textarea" :data="statisticalData">
+        <slot name="footer" :textarea="textarea" :data="statisticalData" :history="historyData">
             <ul class="statistical-list" v-if="textarea !== undefined">
                 <li>字数 {{ data.text.length }}</li>
                 <li>
@@ -121,16 +125,19 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
+// TODO 拆分代码
+
+import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile, vDrag} from "../util/drag";
-import {insertIntoString, getArgsMap} from "../util/editor/insertUtils";
-import {markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
+import {insertIntoString} from "../util/editor/insertUtils";
+import {getArgsMap, markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {useHistoryStack} from "../util/editor/editHistory";
 import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 import {getLeadingSpace} from "../util/editor/textUtils";
+import {useStatistics} from "../util/editor/statistics";
 
 /**
  * 外部传入参数
@@ -183,6 +190,16 @@ const insertMenu = ref();
 const replaceBox = ref();
 const outlineBox = ref();
 
+// 组件初始化
+onMounted(() => {
+    data.text = props.modelValue;
+
+    if (props.startWithFullScreen) {
+        isFullScreen.value = true;
+        isPreview.value = true;
+    }
+})
+
 // 核心容器样式类
 const containerClass = computed(() => {
     if (!isFullScreen.value) return '';
@@ -201,48 +218,8 @@ watch(() => data.text, () => {
     emit('update:modelValue', data.text);
 })
 
-
 // 统计数据
-const statisticalData = reactive({
-    selectLength: 0,
-    startPlace: {x: 1, y: 1},
-    endPlace: {x: 1, y: 1},
-})
-
-// 设置统计数据，需要和定时器一起使用
-const setEditData = () => {
-    if (textarea.value) {
-        statisticalData.startPlace = getPlace(textarea.value.selectionStart, data.text);
-        if (textarea.value.selectionStart == textarea.value.selectionEnd) {
-            statisticalData.endPlace = statisticalData.startPlace;
-        } else {
-            statisticalData.endPlace = getPlace(textarea.value.selectionEnd, data.text);
-        }
-        statisticalData.selectLength = textarea.value.selectionEnd - textarea.value.selectionStart;
-    }
-}
-
-let editEditInterval: number;
-
-onMounted(() => {
-    setEditData();
-    editEditInterval = setInterval(setEditData, 100);
-})
-
-onBeforeUnmount(() => {
-    clearInterval(editEditInterval)
-})
-
-const resetToolPlace = (element: HTMLElement, position: "left" | "right") => {
-    if (position == "left") {
-        element.style.left = '0'
-		element.style.right = 'auto'
-	} else if (position == "right") {
-        element.style.left = 'auto'
-        element.style.right = '1em'
-	}
-    element.style.top = '2.5em'
-}
+const {statisticalData} = useStatistics(() => textarea.value)
 
 // 工具列表
 const editTools = reactive(<EditTool[]>[
@@ -338,15 +315,26 @@ const rightTools = computed(() => {
 
 const toolMap = computed(() => {
     const map = new Map<string, EditTool>()
-	editTools.forEach(item => map.set(item.name, item))
+    editTools.forEach(item => map.set(item.name, item))
     return map
 })
+
+const resetToolPlace = (element: HTMLElement, position: "left" | "right") => {
+    if (position == "left") {
+        element.style.left = '0'
+        element.style.right = 'auto'
+    } else if (position == "right") {
+        element.style.left = 'auto'
+        element.style.right = '1em'
+    }
+    element.style.top = '2.5em'
+}
 
 const getEditToolActive = (key: string) => {
     const item = toolMap.value.get(key)
     if (item) {
         return item.active
-	}
+    }
     return false
 }
 
@@ -431,7 +419,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
         end = start + before.length;
     } else {
         text = insertIntoString(before, text, start);
-        end = selectEnd + before.length;
+        end = selectEnd + before.length
     }
     if (after.length > 0) {
         text = insertIntoString(after, text, end);
@@ -450,15 +438,6 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
     })
 }
 
-// 组件初始化
-onMounted(() => {
-    data.text = props.modelValue;
-
-    if (props.startWithFullScreen) {
-        isFullScreen.value = true;
-        isPreview.value = true;
-    }
-})
 
 /**
  * 滚动同步
@@ -489,21 +468,12 @@ const defaultHistory = () => {
 }
 
 const {
+    historyData,
     redo,
     undo,
     push,
     top,
 } = useHistoryStack(400,
-    (historyTop: EditorHistory) => {
-        data.text = historyTop.text;
-        nextTick(() => {
-            textarea.value.selectionStart = historyTop.start;
-            textarea.value.selectionEnd = historyTop.end;
-            textarea.value.scrollTo(0, historyTop.scrollTop);
-        })
-    },
-    () => {
-    },
     () => {
         alert("已是最后，无法继续撤销");
     },
@@ -513,12 +483,22 @@ const {
     defaultHistory,
 );
 
+const setFromHistory = (historyTop: EditorHistory = historyData.stack[historyData.stackTop]) => {
+    data.text = historyTop.text;
+    nextTick(() => {
+        textarea.value.selectionStart = historyTop.start;
+        textarea.value.selectionEnd = historyTop.end;
+        textarea.value.scrollTo(0, historyTop.scrollTop);
+    })
+}
+
 // 当前操作类别
 let pushFlag = ref("jump");
 
 onMounted(() => {
     top.value = defaultHistory();
 
+    // 当输入法切换时，存入历史记录
     textarea.value.addEventListener('compositionend', () => {
         top.value = defaultHistory();
     })
@@ -559,8 +539,10 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
             pushFlag.value = "symbol";
             if (e.key == 'z') {
                 undo();
+                setFromHistory();
             } else {
                 redo();
+                setFromHistory();
             }
         },
         prevent: true,
@@ -590,7 +572,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
         key: "Tab",
         method: (e: KeyboardEvent) => {
             pushFlag.value = "tab";
-            batchKeydown(e, '\t');
+            batchTab(e, '\t');
         },
         prevent: true,
         reject: true,
@@ -665,13 +647,6 @@ const onKeyDown = (e: KeyboardEvent) => {
     }
 }
 
-// 鼠标抬起事件
-const onMouseUp = () => {
-    setTimeout(() => {
-        flagPush("jump");
-    }, 40);
-}
-
 // 文本联想（括号和引号）
 const insertAroundText = (insertText: { before: string, after: string }) => {
     let start = textarea.value.selectionStart;
@@ -712,8 +687,8 @@ const batchEnter = () => {
     })
 }
 
-// 批量输入同个按键（Tab）
-const batchKeydown = (e: KeyboardEvent, insertString: string) => {
+// 批量缩进（Tab）
+const batchTab = (e: KeyboardEvent, insertString: string) => {
     const start = textarea.value.selectionStart;
     const end = textarea.value.selectionEnd;
     if (e.shiftKey) {
@@ -927,7 +902,6 @@ const replaceOne = () => {
     })
 }
 
-
 const replaceAll = () => {
     if (replaceData.replaceFrom.length <= 0) {
         alert("替换文本不可为空");
@@ -938,327 +912,307 @@ const replaceAll = () => {
         })
     }
 }
-
-// 获取文本位置
-const getPlace = (start: number, text: string): { x: number, y: number } => {
-    let x = 0;
-    let y = 1;
-    if (text[start] == "\n") {
-        start--;
-        x++;
-    }
-    for (let i = start; i >= 0; i--) {
-        if (text[i] == '\n') {
-            break;
-        }
-        x++;
-    }
-    for (let i = start; i >= 0; i--) {
-        if (text[i] == '\n') {
-            y++;
-        }
-    }
-    return {y, x};
-}
 </script>
 
 <style lang="scss" scoped>
 @import "../asserts/iconfont.css";
 
 .editor {
-  --back-ground-color: #f5f5f5;
+    --back-ground-color: #f5f5f5;
 
-  padding: 0;
-  margin: 0;
-  line-height: inherit;
-  overflow: visible;
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    cursor: default;
-  }
-
-  .hover-color-blue:hover {
-    color: #4f92ff;
-  }
-
-  ul,
-  ol {
     padding: 0;
-  }
+    margin: 0;
+    line-height: inherit;
+    overflow: visible;
 
-  li {
-    list-style: none;
-  }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        cursor: default;
+    }
 
-  input,
-  textarea {
-    outline: none;
-    resize: none;
-    border: none;
-    border-radius: 0;
-    font-family: inherit;
-    cursor: text;
-    overflow-wrap: break-word;
-    word-break: break-all;
-    word-wrap: anywhere;
-  }
+    .hover-color-blue:hover {
+        color: #4f92ff;
+    }
+
+    ul,
+    ol {
+        padding: 0;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    input,
+    textarea {
+        outline: none;
+        resize: none;
+        border: none;
+        border-radius: 0;
+        font-family: inherit;
+        cursor: text;
+        overflow-wrap: break-word;
+        word-break: break-all;
+        word-wrap: anywhere;
+    }
 }
 
 .editor.non-full {
-  position: relative;
+    position: relative;
 }
 
 .editor.full {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 1000;
-  background-color: var(--back-ground-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000;
+    background-color: var(--back-ground-color);
 }
 
 .editor > .container {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 
-  > .edit-card,
-  > .preview-card {
-    display: block;
-    padding: 0.5em;
-    overflow: auto;
-    tab-size: 4;
-    font-size: 1em;
-    border-radius: 3px;
-    line-height: inherit;
-    font-family: inherit;
-    overflow-x: visible;
-    overscroll-behavior-y: contain;
-    scrollbar-gutter: stable;
-  }
+    > .edit-card,
+    > .preview-card {
+        display: block;
+        padding: 0.5em;
+        overflow: auto;
+        tab-size: 4;
+        font-size: 1em;
+        border-radius: 3px;
+        line-height: inherit;
+        font-family: inherit;
+        overflow-x: visible;
+        overscroll-behavior-y: contain;
+        scrollbar-gutter: stable;
+    }
 }
 
 .editor.non-full > .container {
-  height: calc(99% - 3.5em);
+    height: calc(99% - 3.5em);
 
-  > .edit-card,
-  > .preview-card {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #eee;
-    padding-bottom: 4em;
-  }
+    > .edit-card,
+    > .preview-card {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #eee;
+        padding-bottom: 4em;
+    }
 }
 
 .editor.full.pc > .container {
-  padding-left: 0.5%;
-  height: calc(99vh - 4em);
-  display: grid;
+    padding-left: 0.5%;
+    height: calc(99vh - 4em);
+    display: grid;
 
-  &.edit-preview {
-    grid-template-columns: 49% 49%;
-    grid-gap: 1%;
-  }
+    &.edit-preview {
+        grid-template-columns: 49% 49%;
+        grid-gap: 1%;
+    }
 
-  &.edit {
-    grid-template-columns: 98%;
-  }
+    &.edit {
+        grid-template-columns: 98%;
+    }
 
-  > .edit-card,
-  > .preview-card {
-    height: calc(100vh - 4.5em);
-    background-color: white;
-    padding-bottom: 50vh;
-  }
+    > .edit-card,
+    > .preview-card {
+        height: calc(100vh - 4.5em);
+        background-color: white;
+        padding-bottom: 50vh;
+    }
 }
 
 .editor.full.mobile > .container {
-  padding-left: 0.5%;
-  height: calc(99vh - 4em);
-  display: grid;
+    padding-left: 0.5%;
+    height: calc(99vh - 4em);
+    display: grid;
 
-  &.edit-preview {
-    grid-template-rows: 0 98%;
-    grid-gap: 1%;
-  }
+    &.edit-preview {
+        grid-template-rows: 0 98%;
+        grid-gap: 1%;
+    }
 
-  &.edit {
-    grid-template-rows: 98%;
-  }
+    &.edit {
+        grid-template-rows: 98%;
+    }
 
-  > .edit-card,
-  > .preview-card {
-    background-color: white;
-  }
+    > .edit-card,
+    > .preview-card {
+        background-color: white;
+    }
 }
 
 .editor {
-  .floating-card {
-    position: absolute;
-    top: 2.5em;
+    .floating-card {
+        position: absolute;
+        top: 2.5em;
 
-	&.left {
-      left: 0;
-	}
+        &.left {
+            left: 0;
+        }
 
-    &.right {
-      right: 1em;
+        &.right {
+            right: 1em;
+        }
+
+        .icon-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .icon-close:hover {
+            color: #D00;
+        }
     }
 
-    .icon-close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      font-size: 0.8rem;
-      color: #aaa;
+    .floating-card.insert-menu {
+        background-color: var(--back-ground-color);
+        user-select: none;
+        padding: 1em 0.5em;
+        font-size: 0.8em;
+        cursor: all-scroll;
+        min-width: 20em;
+        max-height: 70vh;
+        line-height: 1.6em;
+        border: 1px solid #ccc;
     }
-
-    .icon-close:hover {
-      color: #D00;
-    }
-  }
-
-  .floating-card.insert-menu {
-    background-color: var(--back-ground-color);
-    user-select: none;
-    padding: 1em 0.5em;
-    font-size: 0.8em;
-    cursor: all-scroll;
-    min-width: 20em;
-    max-height: 70vh;
-    line-height: 1.6em;
-    border: 1px solid #ccc;
-  }
 }
 
 .editor.non-full .floating-card {
-  z-index: 1;
+    z-index: 1;
 }
 
 .editor.full .floating-card {
-  z-index: 1001;
+    z-index: 1001;
 }
 
 .editor .replace-box {
-  padding-top: 2em;
+    padding-top: 2em;
 
-  > textarea {
-    height: 4em;
-    margin-right: 0.5em;
-    width: 100%;
-    border: 1px solid #e5e5e5;
-    padding: 0.5em;
-  }
+    > textarea {
+        height: 4em;
+        margin-right: 0.5em;
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        padding: 0.5em;
+    }
 }
 
 .editor .outline-box {
-  padding: 1em 0.5em;
-  background-color: #fff;
-  width: 25em;
-  max-height: 70vh;
-  line-height: 1.6em;
-  border: 1px solid #ccc;
-  cursor: all-scroll;
-  overflow-y: auto;
-  overflow-x: hidden;
+    padding: 1em 0.5em;
+    background-color: #fff;
+    width: 25em;
+    max-height: 70vh;
+    line-height: 1.6em;
+    border: 1px solid #ccc;
+    cursor: all-scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .editor .insert-text {
-  display: inline-block;
-  font-size: 0.9em;
-
-  > span {
     display: inline-block;
-    min-width: 5em;
-    padding: 0.2em;
-    cursor: default;
-  }
+    font-size: 0.9em;
 
-  > input {
-    margin-left: 0.5em;
-    width: 4em;
-  }
-
-  > select {
-    padding: 0;
-    margin-left: 0.5em;
-    outline: none;
-    border: none;
-    border-radius: 0;
-
-    > option {
-      padding: 0;
-      margin: 0;
-      outline: none;
-      border: none;
-      border-radius: 0;
+    > span {
+        display: inline-block;
+        min-width: 5em;
+        padding: 0.2em;
+        cursor: default;
     }
-  }
+
+    > input {
+        margin-left: 0.5em;
+        width: 4em;
+    }
+
+    > select {
+        padding: 0;
+        margin-left: 0.5em;
+        outline: none;
+        border: none;
+        border-radius: 0;
+
+        > option {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            border: none;
+            border-radius: 0;
+        }
+    }
 }
 
 .editor.full > .toolbar {
-  margin-left: 0.5em;
+    margin-left: 0.5em;
 }
 
 .editor > .toolbar {
-  vertical-align: middle;
-  padding: 0;
-  margin: 0;
-  line-height: 2em;
-  cursor: auto;
-  list-style: none;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+    line-height: 2em;
+    cursor: auto;
+    list-style: none;
 
-  > .left {
-	display: inline-block;
-	text-align: left;
-	width: 49%;
-    > li {
-      padding-right: 0.5rem;
-    }
-  }
+    > .left {
+        display: inline-block;
+        text-align: left;
+        width: 49%;
 
-  > .right {
-    display: inline-block;
-	text-align: right;
-    width: 49%;
-	> li {
-      padding-left: 0.5rem;
-	}
-  }
-
-  > ul > li {
-    position: relative;
-    display: inline-block;
-    font-size: 0.9rem;
-
-    > span.iconfont:before {
-      color: #999;
+        > li {
+            padding-right: 0.5rem;
+        }
     }
 
-    > span.iconfont:hover:before {
-      color: #7a7a7a;
-      background-color: #eee;
+    > .right {
+        display: inline-block;
+        text-align: right;
+        width: 49%;
+
+        > li {
+            padding-left: 0.5rem;
+        }
     }
 
-    > span.iconfont.chosen:before {
-      color: #fff;
-      background-color: #bcbcbc;
+    > ul > li {
+        position: relative;
+        display: inline-block;
+        font-size: 0.9rem;
+
+        > span.iconfont:before {
+            color: #999;
+        }
+
+        > span.iconfont:hover:before {
+            color: #7a7a7a;
+            background-color: #eee;
+        }
+
+        > span.iconfont.chosen:before {
+            color: #fff;
+            background-color: #bcbcbc;
+        }
     }
-  }
 }
 
 .editor > .statistical-list {
-  height: 1.6em;
-  line-height: 1.6em;
-  margin-left: 0.4em;
+    height: 1.6em;
+    line-height: 1.6em;
+    margin-left: 0.4em;
 
-  > li {
-    font-size: 0.8em;
-    display: inline-block;
-    padding: 0 0.5em;
-    color: #333;
-  }
+    > li {
+        font-size: 0.8em;
+        display: inline-block;
+        padding: 0 0.5em;
+        color: #333;
+    }
 }
 </style>

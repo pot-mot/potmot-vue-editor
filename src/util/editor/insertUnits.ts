@@ -1,8 +1,22 @@
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../declare/EditorUtil";
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "./typeList";
 import {limit} from "./insertUtils";
 import {getLeadingSpace} from "./textUtils";
+
+/**
+ * 获取 Ref 参数 Map
+ * @param units: 插入列表
+ */
+export const getArgsMap = (units: InsertUnit[]): Map<string, Ref> => {
+    const argsMap = new Map<string, Ref>()
+    for (let i = 0; i < units.length; i++) {
+        for (let j = 0; j < units[i].arguments.length; j++) {
+            argsMap.set(units[i].arguments[j].name, units[i].arguments[j].getRef())
+        }
+    }
+    return argsMap
+}
 
 export const markdownInsertUnits: InsertUnit[] = [
     {

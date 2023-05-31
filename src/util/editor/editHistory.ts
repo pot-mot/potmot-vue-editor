@@ -4,18 +4,12 @@ import {computed, reactive} from "vue";
  * 启用历史栈
  *
  * @param maxSize 栈最大尺寸，默认为200，满栈后会清除一半的栈
- * @param preHook 栈修改前钩子
- * @param postHook 栈修改后钩子
  * @param fullHook 栈满钩子
  * @param emptyHook 栈空钩子
  * @param pushDefault 默认push对象
  */
 export const useHistoryStack = (
     maxSize: number = 200,
-    postHook: Function = () => {
-    },
-    preHook: Function = () => {
-    },
     emptyHook: Function = () => {
     },
     fullHook: Function = () => {
@@ -36,21 +30,17 @@ export const useHistoryStack = (
     })
 
     const push = (historyTop: EditorHistory = pushDefault()) => {
-        preHook(top.value, historyData);
         if (historyData.stackTop >= maxSize) {
             historyData.stack.splice(0, Math.floor(maxSize / 2));
         }
         historyData.stackTop++;
         historyData.stack.push(historyTop);
-        postHook(top.value, historyData);
         historyData.stack.splice(historyData.stackTop + 1);
     }
 
     const pop = () => {
         if (historyData.stackTop > 0) {
-            preHook(top.value, historyData);
             historyData.stackTop--;
-            postHook(top.value, historyData);
         } else {
             emptyHook();
         }
@@ -62,9 +52,7 @@ export const useHistoryStack = (
     // 重做
     const redo = () => {
         if (historyData.stackTop < historyData.stack.length - 1) {
-            preHook(top.value, historyData);
             historyData.stackTop++;
-            postHook(top.value, historyData);
         } else {
             fullHook();
         }
@@ -75,9 +63,7 @@ export const useHistoryStack = (
             return historyData.stack[historyData.stackTop];
         },
         set(value) {
-            preHook(historyData.stack[historyData.stackTop], historyData);
             historyData.stack[historyData.stackTop] = value;
-            postHook(historyData.stack[historyData.stackTop], historyData);
         }
     })
 

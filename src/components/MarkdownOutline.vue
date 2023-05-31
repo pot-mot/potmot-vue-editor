@@ -84,7 +84,7 @@ const props = defineProps({
         }
     },
 
-    intervalTime: {
+    step: {
         type: Number,
         required: false,
         default: 100,
@@ -142,7 +142,7 @@ onMounted(() => {
     interval = setInterval(() => {
         setItemFromHtml(props.target?.innerHTML)
         setCurrent()
-    }, props.intervalTime)
+    }, props.step)
 })
 
 onBeforeUnmount(() => {

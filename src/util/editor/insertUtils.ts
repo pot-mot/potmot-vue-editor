@@ -1,6 +1,3 @@
-import {Ref} from "vue";
-import type {InsertUnit} from "../../declare/EditorUtil";
-
 /**
  * 约束数值大小
  *
@@ -24,14 +21,4 @@ export const limit = (input: number, min: number, max: number): number => {
  */
 export const insertIntoString = (inserter: string, target: string, start: number, end: number = start): string => {
     return target.slice(0, start) + inserter + target.slice(end);
-}
-
-export const getArgsMap = (insertTextList: InsertUnit[]): Map<string, Ref> => {
-    const argsMap = new Map<string, Ref>()
-    for (let i = 0; i < insertTextList.length; i++) {
-        for (let j = 0; j < insertTextList[i].arguments.length; j++) {
-            argsMap.set(insertTextList[i].arguments[j].name, insertTextList[i].arguments[j].getRef())
-        }
-    }
-    return argsMap
 }
