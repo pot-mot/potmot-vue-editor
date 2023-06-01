@@ -1,9 +1,7 @@
 <template>
-    <div
-            class="editor"
-            :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
-            :style="isFullScreen ? '' : `width: ${props.width}; height: ${props.height};`"
-            @contextmenu.prevent="setEditToolActive('insert', true)">
+    <div class="editor"
+         :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
+         :style="isFullScreen ? '' : {width: props.width, height: props.height}">
         <div class="toolbar">
             <ul class="left">
                 <li v-for="tool in leftTools" v-show="tool.show">
@@ -17,11 +15,10 @@
             </ul>
             <ul class="right">
                 <li v-for="tool in rightTools" v-show="tool.show">
-				<span
-                        @mousedown.prevent.stop="tool.method(tool)"
-                        :title="tool.label"
-                        class="iconfont"
-                        :class="[tool.active ? 'chosen' : '',tool.icon]">
+				<span @mousedown.prevent.stop="tool.method(tool)"
+                      :title="tool.label"
+                      class="iconfont"
+                      :class="[tool.active ? 'chosen' : '',tool.icon]">
 				</span>
                 </li>
             </ul>
@@ -75,9 +72,7 @@
              class="outline-box floating-card" v-drag>
             <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
             <slot name="outline" :target="previewCard">
-                <MarkdownOutline
-                        :target="previewCard">
-                </MarkdownOutline>
+                <MarkdownOutline :target="previewCard"></MarkdownOutline>
             </slot>
         </div>
         <div class="container" :class="containerClass">
@@ -87,22 +82,20 @@
                     v-model="data.text"
                     :placeholder="props.placeholder"
                     class="edit-card"
-                    @keydown="onKeyDown"
-                    @mousedown="onMouseDown"
-                    @select="onSelect">
+                    @keydown.self="onKeyDown"
+					@dragend.self="onDragEnd"
+                    @contextmenu.self.prevent="setEditToolActive('insert', true)">
 			</textarea>
-            <div
-                    ref="previewCard"
-                    class="preview-card">
+            <div ref="previewCard"
+                 class="preview-card">
                 <slot name="preview" :text="data.text">
                     <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
                 </slot>
             </div>
-            <div
-                    ref="textareaCountLine"
-                    style="visibility: hidden;white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;border: 1px solid #eee;"
-                    v-text="textareaCountLineSubText"
-                    :style="textareaCountLineStyle">
+            <div ref="textareaCountLine"
+                 style="visibility: hidden;white-space: pre-wrap;overflow-wrap: break-word;padding: 0.5em;border: 1px solid #eee;"
+                 v-text="textareaCountLineSubText"
+                 :style="textareaCountLineStyle">
             </div>
         </div>
         <slot name="footer" :textarea="textarea" :data="statisticalData" :history="historyData">
@@ -129,8 +122,9 @@ export default {
 <script lang="ts" setup>
 // TODO 拆分代码
 
-import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
-import {isMobile, vDrag} from "../util/drag";
+import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
+import {isMobile} from "../util/common/common";
+import {vDrag} from "../util/directive/drag";
 import {insertIntoString} from "../util/editor/insertUtils";
 import {getArgsMap, markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
@@ -140,6 +134,7 @@ import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 import {getLeadingSpace} from "../util/editor/textUtils";
 import {useStatistics} from "../util/editor/statistics";
+
 
 /**
  * 外部传入参数
@@ -427,7 +422,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
         text = insertIntoString(after, text, end);
     }
     data.text = text;
-    pushFlag.value = "insert";
+    pushFlag = "insert";
     nextTick(() => {
         if (insertUnit.keepSelect && start != selectEnd) {
             textarea.value.selectionStart = start;
@@ -436,7 +431,6 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
             textarea.value.selectionStart = start + before.length;
             textarea.value.selectionEnd = start + before.length;
         }
-        push();
     })
 }
 
@@ -495,7 +489,7 @@ const setFromHistory = (historyTop: EditorHistory = historyData.stack[historyDat
 }
 
 // 当前操作类别
-let pushFlag = ref("jump");
+let pushFlag = "init";
 
 onMounted(() => {
     top.value = defaultHistory();
@@ -506,23 +500,13 @@ onMounted(() => {
     })
 })
 
-// 报持历史操作一致性的触发器，根据输入标志符是否改变判断是否压入历史栈
-const flagPush = (flag: string) => {
-    if (pushFlag.value != flag) {
-        pushFlag.value = flag;
-        push();
-    } else {
-        top.value = defaultHistory();
-    }
-}
-
 // 文本编辑快捷键
 const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: ['x', 'X'],
         ctrl: true,
         method: () => {
-            pushFlag.value = "cut";
+            pushFlag = "cut";
             setTimeout(push, 200);
         }
     },
@@ -530,7 +514,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
         key: ['v', 'V'],
         ctrl: true,
         method: () => {
-            pushFlag.value = "copy";
+            pushFlag = "copy";
             setTimeout(push, 200);
         }
     },
@@ -538,11 +522,12 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
         key: ['z', 'Z'],
         ctrl: true,
         method: (e: KeyboardEvent) => {
-            pushFlag.value = "symbol";
             if (e.key == 'z') {
+                pushFlag = "undo";
                 undo();
                 setFromHistory();
             } else {
+                pushFlag = "redo";
                 redo();
                 setFromHistory();
             }
@@ -554,7 +539,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
         key: ['r', 'f'],
         ctrl: true,
         method: () => {
-            pushFlag.value = "replace";
             replaceData.replaceFrom = data.text.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
             isReplace.value = true;
         },
@@ -564,7 +548,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: "Enter",
         method: () => {
-            pushFlag.value = "enter";
             batchEnter();
         },
         prevent: true,
@@ -573,7 +556,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: "Tab",
         method: (e: KeyboardEvent) => {
-            pushFlag.value = "tab";
             batchTab(e, '\t');
         },
         prevent: true,
@@ -606,7 +588,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 
         if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
             if (insertUnit.prevent) e.preventDefault();
-            pushFlag.value = "symbol";
+            pushFlag = "symbol";
             insertIntoTextarea(insertUnit);
             if (insertUnit.reject) return;
         }
@@ -623,42 +605,26 @@ const onKeyDown = (e: KeyboardEvent) => {
     }
 
     if (e.key == 'Backspace' || e.key == 'Delete') {
-        setTimeout(() => {
-            flagPush("back");
-        }, 40);
+        pushFlag = 'back'
     } else if (e.key == '(' || e.key == '[' || e.key == '{') {
         e.preventDefault();
-        pushFlag.value = "symbol";
+        pushFlag = "symbol";
         insertAroundText({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'});
     } else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
         e.preventDefault();
-        pushFlag.value = "symbol";
+        pushFlag = "symbol";
         insertAroundText({before: e.key, after: e.key == '"' ? '"' : "'"});
     } else if (e.key.startsWith("Arrow")) {
-        setTimeout(() => {
-            flagPush("move");
-        }, 40);
+        pushFlag = 'move'
     } else if (e.key == ' ') {
-        setTimeout(() => {
-            flagPush("blank");
-        }, 40);
+        pushFlag = 'blank'
     } else if (e.key != 'Shift' && e.key != 'Control' && e.key != 'Alt' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
-        setTimeout(() => {
-            flagPush("input");
-        }, 40);
+        pushFlag = 'input'
     }
 }
 
-const onMouseDown = () => {
-    if (pushFlag.value == 'input') {
-        flagPush('move');
-    }
-}
-
-const onSelect = () => {
-    if (pushFlag.value == 'input') {
-        push();
-    }
+const onDragEnd = () => {
+    pushFlag = 'dragend'
 }
 
 // 文本联想（括号和引号）
@@ -677,6 +643,8 @@ const insertAroundText = (insertText: { before: string, after: string }) => {
 
     const keepSelect = textarea.value.selectionStart != textarea.value.selectionEnd;
 
+    pushFlag = 'insertAround'
+
     nextTick(() => {
         if (keepSelect) {
             textarea.value.selectionStart = start;
@@ -685,26 +653,29 @@ const insertAroundText = (insertText: { before: string, after: string }) => {
             textarea.value.selectionStart = start + before.length;
             textarea.value.selectionEnd = start + before.length;
         }
-        push();
     })
 }
 
 // 回车制表
 const batchEnter = () => {
+    pushFlag = 'enter'
+
     const start = textarea.value.selectionStart;
     const LeadingSpace = getLeadingSpace(data.text, start)
     data.text = insertIntoString(LeadingSpace, data.text, start);
     nextTick(() => {
         textarea.value.selectionStart = start + LeadingSpace.length;
         textarea.value.selectionEnd = textarea.value.selectionStart;
-        push();
     })
 }
 
 // 批量缩进（Tab）
 const batchTab = (e: KeyboardEvent, insertString: string) => {
+    pushFlag = 'tab'
+
     const start = textarea.value.selectionStart;
     const end = textarea.value.selectionEnd;
+
     if (e.shiftKey) {
         if (textarea.value.selectionStart == textarea.value.selectionEnd) {
             let index = 0;
@@ -718,14 +689,6 @@ const batchTab = (e: KeyboardEvent, insertString: string) => {
             const newTemp = temp.replace(insertString, '');
             if (temp.length == newTemp.length) return;
             data.text = data.text.slice(0, start - temp.length) + newTemp + data.text.slice(end);
-            nextTick(() => {
-                push({
-                    start: start,
-                    end: start,
-                    scrollTop: textarea.value.scrollTop,
-                    text: data.text,
-                });
-            })
         } else {
             const temp = data.text.slice(start, end);
             const newTemp = temp.replace(insertString, '').replaceAll('\n' + insertString, '\n');
@@ -734,12 +697,6 @@ const batchTab = (e: KeyboardEvent, insertString: string) => {
             nextTick(() => {
                 textarea.value.selectionStart = start;
                 textarea.value.selectionEnd = start + newTemp.length;
-                push({
-                    start: start,
-                    end: textarea.value.selectionEnd,
-                    scrollTop: textarea.value.scrollTop,
-                    text: data.text,
-                });
             })
         }
     } else {
@@ -748,12 +705,6 @@ const batchTab = (e: KeyboardEvent, insertString: string) => {
             nextTick(() => {
                 textarea.value.selectionStart = start + 1;
                 textarea.value.selectionEnd = start + 1;
-                push({
-                    start: start + 1,
-                    end: start + 1,
-                    scrollTop: textarea.value.scrollTop,
-                    text: data.text,
-                });
             })
         } else {
             const temp = data.text.slice(start, textarea.value.selectionEnd);
@@ -763,12 +714,6 @@ const batchTab = (e: KeyboardEvent, insertString: string) => {
             nextTick(() => {
                 textarea.value.selectionStart = start;
                 textarea.value.selectionEnd = start + newTemp.length;
-                push({
-                    start: start,
-                    end: textarea.value.selectionEnd,
-                    scrollTop: textarea.value.scrollTop,
-                    text: data.text,
-                });
             })
         }
     }
@@ -874,6 +819,8 @@ const searchCurrent = (
 
     nextTick(() => {
         setTimeout(() => {
+            pushFlag = 'search'
+
             if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
                 jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
             } else {
@@ -911,7 +858,7 @@ const replaceOne = () => {
     nextTick(() => {
         textarea.value.selectionStart = start;
         textarea.value.selectionEnd = start + replaceData.replaceTo.length;
-        push();
+        pushFlag = 'replaceOne'
         searchNext();
     })
 }
@@ -921,11 +868,40 @@ const replaceAll = () => {
         alert("替换文本不可为空");
     } else {
         data.text = data.text.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
-        nextTick(() => {
-            push();
-        })
+        pushFlag = 'replaceAll'
     }
 }
+
+let historyInterval: number
+let tempText: string
+let tempSelectStart: number
+let tempSelectEnd: number
+let oldPushFlag: string
+
+onMounted(() => {
+    historyInterval = setInterval(() => {
+        if (tempText != data.text || tempSelectStart != textarea.value.selectionStart || tempSelectEnd != textarea.value.selectionEnd) {
+			if (pushFlag == 'undo' || pushFlag == 'redo') {
+                return
+			}
+
+            if (oldPushFlag != pushFlag) {
+                push();
+                oldPushFlag = pushFlag
+            } else {
+                top.value = defaultHistory()
+            }
+
+            tempText = data.text
+            tempSelectStart = textarea.value.selectionStart
+            tempSelectEnd = textarea.value.selectionEnd
+        }
+    }, 50)
+})
+
+onBeforeUnmount(() => {
+    clearInterval(historyInterval)
+})
 </script>
 
 <style lang="scss" scoped>

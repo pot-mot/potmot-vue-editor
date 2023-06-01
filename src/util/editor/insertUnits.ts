@@ -2,19 +2,7 @@ import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../
 import {Ref, ref} from "vue";
 import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "./typeList";
 import {getLeadingSpace} from "./textUtils";
-
-/**
- * 约束数值大小
- *
- * @param input 输入值
- * @param min 最小值
- * @param max 最大值
- */
-export const limit = (input: number, min: number, max: number): number => {
-    if (input > max) return max;
-    if (input < min) return min;
-    return input;
-}
+import {limit} from "../common/common";
 
 /**
  * 获取 Ref 参数 Map

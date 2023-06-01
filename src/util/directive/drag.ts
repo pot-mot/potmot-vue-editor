@@ -1,14 +1,16 @@
-export const isMobile = () => {
-    return 'ontouchstart' in document;
-}
+import {isMobile, limit} from "../common/common";
 
 export const vDrag = {
-    mounted(el: HTMLDivElement) {
+    mounted(el: HTMLDivElement, binding: any) {
         if (isMobile()) {
-            // 移动端鼠标触碰事件
+            // 移动端手指触碰事件
             el.addEventListener('touchstart', (e: TouchEvent) => {
                 if (e.target != el) return;
                 e.preventDefault();
+
+                const positionRange = binding.value
+
+                console.log(positionRange)
 
                 // 当前滑块位置
                 const rectLeft = el.offsetLeft;
@@ -22,8 +24,8 @@ export const vDrag = {
                     const endY = e.touches[0].clientY;
                     const moveX = endX - startX + rectLeft;
                     const moveY = endY - startY + rectTop;
-                    el.style.top = moveY + "px";
-                    el.style.left = moveX + "px";
+                    el.style.top = limit(moveY, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
+                    el.style.left = limit(moveX, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
                 }
 
                 const removeSetXY = () => {
@@ -40,6 +42,8 @@ export const vDrag = {
                 if (e.target != el) return;
                 e.preventDefault();
 
+                const positionRange = binding.value
+
                 // 当前滑块位置
                 const rectLeft = el.offsetLeft;
                 const rectTop = el.offsetTop;
@@ -52,8 +56,9 @@ export const vDrag = {
                     const endY = e.clientY;
                     const moveX = endX - startX + rectLeft;
                     const moveY = endY - startY + rectTop;
-                    el.style.top = moveY + "px";
-                    el.style.left = moveX + "px";
+
+                    el.style.top = limit(moveY, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
+                    el.style.left = limit(moveX, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
                 };
 
                 const removeSetXY = () => {

@@ -3,7 +3,7 @@
         <li v-for="item in items" :key="item.id"
             @click="jumpTo(item)"
             :class="{'current': item.current}">
-            <slot name="item" :item="item">
+            <slot name="item" :item="item" :max="maxLevel">
                 <div :style="`padding-left: ${item.level - maxLevel - 0.5}em;`">{{ item.text }}</div>
             </slot>
         </li>
