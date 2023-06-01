@@ -1,8 +1,20 @@
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../declare/EditorUtil";
 import {Ref, ref} from "vue";
 import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "./typeList";
-import {limit} from "./insertUtils";
 import {getLeadingSpace} from "./textUtils";
+
+/**
+ * 约束数值大小
+ *
+ * @param input 输入值
+ * @param min 最小值
+ * @param max 最大值
+ */
+export const limit = (input: number, min: number, max: number): number => {
+    if (input > max) return max;
+    if (input < min) return min;
+    return input;
+}
 
 /**
  * 获取 Ref 参数 Map
@@ -357,13 +369,13 @@ export const extendedInsertUnits: InsertUnit[] = [
     },
     {
         alt: true,
-        key: '!',
+        key: '=',
         label: "标亮",
         insert: (args) => {
             const warningColor = args.get("warningColor")!.value
 
-            if (warningColor == 'red') return {before: "!!!", after: "!!!"}
-            return {before: "!!!(" + warningColor + ")", after: "!!!"}
+            if (warningColor == 'red') return {before: "==", after: "=="}
+            return {before: "==(" + warningColor + ")", after: "=="}
         },
         arguments: [
             <InputInsertArgument<string>>{

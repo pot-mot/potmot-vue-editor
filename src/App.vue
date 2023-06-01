@@ -8,9 +8,9 @@
                 <template #preview="{text}">
 					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
                 </template>
-<!--				<template #footer="{data}">-->
-<!--					{{data}}-->
-<!--				</template>-->
+				<template #footer="{data, history}">
+					{{data}}
+				</template>
 			</MarkdownEditor>
 		</div>
 	</div>

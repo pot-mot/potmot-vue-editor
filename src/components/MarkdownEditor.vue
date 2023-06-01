@@ -87,7 +87,9 @@
                     v-model="data.text"
                     :placeholder="props.placeholder"
                     class="edit-card"
-                    @keydown="onKeyDown">
+                    @keydown="onKeyDown"
+                    @mousedown="onMouseDown"
+                    @select="onSelect">
 			</textarea>
             <div
                     ref="previewCard"
@@ -498,7 +500,7 @@ let pushFlag = ref("jump");
 onMounted(() => {
     top.value = defaultHistory();
 
-    // 当输入法切换时，存入历史记录
+    // 当输入法切换时，默认历史记录
     textarea.value.addEventListener('compositionend', () => {
         top.value = defaultHistory();
     })
@@ -562,7 +564,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: "Enter",
         method: () => {
-            pushFlag.value = "blank";
+            pushFlag.value = "enter";
             batchEnter();
         },
         prevent: true,
@@ -634,7 +636,7 @@ const onKeyDown = (e: KeyboardEvent) => {
         insertAroundText({before: e.key, after: e.key == '"' ? '"' : "'"});
     } else if (e.key.startsWith("Arrow")) {
         setTimeout(() => {
-            flagPush("jump");
+            flagPush("move");
         }, 40);
     } else if (e.key == ' ') {
         setTimeout(() => {
@@ -644,6 +646,18 @@ const onKeyDown = (e: KeyboardEvent) => {
         setTimeout(() => {
             flagPush("input");
         }, 40);
+    }
+}
+
+const onMouseDown = () => {
+    if (pushFlag.value == 'input') {
+        flagPush('move');
+    }
+}
+
+const onSelect = () => {
+    if (pushFlag.value == 'input') {
+        push();
     }
 }
 
