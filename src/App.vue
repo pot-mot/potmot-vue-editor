@@ -1,19 +1,29 @@
 <template>
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
-		<div style="height: 60vh;position: relative">
-			<div v-drag="{minY: 0, minX: 0, maxX: 500, maxY: 500}" style="position: absolute;width: 100px;height: 100px;background-color: black;"></div>
+<!--        <ContextMenu v-drag="{minY: 0, minX: 0, maxX: 500, maxY: 500}" height="100px" style="background-color: #ccc;" title="你好">-->
+<!--			<template #title="{title}">-->
+<!--				{{title}}-->
+<!--			</template>-->
+<!--			<template #default>-->
+<!--                hello world-->
+<!--			</template>-->
+<!--		</ContextMenu>-->
 
-<!--			<MarkdownEditor v-model="text">-->
-<!--				<template #outline="{target}">-->
-<!--					<MarkdownOutline :target="target"></MarkdownOutline>-->
-<!--				</template>-->
-<!--                <template #preview="{text}">-->
-<!--					<MarkdownPreview :markdown-text="text"></MarkdownPreview>-->
-<!--                </template>-->
-<!--				<template #footer="{data, history}">-->
-<!--					{{history.stack.length}}-->
-<!--				</template>-->
-<!--			</MarkdownEditor>-->
+		<div style="height: 60vh;position: relative">
+<!--			<ContextMenu v-drag="{minY: 0, minX: 0, maxX: 500, maxY: 500}" height="100px" style="background-color: #ccc;">-->
+<!--				hello world-->
+<!--			</ContextMenu>-->
+			<MarkdownEditor v-model="text">
+				<template #outline="{target}">
+					<MarkdownOutline :target="target"></MarkdownOutline>
+				</template>
+                <template #preview="{text}">
+					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
+                </template>
+				<template #footer="{data, history}">
+					{{history.stack.length}}
+				</template>
+			</MarkdownEditor>
 		</div>
 	</div>
 </template>
@@ -28,6 +38,7 @@ import MarkdownEditor from "./components/MarkdownEditor.vue";
 import MarkdownOutline from "./components/MarkdownOutline.vue";
 import MarkdownPreview from "./components/MarkdownPreview.vue";
 import {vDrag} from "./util/directive/drag";
+import ContextMenu from "./components/ContextMenu.vue";
 
 const text = ref("### class\n" +
 	"```mermaid\n" +

@@ -23,58 +23,65 @@
                 </li>
             </ul>
         </div>
-        <div v-show="getEditToolActive('insert')" :class="getEditToolPosition('insert')" ref="insertMenu"
-             class="floating-card insert-menu" v-drag>
-            <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
-            <template v-for="item in props.insertUnits">
-				<span class="insert-text">
-				<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
-                      :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'>
-					{{ item.label }}
-				</span>
-				<template v-for="arg in item.arguments">
-					<label>{{ arg.label }}</label>
-					<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
-                            @change="(e) => {changeSelectArg(arg.name, e)}">
-						<option v-for="item in arg.options">{{ item }}</option>
-					</select>
-					<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
-                           :maxlength="'inputLength' in arg ? arg.inputLength : 100"
-                           :style="'styleWidth' in arg ? 'width: ' + arg.styleWidth : ''"
-                           @input="(e) => {changeInputArg(arg.name, e)}">
-				</template>
-				</span>
-                <br>
+        <ContextMenu title="模板插入" :visible="getEditToolActive('insert')" width="200px" :position="{top: '2.5rem', left: '0'}" class="context-menu">
+			<template #close>
+                <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
             </template>
-        </div>
-        <div v-show="getEditToolActive('replace')" :class="getEditToolPosition('replace')" ref="replaceBox"
-             class="replace-box floating-card insert-menu"
-             v-drag>
-            <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
-            <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
-            <br>
-            <textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
-            <br>
-            <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
-            <span style="display: inline-block;width: 1em;"></span>
-            <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
-            <span style="display: inline-block;width: 1em;"></span>
-            <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
-            <input type="number" style="width: 3em;" @keydown.enter="searchByIndex"
-                   v-model="searchIndex">
-            <span>/{{ searchData.indexes.length }}</span>
-            <br>
-            <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换选中</span>
-            <span style="display: inline-block;width: 1em;"></span>
-            <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
-        </div>
-        <div v-show="getEditToolActive('outline')" :class="getEditToolPosition('outline')" ref="outlineBox"
-             class="outline-box floating-card" v-drag>
-            <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
-            <slot name="outline" :target="previewCard">
-                <MarkdownOutline :target="previewCard"></MarkdownOutline>
-            </slot>
-        </div>
+            <template #default>
+                <template v-for="item in props.insertUnits">
+					<span class="insert-text">
+					<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
+                          :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'>
+						{{ item.label }}
+					</span>
+						<template v-for="arg in item.arguments">
+							<label>{{ arg.label }}</label>
+							<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
+									@change="(e) => {changeSelectArg(arg.name, e)}">
+								<option v-for="item in arg.options">{{ item }}</option>
+							</select>
+							<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
+								   :maxlength="'inputLength' in arg ? arg.inputLength : 100"
+								   :style="'styleWidth' in arg ? 'width: ' + arg.styleWidth : ''"
+								   @input="(e) => {changeInputArg(arg.name, e)}">
+						</template>
+					</span>
+                    <br>
+                </template>
+            </template>
+        </ContextMenu>
+        <ContextMenu title="查找替换" :visible="getEditToolActive('replace')" width="200px" :position="{top: '2.5rem', left: '2.5rem'}" class="context-menu replace-box">
+            <template #close>
+                <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
+            </template>
+			<template #default>
+                <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
+                <br>
+                <textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
+                <br>
+                <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+                <span style="display: inline-block;width: 1em;"></span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+                <span style="display: inline-block;width: 1em;"></span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
+                <input type="number" style="width: 2em;" @keydown.enter="searchByIndex"
+                       v-model="searchIndex">
+                <span style="display: inline-block; width: 2em;">/{{ searchData.indexes.length }}</span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
+                <span style="display: inline-block;width: 1em;"></span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+			</template>
+		</ContextMenu>
+		<ContextMenu :visible="getEditToolActive('outline')" width="200px" :position="{top: '2.5rem', right: '2.5rem'}" class="context-menu outline-box">
+			<template #close>
+                <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
+			</template>
+			<template #default>
+                <slot name="outline" :target="previewCard">
+                    <MarkdownOutline :target="previewCard"></MarkdownOutline>
+                </slot>
+			</template>
+		</ContextMenu>
         <div class="container" :class="containerClass">
 			<textarea
                     :style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
@@ -83,7 +90,7 @@
                     :placeholder="props.placeholder"
                     class="edit-card"
                     @keydown.self="onKeyDown"
-					@dragend.self="onDragEnd"
+                    @dragend.self="onDragEnd"
                     @contextmenu.self.prevent="setEditToolActive('insert', true)">
 			</textarea>
             <div ref="previewCard"
@@ -124,7 +131,6 @@ export default {
 
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile} from "../util/common/common";
-import {vDrag} from "../util/directive/drag";
 import {insertIntoString} from "../util/editor/insertUtils";
 import {getArgsMap, markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
@@ -134,6 +140,8 @@ import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 import {getLeadingSpace} from "../util/editor/textUtils";
 import {useStatistics} from "../util/editor/statistics";
+import ContextMenu from "./ContextMenu.vue";
+import {smoothScroll} from "../util/common/scroll";
 
 
 /**
@@ -183,10 +191,6 @@ const props = defineProps({
 const textarea = ref();
 const previewCard = ref();
 
-const insertMenu = ref();
-const replaceBox = ref();
-const outlineBox = ref();
-
 // 组件初始化
 onMounted(() => {
     data.text = props.modelValue;
@@ -228,7 +232,6 @@ const editTools = reactive(<EditTool[]>[
         show: true,
         position: "left",
         method: (self: EditTool) => {
-            if (self.active) resetToolPlace(insertMenu.value, self.position)
             self.active = !self.active
         }
     },
@@ -240,7 +243,6 @@ const editTools = reactive(<EditTool[]>[
         show: true,
         position: "left",
         method: (self: EditTool) => {
-            if (self.active) resetToolPlace(replaceBox.value, self.position)
             self.active = !self.active
         }
     },
@@ -263,7 +265,6 @@ const editTools = reactive(<EditTool[]>[
         show: true,
         position: "right",
         method: (self: EditTool) => {
-            if (self.active) resetToolPlace(outlineBox.value, self.position)
             self.active = !self.active
         }
     },
@@ -316,31 +317,12 @@ const toolMap = computed(() => {
     return map
 })
 
-const resetToolPlace = (element: HTMLElement, position: "left" | "right") => {
-    if (position == "left") {
-        element.style.left = '0'
-        element.style.right = 'auto'
-    } else if (position == "right") {
-        element.style.left = 'auto'
-        element.style.right = '1em'
-    }
-    element.style.top = '2.5em'
-}
-
 const getEditToolActive = (key: string) => {
     const item = toolMap.value.get(key)
     if (item) {
         return item.active
     }
     return false
-}
-
-const getEditToolPosition = (key: string) => {
-    const item = toolMap.value.get(key)
-    if (item) {
-        return item.position
-    }
-    return "left"
 }
 
 const setEditToolActive = (key: string, newValue: boolean) => {
@@ -786,7 +768,7 @@ const setSearchData = () => {
 
 // 控制 textarea 进行跳转
 const jumpTo = (target: number) => {
-    textarea.value.scrollTop = target;
+    smoothScroll(textarea.value, target)
 }
 
 let textareaCountLineStyle = ref("")
@@ -808,52 +790,77 @@ const searchByIndex = () => {
     searchCurrent()
 }
 
-const searchCurrent = (
-    jumpEnd: Function = () => {
-        textarea.value.focus()
+const searchCurrent = () => {
+    if (searchData.indexes.length == 0) {
+        searchData.index = -1
+        return;
     }
-) => {
+
     textareaCountLineSubText.value = data.text.substring(0, searchData.indexes[searchData.index]);
 
     textareaCountLineStyle.value = "width: " + textarea.value.clientWidth + 'px;';
 
-    nextTick(() => {
-        setTimeout(() => {
-            pushFlag = 'search'
+    pushFlag = 'search'
 
-            if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
-                jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
-            } else {
-                jumpTo(0);
-            }
-            jumpEnd();
-            textarea.value.selectionStart = searchData.indexes[searchData.index];
-            textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-        }, 50 + data.text.length / 5000)
+    textarea.value.focus()
+
+    if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
+        jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+    } else {
+        jumpTo(0);
+    }
+
+    nextTick(() => {
+        textarea.value.selectionStart = searchData.indexes[searchData.index];
+        textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
     })
 }
 
 const searchPrevious = () => {
     if (textarea.value == undefined) return;
 
+    if (searchData.indexes.length == 0) {
+        searchData.index = -1
+        return;
+    }
+
     if (searchData.index > 0) {
         searchData.index--;
-    }
+    } else {
+        searchData.index = searchData.indexes.length - 1
+	}
     searchCurrent();
 }
 
 const searchNext = () => {
     if (textarea.value == undefined) return;
 
+    if (searchData.indexes.length == 0) {
+        searchData.index = -1
+		return;
+	}
+
     if (searchData.index < searchData.indexes.length - 1) {
         searchData.index++;
-    }
+    } else {
+        searchData.index = 0
+	}
     searchCurrent();
 }
 
 const replaceOne = () => {
-    const start = textarea.value.selectionStart
-    const end = textarea.value.selectionEnd
+    if (replaceData.replaceFrom.length <= 0) {
+        alert("替换文本不可为空");
+        return
+    }
+
+    if (searchData.indexes.length == 0) {
+        searchData.index = -1
+        return;
+    }
+
+    const start = searchData.indexes[searchData.index]
+	const end = start + replaceData.replaceFrom.length
     data.text = data.text.slice(0, start) + replaceData.replaceTo + data.text.slice(end);
     nextTick(() => {
         textarea.value.selectionStart = start;
@@ -866,10 +873,16 @@ const replaceOne = () => {
 const replaceAll = () => {
     if (replaceData.replaceFrom.length <= 0) {
         alert("替换文本不可为空");
-    } else {
-        data.text = data.text.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
-        pushFlag = 'replaceAll'
+        return
     }
+
+    if (searchData.indexes.length == 0) {
+        searchData.index = -1
+        return;
+    }
+
+    data.text = data.text.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
+    pushFlag = 'replaceAll'
 }
 
 let historyInterval: number
@@ -881,9 +894,9 @@ let oldPushFlag: string
 onMounted(() => {
     historyInterval = setInterval(() => {
         if (tempText != data.text || tempSelectStart != textarea.value.selectionStart || tempSelectEnd != textarea.value.selectionEnd) {
-			if (pushFlag == 'undo' || pushFlag == 'redo') {
+            if (pushFlag == 'undo' || pushFlag == 'redo') {
                 return
-			}
+            }
 
             if (oldPushFlag != pushFlag) {
                 push();
@@ -918,7 +931,6 @@ onBeforeUnmount(() => {
     * {
         box-sizing: border-box;
         margin: 0;
-        cursor: default;
     }
 
     .hover-color-blue:hover {
@@ -1037,55 +1049,37 @@ onBeforeUnmount(() => {
 }
 
 .editor {
-    .floating-card {
-        position: absolute;
-        top: 2.5em;
-
-        &.left {
-            left: 0;
-        }
-
-        &.right {
-            right: 1em;
-        }
-
-        .icon-close {
-            position: absolute;
-            top: 0;
-            right: 0;
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-
-        .icon-close:hover {
-            color: #D00;
-        }
-    }
-
-    .floating-card.insert-menu {
+    .context-menu {
         background-color: var(--back-ground-color);
-        user-select: none;
-        padding: 1em 0.5em;
         font-size: 0.8em;
-        cursor: all-scroll;
-        min-width: 20em;
+        width: 30em;
         max-height: 70vh;
         line-height: 1.6em;
         border: 1px solid #ccc;
     }
+
+    .icon-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 0.8rem;
+        color: #aaa;
+    }
+
+    .icon-close:hover {
+        color: #D00;
+    }
 }
 
-.editor.non-full .floating-card {
+.editor.non-full .context-menu {
     z-index: 1;
 }
 
-.editor.full .floating-card {
+.editor.full .context-menu {
     z-index: 1001;
 }
 
 .editor .replace-box {
-    padding-top: 2em;
-
     > textarea {
         height: 4em;
         margin-right: 0.5em;
@@ -1093,12 +1087,16 @@ onBeforeUnmount(() => {
         border: 1px solid #e5e5e5;
         padding: 0.5em;
     }
+
+	> span {
+		cursor: default;
+	}
 }
 
 .editor .outline-box {
     padding: 1em 0.5em;
     background-color: #fff;
-    width: 25em;
+    min-width: 25em;
     max-height: 70vh;
     line-height: 1.6em;
     border: 1px solid #ccc;

@@ -79,7 +79,6 @@ app.use(editor)
 | placeholder         | String              | 占位字符串        | 否，默认值 ""                                               |
 | ShortcutKeys        | EditorShortcutKey[] | 自定义快捷键，具体见下  | 否，默认值 []                                               |
 | insertUnits         | InsertUnit[]        | 自定义插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...extendedInsertUnits] |
-| scrollSync          | Boolean             | 是否开启滚动同步     | 否，默认值true                                              |
 | startWithFullScreen | Boolean             | 是否以全屏启动      | 否，默认值 false                                            |
 
 #### EditorShortcutKey 编辑器快捷键
@@ -209,7 +208,7 @@ interface OutlineItem {
 | click      | Function    | 点击事件，在点击条目后触发，参数是 OutlineItem                              | 否                                                      |
 | regex      | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
 | parse      | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
-| handleJump | Function    | 策略为 "offset" 时执行的跳转函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` | 
+| handleScroll | Function    | 策略为 "offset" 时执行的跳转函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` | 
 | current    | Function    | 判断目标是否为 current 的函数                                        | 否，声明为 `(target: HTMLElement, items: OutlineItem[])`    |
 
 ## 依赖

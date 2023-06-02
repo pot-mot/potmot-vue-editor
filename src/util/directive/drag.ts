@@ -24,8 +24,14 @@ export const vDrag = {
                     const endY = e.touches[0].clientY;
                     const moveX = endX - startX + rectLeft;
                     const moveY = endY - startY + rectTop;
-                    el.style.top = limit(moveY, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
-                    el.style.left = limit(moveX, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
+
+                    if (positionRange == undefined) {
+                        el.style.top = moveY + 'px'
+                        el.style.left = moveX + 'px'
+                    } else {
+                        el.style.top = limit(moveY, positionRange.minY, positionRange.maxY ? positionRange.maxY - el.offsetWidth : undefined) + "px";
+                        el.style.left = limit(moveX, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
+                    }
                 }
 
                 const removeSetXY = () => {
@@ -57,8 +63,13 @@ export const vDrag = {
                     const moveX = endX - startX + rectLeft;
                     const moveY = endY - startY + rectTop;
 
-                    el.style.top = limit(moveY, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
-                    el.style.left = limit(moveX, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
+                    if (positionRange == undefined) {
+                        el.style.top = moveY + 'px'
+                        el.style.left = moveX + 'px'
+                    } else {
+                        el.style.top = limit(moveY, positionRange.minY, positionRange.maxY ? positionRange.maxY - el.offsetWidth : undefined) + "px";
+                        el.style.left = limit(moveX, positionRange.minX, positionRange.maxX ? positionRange.maxX - el.offsetWidth : undefined) + "px";
+                    }
                 };
 
                 const removeSetXY = () => {

@@ -12,12 +12,15 @@
 
 <script lang="ts">
 export default {
-    name: 'MarkdownOutline'
+    name: 'MarkdownOutline',
 }
 </script>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, PropType, ref} from "vue";
+import {useScrollCurrent} from "../util/outline/scrollAndCurrent";
+
+const {handleScroll, setCurrent} = useScrollCurrent()
 
 let items = ref<OutlineItem[]>([]);
 
@@ -37,12 +40,9 @@ const props = defineProps({
         required: false,
     },
 
-    handleJump: {
+    handleScroll: {
         type: Function,
         required: false,
-        default: (target: HTMLElement, item: HTMLElement) => {
-            target.scrollTop = item.offsetTop - target.offsetTop;
-        }
     },
 
     regex: {
@@ -51,36 +51,10 @@ const props = defineProps({
         default: /<h([1-6]) id="(.*?)">(.*?)</g
     },
     parse: {
-        type: Function,
+        type: Function as PropType<(match: RegExpExecArray) => OutlineItem>,
         required: false,
         default: (match: RegExpExecArray): OutlineItem => {
             return {level: Number.parseInt(match[1]), id: match[2], text: match[3], current: false}
-        }
-    },
-
-    current: {
-        type: Function,
-        required: false,
-        default: (target: HTMLElement, items: OutlineItem[]) => {
-            if (!(target instanceof HTMLElement) || !Array.isArray(items)) {
-                return
-            }
-
-            let current = 0
-
-            for (let i = items.length - 1; i >= 0; i--) {
-                if (!items[i].id) return;
-                const element = target.querySelector(`#${items[i].id}`)
-                if (!element || !(element instanceof HTMLElement)) return;
-                if (element.getBoundingClientRect().top <= target.getBoundingClientRect().top + 40) {
-                    current = i
-                    break
-                }
-            }
-
-            for (let i = 0; i < items.length; i++) {
-                items[i].current = i == current;
-            }
         }
     },
 
@@ -119,7 +93,7 @@ const setItemFromHtml = (html: string) => {
 let oldScrollHeight: number = 0
 let oldScrollTop: number = 0
 
-const setCurrent = () => {
+const markCurrent = () => {
     if (!props.target) return;
 
     const scrollHeight = props.target.scrollHeight
@@ -130,18 +104,18 @@ const setCurrent = () => {
     oldScrollHeight = scrollHeight
     oldScrollTop = scrollTop
 
-    props.current(props.target, items.value)
+    setCurrent(props.target, items.value)
 }
 
 let interval: number;
 
 onMounted(() => {
     setItemFromHtml(props.target?.innerHTML)
-    setCurrent()
+    markCurrent()
 
     interval = setInterval(() => {
         setItemFromHtml(props.target?.innerHTML)
-        setCurrent()
+        markCurrent()
     }, props.step)
 })
 
@@ -164,30 +138,34 @@ const jumpTo = (clickedItem: OutlineItem) => {
         props.target.querySelector('#' + clickedItem.id)?.scrollIntoView();
     } else if (props.policy == "offset") {
         const element = <HTMLHeadElement>(props.target.querySelector('#' + clickedItem.id))
-        props.handleJump(props.target, element)
+        if (props.handleScroll == undefined) {
+            handleScroll(props.target, element)
+        } else {
+            props.handleScroll(props.target, element)
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .outline {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  line-height: inherit;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: inherit;
 
-  > li {
-    display: block;
-    font-style: normal;
-    color: inherit;
-    text-decoration: none;
-    cursor: pointer;
-    white-space: nowrap;
-    overflow-x: hidden;
+    > li {
+        display: block;
+        font-style: normal;
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow-x: hidden;
 
-      &.current {
-          font-weight: 600;
-      }
-  }
+        &.current {
+            font-weight: 600;
+        }
+    }
 }
 </style>
