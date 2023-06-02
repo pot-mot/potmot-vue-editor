@@ -13,16 +13,13 @@
 <!--			<ContextMenu v-drag="{minY: 0, minX: 0, maxX: 500, maxY: 500}" height="100px" style="background-color: #ccc;">-->
 <!--				hello world-->
 <!--			</ContextMenu>-->
-			<MarkdownEditor v-model="text">
+			<MarkdownEditor v-model="text" :start-with-full-screen="true">
 				<template #outline="{target}">
 					<MarkdownOutline :target="target"></MarkdownOutline>
 				</template>
                 <template #preview="{text}">
 					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
                 </template>
-				<template #footer="{data, history}">
-					{{history.stack.length}}
-				</template>
 			</MarkdownEditor>
 		</div>
 	</div>

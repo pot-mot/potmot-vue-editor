@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref, watch} from "vue";
 import {marked, Renderer, Tokenizer} from "marked";
 import {
     detailRule,
@@ -19,8 +19,9 @@ import {
 } from "../util/preview/markedRules";
 import {copyCode} from "../util/preview/codeUtil";
 import 'katex/dist/katex.css'
-import {codeRender, mathRender, mermaidCache, mermaidRender} from "../util/preview/render";
+import {codeRender, mathRender, mermaidRender} from "../util/preview/render";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
+import {watchForNoChange} from "../util/common/common";
 
 /**
  * 外部传入参数
@@ -34,6 +35,11 @@ const props = defineProps({
         type: String,
         required: false,
         default: 'potmot-dark',
+    },
+    waitForNoChange: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
     extension: {
         type: Array as PropType<TokenizerAndRendererExtension[]>,
@@ -96,41 +102,20 @@ const judgeCopyCode = (e: MouseEvent) => {
 }
 
 // mermaid 渲染
+const mermaidCache = new Map<string, string>()
+
 const renderMermaid = () => {
     if (markdownCard.value == undefined) return;
 
     const items = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
 
     for (const item of items) {
-        mermaidRender(item)
+        mermaidRender(item, mermaidCache)
     }
 }
 
-let oldMarkdownString = ""
-
-let eventInterval: number
-
-onMounted(() => {
-    renderMermaid();
-
-    eventInterval = setInterval(
-        () => {
-            if (oldMarkdownString == props.markdownText) return
-            // 如果文本发生变化，保存变化并设置等待，如果一段时间没有发生变化，渲染 mermaid
-            oldMarkdownString = props.markdownText
-            setTimeout(() => {
-                if (props.markdownText == oldMarkdownString) {
-                    renderMermaid();
-                }
-            }, 500);
-        },
-        1000
-    )
-})
-
-
-onBeforeUnmount(() => {
-    clearInterval(eventInterval)
+watchForNoChange(() => props.markdownText, () => {
+    renderMermaid()
 })
 
 marked.setOptions({
@@ -142,7 +127,20 @@ marked.use({
     extensions: [mathBlockRule, mathInlineRule, warningRule, detailRule, ...props.extension],
 })
 
-const html = computed(() => {
-    return marked.parse(props.markdownText, {tokenizer, renderer});
+let html = ref(marked(props.markdownText, {tokenizer, renderer}))
+
+onMounted(() => {
+    // FIXME 变更参数失效，无论如何都为 false
+    console.log(props.waitForNoChange)
+
+    if (props.waitForNoChange) {
+        watchForNoChange(() => props.markdownText, () => {
+            html.value = marked(props.markdownText, {tokenizer, renderer});
+        })
+    } else {
+        watch(() => props.markdownText, () => {
+            html.value = marked(props.markdownText, {tokenizer, renderer});
+        })
+    }
 })
 </script>

@@ -43,16 +43,19 @@ export const mathRender = (text: string): string => {
     }
 }
 
-export const mermaidCache = new Map<string, string>()
-
-export const mermaidRender = (element: HTMLElement) => {
+export const mermaidRender = (element: HTMLElement, cache: Map<string, string>) => {
     if (element.innerHTML.startsWith("<svg")) return
 
     const id = Math.floor(Math.random() * 10000000)
     const text = decodeHTML(element.innerHTML)
+
     mermaid.render('mermaid' + id, text)
         .then(res => {
-            mermaidCache.set(text, res.svg)
+            cache.set(text, res.svg)
+
+            // FIXME 第一轮缓存失效
+            console.log(cache.size)
+
             element.innerHTML = res.svg
             element.classList.remove('mermaid')
         })

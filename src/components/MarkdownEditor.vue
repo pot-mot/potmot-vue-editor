@@ -64,9 +64,9 @@
                 <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
                 <span style="display: inline-block;width: 1em;"></span>
                 <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
-                <input type="number" style="width: 2em;" @keydown.enter="searchByIndex"
+                <input type="number" style="width: 4em;" @keydown.enter="searchByIndex"
                        v-model="searchIndex">
-                <span style="display: inline-block; width: 2em;">/{{ searchData.indexes.length }}</span>
+                <span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
                 <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
                 <span style="display: inline-block;width: 1em;"></span>
                 <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
@@ -96,7 +96,7 @@
             <div ref="previewCard"
                  class="preview-card">
                 <slot name="preview" :text="data.text">
-                    <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
+                    <MarkdownPreview :wait-for-no-change="true" :markdown-text="data.text"></MarkdownPreview>
                 </slot>
             </div>
             <div ref="textareaCountLine"
@@ -127,8 +127,6 @@ export default {
 </script>
 
 <script lang="ts" setup>
-// TODO 拆分代码
-
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile} from "../util/common/common";
 import {insertIntoString} from "../util/editor/insertUtils";
@@ -142,7 +140,6 @@ import {getLeadingSpace} from "../util/editor/textUtils";
 import {useStatistics} from "../util/editor/statistics";
 import ContextMenu from "./ContextMenu.vue";
 import {smoothScroll} from "../util/common/scroll";
-
 
 /**
  * 外部传入参数
@@ -802,18 +799,20 @@ const searchCurrent = () => {
 
     pushFlag = 'search'
 
-    textarea.value.focus()
-
-    if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
-        jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
-    } else {
-        jumpTo(0);
-    }
-
     nextTick(() => {
-        textarea.value.selectionStart = searchData.indexes[searchData.index];
-        textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
-    })
+        textarea.value.focus()
+
+		nextTick(() => {
+            textarea.value.selectionStart = searchData.indexes[searchData.index];
+            textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
+
+            if (textareaCountLine.value.scrollHeight > textarea.value.clientHeight / 2.4) {
+                jumpTo(textareaCountLine.value.scrollHeight - textarea.value.clientHeight / 2.4);
+            } else {
+                jumpTo(0);
+            }
+		})
+	})
 }
 
 const searchPrevious = () => {
