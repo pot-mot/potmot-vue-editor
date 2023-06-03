@@ -43,6 +43,12 @@ const props = defineProps({
         required: false,
         default: []
     },
+
+    suspend: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
 })
 
 let markdownCard = ref();
@@ -110,6 +116,7 @@ const renderMermaid = () => {
 }
 
 watchForNoChange(() => props.markdownText, () => {
+    if (props.suspend) return
     renderMermaid()
 })
 
@@ -125,6 +132,14 @@ marked.use({
 let html = ref(marked(props.markdownText, {tokenizer, renderer}))
 
 watch(() => props.markdownText, () => {
+    if (props.suspend) return
     html.value = marked(props.markdownText, {tokenizer, renderer});
+})
+
+watch(() => props.suspend, (value) => {
+    if (value == false) {
+        html.value = marked(props.markdownText, {tokenizer, renderer})
+        renderMermaid()
+    }
 })
 </script>

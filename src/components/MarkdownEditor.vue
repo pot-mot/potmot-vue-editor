@@ -96,7 +96,7 @@
             <div ref="previewCard"
                  class="preview-card">
                 <slot name="preview" :text="data.text">
-                    <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
+                    <MarkdownPreview :markdown-text="data.text" :suspend="!isPreview"></MarkdownPreview>
                 </slot>
             </div>
             <div ref="textareaCountLine"
