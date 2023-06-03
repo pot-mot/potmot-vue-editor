@@ -89,12 +89,14 @@
                     v-model="data.text"
                     :placeholder="props.placeholder"
                     class="edit-card"
+					@scrollend="syncScroll(textarea, previewCard)"
                     @keydown.self="onKeyDown"
                     @dragend.self="onDragEnd"
                     @contextmenu.self.prevent="setEditToolActive('insert', true)">
 			</textarea>
             <div ref="previewCard"
-                 class="preview-card">
+                 class="preview-card"
+                 @scrollend="syncScroll(previewCard, textarea)">
                 <slot name="preview" :text="data.text">
                     <MarkdownPreview :markdown-text="data.text" :suspend="!isPreview"></MarkdownPreview>
                 </slot>
