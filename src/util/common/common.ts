@@ -1,4 +1,4 @@
-import {onBeforeUnmount, onMounted} from "vue";
+import {nextTick, onBeforeUnmount, onMounted} from "vue";
 
 export const isMobile = () => {
     return 'ontouchstart' in document;
@@ -26,25 +26,30 @@ export const limit = (input: number, min: number | undefined, max: number | unde
  *
  * @param target 监听目标
  * @param event 执行
+ * @param immediate 是否在初始化时执行
  * @param step 轮询时间，默认为 1000
  */
 export const watchForNoChange = (
     target: Function,
     event: Function,
-    step: () => number = () => 1000
+    immediate: boolean = true,
+    step: number = 1000
 ) => {
     let oldValue: any
 
     // 如果发生变化，将 flag 置为 1，此时将开始等待 flag 出现第一次不变
     let flag = 0
 
-    // 如果结束，将不继续循环
-    let stop = 0
+    let eventInterval: number
 
-    const next = () => {
-        const nextTime: number = step()
+    onMounted(() => {
+        if (immediate) {
+            nextTick(() => {
+                event()
+            })
+        }
 
-        setTimeout(
+        eventInterval = setInterval(
             () => {
                 if (oldValue != target()) {
                     // 如果发生变化，保存变化并设置等待
@@ -57,20 +62,12 @@ export const watchForNoChange = (
                         flag = 0
                     }
                 }
-
-                if (stop == 1) return
-                next()
             },
-            nextTime
+            step
         )
-    }
-
-    onMounted(() => {
-        event()
-        next()
     })
 
     onBeforeUnmount(() => {
-        stop = 1
+        clearInterval(eventInterval)
     })
 }

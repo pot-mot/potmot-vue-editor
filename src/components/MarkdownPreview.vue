@@ -22,6 +22,7 @@ import 'katex/dist/katex.css'
 import {codeRender, mathRender, mermaidBatchRender} from "../util/preview/render";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 import {watchForNoChange} from "../util/common/common";
+import mermaid from "mermaid";
 
 /**
  * 外部传入参数
@@ -109,9 +110,7 @@ const renderMermaid = () => {
 }
 
 watchForNoChange(() => props.markdownText, () => {
-    nextTick(() => {
-        renderMermaid()
-    })
+    renderMermaid()
 })
 
 marked.setOptions({

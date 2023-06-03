@@ -129,14 +129,13 @@ export default {
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {isMobile} from "../util/common/common";
-import {insertIntoString} from "../util/editor/insertUtils";
+import {insertIntoString, useExtendInput} from "../util/editor/inputUtils";
 import {getArgsMap, markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {useHistoryStack} from "../util/editor/editHistory";
 import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
-import {getLeadingSpace} from "../util/editor/textUtils";
 import {useStatistics} from "../util/editor/statistics";
 import ContextMenu from "./ContextMenu.vue";
 import {smoothScroll} from "../util/common/scroll";
@@ -299,6 +298,8 @@ const editTools = reactive(<EditTool[]>[
         },
     },
 ])
+
+const {batchTab, batchEnter, completeAround} = useExtendInput(() => textarea.value, (newValue) => {data.text = newValue})
 
 const leftTools = computed(() => {
     return editTools.filter(item => item.position == "left")
@@ -527,6 +528,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: "Enter",
         method: () => {
+            pushFlag = 'enter'
             batchEnter();
         },
         prevent: true,
@@ -535,6 +537,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: "Tab",
         method: (e: KeyboardEvent) => {
+            pushFlag = 'tab'
             batchTab(e, '\t');
         },
         prevent: true,
@@ -588,11 +591,11 @@ const onKeyDown = (e: KeyboardEvent) => {
     } else if (e.key == '(' || e.key == '[' || e.key == '{') {
         e.preventDefault();
         pushFlag = "symbol";
-        insertAroundText({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'});
+        completeAround({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'});
     } else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
         e.preventDefault();
         pushFlag = "symbol";
-        insertAroundText({before: e.key, after: e.key == '"' ? '"' : "'"});
+        completeAround({before: e.key, after: e.key == '"' ? '"' : "'"});
     } else if (e.key.startsWith("Arrow")) {
         pushFlag = 'move'
     } else if (e.key == ' ') {
@@ -605,99 +608,6 @@ const onKeyDown = (e: KeyboardEvent) => {
 const onDragEnd = () => {
     pushFlag = 'dragend'
 }
-
-// 文本联想（括号和引号）
-const insertAroundText = (insertText: { before: string, after: string }) => {
-    let start = textarea.value.selectionStart;
-    let selectEnd = textarea.value.selectionEnd;
-    let text = data.text;
-    let end: number;
-    const {before, after} = insertText;
-    text = insertIntoString(before, text, start);
-    end = selectEnd + before.length;
-    if (after.length > 0) {
-        text = insertIntoString(after, text, end);
-    }
-    data.text = text;
-
-    const keepSelect = textarea.value.selectionStart != textarea.value.selectionEnd;
-
-    pushFlag = 'insertAround'
-
-    nextTick(() => {
-        if (keepSelect) {
-            textarea.value.selectionStart = start;
-            textarea.value.selectionEnd = end + after.length;
-        } else {
-            textarea.value.selectionStart = start + before.length;
-            textarea.value.selectionEnd = start + before.length;
-        }
-    })
-}
-
-// 回车制表
-const batchEnter = () => {
-    pushFlag = 'enter'
-
-    const start = textarea.value.selectionStart;
-    const LeadingSpace = getLeadingSpace(data.text, start)
-    data.text = insertIntoString(LeadingSpace, data.text, start);
-    nextTick(() => {
-        textarea.value.selectionStart = start + LeadingSpace.length;
-        textarea.value.selectionEnd = textarea.value.selectionStart;
-    })
-}
-
-// 批量缩进（Tab）
-const batchTab = (e: KeyboardEvent, insertString: string) => {
-    pushFlag = 'tab'
-
-    const start = textarea.value.selectionStart;
-    const end = textarea.value.selectionEnd;
-
-    if (e.shiftKey) {
-        if (textarea.value.selectionStart == textarea.value.selectionEnd) {
-            let index = 0;
-            for (let i = textarea.value.selectionStart - 1; i >= 0; i--) {
-                if (data.text[i] == '\n') {
-                    index = i + 1;
-                    break;
-                }
-            }
-            const temp = data.text.slice(index, start);
-            const newTemp = temp.replace(insertString, '');
-            if (temp.length == newTemp.length) return;
-            data.text = data.text.slice(0, start - temp.length) + newTemp + data.text.slice(end);
-        } else {
-            const temp = data.text.slice(start, end);
-            const newTemp = temp.replace(insertString, '').replaceAll('\n' + insertString, '\n');
-            if (temp.length == newTemp.length) return;
-            data.text = data.text.slice(0, start) + newTemp + data.text.slice(start + temp.length);
-            nextTick(() => {
-                textarea.value.selectionStart = start;
-                textarea.value.selectionEnd = start + newTemp.length;
-            })
-        }
-    } else {
-        if (textarea.value.selectionStart == textarea.value.selectionEnd) {
-            data.text = insertIntoString(insertString, data.text, textarea.value.selectionStart);
-            nextTick(() => {
-                textarea.value.selectionStart = start + 1;
-                textarea.value.selectionEnd = start + 1;
-            })
-        } else {
-            const temp = data.text.slice(start, textarea.value.selectionEnd);
-            const newTemp = insertString + temp.replaceAll('\n', '\n' + insertString);
-            if (temp.length == newTemp.length) return;
-            data.text = data.text.slice(0, start) + newTemp + data.text.slice(start + temp.length);
-            nextTick(() => {
-                textarea.value.selectionStart = start;
-                textarea.value.selectionEnd = start + newTemp.length;
-            })
-        }
-    }
-}
-
 
 // 查找与替换功能
 // 用于测算 textarea 当前文本高度的工具盒子
@@ -911,7 +821,7 @@ onMounted(() => {
             tempSelectStart = textarea.value.selectionStart
             tempSelectEnd = textarea.value.selectionEnd
         }
-    }, 50)
+    }, 20)
 })
 
 onBeforeUnmount(() => {
