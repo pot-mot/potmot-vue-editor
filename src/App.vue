@@ -14,12 +14,6 @@
 <!--				hello world-->
 <!--			</ContextMenu>-->
 			<MarkdownEditor v-model="text" :start-with-full-screen="true">
-				<template #outline="{target}">
-					<MarkdownOutline :target="target"></MarkdownOutline>
-				</template>
-                <template #preview="{text}">
-					<MarkdownPreview :markdown-text="text"></MarkdownPreview>
-                </template>
 			</MarkdownEditor>
 		</div>
 	</div>

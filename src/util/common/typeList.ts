@@ -164,5 +164,40 @@ export const mermaidTypeMap = new Map<string, {name: string, example: string}>()
             "    2005 : Youtube\n" +
             "    2006 : Twitter"
     })
+    .set("关系图", {
+        name: "C4Context",
+        example: "C4Context\n" +
+            "title System Context diagram for Internet Banking System\n" +
+            "\n" +
+            "Person(customerA, \"Banking Customer A\", \"A customer of the bank, with personal bank accounts.\")\n" +
+            "Person(customerB, \"Banking Customer B\")\n" +
+            "Person_Ext(customerC, \"Banking Customer C\")\n" +
+            "System(SystemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts, and make payments.\")\n" +
+            "\n" +
+            "Person(customerD, \"Banking Customer D\", \"A customer of the bank, <br/> with personal bank accounts.\")\n" +
+            "\n" +
+            "Enterprise_Boundary(b1, \"BankBoundary\") {\n" +
+            "\n" +
+            "  SystemDb_Ext(SystemE, \"Mainframe Banking System\", \"Stores all of the core banking information about customers, accounts, transactions, etc.\")\n" +
+            "\n" +
+            "  System_Boundary(b2, \"BankBoundary2\") {\n" +
+            "    System(SystemA, \"Banking System A\")\n" +
+            "    System(SystemB, \"Banking System B\", \"A system of the bank, with personal bank accounts.\")\n" +
+            "  }\n" +
+            "\n" +
+            "  System_Ext(SystemC, \"E-mail system\", \"The internal Microsoft Exchange e-mail system.\")\n" +
+            "  SystemDb(SystemD, \"Banking System D Database\", \"A system of the bank, with personal bank accounts.\")\n" +
+            "\n" +
+            "  Boundary(b3, \"BankBoundary3\", \"boundary\") {\n" +
+            "    SystemQueue(SystemF, \"Banking System F Queue\", \"A system of the bank, with personal bank accounts.\")\n" +
+            "    SystemQueue_Ext(SystemG, \"Banking System G Queue\", \"A system of the bank, with personal bank accounts.\")\n" +
+            "  }\n" +
+            "}\n" +
+            "\n" +
+            "BiRel(customerA, SystemAA, \"Uses\")\n" +
+            "BiRel(SystemAA, SystemE, \"Uses\")\n" +
+            "Rel(SystemAA, SystemC, \"Sends e-mails\", \"SMTP\")\n" +
+            "Rel(SystemC, customerA, \"Sends e-mails to\")"
+    })
 
 export const mermaidTypeNameList = Array.from(mermaidTypeMap.keys())

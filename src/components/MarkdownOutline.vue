@@ -40,11 +40,6 @@ const props = defineProps({
         required: false,
     },
 
-    handleScroll: {
-        type: Function,
-        required: false,
-    },
-
     regex: {
         type: RegExp,
         required: false,
@@ -56,6 +51,11 @@ const props = defineProps({
         default: (match: RegExpExecArray): OutlineItem => {
             return {level: Number.parseInt(match[1]), id: match[2], text: match[3], current: false}
         }
+    },
+
+    handleScroll: {
+        type: Function as PropType<(target: HTMLElement, item: HTMLElement) => void>,
+        required: false,
     },
 
     step: {

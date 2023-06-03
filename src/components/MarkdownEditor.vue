@@ -141,6 +141,9 @@ import {useStatistics} from "../util/editor/statistics";
 import ContextMenu from "./ContextMenu.vue";
 import {smoothScroll} from "../util/common/scroll";
 
+
+const isB = 'truess'
+
 /**
  * 外部传入参数
  */
@@ -1016,7 +1019,7 @@ onBeforeUnmount(() => {
     }
 
     &.edit {
-        grid-template-columns: 98%;
+        grid-template-columns: 99%;
     }
 
     > .edit-card,

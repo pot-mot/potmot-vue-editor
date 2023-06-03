@@ -1,8 +1,10 @@
 import katex from "katex";
-import mermaid from "mermaid";
+import mermaid, {RenderResult} from "mermaid";
 import Prism from "prismjs";
-import {prismLanguageList} from "../editor/typeList";
+import {prismLanguageList} from "../common/typeList";
 import {decodeHTML} from "./htmlParse";
+
+mermaid.initialize({ startOnLoad: false })
 
 const errResult = (e: any, msg: string): string => {
     return `<div style='white-space: pre-line;'><span style="color: red;">[解析错误: ${msg}]</span><br><span style="color: red;">[</span>${e}<span style="color: red;">]</span></div>`
@@ -43,24 +45,28 @@ export const mathRender = (text: string): string => {
     }
 }
 
-export const mermaidRender = (element: HTMLElement, cache: Map<string, string>) => {
+export const mermaidBatchRender = (elements: HTMLElement[], cache: Map<string, string>) => {
+    for (let element of elements) {
+        mermaidRender(element, (id, res, origin) => {
+            element.innerHTML = res.svg;
+            cache.set(origin, res.svg);
+            console.log(cache.size)
+        })
+    }
+}
+
+export const mermaidRender = (element: HTMLElement, success: (id: string, res: RenderResult, origin: string) => any) => {
     if (element.innerHTML.startsWith("<svg")) return
 
-    const id = Math.floor(Math.random() * 10000000)
+    const id = 'mermaid' + Math.floor(Math.random() * 10000000)
     const text = decodeHTML(element.innerHTML)
 
-    mermaid.render('mermaid' + id, text)
+    mermaid.render(id, text)
         .then(res => {
-            cache.set(text, res.svg)
-
-            // FIXME 第一轮缓存失效
-            console.log(cache.size)
-
-            element.innerHTML = res.svg
-            element.classList.remove('mermaid')
+            success(id, res, text)
         })
         .catch(e => {
-            document.getElementById('mermaid' + id)?.remove()
+            document.getElementById(id)?.remove()
             element.innerHTML = errResult(e, "graph - mermaid")
         })
 }

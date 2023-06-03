@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {onMounted, PropType, ref, watch} from "vue";
+import {nextTick, PropType, ref, watch} from "vue";
 import {marked, Renderer, Tokenizer} from "marked";
 import {
     detailRule,
@@ -19,7 +19,7 @@ import {
 } from "../util/preview/markedRules";
 import {copyCode} from "../util/preview/codeUtil";
 import 'katex/dist/katex.css'
-import {codeRender, mathRender, mermaidRender} from "../util/preview/render";
+import {codeRender, mathRender, mermaidBatchRender} from "../util/preview/render";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 import {watchForNoChange} from "../util/common/common";
 
@@ -36,11 +36,7 @@ const props = defineProps({
         required: false,
         default: 'potmot-dark',
     },
-    waitForNoChange: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
+
     extension: {
         type: Array as PropType<TokenizerAndRendererExtension[]>,
         required: false,
@@ -107,15 +103,15 @@ const mermaidCache = new Map<string, string>()
 const renderMermaid = () => {
     if (markdownCard.value == undefined) return;
 
-    const items = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
+    const elements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
 
-    for (const item of items) {
-        mermaidRender(item, mermaidCache)
-    }
+    mermaidBatchRender(elements, mermaidCache)
 }
 
 watchForNoChange(() => props.markdownText, () => {
-    renderMermaid()
+    nextTick(() => {
+        renderMermaid()
+    })
 })
 
 marked.setOptions({
@@ -129,18 +125,7 @@ marked.use({
 
 let html = ref(marked(props.markdownText, {tokenizer, renderer}))
 
-onMounted(() => {
-    // FIXME 变更参数失效，无论如何都为 false
-    console.log(props.waitForNoChange)
-
-    if (props.waitForNoChange) {
-        watchForNoChange(() => props.markdownText, () => {
-            html.value = marked(props.markdownText, {tokenizer, renderer});
-        })
-    } else {
-        watch(() => props.markdownText, () => {
-            html.value = marked(props.markdownText, {tokenizer, renderer});
-        })
-    }
+watch(() => props.markdownText, () => {
+    html.value = marked(props.markdownText, {tokenizer, renderer});
 })
 </script>
