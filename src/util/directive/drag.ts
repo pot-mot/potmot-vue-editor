@@ -10,8 +10,6 @@ export const vDrag = {
 
                 const positionRange = binding.value
 
-                console.log(positionRange)
-
                 // 当前滑块位置
                 const rectLeft = el.offsetLeft;
                 const rectTop = el.offsetTop;

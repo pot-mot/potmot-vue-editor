@@ -64,7 +64,7 @@
                 <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
                 <span style="display: inline-block;width: 1em;"></span>
                 <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
-                <input type="number" style="width: 4em;" @keydown.enter="searchByIndex"
+                <input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
                        v-model="searchIndex">
                 <span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
                 <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
@@ -96,7 +96,7 @@
             <div ref="previewCard"
                  class="preview-card">
                 <slot name="preview" :text="data.text">
-                    <MarkdownPreview :wait-for-no-change="true" :markdown-text="data.text"></MarkdownPreview>
+                    <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
                 </slot>
             </div>
             <div ref="textareaCountLine"
@@ -140,9 +140,6 @@ import {getLeadingSpace} from "../util/editor/textUtils";
 import {useStatistics} from "../util/editor/statistics";
 import ContextMenu from "./ContextMenu.vue";
 import {smoothScroll} from "../util/common/scroll";
-
-
-const isB = 'truess'
 
 /**
  * 外部传入参数
@@ -780,16 +777,6 @@ watch(() => searchData.index, () => {
     searchIndex.value = searchData.index + 1
 })
 
-const searchByIndex = () => {
-    const index = searchIndex.value
-    if (index <= 0 || index > searchData.indexes.length) {
-        searchIndex.value = 0
-        return
-    }
-    searchData.index = index - 1
-    searchCurrent()
-}
-
 const searchCurrent = () => {
     if (searchData.indexes.length == 0) {
         searchData.index = -1
@@ -816,6 +803,17 @@ const searchCurrent = () => {
             }
 		})
 	})
+}
+
+const searchByIndex = () => {
+    const index = searchIndex.value
+    if (index <= 0 || index > searchData.indexes.length) {
+        searchIndex.value = 0
+        return
+    }
+    searchData.index = index - 1
+
+    searchCurrent()
 }
 
 const searchPrevious = () => {
@@ -851,6 +849,8 @@ const searchNext = () => {
 }
 
 const replaceOne = () => {
+    console.log("replaceOne")
+
     if (replaceData.replaceFrom.length <= 0) {
         alert("替换文本不可为空");
         return

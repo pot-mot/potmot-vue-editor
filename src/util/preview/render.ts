@@ -50,7 +50,6 @@ export const mermaidBatchRender = (elements: HTMLElement[], cache: Map<string, s
         mermaidRender(element, (id, res, origin) => {
             element.innerHTML = res.svg;
             cache.set(origin, res.svg);
-            console.log(cache.size)
         })
     }
 }
