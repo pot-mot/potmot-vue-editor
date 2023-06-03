@@ -41,7 +41,7 @@ interface EditTool extends EditorShortcutKey{
     label: string;
     icon: string;
     active: boolean;
-    show: boolean;
+    show?: () => boolean;
     position: "left" | "right";
 }
 

@@ -2,7 +2,7 @@ import {isMobile, limit} from "../common/common";
 
 export const vDrag = {
     mounted(el: HTMLDivElement, binding: any) {
-        if (isMobile()) {
+        if (isMobile.value) {
             // 移动端手指触碰事件
             el.addEventListener('touchstart', (e: TouchEvent) => {
                 if (e.target != el) return;

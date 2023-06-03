@@ -1,8 +1,10 @@
+import ContextMenu from "./components/ContextMenu.vue";
 import MarkdownEditor from "./components/MarkdownEditor.vue";
 import MarkdownOutline from "./components/MarkdownOutline.vue";
 import MarkdownPreview from "./components/MarkdownPreview.vue";
 
 const components = [
+    ContextMenu,
     MarkdownPreview,
     MarkdownEditor,
     MarkdownOutline
@@ -15,10 +17,9 @@ const install = function (Vue: any) {
         Vue.component(component.name, component)
     })
 }
-//@ts-ignore
-if (typeof window !== 'undefined' && window.Vue) {
-    //@ts-ignore
-    install(window.Vue)
+
+if (typeof window !== 'undefined' && (window as any).Vue) {
+    install((window as any).Vue);
 }
 
 export default {

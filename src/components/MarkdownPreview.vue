@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {nextTick, PropType, ref, watch} from "vue";
+import {PropType, ref, watch} from "vue";
 import {marked, Renderer, Tokenizer} from "marked";
 import {
     detailRule,
@@ -22,7 +22,6 @@ import 'katex/dist/katex.css'
 import {codeRender, mathRender, mermaidBatchRender} from "../util/preview/render";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 import {watchForNoChange} from "../util/common/common";
-import mermaid from "mermaid";
 
 /**
  * 外部传入参数
@@ -55,8 +54,7 @@ let markdownCard = ref();
 
 const tokenizer = new Tokenizer()
 
-// @ts-ignore
-tokenizer.lheading = (src: string) => {
+tokenizer.lheading = (src: string): any => {
     const cap = /^((?:.|\n(?!\n))+?)\n(=+|-+)\n/.exec(src);
     if (cap) {
         return {

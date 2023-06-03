@@ -1,10 +1,10 @@
 <template>
     <div class="editor"
-         :class="[isFullScreen? 'full':'non-full', isMobile()? 'mobile': 'pc']"
+         :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc']"
          :style="isFullScreen ? '' : {width: props.width, height: props.height}">
         <div class="toolbar">
             <ul class="left">
-                <li v-for="tool in leftTools" v-show="tool.show">
+                <li v-for="tool in leftTools" v-show="tool.show?.()">
 				<span
                         @mousedown.prevent.stop="tool.method(tool)"
                         :title="tool.label"
@@ -14,7 +14,7 @@
                 </li>
             </ul>
             <ul class="right">
-                <li v-for="tool in rightTools" v-show="tool.show">
+                <li v-for="tool in rightTools" v-show="tool.show?.()">
 				<span @mousedown.prevent.stop="tool.method(tool)"
                       :title="tool.label"
                       class="iconfont"
@@ -23,7 +23,7 @@
                 </li>
             </ul>
         </div>
-        <ContextMenu title="模板插入" :visible="getEditToolActive('insert')" width="200px" :position="{top: '2.5rem', left: '0'}" class="context-menu">
+        <ContextMenu title="模板插入" :visible="contextMenus.get('insert').visible" width="200px" :position="contextMenus.get('insert').position" class="context-menu">
 			<template #close>
                 <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('insert', false)"/>
             </template>
@@ -50,7 +50,7 @@
                 </template>
             </template>
         </ContextMenu>
-        <ContextMenu title="查找替换" :visible="getEditToolActive('replace')" width="200px" :position="{top: '2.5rem', left: '2.5rem'}" class="context-menu replace-box">
+        <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px" :position="contextMenus.get('replace').position" class="context-menu replace-box">
             <template #close>
                 <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('replace', false)"/>
             </template>
@@ -72,7 +72,7 @@
                 <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
 			</template>
 		</ContextMenu>
-		<ContextMenu :visible="getEditToolActive('outline')" width="200px" :position="{top: '2.5rem', right: '2.5rem'}" class="context-menu outline-box">
+		<ContextMenu :visible="contextMenus.get('outline').visible" width="200px" :position="contextMenus.get('outline').position" class="context-menu outline-box">
 			<template #close>
                 <span class="iconfont icon-close" @mousedown.prevent.stop="setEditToolActive('outline', false)"/>
 			</template>
@@ -98,7 +98,7 @@
                  class="preview-card"
                  @scrollend="syncScroll(previewCard, textarea)">
                 <slot name="preview" :text="data.text">
-                    <MarkdownPreview :markdown-text="data.text" :suspend="!isPreview"></MarkdownPreview>
+                    <MarkdownPreview :markdown-text="data.text"></MarkdownPreview>
                 </slot>
             </div>
             <div ref="textareaCountLine"
@@ -227,7 +227,7 @@ const editTools = reactive(<EditTool[]>[
         label: "快捷插入",
         icon: "icon-bulletpoint",
         active: false,
-        show: true,
+        show: () => isFullScreen.value || !isPreview.value,
         position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -238,7 +238,7 @@ const editTools = reactive(<EditTool[]>[
         label: "文本查找与替换",
         icon: "icon-search-list",
         active: false,
-        show: true,
+        show: () => isFullScreen.value || !isPreview.value,
         position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -249,7 +249,7 @@ const editTools = reactive(<EditTool[]>[
         label: "预览",
         icon: "icon-browse",
         active: false,
-        show: true,
+        show: () => true,
         position: "right",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -260,7 +260,7 @@ const editTools = reactive(<EditTool[]>[
         label: "大纲",
         icon: "icon-file-tree",
         active: false,
-        show: true,
+        show: () => isPreview.value,
         position: "right",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -271,7 +271,7 @@ const editTools = reactive(<EditTool[]>[
         label: "撤销",
         icon: "icon-undo",
         active: false,
-        show: true,
+        show: () => isFullScreen.value || !isPreview.value,
         position: "left",
         method: () => {
             undo();
@@ -282,7 +282,7 @@ const editTools = reactive(<EditTool[]>[
         label: "重做",
         icon: "icon-redo",
         active: false,
-        show: true,
+        show: () => isFullScreen.value || !isPreview.value,
         position: "left",
         method: () => {
             redo();
@@ -293,7 +293,7 @@ const editTools = reactive(<EditTool[]>[
         label: "全屏/收起全屏",
         icon: "icon-full-screen",
         active: false,
-        show: true,
+        show: () => true,
         position: "right",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -317,19 +317,57 @@ const toolMap = computed(() => {
     return map
 })
 
-const getEditToolActive = (key: string) => {
-    const item = toolMap.value.get(key)
-    if (item) {
-        return item.active
-    }
-    return false
+const contextMenus = computed(() => {
+    const map = new Map<string, any>()
+    editTools.forEach(item => map.set(item.name, {
+        visible: getContextMenuShow(item.name),
+        position: getContextMenuPosition(item.name)
+    }))
+	return map
+})
+
+const getContextMenuPosition = (key: string) => {
+    if (!toolMap.value.has(key)) return {}
+
+    const item = toolMap.value.get(key)!
+
+	if (item.position == 'left') {
+        for (let i = 0; i < leftTools.value.length; i++) {
+			if (leftTools.value[i].name == key) {
+                return {
+                    top: '2.5em',
+					left: i * 2.5 + 'em',
+				}
+			}
+        }
+	} else {
+        for (let i = 0; i < rightTools.value.length; i++) {
+            if (rightTools.value[i].name == key) {
+                return {
+                    top: '2.5em',
+                    right: i * 2.5 + 'em',
+                }
+            }
+        }
+	}
 }
 
-const setEditToolActive = (key: string, newValue: boolean) => {
-    const item = toolMap.value.get(key)
-    if (item) {
-        item.active = newValue
-    }
+const getEditToolActive = (key: string): boolean => {
+    if (!toolMap.value.has(key)) return false
+    return  toolMap.value.get(key)!.active
+}
+
+const getContextMenuShow = (key: string): boolean => {
+    if (!toolMap.value.has(key)) return false
+    const item = toolMap.value.get(key)!
+	if (item.show == undefined) return false
+    return item.show() && item.active
+}
+
+const setEditToolActive = (key: string, newValue: boolean): void => {
+    if (!toolMap.value.has(key)) return
+    const item = toolMap.value.get(key)!
+    item.active = newValue
 }
 
 const isFullScreen = computed({
@@ -345,7 +383,7 @@ let beforeFullScreenTop = 0
 
 watch(() => isFullScreen.value, async (newValue) => {
     if (newValue) {
-        isPreview.value = !isMobile();
+        isPreview.value = !isMobile.value;
         beforeFullScreenTop = document.documentElement.scrollTop;
     } else {
         isPreview.value = false;
@@ -427,7 +465,7 @@ const syncScroll = (from: HTMLElement, to: HTMLElement) => {
 watch(() => isPreview.value, () => {
     if (isPreview.value) {
         syncScroll(textarea.value, previewCard.value);
-    } else if (!isFullScreen.value && !isMobile()) {
+    } else if (!isFullScreen.value && !isMobile.value) {
         syncScroll(previewCard.value, textarea.value);
     }
 })
@@ -761,8 +799,6 @@ const searchNext = () => {
 }
 
 const replaceOne = () => {
-    console.log("replaceOne")
-
     if (replaceData.replaceFrom.length <= 0) {
         alert("替换文本不可为空");
         return

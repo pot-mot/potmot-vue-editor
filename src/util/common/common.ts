@@ -1,8 +1,8 @@
-import {nextTick, onBeforeUnmount, onMounted} from "vue";
+import {computed, nextTick, onBeforeUnmount, onMounted} from "vue";
 
-export const isMobile = () => {
+export const isMobile = computed(() => {
     return 'ontouchstart' in document;
-}
+})
 
 /**
  * 约束数值大小
