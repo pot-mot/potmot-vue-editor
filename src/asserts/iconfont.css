@@ -9,15 +9,6 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    display: inline-block;
-    width: 2em;
-}
-
-.iconfont:before {
-    padding: 0.2em;
-    text-align: center;
-    font-size: 1.5em;
 }
 
 .icon-search-list:before {

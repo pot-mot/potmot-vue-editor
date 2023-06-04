@@ -1,5 +1,11 @@
+<script lang="ts">
+export default {
+    name: 'ContextMenu'
+}
+</script>
+
 <script setup lang="ts">
-import {vDrag} from "../util/directive/drag";
+import {vDrag} from "../../util/directive/drag";
 import {nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
 
 const contextMenu = ref()
@@ -22,6 +28,10 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: true
+    },
+    close: {
+        type: Function,
+        required: false,
     },
     title: {
         type: String,
@@ -49,7 +59,11 @@ watch(() => props.visible, () => {
 }, {immediate: true})
 
 const hide = () => {
-    status.visible = false
+    if (props.close != undefined) {
+        props.close(status.visible)
+    } else {
+        status.visible = false
+    }
 }
 
 const setPosition = () => {
@@ -89,7 +103,7 @@ const setPosition = () => {
          v-drag="props.dragRange">
         <div class="close">
             <slot name="close" :close="hide">
-                <span @mousedown.prevent.stop="hide">关闭</span>
+                <span class="iconfont icon-close" @mousedown.prevent.stop="hide"/>
             </slot>
         </div>
         <div class="title" v-if="props.title && props.title.length > 0">
@@ -102,6 +116,8 @@ const setPosition = () => {
 </template>
 
 <style scoped lang="scss">
+@import "../../asserts/iconfont.css";
+
 .context-menu {
     position: absolute;
     padding: 0.5em;
@@ -114,11 +130,25 @@ const setPosition = () => {
         top: 0;
         right: 0;
         cursor: pointer;
+
+
+        .icon-close {
+            position: absolute;
+            top: 0.2rem;
+            right: 0.2rem;
+            font-size: 1.4rem;
+            color: #aaa;
+        }
+
+        .icon-close:hover {
+            color: #D00;
+        }
     }
 
     > .title {
         pointer-events: none;
         font-weight: 600;
+        line-height: 1.6rem;
     }
 }
 </style>

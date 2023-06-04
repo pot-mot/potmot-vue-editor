@@ -173,7 +173,7 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 |--------------|---------------------------------|------------------------------------------------------------------------------------|---------------------|
 | markdownText | String                          | 传入的markdown文本，将被解析成html                                                            | 是                   |
 | codeTheme    | String                          | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
-| extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照其文档                                                                | 否，默认值 []            |
+| extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档                                                         | 否，默认值 []            |
 
 ### 3. Outline 大纲
 
