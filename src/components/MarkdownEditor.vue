@@ -4,7 +4,7 @@
          :style="isFullScreen ? '' : {width: props.width, height: props.height}">
         <div class="toolbar">
             <ul class="left">
-                <li v-for="(tool, index) in leftTools" v-show="tool.show?.()">
+                <li v-for="tool in leftTools" v-show="tool.show?.()">
 				<span
                         @mousedown.prevent.stop="tool.method(tool)"
                         :title="tool.label"
@@ -14,7 +14,7 @@
                 </li>
             </ul>
             <ul class="right">
-                <li v-for="(tool, index) in rightTools" v-show="tool.show?.()">
+                <li v-for="tool in rightTools" v-show="tool.show?.()">
 				<span @mousedown.prevent.stop="tool.method(tool)"
                       :title="tool.label"
                       class="iconfont"
@@ -25,58 +25,51 @@
             <ContextMenu title="模板插入" :visible="contextMenus.get('insert').visible" width="200px"
                          :position="contextMenus.get('insert').position" class="context-menu"
                          :close="() => {setEditToolActive('insert', false)}">
-                <template #default>
-                    <template v-for="item in props.insertUnits">
-					<span class="insert-text">
-					<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
-                          :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'>
-						{{ item.label }}
-					</span>
-						<template v-for="arg in item.arguments">
-							<label>{{ arg.label }}</label>
-							<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
+                <ul>
+                    <li v-for="item in props.insertUnits" class="insert-text">
+							<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
+                                  :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'>
+								{{ item.label }}
+							</span>
+                        <template v-for="arg in item.arguments">
+                            <label>{{ arg.label }}</label>
+                            <select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
                                     @change="(e) => {changeSelectArg(arg.name, e)}">
-								<option v-for="item in arg.options">{{ item }}</option>
-							</select>
-							<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
+                                <option v-for="item in arg.options">{{ item }}</option>
+                            </select>
+                            <input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
                                    :maxlength="'inputLength' in arg ? arg.inputLength : 100"
                                    :style="'styleWidth' in arg ? 'width: ' + arg.styleWidth : ''"
                                    @input="(e) => {changeInputArg(arg.name, e)}">
-						</template>
-					</span>
-                        <br>
-                    </template>
-                </template>
+                        </template>
+                    </li>
+                </ul>
             </ContextMenu>
             <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px"
                          :position="contextMenus.get('replace').position" class="context-menu replace-box"
                          :close="() => {setEditToolActive('replace', false)}">
-                <template #default>
-                    <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
-                    <br>
-                    <textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
-                    <br>
-                    <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
-                    <span style="display: inline-block;width: 1em;"></span>
-                    <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
-                    <span style="display: inline-block;width: 1em;"></span>
-                    <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
-                    <input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
-                           v-model="searchIndex">
-                    <span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
-                    <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
-                    <span style="display: inline-block;width: 1em;"></span>
-                    <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
-                </template>
+                <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
+                <br>
+                <textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
+                <br>
+                <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+                <span style="display: inline-block;width: 1em;"></span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+                <span style="display: inline-block;width: 1em;"></span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
+                <input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
+                       v-model="searchIndex">
+                <span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
+                <span style="display: inline-block;width: 1em;"></span>
+                <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
             </ContextMenu>
-            <ContextMenu :visible="contextMenus.get('outline').visible" width="200px"
+            <ContextMenu title="预览大纲" :visible="contextMenus.get('outline').visible" width="200px"
                          :position="contextMenus.get('outline').position" class="context-menu outline-box"
                          :close="() => {setEditToolActive('outline', false)}">
-                <template #default>
-                    <slot name="outline" :target="previewCard">
-                        <MarkdownOutline :target="previewCard"></MarkdownOutline>
-                    </slot>
-                </template>
+                <slot name="outline" :target="previewCard">
+                    <MarkdownOutline :target="previewCard"></MarkdownOutline>
+                </slot>
             </ContextMenu>
         </div>
         <div class="container" :class="containerClass">
@@ -956,8 +949,15 @@ onBeforeUnmount(() => {
 .editor.full > .container {
     height: calc(99vh - 4em);
     display: grid;
+    grid-template-rows: 100%;
     grid-column-gap: 1%;
     padding: 0 0.5%;
+
+    > .edit-card,
+    > .preview-card {
+        background-color: white;
+        padding-bottom: 50vh;
+    }
 }
 
 .editor.full.pc > .container {
@@ -968,28 +968,18 @@ onBeforeUnmount(() => {
     &.edit {
         grid-template-columns: 99% 0;
     }
-
-    > .edit-card,
-    > .preview-card {
-        background-color: white;
-        padding-bottom: 50vh;
-    }
 }
 
 .editor.full.mobile > .container {
     &.edit-preview {
-        grid-template-rows: 0 99%;
+        grid-template-columns: 0 99%;
     }
 
     &.edit {
-        grid-template-rows: 99% 0;
+        grid-template-columns: 99%;
     }
 
-    > .edit-card,
-    > .preview-card {
-        padding: 0;
-        background-color: white;
-    }
+
 }
 
 .editor {
@@ -1012,34 +1002,7 @@ onBeforeUnmount(() => {
     }
 }
 
-.editor .replace-box {
-    > textarea {
-        height: 4em;
-        margin-right: 0.5em;
-        width: 100%;
-        border: 1px solid #e5e5e5;
-        padding: 0.5em;
-    }
-
-    > span {
-        cursor: default;
-    }
-}
-
-.editor .outline-box {
-    padding: 1em 0.5em;
-    background-color: #fff;
-    min-width: 25em;
-    max-height: 70vh;
-    line-height: 1.6em;
-    border: 1px solid #ccc;
-    cursor: all-scroll;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 .editor .insert-text {
-    display: inline-block;
     font-size: 0.9em;
 
     > span {
@@ -1071,12 +1034,42 @@ onBeforeUnmount(() => {
     }
 }
 
+.editor .replace-box {
+    > textarea {
+        height: 4em;
+        margin-right: 0.5em;
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        padding: 0.5em;
+    }
+
+    > span {
+        cursor: default;
+    }
+}
+
+.editor .outline-box {
+    padding: 1em 0.5em;
+    background-color: #fff;
+    min-width: 25em;
+    max-height: 70vh;
+    line-height: 1.6em;
+    border: 1px solid #ccc;
+    cursor: all-scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .editor.non-full > .toolbar {
     padding: 0.2% 0.5%;
 }
 
 .editor.full > .toolbar {
     padding: 0.2% 1.5% 0.2% 0.5%;
+}
+
+.editor.full.mobile > .toolbar {
+    padding: 0.5%;
 }
 
 .editor > .toolbar {

@@ -43,8 +43,18 @@ export const vDrag = {
         } else {
             // 网页端鼠标事件
             el.onmousedown = (e: MouseEvent) => {
-                if (e.target != el) return;
-                e.preventDefault();
+                for (const eventTarget of e.composedPath()) {
+                    if (eventTarget instanceof HTMLElement) {
+                        const element = <HTMLElement>eventTarget
+                        if (
+                            element instanceof HTMLInputElement ||
+                            element instanceof HTMLTextAreaElement ||
+                            element instanceof HTMLSelectElement ||
+                            element instanceof HTMLButtonElement ||
+                            element.attributes.getNamedItem('ignore-v-drag') != undefined
+                        ) return
+                    }
+                }
 
                 const positionRange = binding.value
 
