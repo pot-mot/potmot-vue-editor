@@ -23,7 +23,7 @@
                 </li>
             </ul>
             <ContextMenu title="模板插入" :visible="contextMenus.get('insert').visible" width="200px"
-                         :position="contextMenus.get('insert').position" class="context-menu"
+                         :position="contextMenus.get('insert').position"
                          :close="() => {setEditToolActive('insert', false)}">
                 <ul>
                     <li v-for="item in props.insertUnits" class="insert-text">
@@ -46,7 +46,7 @@
                 </ul>
             </ContextMenu>
             <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px"
-                         :position="contextMenus.get('replace').position" class="context-menu replace-box"
+                         :position="contextMenus.get('replace').position" class="replace-box"
                          :close="() => {setEditToolActive('replace', false)}">
                 <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
                 <br>
@@ -65,7 +65,7 @@
                 <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
             </ContextMenu>
             <ContextMenu title="预览大纲" :visible="contextMenus.get('outline').visible" width="200px"
-                         :position="contextMenus.get('outline').position" class="context-menu outline-box"
+                         :position="contextMenus.get('outline').position" class="outline-box"
                          :close="() => {setEditToolActive('outline', false)}">
                 <slot name="outline" :target="previewCard">
                     <MarkdownOutline :target="previewCard"></MarkdownOutline>
@@ -950,8 +950,8 @@ onBeforeUnmount(() => {
     height: calc(99vh - 4em);
     display: grid;
     grid-template-rows: 100%;
-    grid-column-gap: 1%;
-    padding: 0 0.5%;
+    grid-column-gap: 0.6%;
+    padding: 0 0.6%;
 
     > .edit-card,
     > .preview-card {
@@ -962,48 +962,66 @@ onBeforeUnmount(() => {
 
 .editor.full.pc > .container {
     &.edit-preview {
-        grid-template-columns: 49% 49%;
+        grid-template-columns: 1fr 1fr;
     }
 
     &.edit {
-        grid-template-columns: 99% 0;
+        grid-template-columns: 1fr;
     }
 }
 
 .editor.full.mobile > .container {
     &.edit-preview {
-        grid-template-columns: 0 99%;
+        grid-template-columns: 0 100%;
+
+        > .edit-card {
+            padding: 0;
+            margin: 0;
+        }
     }
 
     &.edit {
-        grid-template-columns: 99%;
+        grid-template-columns: 100%;
+
+        > .preview-card {
+            padding: 0;
+            margin: 0;
+        }
     }
-
-
 }
 
 .editor {
-    .context-menu {
+    :deep(.context-menu) {
         background-color: var(--back-ground-color);
         font-size: 0.8rem;
-        width: min(60vw, 30rem);
-        max-height: 70vh;
         border: 1px solid #ccc;
         border-radius: 0.3rem;
         line-height: 1.4rem;
+        overflow: auto;
     }
 
-    &.non-full .context-menu {
+    &.non-full :deep(.context-menu) {
         z-index: 1;
     }
 
-    &.full .context-menu {
+    &.full :deep(.context-menu) {
         z-index: 1001;
+    }
+
+    &.pc :deep(.context-menu) {
+        width: min(60vw, 30rem);
+        max-height: min(70vh, 70%);
+    }
+
+    &.mobile :deep(.context-menu) {
+        width: min(90vw, 30rem);
+        max-height: min(90vh, 100%);
     }
 }
 
 .editor .insert-text {
     font-size: 0.9em;
+    white-space: nowrap;
 
     > span {
         display: inline-block;

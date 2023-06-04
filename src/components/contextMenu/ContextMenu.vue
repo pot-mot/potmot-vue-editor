@@ -111,7 +111,9 @@ const setPosition = () => {
                 <div>{{ props.title }}</div>
             </slot>
         </div>
-        <slot></slot>
+        <div class="body">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
@@ -125,12 +127,24 @@ const setPosition = () => {
     cursor: all-scroll;
     background-color: #fff;
 
+    > .title {
+        pointer-events: none;
+        font-weight: 600;
+        line-height: 1.6rem;
+        text-align: center;
+    }
+
     > .close {
         position: absolute;
         top: 0;
         right: 0;
         cursor: pointer;
 
+        .icon-font {
+            display: inline-block;
+            height: 1.4rem;
+            width: 1.4rem;
+        }
 
         .icon-close {
             position: absolute;
@@ -143,13 +157,6 @@ const setPosition = () => {
         .icon-close:hover {
             color: #D00;
         }
-    }
-
-    > .title {
-        pointer-events: none;
-        font-weight: 600;
-        line-height: 1.6rem;
-        text-align: center;
     }
 }
 </style>
