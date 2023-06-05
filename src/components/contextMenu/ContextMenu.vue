@@ -101,7 +101,7 @@ const setPosition = () => {
          class="context-menu"
          ref="contextMenu"
          v-drag="props.dragRange">
-        <div class="close">
+        <div class="close" ignore-v-drag>
             <slot name="close" :close="hide">
                 <span class="iconfont icon-close" @mousedown.prevent.stop="hide"/>
             </slot>
@@ -111,9 +111,7 @@ const setPosition = () => {
                 <div>{{ props.title }}</div>
             </slot>
         </div>
-        <div class="body">
-            <slot></slot>
-        </div>
+        <slot></slot>
     </div>
 </template>
 

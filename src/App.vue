@@ -1,8 +1,8 @@
 <template>
-	<div>
-        <MarkdownEditor v-model="text" :start-with-full-screen="true">
-        </MarkdownEditor>
-	</div>
+<!--	<div>-->
+<!--        <MarkdownEditor v-model="text" :start-with-full-screen="true">-->
+<!--        </MarkdownEditor>-->
+<!--	</div>-->
 
 	<div style="height: 120vh;width: 60vw;padding-top: 50vh;margin: auto;line-height: 1.6em;">
 <!--        <ContextMenu v-drag="{minY: 0, minX: 0, maxX: 500, maxY: 500}" height="100px" style="background-color: #ccc;" title="你好">-->
@@ -18,7 +18,8 @@
 <!--			<ContextMenu v-drag="{minY: 0, minX: 0, maxX: 500, maxY: 500}" height="100px" style="background-color: #ccc;">-->
 <!--				hello world-->
 <!--			</ContextMenu>-->
-
+            <MarkdownEditor v-model="text" :start-with-full-screen="true">
+            </MarkdownEditor>
 		</div>
 	</div>
 </template>

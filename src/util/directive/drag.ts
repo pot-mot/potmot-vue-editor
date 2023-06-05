@@ -1,14 +1,35 @@
 import {isMobile, limit} from "../common/common";
 
+/**
+ * 拖曳指令，可以通过给定范围来控制拖曳范围。具体如下：
+ * v-drag="{minX: 0, minY: 0, maxX: 500, maxY: 500}", 可以使目标保持在以初始位置为（0，0）的范围中
+ *
+ * input、button、textarea、select、option默认不会触发 v-drag
+ * 可以通过给定 ignore-v-drag 属性来使其他子元素避免拖动事件
+ *
+ * 注意！触控端为避免冲突，会开启 e.preventDefault() 导致原有事件被覆盖，请尽可能给有需要交互的元素给定 ignore-v-drag
+ */
 export const vDrag = {
-    mounted(el: HTMLDivElement, binding: any) {
+    mounted(el: HTMLDivElement, binding: {value: PositionRange}) {
         if (isMobile.value) {
             // 移动端手指触碰事件
             el.addEventListener('touchstart', (e: TouchEvent) => {
-                if (e.target != el) return;
+                for (const eventTarget of e.composedPath()) {
+                    if (eventTarget instanceof HTMLElement) {
+                        const element = <HTMLElement>eventTarget
+                        if (
+                            element instanceof HTMLInputElement ||
+                            element instanceof HTMLTextAreaElement ||
+                            element instanceof HTMLSelectElement ||
+                            element instanceof HTMLButtonElement ||
+                            element.attributes.getNamedItem('ignore-v-drag') != undefined
+                        ) return
+                    }
+                }
+
                 e.preventDefault();
 
-                const positionRange = binding.value
+                const positionRange: PositionRange = binding.value
 
                 // 当前滑块位置
                 const rectLeft = el.offsetLeft;
@@ -56,7 +77,7 @@ export const vDrag = {
                     }
                 }
 
-                const positionRange = binding.value
+                const positionRange: PositionRange = binding.value
 
                 // 当前滑块位置
                 const rectLeft = el.offsetLeft;

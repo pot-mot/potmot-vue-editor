@@ -17,7 +17,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, onBeforeUnmount, onMounted, PropType, ref} from "vue";
+import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref} from "vue";
 import {useScrollCurrent} from "../util/outline/scrollAndCurrent";
 
 const {handleScroll, setCurrent} = useScrollCurrent()
@@ -77,15 +77,25 @@ const maxLevel = computed(() => {
 
 let oldHtml: string = ""
 
-const setItemFromHtml = (html: string) => {
+/**
+ * 在 html 文本中匹配正则表达式获取元素
+ *
+ * @param html 文本
+ * @param regex 匹配正则表达式
+ * @param parse 转换目标元素为 OutlineItem
+ */
+const setItemFromHtml = (
+    html: string = props.target?.innerHTML,
+    regex: RegExp = props.regex,
+    parse: (match: RegExpExecArray) => OutlineItem = props.parse
+) => {
     if (html == oldHtml) return
 
     oldHtml = html
     const result: OutlineItem[] = [];
-    const regex = props.regex;
     let match: RegExpExecArray | null;
     while (match = regex.exec(html)) {
-        result.push(props.parse(match));
+        result.push(parse(match));
     }
     items.value = result;
 }
@@ -93,6 +103,9 @@ const setItemFromHtml = (html: string) => {
 let oldScrollHeight: number = 0
 let oldScrollTop: number = 0
 
+/**
+ * 标记当前元素
+ */
 const markCurrent = () => {
     if (!props.target) return;
 
@@ -104,17 +117,36 @@ const markCurrent = () => {
     oldScrollHeight = scrollHeight
     oldScrollTop = scrollTop
 
-    setCurrent(props.target, items.value)
+    const elements = []
+
+    for (const item of items.value) {
+        const element = props.target.querySelector(`#${item.id}`)
+        if (!element || !(element instanceof HTMLElement)) {
+            elements.push(undefined)
+        } else {
+            elements.push(element)
+        }
+    }
+
+    let current = setCurrent(props.target, elements)
+
+    if (current == undefined) return;
+
+    for (let i = 0; i < items.value.length; i++) {
+        items.value[i].current = i == current;
+    }
 }
 
 let interval: number;
 
 onMounted(() => {
-    setItemFromHtml(props.target?.innerHTML)
-    markCurrent()
+    nextTick(() => {
+        setItemFromHtml()
+        markCurrent()
+    })
 
     interval = setInterval(() => {
-        setItemFromHtml(props.target?.innerHTML)
+        setItemFromHtml()
         markCurrent()
     }, props.step)
 })

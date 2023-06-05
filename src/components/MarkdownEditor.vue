@@ -27,10 +27,10 @@
                          :close="() => {setEditToolActive('insert', false)}">
                 <ul>
                     <li v-for="item in props.insertUnits" class="insert-text">
-							<span class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
-                                  :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'>
-								{{ item.label }}
-							</span>
+                        <span ignore-v-drag
+                              class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
+                              :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'
+                              v-text="item.label"/>
                         <template v-for="arg in item.arguments">
                             <label>{{ arg.label }}</label>
                             <select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
@@ -46,29 +46,29 @@
                 </ul>
             </ContextMenu>
             <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px"
-                         :position="contextMenus.get('replace').position" class="replace-box"
+                         :position="contextMenus.get('replace').position"
                          :close="() => {setEditToolActive('replace', false)}">
-                <textarea v-model="replaceData.replaceFrom" placeholder="查找文本"/>
-                <br>
-                <textarea v-model="replaceData.replaceTo" placeholder="替换文本"/>
-                <br>
-                <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
-                <span style="display: inline-block;width: 1em;"></span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
-                <span style="display: inline-block;width: 1em;"></span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
-                <input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
-                       v-model="searchIndex">
-                <span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
-                <span style="display: inline-block;width: 1em;"></span>
-                <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+                <textarea v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
+                <textarea v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
+                <div class="replace-operation" ignore-v-drag>
+                    <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+                    <span style="display: inline-block;width: 1em;"></span>
+                    <span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+                    <span style="display: inline-block;width: 1em;"></span>
+                    <span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
+                    <input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
+                           v-model="searchIndex">
+                    <span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
+                    <span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
+                    <span style="display: inline-block;width: 1em;"></span>
+                    <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+                </div>
             </ContextMenu>
             <ContextMenu title="预览大纲" :visible="contextMenus.get('outline').visible" width="200px"
                          :position="contextMenus.get('outline').position" class="outline-box"
                          :close="() => {setEditToolActive('outline', false)}">
                 <slot name="outline" :target="previewCard">
-                    <MarkdownOutline :target="previewCard"></MarkdownOutline>
+                    <MarkdownOutline :target="previewCard" ignore-v-drag></MarkdownOutline>
                 </slot>
             </ContextMenu>
         </div>
@@ -174,6 +174,12 @@ const props = defineProps({
         required: false,
         default: false,
     },
+
+    historyStep: {
+        type: Number,
+        required: false,
+        default: 100,
+    },
 })
 
 // 盒型数据
@@ -216,7 +222,7 @@ const editTools = reactive(<EditTool[]>[
         label: "快捷插入",
         icon: "icon-bulletpoint",
         active: false,
-        show: () => isFullScreen.value || !isPreview.value,
+        show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -227,7 +233,7 @@ const editTools = reactive(<EditTool[]>[
         label: "文本查找与替换",
         icon: "icon-search-list",
         active: false,
-        show: () => isFullScreen.value || !isPreview.value,
+        show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
@@ -260,7 +266,7 @@ const editTools = reactive(<EditTool[]>[
         label: "撤销",
         icon: "icon-undo",
         active: false,
-        show: () => isFullScreen.value || !isPreview.value,
+        show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: () => {
             undo();
@@ -271,7 +277,7 @@ const editTools = reactive(<EditTool[]>[
         label: "重做",
         icon: "icon-redo",
         active: false,
-        show: () => isFullScreen.value || !isPreview.value,
+        show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: () => {
             redo();
@@ -323,22 +329,14 @@ const getContextMenuPosition = (key: string) => {
     const item = toolMap.value.get(key)!
 
     if (item.position == 'left') {
-        for (let i = 0; i < leftTools.value.length; i++) {
-            if (leftTools.value[i].name == key) {
-                return {
-                    top: '1.6rem',
-                    left: i * 2.3 + (isFullScreen.value ? 0.5 : 0) + 'rem',
-                }
-            }
+        return {
+            top: '2rem',
+            left: '0.5rem'
         }
     } else {
-        for (let i = rightTools.value.length - 1; i >= 0; i--) {
-            if (rightTools.value[i].name == key) {
-                return {
-                    top: '1.6rem',
-                    right: (rightTools.value.length - i) * 2.3 + (isFullScreen.value ? -0.5 : -1) + 'rem',
-                }
-            }
+        return {
+            top: '2rem',
+            right: '0.5rem'
         }
     }
 }
@@ -375,9 +373,11 @@ let beforeFullScreenTop = 0
 watch(() => isFullScreen.value, async (newValue) => {
     if (newValue) {
         isPreview.value = !isMobile.value;
+        document.documentElement.classList.add('hideScroll')
         beforeFullScreenTop = document.documentElement.scrollTop;
     } else {
         isPreview.value = false;
+        document.documentElement.classList.remove('hideScroll')
         await nextTick(() => {
             document.documentElement.scrollTop = beforeFullScreenTop;
         })
@@ -828,33 +828,58 @@ let historyInterval: number
 let tempText: string
 let tempSelectStart: number
 let tempSelectEnd: number
+let tempScrollTop: number
 let oldPushFlag: string
 
 onMounted(() => {
     historyInterval = setInterval(() => {
-        if (tempText != text.value || tempSelectStart != textarea.value.selectionStart || tempSelectEnd != textarea.value.selectionEnd) {
-            if (pushFlag == 'undo' || pushFlag == 'redo') {
-                return
-            }
-
-            if (oldPushFlag != pushFlag) {
-                push();
-                oldPushFlag = pushFlag
-            } else {
-                top.value = defaultHistory()
-            }
-
-            tempText = text.value
-            tempSelectStart = textarea.value.selectionStart
-            tempSelectEnd = textarea.value.selectionEnd
+        if (pushFlag == 'undo' || pushFlag == 'redo') {
+            return
         }
-    }, 20)
+
+        const textValue = text.value
+        const start = textarea.value.selectionStart
+        const end = textarea.value.selectionEnd
+        const scrollTop = textarea.value.scrollTop
+
+        if (oldPushFlag != pushFlag) {
+            push();
+            oldPushFlag = pushFlag
+            tempText = textValue
+            tempSelectStart = start
+            tempSelectEnd = end
+            tempScrollTop = scrollTop
+        } else {
+            if (tempText != textValue) {
+                tempText = textValue
+                top.value.text = textValue
+            }
+            if (tempSelectStart != start) {
+                tempSelectStart = start
+                top.value.start = start
+            }
+            if (tempSelectEnd != end) {
+                tempSelectEnd = end
+                top.value.end = end
+            }
+            if (tempScrollTop != scrollTop) {
+                tempScrollTop = scrollTop
+                top.value.scrollTop = scrollTop
+            }
+        }
+    }, props.historyStep)
 })
 
 onBeforeUnmount(() => {
     clearInterval(historyInterval)
 })
 </script>
+
+<style lang="scss">
+.hideScroll {
+    overflow-y: hidden;
+}
+</style>
 
 <style lang="scss" scoped>
 @import "../asserts/iconfont.css";
@@ -997,7 +1022,6 @@ onBeforeUnmount(() => {
         border: 1px solid #ccc;
         border-radius: 0.3rem;
         line-height: 1.4rem;
-        overflow: auto;
     }
 
     &.non-full :deep(.context-menu) {
@@ -1011,11 +1035,11 @@ onBeforeUnmount(() => {
     &.pc :deep(.context-menu) {
         width: min(60vw, 30rem);
         max-height: min(70vh, 70%);
+        overflow: auto;
     }
 
     &.mobile :deep(.context-menu) {
         width: min(90vw, 30rem);
-        max-height: min(90vh, 100%);
     }
 }
 
@@ -1053,29 +1077,19 @@ onBeforeUnmount(() => {
 }
 
 .editor .replace-box {
-    > textarea {
-        height: 4em;
-        margin-right: 0.5em;
-        width: 100%;
-        border: 1px solid #e5e5e5;
-        padding: 0.5em;
-    }
+    height: 4em;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    padding: 0.5em;
+}
+
+.editor .replace-operation {
+    display: inline-block;
+    cursor: default;
 
     > span {
         cursor: default;
     }
-}
-
-.editor .outline-box {
-    padding: 1em 0.5em;
-    background-color: #fff;
-    min-width: 25em;
-    max-height: 70vh;
-    line-height: 1.6em;
-    border: 1px solid #ccc;
-    cursor: all-scroll;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .editor.non-full > .toolbar {

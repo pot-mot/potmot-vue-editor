@@ -1,41 +1,68 @@
-// 是否处于滚动状态
 import {smoothScroll} from "../common/scroll";
 import {ref} from "vue";
 
+/**
+ * 使用精确控制滚动，配合创造平滑滚动效果结束后保持点击时 current 不发生变更
+ */
 export const useScrollCurrent = () => {
+    // 是否处于滚动状态
     const isScroll = ref(false)
 
-    const handleScroll = (target: HTMLElement, item: HTMLElement) => {
+    /**
+     * 处理滚动，将从一个元素的 offsetTop 滚动到另一个元素的 offsetTop
+     *
+     * @param scroller 将被滚动的元素
+     * @param target 目标元素
+     * @param maxTime 最大滚动时间，默认为 300
+     * @param endDuration 结束后释放 isScroll 的时间，默认为 100
+     */
+    const handleScroll = (
+        scroller: HTMLElement,
+        target: HTMLElement,
+        maxTime: number = 300,
+        endDuration: number = 100
+    ) => {
         isScroll.value = true
-        smoothScroll(target, item.offsetTop - target.offsetTop, () => {
+        smoothScroll(scroller, target.offsetTop - scroller.offsetTop, () => {
+            // 在结束后经过 100ms 才重新判断滚动
             setTimeout(() => {
                 isScroll.value = false
-            }, 100)
-        }, 300)
+            }, endDuration)
+        }, maxTime)
     }
 
-    const setCurrent = (target: HTMLElement, items: OutlineItem[]) => {
+    /**
+     * 在容器元素中判断一组元素中的当前元素
+     * 此处 '当前' 即表现出高亮表示已选中
+     *
+     * @param container 容器元素
+     * @param items 子元素列表，允许为 undefined
+     * @param judge 判断函数，接收 container 和 item
+     *
+     * @return 当前元素下标
+     */
+    const setCurrent = (
+        container: HTMLElement,
+        items: Array<HTMLElement | undefined>,
+        judge: (container: HTMLElement, item: HTMLElement) => boolean =
+            (container, item) => {
+                return item.getBoundingClientRect().top <= (container.getBoundingClientRect().top + 40)
+            }
+    ): number | undefined => {
         if (isScroll.value) return;
 
-        if (!(target instanceof HTMLElement) || !Array.isArray(items)) {
+        if (!(container instanceof HTMLElement) || !Array.isArray(items)) {
             return
         }
 
-        let current = 0
-
         for (let i = items.length - 1; i >= 0; i--) {
-            if (!items[i].id) return;
-            const element = target.querySelector(`#${items[i].id}`)
-            if (!element || !(element instanceof HTMLElement)) return;
-            if (element.getBoundingClientRect().top <= target.getBoundingClientRect().top + 40) {
-                current = i
-                break
+            if (items[i] == undefined || !(items[i] instanceof HTMLElement)) continue
+            if (judge(container, items[i]!)) {
+                return i
             }
         }
 
-        for (let i = 0; i < items.length; i++) {
-            items[i].current = i == current;
-        }
+        return 0
     }
 
     return {
