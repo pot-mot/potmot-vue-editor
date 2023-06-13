@@ -2,29 +2,8 @@
     <div class="editor"
          :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc']"
          :style="isFullScreen ? '' : {width: props.width, height: props.height}">
-        <div class="toolbar">
-            <ul class="left">
-                <li v-for="tool in leftTools" v-show="tool.show?.()">
-				<span
-                        @mousedown.prevent.stop="tool.method(tool)"
-                        :title="tool.label"
-                        class="iconfont"
-                        :class="[tool.active ? 'chosen' : '',tool.icon]">
-				</span>
-                </li>
-            </ul>
-            <ul class="right">
-                <li v-for="tool in rightTools" v-show="tool.show?.()">
-				<span @mousedown.prevent.stop="tool.method(tool)"
-                      :title="tool.label"
-                      class="iconfont"
-                      :class="[tool.active ? 'chosen' : '',tool.icon]">
-				</span>
-                </li>
-            </ul>
-            <ContextMenu title="模板插入" :visible="contextMenus.get('insert').visible" width="200px"
-                         :position="contextMenus.get('insert').position"
-                         :close="() => {setEditToolActive('insert', false)}">
+        <ToolBar class="toolbar" :tools="editTools">
+            <template #insert>
                 <ul>
                     <li v-for="item in props.insertUnits" class="insert-text">
                         <span ignore-v-drag
@@ -44,10 +23,13 @@
                         </template>
                     </li>
                 </ul>
-            </ContextMenu>
-            <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px"
-                         :position="contextMenus.get('replace').position"
-                         :close="() => {setEditToolActive('replace', false)}">
+<!--                <ContextMenu title="模板插入" :visible="contextMenus.get('insert').visible" width="200px"-->
+<!--                             :position="contextMenus.get('insert').position"-->
+<!--                             :close="() => {setEditToolActive('insert', false)}">-->
+<!--                    -->
+<!--                </ContextMenu>-->
+            </template>
+            <template #replace>
                 <textarea v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
                 <textarea v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
                 <div class="replace-operation" ignore-v-drag>
@@ -63,15 +45,22 @@
                     <span style="display: inline-block;width: 1em;"></span>
                     <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
                 </div>
-            </ContextMenu>
-            <ContextMenu title="预览大纲" :visible="contextMenus.get('outline').visible" width="200px"
-                         :position="contextMenus.get('outline').position" class="outline-box"
-                         :close="() => {setEditToolActive('outline', false)}">
+<!--                <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px"-->
+<!--                             :position="contextMenus.get('replace').position"-->
+<!--                             :close="() => {setEditToolActive('replace', false)}">-->
+<!--                    -->
+<!--                </ContextMenu>-->
+            </template>
+            <template #outline>
                 <slot name="outline" :target="previewCard">
                     <MarkdownOutline :target="previewCard" ignore-v-drag></MarkdownOutline>
                 </slot>
-            </ContextMenu>
-        </div>
+<!--                <ContextMenu v-else title="预览大纲" :visible="contextMenus.get('outline').visible" width="200px"-->
+<!--                             :position="contextMenus.get('outline').position" class="outline-box"-->
+<!--                             :close="() => {setEditToolActive('outline', false)}">-->
+<!--                </ContextMenu>-->
+            </template>
+        </ToolBar>
         <div class="container" :class="containerClass">
 			<textarea
                     :style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
@@ -129,9 +118,9 @@ import {useHistoryStack} from "../util/editor/editHistory";
 import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
-import ContextMenu from "./contextMenu/ContextMenu.vue";
 import {useStatistics} from "../util/editor/statistics";
 import {smoothScroll} from "../util/common/scroll";
+import ToolBar from "./toolBar/ToolBar.vue";
 
 /**
  * 外部传入参数
@@ -217,77 +206,84 @@ const {statisticalData} = useStatistics(() => textarea.value)
 
 // 工具列表
 const editTools = reactive(<EditTool[]>[
-    {
+    <EditTool>{
         name: "insert",
         label: "快捷插入",
         icon: "icon-bulletpoint",
         active: false,
+        contextMenu: true,
         show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
         }
     },
-    {
+    <EditTool>{
         name: "replace",
         label: "文本查找与替换",
         icon: "icon-search-list",
         active: false,
+        contextMenu: true,
         show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
         }
     },
-    {
+    <EditTool>{
         name: "outline",
-        label: "大纲",
+        label: "预览大纲",
         icon: "icon-file-tree",
         active: false,
+        contextMenu: true,
         show: () => isPreview.value,
         position: "right",
         method: (self: EditTool) => {
             self.active = !self.active
         }
     },
-    {
+    <EditTool>{
         name: "preview",
         label: "预览",
         icon: "icon-browse",
         active: false,
+        contextMenu: false,
         show: () => true,
         position: "right",
         method: (self: EditTool) => {
             self.active = !self.active
         }
     },
-    {
+    <EditTool>{
         name: "undo",
         label: "撤销",
         icon: "icon-undo",
         active: false,
+        contextMenu: false,
         show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: () => {
             undo();
         }
     },
-    {
+    <EditTool>{
         name: "redo",
         label: "重做",
         icon: "icon-redo",
         active: false,
+        contextMenu: false,
         show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: () => {
             redo();
         }
     },
-    {
+    <EditTool>{
         name: "fullScreen",
         label: "全屏/收起全屏",
         icon: "icon-full-screen",
         active: false,
+        contextMenu: false,
         show: () => true,
         position: "right",
         method: (self: EditTool) => {
@@ -300,57 +296,15 @@ const {batchTab, batchEnter, completeAround} = useExtendInput(() => textarea.val
     text.value = newValue
 })
 
-const leftTools = computed(() => {
-    return editTools.filter(item => item.position == "left")
-})
-
-const rightTools = computed(() => {
-    return editTools.filter(item => item.position == "right")
-})
-
 const toolMap = computed(() => {
     const map = new Map<string, EditTool>()
     editTools.forEach(item => map.set(item.name, item))
     return map
 })
 
-const contextMenus = computed(() => {
-    const map = new Map<string, any>()
-    editTools.forEach(item => map.set(item.name, {
-        visible: getContextMenuShow(item.name),
-        position: getContextMenuPosition(item.name)
-    }))
-    return map
-})
-
-const getContextMenuPosition = (key: string) => {
-    if (!toolMap.value.has(key)) return {}
-
-    const item = toolMap.value.get(key)!
-
-    if (item.position == 'left') {
-        return {
-            top: '2rem',
-            left: '0.5rem'
-        }
-    } else {
-        return {
-            top: '2rem',
-            right: '0.5rem'
-        }
-    }
-}
-
 const getEditToolActive = (key: string): boolean => {
     if (!toolMap.value.has(key)) return false
     return toolMap.value.get(key)!.active
-}
-
-const getContextMenuShow = (key: string): boolean => {
-    if (!toolMap.value.has(key)) return false
-    const item = toolMap.value.get(key)!
-    if (item.show == undefined) return false
-    return item.show() && item.active
 }
 
 const setEditToolActive = (key: string, newValue: boolean): void => {
@@ -882,8 +836,6 @@ onBeforeUnmount(() => {
 </style>
 
 <style lang="scss" scoped>
-@import "../asserts/iconfont.css";
-
 .editor {
     --back-ground-color: #f5f5f5;
 
@@ -1021,7 +973,9 @@ onBeforeUnmount(() => {
         font-size: 0.8rem;
         border: 1px solid #ccc;
         border-radius: 0.3rem;
+        padding: 1rem;
         line-height: 1.4rem;
+        overflow: auto;
     }
 
     &.non-full :deep(.context-menu) {
@@ -1034,8 +988,7 @@ onBeforeUnmount(() => {
 
     &.pc :deep(.context-menu) {
         width: min(60vw, 30rem);
-        max-height: min(70vh, 70%);
-        overflow: auto;
+        max-height: min(70vh, 30rem);
     }
 
     &.mobile :deep(.context-menu) {
@@ -1092,63 +1045,17 @@ onBeforeUnmount(() => {
     }
 }
 
-.editor.non-full > .toolbar {
-    padding: 0.2% 0.5%;
-}
-
-.editor.full > .toolbar {
-    padding: 0.2% 1.5% 0.2% 0.5%;
-}
-
-.editor.full.mobile > .toolbar {
-    padding: 0.5%;
-}
-
-.editor > .toolbar {
-    display: grid;
-    grid-template-columns: 50% 50%;
-
-    > ul > li {
-        position: relative;
-        display: inline-block;
-        font-size: 0.9rem;
-        list-style: none;
-
-        > .iconfont {
-            display: inline-block;
-            width: 1.8rem;
-        }
-
-        > .iconfont:before {
-            color: #999;
-            text-align: center;
-            padding: 0.25rem;
-            font-size: 1.3rem;
-        }
-
-        > .iconfont:hover:before {
-            color: #7a7a7a;
-            background-color: #eee;
-        }
-
-        > .iconfont.chosen:before {
-            color: #fff;
-            background-color: #bcbcbc;
-        }
+.editor {
+    &.non-full > .toolbar {
+        padding: 0.2% 0.5%;
     }
 
-    > .left {
-        > li {
-            padding-right: 0.5rem;
-        }
+    &.full > .toolbar {
+        padding: 0.2% 1.5% 0.2% 0.5%;
     }
 
-    > .right {
-        justify-self: right;
-
-        > li {
-            padding-left: 0.5rem;
-        }
+    &.full.mobile > .toolbar {
+        padding: 0.5%;
     }
 }
 
