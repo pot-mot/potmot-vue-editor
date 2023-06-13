@@ -70,8 +70,7 @@
                     class="edit-card"
                     @scrollend="syncScroll(textarea, previewCard)"
                     @keydown.self="onKeyDown"
-                    @dragend.self="onDragEnd"
-                    @contextmenu.self.prevent="setEditToolActive('insert', true)">
+                    @dragend.self="onDragEnd">
 			</textarea>
             <div ref="previewCard"
                  class="preview-card"
@@ -521,7 +520,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
         key: "Tab",
         method: (e: KeyboardEvent) => {
             pushFlag = 'tab'
-            batchTab(e, '\t');
+            batchTab(e);
         },
         prevent: true,
         reject: true,

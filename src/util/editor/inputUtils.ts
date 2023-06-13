@@ -32,15 +32,19 @@ export const useExtendInput = (
         }
         update(text)
 
-        nextTick(() => {
-            if (textarea.selectionStart != textarea.selectionEnd) {
+        if (textarea.selectionStart != textarea.selectionEnd) {
+            nextTick(() => {
                 textarea.selectionStart = start;
                 textarea.selectionEnd = end + after.length;
-            } else {
+            })
+        } else {
+            nextTick(() => {
                 textarea.selectionStart = start + before.length;
                 textarea.selectionEnd = start + before.length;
-            }
-        })
+            })
+        }
+
+
     }
 
     // 回车保留缩进
@@ -50,66 +54,45 @@ export const useExtendInput = (
         const LeadingSpace = getLeadingSpace(textarea.value, start)
         const newValue = insertIntoString(LeadingSpace, textarea.value, start);
         update(newValue)
-        nextTick(() => {
-            textarea.selectionStart = start + LeadingSpace.length;
-            textarea.selectionEnd = textarea.selectionStart;
-        })
+        nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start + LeadingSpace.length, start + LeadingSpace.length])
     }
 
     // 批量缩进（Tab）
-    const batchTab = (e: KeyboardEvent, insertString: string) => {
-        const textarea = target()
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-
-        let newValue
+    const batchTab = (e: KeyboardEvent, tab: string = '\t') => {
+        const textarea = target();
+        const {selectionStart: start, selectionEnd: end} = textarea;
 
         if (e.shiftKey) {
-            if (textarea.selectionStart == textarea.selectionEnd) {
-                let index = 0;
-                for (let i = textarea.selectionStart - 1; i >= 0; i--) {
-                    if (textarea.value[i] == '\n') {
-                        index = i + 1;
-                        break;
-                    }
-                }
+            if (start == end) {
+                const index = textarea.value.lastIndexOf('\n', start - 1) + 1;
                 const temp = textarea.value.slice(index, start);
-                const newTemp = temp.replace(insertString, '');
-                if (temp.length == newTemp.length) return;
-                newValue = textarea.value.slice(0, start - temp.length) + newTemp + textarea.value.slice(end);
-                update(newValue)
+                const newTemp = temp.replace(tab, '');
+                if (temp.length === newTemp.length) return;
+                const newValue = `${textarea.value.slice(0, start - temp.length)}${newTemp}${textarea.value.slice(end)}`;
+                update(newValue);
             } else {
                 const temp = textarea.value.slice(start, end);
-                const newTemp = temp.replace(insertString, '').replaceAll('\n' + insertString, '\n');
-                if (temp.length == newTemp.length) return;
-                newValue = textarea.value.slice(0, start) + newTemp + textarea.value.slice(start + temp.length);
-                update(newValue)
-                nextTick(() => {
-                    textarea.selectionStart = start;
-                    textarea.selectionEnd = start + newTemp.length;
-                })
+                const newTemp = temp.replace(tab, '').replaceAll(`\n${tab}`, '\n');
+                if (temp.length === newTemp.length) return;
+                const newValue = `${textarea.value.slice(0, start)}${newTemp}${textarea.value.slice(start + temp.length)}`;
+                update(newValue);
+                nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start, start + newTemp.length]);
             }
         } else {
-            if (textarea.selectionStart == textarea.selectionEnd) {
-                newValue = insertIntoString(insertString, textarea.value, textarea.selectionStart);
-                update(newValue)
-                nextTick(() => {
-                    textarea.selectionStart = start + 1;
-                    textarea.selectionEnd = start + 1;
-                })
+            if (start == end) {
+                const newValue = insertIntoString(tab, textarea.value, start);
+                update(newValue);
+                nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start + tab.length, start + tab.length]);
             } else {
-                const temp = textarea.value.slice(start, textarea.selectionEnd);
-                const newTemp = insertString + temp.replaceAll('\n', '\n' + insertString);
-                if (temp.length == newTemp.length) return;
-                newValue = textarea.value.slice(0, start) + newTemp + textarea.value.slice(start + temp.length);
-                update(newValue)
-                nextTick(() => {
-                    textarea.selectionStart = start;
-                    textarea.selectionEnd = start + newTemp.length;
-                })
+                const temp = textarea.value.slice(start, end);
+                const newTemp = `${tab}${temp.replaceAll('\n', `\n${tab}`)}`;
+                if (temp.length === newTemp.length) return;
+                const newValue = `${textarea.value.slice(0, start)}${newTemp}${textarea.value.slice(start + temp.length)}`;
+                update(newValue);
+                nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start, start + newTemp.length]);
             }
         }
-    }
+    };
 
     return {
         batchEnter,
