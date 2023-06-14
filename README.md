@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.9.6
+npm install potmot-vue-editor@0.9.7
 ```
 
 main.js 中引用
