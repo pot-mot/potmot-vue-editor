@@ -17,6 +17,11 @@ export const useExtendInput = (
     target: () => HTMLTextAreaElement,
     update: (newValue: string) => void = (newValue: string) => (target().value = newValue)
 ) => {
+    const resetSelection = (start: number, end: number) => {
+        const textarea = target()
+        nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start, end]).then()
+    }
+
     // 补全（括号和引号）
     const completeAround = (insertText: { before: string, after: string }) => {
         const textarea = target()
@@ -31,20 +36,11 @@ export const useExtendInput = (
             text = insertIntoString(after, text, end);
         }
         update(text)
-
         if (textarea.selectionStart != textarea.selectionEnd) {
-            nextTick(() => {
-                textarea.selectionStart = start;
-                textarea.selectionEnd = end + after.length;
-            })
+            resetSelection(start, end + after.length)
         } else {
-            nextTick(() => {
-                textarea.selectionStart = start + before.length;
-                textarea.selectionEnd = start + before.length;
-            })
+            resetSelection(start + before.length, start + before.length)
         }
-
-
     }
 
     // 回车保留缩进
@@ -54,7 +50,7 @@ export const useExtendInput = (
         const LeadingSpace = getLeadingSpace(textarea.value, start)
         const newValue = insertIntoString(LeadingSpace, textarea.value, start);
         update(newValue)
-        nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start + LeadingSpace.length, start + LeadingSpace.length])
+        resetSelection(start + LeadingSpace.length, start + LeadingSpace.length)
     }
 
     // 批量缩进（Tab）
@@ -69,32 +65,33 @@ export const useExtendInput = (
                 const newTemp = temp.replace(tab, '');
                 if (temp.length === newTemp.length) return;
                 const newValue = `${textarea.value.slice(0, start - temp.length)}${newTemp}${textarea.value.slice(end)}`;
-                update(newValue);
+                update(newValue)
             } else {
                 const temp = textarea.value.slice(start, end);
                 const newTemp = temp.replace(tab, '').replaceAll(`\n${tab}`, '\n');
                 if (temp.length === newTemp.length) return;
                 const newValue = `${textarea.value.slice(0, start)}${newTemp}${textarea.value.slice(start + temp.length)}`;
-                update(newValue);
-                nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start, start + newTemp.length]);
+                update(newValue)
+                resetSelection(start, start + newTemp.length)
             }
         } else {
             if (start == end) {
                 const newValue = insertIntoString(tab, textarea.value, start);
-                update(newValue);
-                nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start + tab.length, start + tab.length]);
+                update(newValue)
+                resetSelection(start + tab.length, start + tab.length)
             } else {
                 const temp = textarea.value.slice(start, end);
                 const newTemp = `${tab}${temp.replaceAll('\n', `\n${tab}`)}`;
                 if (temp.length === newTemp.length) return;
                 const newValue = `${textarea.value.slice(0, start)}${newTemp}${textarea.value.slice(start + temp.length)}`;
-                update(newValue);
-                nextTick(() => [textarea.selectionStart, textarea.selectionEnd] = [start, start + newTemp.length]);
+                update(newValue)
+                resetSelection(start, start + newTemp.length)
             }
         }
     };
 
     return {
+        resetSelection,
         batchEnter,
         batchTab,
         completeAround

@@ -400,8 +400,15 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 /**
  * 滚动同步
  */
+let isSyncScroll = false;
+
 const syncScroll = (from: HTMLElement, to: HTMLElement) => {
-    to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight);
+    if (isSyncScroll) return
+    isSyncScroll = true
+    to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight)
+    setTimeout(() => {
+        isSyncScroll = false
+    }, 5)
 }
 
 watch(() => isPreview.value, () => {

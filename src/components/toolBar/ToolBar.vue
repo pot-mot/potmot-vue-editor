@@ -2,6 +2,7 @@
 import {computed, PropType} from "vue";
 import {EditTool} from "../../declare/EditorUtil";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
+import {groupBy} from "../../util/common/group";
 
 const props = defineProps({
     tools: {
@@ -14,12 +15,8 @@ const props = defineProps({
 	}
 })
 
-const leftTools = computed(() => {
-    return props.tools.filter(item => item.position == "left")
-})
-
-const rightTools = computed(() => {
-    return props.tools.filter(item => item.position == "right")
+const toolPositionMap = computed(() => {
+    return groupBy(props.tools, 'position')
 })
 
 const toolMap = computed(() => {
@@ -61,18 +58,12 @@ const getContextMenuPosition = (key: string) => {
         }
     }
 }
-
-const setEditToolActive = (key: string, newValue: boolean): void => {
-    if (!toolMap.value.has(key)) return
-    const item = toolMap.value.get(key)!
-    item.active = newValue
-}
 </script>
 
 <template>
     <div class="toolbar">
-        <ul class="left">
-            <li v-for="tool in leftTools" v-show="tool.show?.()">
+        <ul v-for="position in toolPositionMap.keys()" :class="position">
+            <li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()">
 				<span
                         @mousedown.prevent.stop="tool.method(tool)"
                         :title="tool.label"
@@ -80,24 +71,11 @@ const setEditToolActive = (key: string, newValue: boolean): void => {
                         :class="[tool.active ? 'chosen' : '',tool.icon]">
 				</span>
                 <slot v-if="!withContextMenu" :name="tool.name"></slot>
-                <ContextMenu v-else-if="tool.contextMenu" :title="tool.label" :visible="contextMenus.get(tool.name).visible"
+                <ContextMenu v-else-if="tool.contextMenu"
+                             :title="tool.label"
+                             :visible="contextMenus.get(tool.name).visible"
                              :position="contextMenus.get(tool.name).position"
-                             :close="() => {setEditToolActive(tool.name, false)}">
-                    <slot :name="tool.name"></slot>
-                </ContextMenu>
-            </li>
-        </ul>
-        <ul class="right">
-            <li v-for="tool in rightTools" v-show="tool.show?.()">
-				<span @mousedown.prevent.stop="tool.method(tool)"
-                      :title="tool.label"
-                      class="iconfont"
-                      :class="[tool.active ? 'chosen' : '',tool.icon]">
-				</span>
-                <slot v-if="!withContextMenu" :name="tool.name"></slot>
-                <ContextMenu v-else-if="tool.contextMenu" :title="tool.label" :visible="contextMenus.get(tool.name).visible"
-                             :position="contextMenus.get(tool.name).position"
-                             :close="() => {setEditToolActive(tool.name, false)}">
+                             :close="() => {tool.active = false}">
                     <slot :name="tool.name"></slot>
                 </ContextMenu>
             </li>
