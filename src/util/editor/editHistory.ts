@@ -27,15 +27,21 @@ export const useHistoryStack = (
         // 历史记录相关
         stack: <EditorHistory[]>[],
         stackTop: 0,
+
+        undoPointer: 0,
+        undoStepLength: 0,
     })
 
     const push = (historyTop: EditorHistory = pushDefault()) => {
         if (historyData.stackTop >= maxSize) {
             historyData.stack.splice(0, Math.floor(maxSize / 2));
         }
+
         historyData.stackTop++;
         historyData.stack.push(historyTop);
         historyData.stack.splice(historyData.stackTop + 1);
+
+        historyData.undoStepLength = 0;
     }
 
     const pop = () => {
@@ -47,12 +53,33 @@ export const useHistoryStack = (
     }
 
     // 撤销
-    const undo = pop;
+    const undo = () => {
+        if (historyData.stackTop > 0) {
+            if (historyData.undoStepLength == 0) {
+                historyData.undoStepLength = 1
+                historyData.undoPointer = historyData.stackTop - 1
+            } else if (historyData.undoPointer > 0) {
+                historyData.undoStepLength++
+                historyData.undoPointer--
+            } else {
+                emptyHook();
+                return
+            }
+            historyData.stack.push({...historyData.stack[historyData.undoPointer]})
+            historyData.stackTop++
+
+        } else {
+            emptyHook();
+        }
+    }
 
     // 重做
     const redo = () => {
-        if (historyData.stackTop < historyData.stack.length - 1) {
-            historyData.stackTop++;
+
+        if (historyData.stackTop > 0 && historyData.undoStepLength > 0) {
+            historyData.stackTop--;
+            historyData.undoStepLength --;
+
         } else {
             fullHook();
         }

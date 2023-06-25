@@ -103,20 +103,43 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        key: '1',
+        key: '%',
         ctrl: true,
         label: "有序列表",
+        replace: true,
+        keepSelect: true,
         insert: (args, text, textarea) => {
-            let listLength = args.get("orderedListLength")!.value
-            let listStart = args.get("orderedListStart")!.value
-            listLength = limit(listLength, 1, 99);
-            listStart = limit(listStart, 0, 9999);
             let returnText = "";
-            const space = getLeadingSpace(text, textarea.selectionStart)
-            for (let i = 0; i < listLength - 1; i++) {
-                returnText += space + (i + listStart + 1) + ". ";
+
+            if (textarea.selectionStart != textarea.selectionEnd) {
+                let start = textarea.selectionStart
+
+                while (text[start] == " " || text[start] == "\t") {
+                    start++;
+                }
+
+                const space = getLeadingSpace(text, start).replace("\n", "")
+
+                const list = text.slice(start, textarea.selectionEnd).split("\n")
+
+                for (let i = 0; i < list.length; i++) {
+                    returnText += `${space + (i + 1)}. ${list[i].trim()}
+`;
+                }
+
+                return {before: "", after: returnText}
+            } else {
+                let listLength = args.get("orderedListLength")!.value
+                let listStart = args.get("orderedListStart")!.value
+                listLength = limit(listLength, 1, 99);
+                listStart = limit(listStart, 0, 9999);
+
+                const space = getLeadingSpace(text, textarea.selectionStart).replace("\n", "")
+                for (let i = 0; i < listLength - 1; i++) {
+                    returnText += `${space + (i + listStart + 1)}. \n`;
+                }
+                return {before: listStart + ". ", after: "\n" + returnText}
             }
-            return {before: listStart + ". ", after: returnText}
         },
         arguments: [
             <InputInsertArgument<number>>{
@@ -144,18 +167,42 @@ export const markdownInsertUnits: InsertUnit[] = [
         prevent: true,
     },
     {
-        key: "-",
+        key: '*',
         ctrl: true,
         label: "无序列表",
+        replace: true,
+        keepSelect: true,
         insert: (args, text, textarea) => {
-            let listLength = args.get("unorderedListLength")!.value
-            listLength = limit(listLength, 1, 99);
             let returnText = "";
-            const space = getLeadingSpace(text, textarea.selectionStart)
-            for (let i = 0; i < listLength - 1; i++) {
-                returnText += space + "- ";
+
+            if (textarea.selectionStart != textarea.selectionEnd) {
+                let start = textarea.selectionStart
+
+                while (text[start] == " " || text[start] == "\t") {
+                    start++;
+                }
+
+                const space = getLeadingSpace(text, start).replace("\n", "")
+
+                const list = text.slice(start, textarea.selectionEnd).split("\n")
+
+                list.forEach(item => {
+                    returnText += `${space}* ${item.trim()}\n`;
+                })
+
+                return {before: "", after: returnText}
+            } else {
+                const space = getLeadingSpace(text, textarea.selectionStart).replace("\n", "")
+
+                let listLength = args.get("unorderedListLength")!.value
+                listLength = limit(listLength, 1, 99);
+
+
+                for (let i = 0; i < listLength - 1; i++) {
+                    returnText += `${space}* \n`;
+                }
+                return {before: "* ", after: " \n" + returnText}
             }
-            return {before: "- ", after: returnText + "\n"}
         },
         arguments: [
             <InputInsertArgument<number>>{
@@ -168,6 +215,40 @@ export const markdownInsertUnits: InsertUnit[] = [
                 },
                 inputLength: 2,
             }
+        ],
+        reject: true,
+        prevent: true,
+    },
+    {
+        key: '>',
+        ctrl: true,
+        label: "引用",
+        replace: true,
+        keepSelect: true,
+        insert: (args, text, textarea) => {
+            let returnText = "";
+
+            if (textarea.selectionStart != textarea.selectionEnd) {
+                let start = textarea.selectionStart
+
+                while (text[start] == " " || text[start] == "\t") {
+                    start++;
+                }
+
+                const space = getLeadingSpace(text, start).replace("\n", "")
+
+                const list = text.slice(start, textarea.selectionEnd).split("\n")
+
+                list.forEach(item => {
+                    returnText += `${space}> ${item.trim()}\n`;
+                })
+
+                return {before: "", after: returnText}
+            } else {
+                return {before: "> ", after: " \n" + returnText}
+            }
+        },
+        arguments: [
         ],
         reject: true,
         prevent: true,

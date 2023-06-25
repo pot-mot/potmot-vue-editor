@@ -52,8 +52,6 @@
     border-left: 0.4em solid var(--border-color);
     background-color: var(--light-back-color);
     padding: 1rem;
-    border-radius: 0.5rem;
-    font-style: italic;
     color: #333;
 }
 
@@ -94,7 +92,7 @@
 .markdown-card p + p,
 .markdown-card p + pre,
 .markdown-card p + blockquote {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .markdown-card img,

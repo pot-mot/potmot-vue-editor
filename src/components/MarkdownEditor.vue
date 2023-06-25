@@ -23,11 +23,6 @@
                         </template>
                     </li>
                 </ul>
-<!--                <ContextMenu title="模板插入" :visible="contextMenus.get('insert').visible" width="200px"-->
-<!--                             :position="contextMenus.get('insert').position"-->
-<!--                             :close="() => {setEditToolActive('insert', false)}">-->
-<!--                    -->
-<!--                </ContextMenu>-->
             </template>
             <template #replace>
                 <textarea v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
@@ -45,20 +40,11 @@
                     <span style="display: inline-block;width: 1em;"></span>
                     <span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
                 </div>
-<!--                <ContextMenu title="查找替换" :visible="contextMenus.get('replace').visible" width="200px"-->
-<!--                             :position="contextMenus.get('replace').position"-->
-<!--                             :close="() => {setEditToolActive('replace', false)}">-->
-<!--                    -->
-<!--                </ContextMenu>-->
             </template>
             <template #outline>
                 <slot name="outline" :target="previewCard">
                     <MarkdownOutline :target="previewCard" ignore-v-drag></MarkdownOutline>
                 </slot>
-<!--                <ContextMenu v-else title="预览大纲" :visible="contextMenus.get('outline').visible" width="200px"-->
-<!--                             :position="contextMenus.get('outline').position" class="outline-box"-->
-<!--                             :close="() => {setEditToolActive('outline', false)}">-->
-<!--                </ContextMenu>-->
             </template>
         </ToolBar>
         <div class="container" :class="containerClass">
@@ -262,7 +248,9 @@ const editTools = reactive(<EditTool[]>[
         show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: () => {
+            pushFlag = "undo";
             undo();
+            setFromHistory();
         }
     },
     <EditTool>{
@@ -274,7 +262,9 @@ const editTools = reactive(<EditTool[]>[
         show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
         position: "left",
         method: () => {
+            pushFlag = "redo";
             redo();
+            setFromHistory();
         }
     },
     <EditTool>{
@@ -505,6 +495,17 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
         reject: true,
     },
     {
+        key: ['y'],
+        ctrl: true,
+        method: (e: KeyboardEvent) => {
+            pushFlag = "redo";
+            redo();
+            setFromHistory();
+        },
+        prevent: true,
+        reject: true,
+    },
+    {
         key: ['r', 'f'],
         ctrl: true,
         method: () => {
@@ -559,7 +560,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 
         if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
             if (insertUnit.prevent) e.preventDefault();
-            pushFlag = "symbol";
+            pushFlag = "insert" + new Date().getUTCMilliseconds();
             insertIntoTextarea(insertUnit);
             if (insertUnit.reject) return;
         }
