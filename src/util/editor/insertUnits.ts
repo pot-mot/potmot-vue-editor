@@ -52,30 +52,72 @@ export const markdownInsertUnits: InsertUnit[] = [
         key: "|",
         ctrl: true,
         label: "表格",
-        insert: (args) => {
-            let tableHeight = args.get("tableHeight")!.value
-            let tableWidth = args.get("tableWidth")!.value
+        replace: true,
+        insert: (args, text, textarea) => {
+            const whiteSpace = "  ";
+            const headerSpace = " --- |"
 
-            let formLineText = "|";
-            let formFormatText = "|";
-            let whiteSpace = "  ";
+            if (textarea.selectionStart != textarea.selectionEnd) {
+                let returnText = ""
 
-            tableHeight = limit(tableHeight, 1, 99);
-            tableWidth = limit(tableWidth, 1, 99);
+                const list = text.slice(textarea.selectionStart, textarea.selectionEnd).split("\n")
 
-            for (let i = 0; i < tableWidth; i++) {
-                formLineText += (whiteSpace + "|");
-                formFormatText += "----|";
+                const data: string[][] = []
+
+                let max = 0
+
+                list.forEach(item => {
+                    const line = item.split(/\s+/)
+                    data.push(line)
+                    if (line.length > max) {
+                        max = line.length
+                    }
+                })
+
+                for (let i = 0; i < data.length; i++) {
+                    returnText += "|"
+                    for (let j = 0; j < max; j++) {
+                        if (j < data[i].length) {
+                            returnText += ` ${data[i][j]} |`
+                        } else {
+                            returnText += `${whiteSpace}|`
+                        }
+                    }
+                    returnText += "\n"
+                    if (i == 0) {
+                        returnText += "|"
+                        for (let j = 0; j < max; j++) {
+                            returnText += headerSpace
+                        }
+                        returnText += "\n"
+                    }
+                }
+
+                return {before: "", after: returnText}
+            } else {
+                let tableHeight = args.get("tableHeight")!.value
+                let tableWidth = args.get("tableWidth")!.value
+
+                let formLineText = "|";
+                let formFormatText = "|";
+
+                tableHeight = limit(tableHeight, 1, 99)
+                tableWidth = limit(tableWidth, 1, 99)
+
+                for (let i = 0; i < tableWidth; i++) {
+                    formLineText += `${whiteSpace}|`
+                    formFormatText += headerSpace
+                }
+                formLineText += "\n"
+                formFormatText += "\n"
+
+                let returnText = formLineText.slice(2) + formFormatText
+
+                for (let i = 0; i < tableHeight; i++) {
+                    returnText += formLineText;
+                }
+                return {before: "| ", after: returnText};
             }
-            formLineText += "\n";
-            formFormatText += "\n";
-
-            let returnText = formLineText.slice(2) + formFormatText;
-
-            for (let i = 0; i < tableHeight; i++) {
-                returnText += formLineText;
-            }
-            return {before: "| ", after: returnText};
         },
         arguments: [
             <InputInsertArgument<number>>{
@@ -123,8 +165,7 @@ export const markdownInsertUnits: InsertUnit[] = [
                 const list = text.slice(start, textarea.selectionEnd).split("\n")
 
                 for (let i = 0; i < list.length; i++) {
-                    returnText += `${space + (i + 1)}. ${list[i].trim()}
-`;
+                    returnText += `${space + (i + 1)}. ${list[i].trim()}\n`;
                 }
 
                 return {before: "", after: returnText}
@@ -248,8 +289,7 @@ export const markdownInsertUnits: InsertUnit[] = [
                 return {before: "> ", after: " \n" + returnText}
             }
         },
-        arguments: [
-        ],
+        arguments: [],
         reject: true,
         prevent: true,
     },
