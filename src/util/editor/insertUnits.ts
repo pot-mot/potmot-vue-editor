@@ -1,6 +1,6 @@
 import type {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../declare/EditorUtil";
 import {Ref, ref} from "vue";
-import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "../common/typeList";
+import {mermaidTypeMap, mermaidTypeNameList, prismLanguageList} from "./typeList";
 import {getLeadingSpace} from "./textUtils";
 import {limit} from "../common/common";
 

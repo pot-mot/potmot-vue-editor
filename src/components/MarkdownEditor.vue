@@ -1054,15 +1054,15 @@ onBeforeUnmount(() => {
 
 .editor {
     &.non-full > .toolbar {
-        padding: 0.2% 0.5%;
+        padding: 0.2% 1px;
     }
 
     &.full > .toolbar {
-        padding: 0.2% 1.5% 0.2% 0.5%;
+        padding: 0.2% 0.6% 0.2% 0.6%;
     }
 
     &.full.mobile > .toolbar {
-        padding: 0.5%;
+        padding: 0.6%;
     }
 }
 

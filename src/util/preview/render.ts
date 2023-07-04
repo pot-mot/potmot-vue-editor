@@ -1,8 +1,8 @@
 import katex from "katex";
 import mermaid, {RenderResult} from "mermaid";
 import Prism from "prismjs";
-import {prismLanguageList} from "../common/typeList";
-import {decodeHTML} from "./htmlParse";
+import {prismLanguageList} from "../editor/typeList";
+import {decodeHTML, encodeHTML} from "./htmlParse";
 
 mermaid.initialize({ startOnLoad: false })
 
@@ -27,11 +27,10 @@ export const codeRender = (text: string, language: string): string => {
         for (const item of prismLanguageList) {
             if (item == language) {
                 text = Prism.highlight(text, Prism.languages[language], language);
-                break
+                return setLine(text)
             }
         }
-
-        return setLine(text)
+        return setLine(encodeHTML(text))
     } catch (e) {
         return errResult(e, "code - " + language)
     }

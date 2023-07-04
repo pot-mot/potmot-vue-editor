@@ -90,7 +90,7 @@ renderer.code = (code: string, language: string): string => {
         return `<div class="math">${mathRender(code)}</div>`
     }
     code = codeRender(code, language)
-    return `<pre class="${props.codeTheme}"><code>${code}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div></pre>`;
+    return `<pre class="${props.codeTheme}"><code>${code}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language ? language : ''}</div></pre>`;
 }
 
 const judgeCopyCode = (e: MouseEvent) => {
