@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.10.1
+npm install potmot-vue-editor@0.10.2
 ```
 
 main.js 中引用
@@ -25,7 +25,6 @@ import 'potmot-vue-editor/dist/style.css'
 // 如果使用预定义的 markdown 样式和代码样式，引入如下
 import 'potmot-vue-editor/src/asserts/code.css'
 import 'potmot-vue-editor/src/asserts/markdown.css'
-import 'potmot-vue-editor/src/asserts/scroll.css'
 
 app.use(editor)
 ```
@@ -175,6 +174,8 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 | markdownText | String                          | 传入的markdown文本，将被解析成html                                                            | 是                   |
 | codeTheme    | String                          | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
 | extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档                                                         | 否，默认值 []            |
+| suspend      | Boolean                         | 暂停渲染，用于优化性能                                                                        | 否，默认 false          |
+
 ### 3. Outline 大纲
 
 在 target DOM 中根据正则匹配寻找特定元素以生成大纲
@@ -209,6 +210,7 @@ interface OutlineItem {
 | regex        | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
 | parse        | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
 | handleScroll | Function    | 策略为 "offset" 时执行的跳转函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` |
+| suspend      | Boolean     | 暂停渲染，用于优化性能                                                | 否，默认 false                                             |
 
 ## 依赖
 

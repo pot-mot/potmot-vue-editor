@@ -17,8 +17,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref} from "vue";
+import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref, watch} from "vue";
 import {useScrollCurrent} from "../util/outline/scrollAndCurrent";
+import {debounce} from "lodash";
 
 const {handleScroll, setCurrent} = useScrollCurrent()
 
@@ -61,8 +62,14 @@ const props = defineProps({
     step: {
         type: Number,
         required: false,
-        default: 100,
+        default: 200,
     },
+
+    suspend: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
 })
 
 const maxLevel = computed(() => {
@@ -89,6 +96,7 @@ const setItemFromHtml = (
     regex: RegExp = props.regex,
     parse: (match: RegExpExecArray) => OutlineItem = props.parse
 ) => {
+    if (!html) return
     if (html == oldHtml) return
 
     oldHtml = html
@@ -140,27 +148,35 @@ const markCurrent = () => {
 let interval: number;
 
 onMounted(() => {
-    nextTick(() => {
-        setItemFromHtml()
-        markCurrent()
-    })
+    nextTick(act)
+    interval = setInterval(act, props.step)
+})
 
-    interval = setInterval(() => {
-        setItemFromHtml()
-        markCurrent()
-    }, props.step)
+watch(() => props.suspend, (value) => {
+    if (value == false) {
+        act()
+        interval = setInterval(act, props.step)
+    } else {
+        clearInterval(interval)
+    }
 })
 
 onBeforeUnmount(() => {
     clearInterval(interval);
 })
 
+const act = debounce(() => {
+    if (props.suspend) return
+    setItemFromHtml()
+    markCurrent()
+}, 100)
+
 const jumpTo = (clickedItem: OutlineItem) => {
     if (props.click) props.click(clickedItem)
 
     if (!props.target) return;
 
-    if (!clickedItem.id) return;
+    if (!clickedItem.id || clickedItem.id.length == 0) return;
 
     for (const item of items.value) {
         item.current = item.id == clickedItem.id

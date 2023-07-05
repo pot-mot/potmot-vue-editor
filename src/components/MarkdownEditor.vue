@@ -43,7 +43,7 @@
             </template>
             <template #outline>
                 <slot name="outline" :target="previewCard">
-                    <MarkdownOutline :target="previewCard" ignore-v-drag></MarkdownOutline>
+                    <MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-v-drag></MarkdownOutline>
                 </slot>
             </template>
         </ToolBar>
@@ -343,6 +343,15 @@ const isPreview = computed({
     },
     set(newValue: boolean) {
         setEditToolActive('preview', newValue);
+    }
+})
+
+const isOutline = computed({
+    get() {
+        return getEditToolActive('outline');
+    },
+    set(newValue: boolean) {
+        setEditToolActive('outline', newValue);
     }
 })
 

@@ -134,6 +134,8 @@ const setPosition = () => {
     > .content {
         flex: 1;
         position: relative;
+        width: 100%;
+        overflow-x: hidden;
 
         > .title {
             pointer-events: none;
@@ -172,7 +174,9 @@ const setPosition = () => {
 
         > .menu {
             height: calc(100% - 1.6rem);
-            overflow: auto;
+            overflow-y: auto;
+            width: 100%;
+            overflow-x: hidden;
         }
     }
 }
