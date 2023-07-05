@@ -390,15 +390,15 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 /**
  * 滚动同步
  */
-let isSyncScroll = false;
+let scrollSyncFlag = false
 
 const syncScroll = (from: HTMLElement, to: HTMLElement) => {
-    if (isSyncScroll) return
-    isSyncScroll = true
+    if (scrollSyncFlag) return
+    scrollSyncFlag = true
     to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight)
     setTimeout(() => {
-        isSyncScroll = false
-    }, 5)
+        scrollSyncFlag = false
+    }, 20)
 }
 
 watch(() => isPreview.value, () => {
@@ -981,7 +981,6 @@ onBeforeUnmount(() => {
         border: 1px solid #ccc;
         border-radius: 3px;
         line-height: 1.4rem;
-        overflow: auto;
         padding: 0.5em;
     }
 
@@ -1000,6 +999,7 @@ onBeforeUnmount(() => {
 
     &.mobile :deep(.context-menu) {
         width: min(90vw, 30rem);
+        max-height: min(70vh, 30rem);
     }
 }
 

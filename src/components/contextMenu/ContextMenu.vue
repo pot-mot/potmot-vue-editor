@@ -101,17 +101,24 @@ const setPosition = () => {
          class="context-menu"
          ref="contextMenu"
          v-drag="props.dragRange">
-        <div class="close" ignore-v-drag>
-            <slot name="close" :close="hide">
-                <span class="iconfont icon-close" @mousedown.prevent.stop="hide"/>
-            </slot>
+
+        <div class="content">
+            <div class="close" ignore-v-drag>
+                <slot name="close" :close="hide">
+                    <span class="iconfont icon-close" @mousedown.prevent.stop="hide"/>
+                </slot>
+            </div>
+
+            <div class="title" v-if="props.title && props.title.length > 0">
+                <slot name="title" :title="props.title">
+                    <div>{{ props.title }}</div>
+                </slot>
+            </div>
+
+            <div class="menu">
+                <slot></slot>
+            </div>
         </div>
-        <div class="title" v-if="props.title && props.title.length > 0">
-            <slot name="title" :title="props.title">
-                <div>{{ props.title }}</div>
-            </slot>
-        </div>
-        <slot></slot>
     </div>
 </template>
 
@@ -120,40 +127,52 @@ const setPosition = () => {
 
 .context-menu {
     position: absolute;
-    padding: 0.3em;
     user-select: none;
     cursor: all-scroll;
-    background-color: #fff;
+    display: flex;
 
-    > .title {
-        pointer-events: none;
-        font-weight: 600;
-        line-height: 1.6rem;
-        text-align: center;
-    }
+    > .content {
+        flex: 1;
+        position: relative;
 
-    > .close {
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-
-        .icon-font {
-            display: inline-block;
-            height: 1.4rem;
-            width: 1.4rem;
+        > .title {
+            pointer-events: none;
+            font-weight: 600;
+            height: 1.6rem;
+            line-height: 1.6rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
-        .icon-close {
+        > .close {
             position: absolute;
-            top: 0.2rem;
-            right: 0.2rem;
-            font-size: 1.4rem;
-            color: #aaa;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+
+            > .icon-font {
+                display: inline-block;
+                height: 1.4rem;
+                width: 1.4rem;
+            }
+
+            > .icon-close {
+                position: absolute;
+                top: 0.2rem;
+                right: 0.2rem;
+                font-size: 1.4rem;
+                color: #aaa;
+            }
+
+            > .icon-close:hover {
+                color: #D00;
+            }
         }
 
-        .icon-close:hover {
-            color: #D00;
+        > .menu {
+            height: calc(100% - 1.6rem);
+            overflow: auto;
         }
     }
 }
