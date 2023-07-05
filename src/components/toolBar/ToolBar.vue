@@ -49,12 +49,12 @@ const getContextMenuPosition = (key: string) => {
     if (item.position == 'left') {
         return {
             top: '2rem',
-            left: '0.5rem'
+            left: '0'
         }
     } else {
         return {
             top: '2rem',
-            right: '0.5rem'
+            right: '0'
         }
     }
 }
@@ -112,6 +112,7 @@ const getContextMenuPosition = (key: string) => {
             text-align: center;
             padding: 0.25em;
             font-size: 1.25em;
+            border-radius: 3px;
         }
 
         > .iconfont:hover:before {

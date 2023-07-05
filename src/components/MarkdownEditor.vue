@@ -54,15 +54,15 @@
                     v-model="text"
                     :placeholder="props.placeholder"
                     class="edit-card"
-                    @scrollend="syncScroll(textarea, previewCard)"
+                    @scroll="syncScroll(textarea, previewCard)"
                     @keydown.self="onKeyDown"
                     @dragend.self="onDragEnd">
 			</textarea>
             <div ref="previewCard"
                  class="preview-card"
-                 @scrollend="syncScroll(previewCard, textarea)">
+                 @scroll="syncScroll(previewCard, textarea)">
                 <slot name="preview" :text="text">
-                    <MarkdownPreview :markdown-text="text"></MarkdownPreview>
+                    <MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
                 </slot>
             </div>
         </div>
@@ -106,6 +106,7 @@ import MarkdownPreview from "./MarkdownPreview.vue";
 import {useStatistics} from "../util/editor/statistics";
 import {smoothScroll} from "../util/common/scroll";
 import ToolBar from "./toolBar/ToolBar.vue";
+import {debounce} from "lodash";
 
 /**
  * 外部传入参数
@@ -386,7 +387,6 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
     })
 }
 
-
 /**
  * 滚动同步
  */
@@ -497,7 +497,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
     {
         key: ['y'],
         ctrl: true,
-        method: (e: KeyboardEvent) => {
+        method: () => {
             pushFlag = "redo";
             redo();
             setFromHistory();
@@ -640,7 +640,7 @@ watch(() => isFullScreen.value, () => {
 })
 
 
-const setSearchData = () => {
+const setSearchData = debounce(() => {
     searchData.index = -1;
     searchData.indexes = [];
     if (textarea.value == undefined) return;
@@ -661,7 +661,7 @@ const setSearchData = () => {
         index = temp + replaceData.replaceFrom.length;
         count++;
     }
-}
+}, 200)
 
 // 控制 textarea 进行跳转
 const jumpTo = (target: number) => {
@@ -979,10 +979,10 @@ onBeforeUnmount(() => {
         background-color: var(--back-ground-color);
         font-size: 0.8rem;
         border: 1px solid #ccc;
-        border-radius: 0.3rem;
-        padding: 1rem;
+        border-radius: 3px;
         line-height: 1.4rem;
         overflow: auto;
+        padding: 0.5em;
     }
 
     &.non-full :deep(.context-menu) {

@@ -1,13 +1,13 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.9.8",
+  "version": "0.10.0",
   "type": "module",
   "license": "MIT",
   "author": {
     "name": "potmot"
   },
-  "description": "a markdown editor in Vue3.",
+  "description": "a markdown editor for Vue3.",
   "repository": {
     "type": "git",
     "url": "https://gitee.com/run-around---whats-wrong/potmot-vue-editor.git",
@@ -46,6 +46,7 @@
   "dependencies": {
     "d3": "^4.13.0",
     "katex": "^0.16.4",
+    "lodash": "^4.17.21",
     "marked": "^4.2.12",
     "mermaid": "^10.1.0",
     "vue": "^3.2.37"
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
     "@types/katex": "^0.16.0",
+    "@types/lodash": "^4.14.195",
     "@types/marked": "^4.0.8",
     "@types/prismjs": "^1.26.0",
     "@vitejs/plugin-vue": "^3.1.0",

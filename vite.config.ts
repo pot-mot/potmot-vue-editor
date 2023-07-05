@@ -14,7 +14,7 @@ export default defineConfig({
             fileName: "potmot-vue-editor"
         },
         rollupOptions: {
-            external: ['vue'],
+            external: ['vue', new RegExp('/src/test/.*')],
             output: {
                 globals: {
                     vue: 'Vue'

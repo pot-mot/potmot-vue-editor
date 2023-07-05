@@ -4,7 +4,7 @@
 
 ## 介绍
 
-> 当前版本 v0.9 2023/5/28
+> 当前版本 v0.10 2023/7/5
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.9.8
+npm install potmot-vue-editor@0.10.0
 ```
 
 main.js 中引用
@@ -174,8 +174,6 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 | markdownText | String                          | 传入的markdown文本，将被解析成html                                                            | 是                   |
 | codeTheme    | String                          | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
 | extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档                                                         | 否，默认值 []            |
-| suspend      | Boolean                         | 暂停渲染                                                                               | 否，默认值false          |
-
 ### 3. Outline 大纲
 
 在 target DOM 中根据正则匹配寻找特定元素以生成大纲

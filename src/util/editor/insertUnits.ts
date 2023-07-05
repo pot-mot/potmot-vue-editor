@@ -55,69 +55,60 @@ export const markdownInsertUnits: InsertUnit[] = [
         replace: true,
         insert: (args, text, textarea) => {
             const whiteSpace = "  ";
-            const headerSpace = " --- |"
+            const headerSpace = " --- "
+
+            const createLine = (length: number, data: string[] = [], space: string = whiteSpace) => {
+                let line = "|"
+                for (let j = 0; j < length; j++) {
+                    if (j < data.length) {
+                        line += ` ${data[j]} |`
+                    } else {
+                        line += `${space}|`
+                    }
+                }
+                line += "\n"
+                return line
+            }
+
+            let returnText = ""
+            let width = 0
+            let height = 0
 
             if (textarea.selectionStart != textarea.selectionEnd) {
-                let returnText = ""
-
                 const list = text.slice(textarea.selectionStart, textarea.selectionEnd).split("\n")
-
                 const data: string[][] = []
 
-                let max = 0
-
                 list.forEach(item => {
-                    const line = item.split(/\s+/)
-                    data.push(line)
-                    if (line.length > max) {
-                        max = line.length
+                    const lines = item.split(/\s+/)
+                    data.push(lines)
+                    if (lines.length > width) {
+                        width = lines.length
                     }
                 })
 
-                for (let i = 0; i < data.length; i++) {
-                    returnText += "|"
-                    for (let j = 0; j < max; j++) {
-                        if (j < data[i].length) {
-                            returnText += ` ${data[i][j]} |`
-                        } else {
-                            returnText += `${whiteSpace}|`
-                        }
-                    }
-                    returnText += "\n"
+                height = data.length
+
+                for (let i = 0; i < height; i++) {
                     if (i == 0) {
-                        returnText += "|"
-                        for (let j = 0; j < max; j++) {
-                            returnText += headerSpace
-                        }
-                        returnText += "\n"
+                        returnText += createLine(width)
+                        returnText += createLine(width, [], headerSpace)
                     }
+                    returnText += createLine(width, data[i])
                 }
-
-                return {before: "", after: returnText}
             } else {
-                let tableHeight = args.get("tableHeight")!.value
-                let tableWidth = args.get("tableWidth")!.value
+                height = limit(args.get("tableHeight")!.value, 1, 99)
+                width = limit(args.get("tableWidth")!.value, 1, 99)
 
-                let formLineText = "|";
-                let formFormatText = "|";
-
-                tableHeight = limit(tableHeight, 1, 99)
-                tableWidth = limit(tableWidth, 1, 99)
-
-                for (let i = 0; i < tableWidth; i++) {
-                    formLineText += `${whiteSpace}|`
-                    formFormatText += headerSpace
+                for (let i = 0; i < height; i++) {
+                    if (i == 0) {
+                        returnText += createLine(width)
+                        returnText += createLine(width, [], headerSpace)
+                    }
+                    returnText += createLine(width)
                 }
-                formLineText += "\n"
-                formFormatText += "\n"
-
-                let returnText = formLineText.slice(2) + formFormatText
-
-                for (let i = 0; i < tableHeight; i++) {
-                    returnText += formLineText;
-                }
-                return {before: "| ", after: returnText};
             }
+
+            return {before: returnText.slice(0, 2), after: returnText.slice(2)}
         },
         arguments: [
             <InputInsertArgument<number>>{

@@ -120,7 +120,7 @@ const setPosition = () => {
 
 .context-menu {
     position: absolute;
-    padding: 0.5em;
+    padding: 0.3em;
     user-select: none;
     cursor: all-scroll;
     background-color: #fff;

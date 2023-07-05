@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {PropType, ref, watch} from "vue";
+import {nextTick, PropType, ref, watch} from "vue";
 import {marked, Renderer, Tokenizer} from "marked";
 import {
     detailRule,
@@ -21,7 +21,7 @@ import {copyCode} from "../util/preview/codeUtil";
 import 'katex/dist/katex.css'
 import {codeRender, mathRender, mermaidBatchRender} from "../util/preview/render";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
-import {watchForNoChange} from "../util/common/common";
+import {debounce} from "lodash";
 
 /**
  * 外部传入参数
@@ -113,11 +113,6 @@ const renderMermaid = () => {
     mermaidBatchRender(elements, mermaidCache)
 }
 
-watchForNoChange(() => props.markdownText, () => {
-    if (props.suspend) return
-    renderMermaid()
-})
-
 marked.setOptions({
     breaks: true,
     smartLists: true
@@ -129,15 +124,22 @@ marked.use({
 
 let html = ref(marked(props.markdownText, {tokenizer, renderer}))
 
-watch(() => props.markdownText, () => {
+watch(() => props.markdownText, debounce(() => {
     if (props.suspend) return
     html.value = marked(props.markdownText, {tokenizer, renderer});
-})
+}, 200))
+
+watch(() => props.markdownText, debounce(() => {
+    if (props.suspend) return
+    renderMermaid()
+}, 1000))
 
 watch(() => props.suspend, (value) => {
     if (value == false) {
         html.value = marked(props.markdownText, {tokenizer, renderer})
-        renderMermaid()
+        nextTick(() => {
+            renderMermaid()
+        })
     }
 })
 </script>
