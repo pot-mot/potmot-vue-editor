@@ -1,9 +1,10 @@
 <template>
-	<EditorTest></EditorTest>
+<EditorTest></EditorTest>
 </template>
 
 <script lang="ts" setup>
-import EditorTest from "./test/EditorTest.vue";
+
+import EditorTest from "./tests/EditorTest.vue";
 </script>
 
 <style>

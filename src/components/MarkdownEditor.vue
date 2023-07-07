@@ -25,8 +25,8 @@
                 </ul>
             </template>
             <template #replace>
-                <textarea v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
-                <textarea v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
+                <textarea v-adapt v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
+                <textarea v-adapt v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
                 <div class="replace-operation" ignore-v-drag>
                     <span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
                     <span style="display: inline-block;width: 1em;"></span>
@@ -62,7 +62,7 @@
                  class="preview-card"
                  @scroll="syncScroll(previewCard, textarea)">
                 <slot name="preview" :text="text">
-                    <MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
+                    <MarkdownPreview :markdown-text="text" :suspend="!isPreview" :render-debounce="props.previewRenderDebounce"></MarkdownPreview>
                 </slot>
             </div>
         </div>
@@ -95,18 +95,26 @@ export default {
 
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
-import {isMobile} from "../util/common/common";
-import {insertIntoString, useExtendInput} from "../util/editor/inputUtils";
-import {getArgsMap, markdownInsertUnits, extendedInsertUnits} from "../util/editor/insertUnits";
+import {debounce} from "lodash";
+
+import {isMobile} from "../utils/common/platform";
+import {smoothScroll} from "../utils/common/scroll";
+
+import {vAdapt} from "../directives/adapt";
+
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
-import {useHistoryStack} from "../util/editor/editHistory";
-import {judgeKeyForEditorKeyEvent} from "../util/editor/editorEvent";
+
+import {judgeKeyForEditorKeyEvent} from "../utils/editor/editorEvent";
+import {getArgsMap, insertIntoString} from "../utils/editor/insertUtil";
+
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
-import {useStatistics} from "../util/editor/statistics";
-import {smoothScroll} from "../util/common/scroll";
 import ToolBar from "./toolBar/ToolBar.vue";
-import {debounce} from "lodash";
+
+import {useHistoryStack} from "../hooks/editor/editHistory";
+import {useStatistics} from "../hooks/editor/statistics";
+import {useExtendInput} from "../hooks/editor/inputAction";
+import {extendInsertUnits, markdownInsertUnits} from "../constants/insertUnits";
 
 /**
  * 外部传入参数
@@ -141,7 +149,7 @@ const props = defineProps({
     insertUnits: {
         type: Array as PropType<InsertUnit[]>,
         required: false,
-        default: [...markdownInsertUnits, ...extendedInsertUnits]
+        default: [...markdownInsertUnits, ...extendInsertUnits]
     },
 
     startWithFullScreen: {
@@ -155,6 +163,11 @@ const props = defineProps({
         required: false,
         default: 100,
     },
+    previewRenderDebounce: {
+        type: Boolean,
+        required: false,
+        default: false,
+    }
 })
 
 // 盒型数据
@@ -989,8 +1002,7 @@ onBeforeUnmount(() => {
         font-size: 0.8rem;
         border: 1px solid #ccc;
         border-radius: 3px;
-        line-height: 1.4rem;
-        padding: 0.5em;
+        line-height: 1.6rem;
     }
 
     &.non-full :deep(.context-menu) {
@@ -1013,7 +1025,6 @@ onBeforeUnmount(() => {
 }
 
 .editor .insert-text {
-    font-size: 0.9em;
     white-space: nowrap;
 
     > span {
@@ -1046,7 +1057,9 @@ onBeforeUnmount(() => {
 }
 
 .editor .replace-box {
-    height: 4em;
+    min-height: 4em;
+    max-height: 13em;
+    line-height: 1.6em;
     width: 100%;
     border: 1px solid #e5e5e5;
     padding: 0.5em;
@@ -1076,14 +1089,14 @@ onBeforeUnmount(() => {
 }
 
 .editor > .statistical-list {
-    height: 1.6em;
-    line-height: 1.6em;
-    margin-left: 0.4em;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    margin-left: 0.4rem;
 
     > li {
-        font-size: 0.8em;
+        font-size: 0.8rem;
         display: inline-block;
-        padding: 0 0.5em;
+        padding: 0 0.5rem;
         color: #333;
     }
 }

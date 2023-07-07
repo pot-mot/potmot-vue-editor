@@ -17,6 +17,12 @@ interface InputInsertArgument<T> extends InsertArgument<any> {
     styleWidth?: string;
 }
 
+interface Option {
+    key: string;
+    value: string;
+    label: string;
+}
+
 interface OptionInsertArgument extends InsertArgument<string> {
     options: string[];
 }

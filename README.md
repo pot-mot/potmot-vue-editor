@@ -22,11 +22,12 @@ main.js 中引用
 import editor from 'potmot-vue-editor'
 import 'potmot-vue-editor/dist/style.css'
 
-// 如果使用预定义的 markdown 样式和代码样式，引入如下
+app.use(editor)
+
+// 使用预定义的 markdown 样式和代码样式，引入如下
 import 'potmot-vue-editor/src/asserts/code.css'
 import 'potmot-vue-editor/src/asserts/markdown.css'
-
-app.use(editor)
+import 'potmot-vue-editor/src/asserts/code-theme/potmot-dark.css'
 ```
 
 最简使用场景，直接 v-model 绑上即用
@@ -158,9 +159,7 @@ const extendedInsertUnits: InsertUnit[] = [{
 
 ### 2. MarkdownPreview 预览
 
-提供了基于 marked 的 markdown 与 html展示
-
-code 代码块支持复制、标明行号、超过特定行进行折叠
+提供了基于 marked 的 markdown 与 html 展示
 
 ```html
 
@@ -172,9 +171,18 @@ code 代码块支持复制、标明行号、超过特定行进行折叠
 | 参数           | 类型                              | 说明                                                                                 | 必须                  |
 |--------------|---------------------------------|------------------------------------------------------------------------------------|---------------------|
 | markdownText | String                          | 传入的markdown文本，将被解析成html                                                            | 是                   |
-| codeTheme    | String                          | 代码主题，作用于块级代码 pre 上的 css 类名，对应样式可自行设计，此处仅提供黑白两个默认类型  "potmot-dark" 和 "potmot-light" | 否，默认值 "potmot-dark" |
 | extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档                                                         | 否，默认值 []            |
 | suspend      | Boolean                         | 暂停渲染，用于优化性能                                                                        | 否，默认 false          |
+
+#### 代碼支持
+
+code 代码块支持复制、标明行号
+
+代码主题通过如下方式引用，实质为作用于 pre 中的 css 变量，可以自行书写
+
+```typescript
+import 'potmot-vue-editor/src/asserts/code-theme/${代码主题}'
+```
 
 ### 3. Outline 大纲
 

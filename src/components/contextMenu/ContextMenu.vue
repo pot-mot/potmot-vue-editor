@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import {vDrag} from "../../util/directive/drag";
+import {vDrag} from "../../directives/drag";
 import {nextTick, onMounted, PropType, reactive, ref, watch} from "vue";
 
 const contextMenu = ref()
@@ -161,8 +161,8 @@ const setPosition = () => {
 
             > .icon-close {
                 position: absolute;
-                top: 0.2rem;
-                right: 0.2rem;
+                top: 0;
+                right: 0;
                 font-size: 1.4rem;
                 color: #aaa;
             }
@@ -173,9 +173,12 @@ const setPosition = () => {
         }
 
         > .menu {
+            box-sizing: border-box;
+            min-height: 3em;
             height: calc(100% - 1.6rem);
             overflow-y: auto;
             width: 100%;
+            padding: 0.5em;
             overflow-x: hidden;
         }
     }

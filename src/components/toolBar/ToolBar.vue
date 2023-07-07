@@ -2,7 +2,7 @@
 import {computed, PropType} from "vue";
 import {EditTool} from "../../declare/EditorUtil";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
-import {groupBy} from "../../util/common/group";
+import {groupBy} from "../../utils/common/groupBy";
 
 const props = defineProps({
     tools: {
@@ -99,19 +99,20 @@ const getContextMenuPosition = (key: string) => {
     > ul > li {
         position: relative;
         display: inline-block;
-        font-size: 1em;
+        font-size: 1rem;
         list-style: none;
 
         > .iconfont {
             display: inline-block;
-            width: 1.8em;
+            height: 1.8rem;
+            width: 1.8rem;
         }
 
         > .iconfont:before {
             color: #999;
             text-align: center;
-            padding: 0.25em;
-            font-size: 1.25em;
+            padding: 0.25rem;
+            font-size: 1.3rem;
             border-radius: 3px;
         }
 

@@ -1,0 +1,16 @@
+pre {
+    --code-back-color: #474949;
+    --code-font-color: #d5d5d5;
+
+    --count-color: #888;
+
+    --number-color: #c1ddee;
+    --punctuation-color: #b1b1c1;
+    --operator-color: #aaccff;
+    --function-color: #99ccee;
+    --keyword-color: #99aaff;
+    --string-color: #bbcc99;
+    --comment-color: #999;
+    --variable-color: #ffcc33;
+    --entity-color: #7799cc;
+}
