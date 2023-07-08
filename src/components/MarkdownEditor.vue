@@ -232,25 +232,13 @@ const editTools = reactive(<EditTool[]>[
         }
     },
     <EditTool>{
-        name: "outline",
-        label: "预览大纲",
-        icon: "icon-file-tree",
-        active: false,
-        contextMenu: true,
-        show: () => isPreview.value,
-        position: "right",
-        method: (self: EditTool) => {
-            self.active = !self.active
-        }
-    },
-    <EditTool>{
-        name: "preview",
-        label: "预览",
-        icon: "icon-browse",
+        name: "wrap",
+        label: "换行",
+        icon: "icon-bulletpoint",
         active: false,
         contextMenu: false,
         show: () => true,
-        position: "right",
+        position: "left",
         method: (self: EditTool) => {
             self.active = !self.active
         }
@@ -281,6 +269,31 @@ const editTools = reactive(<EditTool[]>[
             pushFlag = "redo";
             redo();
             setFromHistory();
+        }
+    },
+
+    <EditTool>{
+        name: "outline",
+        label: "预览大纲",
+        icon: "icon-file-tree",
+        active: false,
+        contextMenu: true,
+        show: () => isPreview.value,
+        position: "right",
+        method: (self: EditTool) => {
+            self.active = !self.active
+        }
+    },
+    <EditTool>{
+        name: "preview",
+        label: "预览",
+        icon: "icon-browse",
+        active: false,
+        contextMenu: false,
+        show: () => true,
+        position: "right",
+        method: (self: EditTool) => {
+            self.active = !self.active
         }
     },
     <EditTool>{

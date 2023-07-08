@@ -79,8 +79,7 @@
     color: #333;
 }
 
-.markdown-card pre {
-    padding: 0.5em 0;
+.markdown-card .code-container {
     margin: 0.5em 0;
 }
 

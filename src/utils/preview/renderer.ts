@@ -20,19 +20,16 @@ const errResult = (e: any, msg: string): string => {
     return `<div style='white-space: pre-line;'><span style="color: red;">[解析错误: ${msg}]</span><br><span style="color: red;">[</span>${e}<span style="color: red;">]</span></div>`
 }
 
-export const codeRender = (text: string, language: string): string => {
-    const setLine = (code: string) => {
-        if (code[code.length - 1] == '\n') {
-            code = code.slice(0, code.length - 1);
-        }
-        let codes = code.split("\n");
-        let res = ''
-        for (let i = 0; i < codes.length; i++) {
-            res += '<span class="count"></span>' + codes[i] + '\n';
-        }
-        return res;
+const setLine = (code: string) => {
+    let codes = code.split("\n")
+    let res = ''
+    for (let i = 0; i < codes.length; i++) {
+        res += `<span class="count">${i + 1}</span><span class="line">${codes[i]}</span>\n`
     }
+    return res;
+}
 
+export const codeRender = (text: string, language: string): string => {
     try {
         for (const item of prismLanguageList) {
             if (item == language) {
@@ -111,5 +108,9 @@ renderer.code = (code: string, language: string): string => {
     }
 
     code = codeRender(code, language)
-    return `<pre><code>${code}</code><div class="code-copy-button" title="复制"></div><div class="code-language">${language ? language : ''}</div></pre>`;
+    return`<div class="code-container">
+    <pre><code>${code}</code></pre>
+    <div class="code-copy-button" title="复制"></div>
+    <div class="code-language">${language ? language : ''}</div>
+</div>`;
 }

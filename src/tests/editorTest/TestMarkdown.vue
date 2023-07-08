@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MarkdownEditor from "../../components/MarkdownEditor.vue";
 import {onMounted, ref} from "vue";
-import {testMarkdown} from "../testText/markdown";
+import {testMarkdown} from "../testCase/markdown";
 
 import '../../asserts/code.css'
 import '../../asserts/markdown.css'

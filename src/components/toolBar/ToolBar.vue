@@ -3,6 +3,7 @@ import {computed, PropType} from "vue";
 import {EditTool} from "../../declare/EditorUtil";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
+import {toMap} from "../../utils/common/toMap";
 
 const props = defineProps({
     tools: {
@@ -20,9 +21,7 @@ const toolPositionMap = computed(() => {
 })
 
 const toolMap = computed(() => {
-    const map = new Map<string, EditTool>()
-    props.tools.forEach(item => map.set(item.name, item))
-    return map
+    return toMap(props.tools, 'name')
 })
 
 const contextMenus = computed(() => {
