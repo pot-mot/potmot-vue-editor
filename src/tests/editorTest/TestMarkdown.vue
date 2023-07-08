@@ -1,21 +1,44 @@
 <script setup lang="ts">
 import MarkdownEditor from "../../components/MarkdownEditor.vue";
-import {onMounted, ref} from "vue";
-import {testMarkdown} from "../testCase/markdown";
+import {PropType, ref, watch} from "vue";
 
 import '../../asserts/code.css'
 import '../../asserts/markdown.css'
 import '../../asserts/code-theme/potmot-dark.css'
-
 const text = ref("")
 
-onMounted(() => {
-    for (let i = 0; i < testMarkdown.length; i++) {
-		setTimeout(() => {
-            text.value += testMarkdown[i]
-        }, 1000 * i)
+const props = defineProps({
+    textCase: {
+        type: String,
+        required: false,
+    },
+    testCases: {
+        type: Array as PropType<string[]>,
+        required: false,
+    },
+    stepTime: {
+        type: Number,
+        required: false,
+        default: 500,
     }
 })
+
+watch(() => props.textCase, () => {
+    if (props.textCase != undefined) {
+        text.value = props.textCase
+    }
+}, {immediate: true})
+
+watch(() => props.testCases, () => {
+    if (props.testCases != undefined) {
+        text.value = ""
+        for (let i = 0; i < props.testCases.length; i++) {
+            setTimeout(() => {
+                text.value += props.testCases![i]
+            }, props.stepTime * i)
+        }
+    }
+}, {immediate: true})
 </script>
 
 <template>

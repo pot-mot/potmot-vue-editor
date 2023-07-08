@@ -29,23 +29,42 @@ const setLine = (code: string) => {
     return res;
 }
 
+const codeCache: Map<{language: string, text: string}, string> = new Map<{language: string, text: string}, string>()
+
 export const codeRender = (text: string, language: string): string => {
     try {
-        for (const item of prismLanguageList) {
-            if (item == language) {
-                text = Prism.highlight(text, Prism.languages[language], language);
-                return setLine(text)
-            }
+        const key = {language, text}
+
+        if (codeCache.has(key)) {
+            return codeCache.get(key)!
         }
-        return setLine(encodeHTML(text))
+
+        let code
+        if (prismLanguageList.includes(language)) {
+            code = Prism.highlight(text, Prism.languages[language], language)
+        } else {
+            code = encodeHTML(text)
+        }
+        const result = setLine(code)
+        codeCache.set(key, result)
+        return result
     } catch (e) {
         return errResult(e, "code - " + language + " 代码渲染出错")
     }
 }
 
+const mathCache: Map<string, string> = new Map<string, string>()
+
 export const mathRender = (text: string): string => {
     try {
-        return katex.renderToString(text)
+        text = text.trim()
+
+        if (mathCache.has(text)) {
+            return mathCache.get(text)!
+        }
+        const result = katex.renderToString(text)
+        mathCache.set(text, result)
+        return result
     } catch (e) {
         return errResult(e, "math - katex 渲染出错")
     }

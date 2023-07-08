@@ -1,5 +1,5 @@
-export const testMarkdown = [
-`
+export const markdownTestCase = [
+    `
 # 这是一个复杂的 Markdown 文档
 
 ## 一、介绍
@@ -7,7 +7,7 @@ export const testMarkdown = [
 这是一个演示复杂 Markdown 格式的文档，包含各种不同的元素和样式。
 
 `,
-`
+    `
 ## 二、段落和换行
 
 这是一个段落，其中包含了一些文本。在 Markdown 中，一个或多个连续的文本行会被视为一个段落。如果需要在段落中换行，可以在行末添加两个或以上的空格。
@@ -15,7 +15,7 @@ export const testMarkdown = [
 这是一个新的段落，其中包含了一些文本。请注意，这个段落和上一个段落之间有一个空行分隔。
 
 `,
-`
+    `
 ## 三、标题
 
 下面是一些示例标题，包括一级标题、二级标题、三级标题等：
@@ -41,7 +41,7 @@ export const testMarkdown = [
 ---
 
 `,
-`
+    `
 ## 四、列表
 
 ### 有序列表
@@ -95,7 +95,7 @@ export const testMarkdown = [
     - [x] 嵌套第一项
     - [ ] 嵌套第二项
 `,
-`
+    `
 ## 五、链接和图片
 
 ### 链接
@@ -108,7 +108,7 @@ export const testMarkdown = [
 
 ![Markdown Logo](https://markdown-here.com/img/icon256.png)
 `,
-`
+    `
 ## 六、代码
 
 这是行内代码 \`code\`
@@ -136,7 +136,7 @@ def hello_world():
     print("Hello, world!")
 \`\`\`
 `,
-`
+    `
 ## 七、引用
 
 ### 单级引用
@@ -160,7 +160,7 @@ def hello_world():
 > 二级引用结束
 > 
 `,
-`
+    `
 ## 八、文本字体
 
 ### 粗体
@@ -179,7 +179,7 @@ def hello_world():
 
 ==这里是高亮文本==
 `,
-`
+    `
 ## 九、表格
 
 下面是一个示例表格：

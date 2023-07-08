@@ -1,3 +1,32 @@
-export const testMermaid = [
+export const mermaidTestCase = [
+    `
 
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
+    `
+
+`,
 ]
