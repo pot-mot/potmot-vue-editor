@@ -18,12 +18,15 @@
 .markdown-card h1,
 .markdown-card h2 {
     padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
-.markdown-card h1,
+.markdown-card h1 {
+    font-size: 2em;
+}
+
 .markdown-card h2 {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    font-size: 1.5em;
 }
 
 .markdown-card h3,
@@ -32,10 +35,26 @@
     padding-bottom: 0.4em;
 }
 
+.markdown-card h3 {
+    font-size: 1.17em;
+}
+
+.markdown-card h4 {
+    font-size: 1em;
+}
+
 .markdown-card h5,
 .markdown-card h6 {
     padding-top: 0.3em;
     padding-bottom: 0.3em;
+}
+
+.markdown-card h5 {
+    font-size: 0.83em;
+}
+
+.markdown-card h6 {
+    font-size: 0.67em;
 }
 
 .markdown-card * + h1,
@@ -47,6 +66,11 @@
 .markdown-card ol {
     padding-inline-start: 1.5rem;
 }
+
+.markdown-card ul > li:has(input[type=checkbox]) {
+    list-style: none;
+}
+
 
 .markdown-card blockquote {
     border-left: 0.4em solid var(--border-color);

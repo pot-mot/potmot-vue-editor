@@ -27,6 +27,8 @@ app.use(editor)
 // 使用预定义的 markdown 样式和代码样式，引入如下
 import 'potmot-vue-editor/src/asserts/code.css'
 import 'potmot-vue-editor/src/asserts/markdown.css'
+
+// 代码主题色
 import 'potmot-vue-editor/src/asserts/code-theme/potmot-dark.css'
 ```
 

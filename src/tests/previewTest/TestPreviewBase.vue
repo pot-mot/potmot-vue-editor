@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import MarkdownPreview from "../components/MarkdownPreview.vue";
+import MarkdownPreview from "../../components/MarkdownPreview.vue";
 import {ref} from "vue";
 
-import '../asserts/code-theme/potmot-dark.css'
+import '../../asserts/code-theme/potmot-dark.css'
 
 const text = ref(`
 \`\`\`mermaid

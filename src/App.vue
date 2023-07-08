@@ -1,10 +1,10 @@
 <template>
-<EditorTest></EditorTest>
+<TestMarkdown></TestMarkdown>
 </template>
 
 <script lang="ts" setup>
 
-import EditorTest from "./tests/EditorTest.vue";
+import TestMarkdown from "./tests/editorTest/TestMarkdown.vue";
 </script>
 
 <style>

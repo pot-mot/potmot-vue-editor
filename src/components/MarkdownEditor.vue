@@ -176,8 +176,6 @@ const previewCard = ref();
 
 // 组件初始化
 onMounted(() => {
-    text.value = props.modelValue;
-
     if (props.startWithFullScreen) {
         isFullScreen.value = true;
         isPreview.value = true;
@@ -195,6 +193,10 @@ const containerClass = computed(() => {
 const text = ref("")
 
 const emit = defineEmits(['update:modelValue']);
+
+watch(() => props.modelValue, () => {
+    text.value = props.modelValue;
+}, {immediate: true})
 
 watch(() => text.value, () => {
     emit('update:modelValue', text.value);
