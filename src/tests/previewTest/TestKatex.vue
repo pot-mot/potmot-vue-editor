@@ -1,19 +1,12 @@
 <script setup lang="ts">
-
-import {
-    katexTestCaseList
-} from "../testCase/katex";
 import TestPreviewBase from "./TestPreviewBase.vue";
 import {onMounted, ref} from "vue";
+import {katexTestCases} from "../testCase/katex";
 
 const testcase = ref("")
 
 onMounted(() => {
-    for (let i = 0; i < katexTestCaseList.length; i++) {
-        setTimeout(() => {
-            testcase.value += katexTestCaseList[i].join(' ')
-        }, i * 5)
-    }
+	testcase.value = katexTestCases.join(" ")
 })
 </script>
 
