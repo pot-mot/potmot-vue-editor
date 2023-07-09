@@ -1,7 +1,8 @@
 import {marked} from "marked";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
-import {mathRender} from "./renderer";
+import {mathRender} from "../../utils/preview/renderer";
 
+// 块级数学式
 export const mathBlockRule: TokenizerAndRendererExtension = {
     level: 'block',
     name: 'math_block',
@@ -29,6 +30,7 @@ export const mathBlockRule: TokenizerAndRendererExtension = {
     },
 };
 
+// 行内数学式
 export const mathInlineRule: TokenizerAndRendererExtension = {
     level: 'inline',
     name: 'math_inline',
@@ -56,6 +58,7 @@ export const mathInlineRule: TokenizerAndRendererExtension = {
     },
 };
 
+// 高亮块
 export const warningRule: TokenizerAndRendererExtension = {
     level: 'inline',
     name: 'warning_inline',
@@ -84,6 +87,7 @@ export const warningRule: TokenizerAndRendererExtension = {
     },
 };
 
+// 折叠块
 export const detailRule: TokenizerAndRendererExtension = {
     level: 'block',
     name: 'detail',
@@ -117,3 +121,64 @@ export const detailRule: TokenizerAndRendererExtension = {
         return `<details><summary>${token.summary}</summary>${marked(token.detail, opt)}</details>`
     },
 };
+
+// 脚注
+export const footnote: TokenizerAndRendererExtension = {
+    level: 'block',
+    name: 'footnote',
+    start(src) {
+        return src.match(/\[\^(.*)]:(.*)/)?.index;
+    },
+    tokenizer(src) {
+        const rule = /^\[\^(.*)]:(.*)/;
+        const match: RegExpExecArray | null = rule.exec(src);
+        if (match) {
+            try {
+                return {
+                    type: 'footnote',
+                    raw: match[0],
+                    label: match[1],
+                    value: match[2],
+                };
+            } catch (err) {
+                console.warn(err);
+                return;
+            }
+        }
+    },
+    renderer(token: marked.Tokens.Generic): string {
+        return `<p>
+<span>${token.label}</span>
+<span>${token.value}</span>
+<a name="footnote-${token.label}" href="#${token.label}" title='回到文档'>↩</a>
+</p>`
+    }
+}
+
+// 脚注引用
+export const footnoteRef: TokenizerAndRendererExtension = {
+    level: 'inline',
+    name: 'footnoteRef',
+    start(src) {
+        return src.match(/\[\^(.*)]/)?.index;
+    },
+    tokenizer(src) {
+        const rule = /^\[\^(.*)]/;
+        const match: RegExpExecArray | null = rule.exec(src);
+        if (match) {
+            try {
+                return {
+                    type: 'footnoteRef',
+                    raw: match[0],
+                    label: match[1],
+                };
+            } catch (err) {
+                console.warn(err);
+                return;
+            }
+        }
+    },
+    renderer(token: marked.Tokens.Generic): string {
+        return `<sup><a name="${token.label}" href='#footnote-${token.label}'>${token.label}</a></sup>`
+    }
+}

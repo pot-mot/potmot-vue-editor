@@ -16,3 +16,16 @@ tokenizer.lheading = (src: string): any => {
         };
     }
 }
+
+tokenizer.del = (src: string): any => {
+    const cap = /^~~(.*)~~/.exec(src);
+    if (cap) {
+        return {
+            type: 'del',
+            raw: cap[0],
+            text: cap[1],
+            // @ts-ignore
+            tokens: tokenizer.lexer.inlineTokens(cap[1])
+        };
+    }
+}
