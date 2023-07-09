@@ -63,10 +63,10 @@ export const warningRule: TokenizerAndRendererExtension = {
     level: 'inline',
     name: 'warning_inline',
     start(src) {
-        return src.match(/==(\(.*\))?([\s\S]*?)==/)?.index;
+        return src.match(/==(\(.*?\))?([\s\S]*?)==/)?.index;
     },
     tokenizer(src): marked.Tokens.Generic | void {
-        const rule = /^==(\(.*\))?([\s\S]*?)==/;
+        const rule = /^==(\(.*?\))?([\s\S]*?)==/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
             try {
@@ -95,7 +95,7 @@ export const detailRule: TokenizerAndRendererExtension = {
         return src.match(/:::([\s\S]*?):::/)?.index;
     },
     tokenizer(src): marked.Tokens.Generic | void {
-        const rule = /^:::(.*)\n([\s\S]*?):::/;
+        const rule = /^:::(.*?)\n([\s\S]*?):::/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
             try {
@@ -127,18 +127,18 @@ export const footnote: TokenizerAndRendererExtension = {
     level: 'block',
     name: 'footnote',
     start(src) {
-        return src.match(/\[\^(.*)]:(.*)/)?.index;
+        return src.match(/\[\^(.*?)]:/)?.index;
     },
     tokenizer(src) {
-        const rule = /^\[\^(.*)]:(.*)/;
+        const rule = /^\[\^(.*?)]:(.*)/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
             try {
                 return {
                     type: 'footnote',
                     raw: match[0],
-                    label: match[1],
-                    value: match[2],
+                    label: match[1].trim(),
+                    detail: match[2].trim(),
                 };
             } catch (err) {
                 console.warn(err);
@@ -147,9 +147,10 @@ export const footnote: TokenizerAndRendererExtension = {
         }
     },
     renderer(token: marked.Tokens.Generic): string {
+        const opt = this.parser.options
         return `<p>
 <span>${token.label}</span>
-<span>${token.value}</span>
+${marked.parseInline(token.detail, opt)}
 <a name="footnote-${token.label}" href="#${token.label}" title='回到文档'>↩</a>
 </p>`
     }
@@ -160,17 +161,17 @@ export const footnoteRef: TokenizerAndRendererExtension = {
     level: 'inline',
     name: 'footnoteRef',
     start(src) {
-        return src.match(/\[\^(.*)]/)?.index;
+        return src.match(/\[\^(.*?)]/)?.index;
     },
     tokenizer(src) {
-        const rule = /^\[\^(.*)]/;
+        const rule = /^\[\^(.*?)]/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
             try {
                 return {
                     type: 'footnoteRef',
                     raw: match[0],
-                    label: match[1],
+                    label: match[1].trim(),
                 };
             } catch (err) {
                 console.warn(err);

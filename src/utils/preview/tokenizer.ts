@@ -18,7 +18,7 @@ tokenizer.lheading = (src: string): any => {
 }
 
 tokenizer.del = (src: string): any => {
-    const cap = /^~~(.*)~~/.exec(src);
+    const cap = /^~~(.*?)~~/.exec(src);
     if (cap) {
         return {
             type: 'del',
