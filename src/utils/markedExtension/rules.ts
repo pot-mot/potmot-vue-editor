@@ -1,6 +1,6 @@
 import {marked} from "marked";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
-import {mathRender} from "../../utils/preview/renderer";
+import {mathRender} from "./renderer";
 
 // 块级数学式
 export const mathBlockRule: TokenizerAndRendererExtension = {

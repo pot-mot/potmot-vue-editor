@@ -115,6 +115,7 @@ import {useHistoryStack} from "../hooks/editor/editHistory";
 import {useStatistics} from "../hooks/editor/statistics";
 import {useExtendInput} from "../hooks/editor/inputAction";
 import {extendInsertUnits, markdownInsertUnits} from "../constants/insertUnits";
+import {now} from "../tests/time";
 
 /**
  * 外部传入参数
@@ -161,13 +162,16 @@ const props = defineProps({
 	historyStep: {
 		type: Number,
 		required: false,
-		default: 100,
+		default: 50,
 	},
 })
 
 // 盒型数据
 const textarea = ref();
 const previewCard = ref();
+
+// 当前操作类别
+let historyType = "init";
 
 // 组件初始化
 onMounted(() => {
@@ -190,7 +194,10 @@ const text = ref("")
 const emit = defineEmits(['update:modelValue']);
 
 watch(() => props.modelValue, () => {
-	text.value = props.modelValue;
+	if (text.value != props.modelValue) {
+		text.value = props.modelValue;
+		historyType = 'outside' + now()
+	}
 }, {immediate: true})
 
 watch(() => text.value, () => {
@@ -235,7 +242,7 @@ const editTools = reactive(<EditTool[]>[
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
 		position: "left",
 		method: () => {
-			pushFlag = "undo";
+			historyType = "undo";
 			undo();
 			setFromHistory();
 		}
@@ -249,7 +256,7 @@ const editTools = reactive(<EditTool[]>[
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
 		position: "left",
 		method: () => {
-			pushFlag = "redo";
+			historyType = "redo";
 			redo();
 			setFromHistory();
 		}
@@ -395,7 +402,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	if (after.length > 0) {
 		text.value = insertIntoString(after, text.value, end);
 	}
-	pushFlag = "insert";
+	historyType = "insert";
 	nextTick(() => {
 		if (insertUnit.keepSelect && start != selectEnd) {
 			textarea.value.selectionStart = start;
@@ -450,32 +457,29 @@ const {
 	top,
 } = useHistoryStack(400,
 	() => {
-		alert("已是最后，无法继续撤销");
+		alert("已是最后，无法继续撤销")
 	},
 	() => {
-		alert("已是最新，无法继续重做");
+		alert("已是最新，无法继续重做")
 	},
 	defaultHistory,
 );
 
 const setFromHistory = (historyTop: EditorHistory = historyData.stack[historyData.stackTop]) => {
-	text.value = historyTop.text;
+	text.value = historyTop.text
 	nextTick(() => {
-		textarea.value.selectionStart = historyTop.start;
-		textarea.value.selectionEnd = historyTop.end;
-		textarea.value.scrollTo(0, historyTop.scrollTop);
+		textarea.value.selectionStart = historyTop.start
+		textarea.value.selectionEnd = historyTop.end
+		textarea.value.scrollTo(0, historyTop.scrollTop)
 	})
 }
 
-// 当前操作类别
-let pushFlag = "init";
-
 onMounted(() => {
-	top.value = defaultHistory();
+	top.value = defaultHistory()
 
 	// 当输入法切换时，默认历史记录
 	textarea.value.addEventListener('compositionend', () => {
-		top.value = defaultHistory();
+		top.value = defaultHistory()
 	})
 })
 
@@ -485,42 +489,36 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: ['x', 'X'],
 		ctrl: true,
 		method: () => {
-			pushFlag = "cut";
-			setTimeout(push, 200);
+			historyType = "cut"
+			setTimeout(push, 200)
 		}
 	},
 	{
 		key: ['v', 'V'],
 		ctrl: true,
 		method: () => {
-			pushFlag = "copy";
-			setTimeout(push, 200);
+			historyType = "copy"
+			setTimeout(push, 200)
 		}
 	},
 	{
-		key: ['z', 'Z'],
+		key: ['z'],
 		ctrl: true,
-		method: (e: KeyboardEvent) => {
-			if (e.key == 'z') {
-				pushFlag = "undo";
-				undo();
-				setFromHistory();
-			} else {
-				pushFlag = "redo";
-				redo();
-				setFromHistory();
-			}
+		method: () => {
+			historyType = "undo"
+			undo()
+			setFromHistory()
 		},
 		prevent: true,
 		reject: true,
 	},
 	{
-		key: ['y'],
+		key: ['y', 'Z'],
 		ctrl: true,
 		method: () => {
-			pushFlag = "redo";
-			redo();
-			setFromHistory();
+			historyType = "redo"
+			redo()
+			setFromHistory()
 		},
 		prevent: true,
 		reject: true,
@@ -529,8 +527,8 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: ['r', 'f'],
 		ctrl: true,
 		method: () => {
-			replaceData.replaceFrom = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
-			isReplace.value = true;
+			replaceData.replaceFrom = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)
+			isReplace.value = true
 		},
 		prevent: true,
 		reject: true,
@@ -538,8 +536,8 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 	{
 		key: "Enter",
 		method: () => {
-			pushFlag = 'enter'
-			batchEnter();
+			historyType = 'enter' + now()
+			batchEnter()
 		},
 		prevent: true,
 		reject: true,
@@ -547,8 +545,8 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 	{
 		key: "Tab",
 		method: (e: KeyboardEvent) => {
-			pushFlag = 'tab'
-			batchTab(e);
+			historyType = 'tab'
+			batchTab(e)
 		},
 		prevent: true,
 		reject: true,
@@ -557,7 +555,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		key: "Escape",
 		method: () => {
 			if (isFullScreen.value) {
-				isFullScreen.value = false;
+				isFullScreen.value = false
 			}
 		},
 	}
@@ -566,57 +564,57 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
 	for (const shortcutKey of props.shortcutKeys) {
-		if (!shortcutKey.key) continue;
+		if (!shortcutKey.key) continue
 
 		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
 			if (shortcutKey.prevent) e.preventDefault();
 			shortcutKey.method(e);
-			if (shortcutKey.reject) return;
+			if (shortcutKey.reject) return
 		}
 	}
 
 	for (const insertUnit of props.insertUnits) {
-		if (!insertUnit.key) continue;
+		if (!insertUnit.key) continue
 
 		if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
-			if (insertUnit.prevent) e.preventDefault();
-			pushFlag = "insert" + new Date().getUTCMilliseconds();
-			insertIntoTextarea(insertUnit);
-			if (insertUnit.reject) return;
+			if (insertUnit.prevent) e.preventDefault()
+			historyType = "insert" + new Date().getUTCMilliseconds()
+			insertIntoTextarea(insertUnit)
+			if (insertUnit.reject) return
 		}
 	}
 
 	for (const shortcutKey of shortcutKeys) {
-		if (!shortcutKey.key) continue;
+		if (!shortcutKey.key) continue
 
 		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
-			if (shortcutKey.prevent) e.preventDefault();
-			shortcutKey.method(e);
-			if (shortcutKey.reject) return;
+			if (shortcutKey.prevent) e.preventDefault()
+			shortcutKey.method(e)
+			if (shortcutKey.reject) return
 		}
 	}
 
 	if (e.key == 'Backspace' || e.key == 'Delete') {
-		pushFlag = 'back'
+		historyType = 'back'
 	} else if (e.key == '(' || e.key == '[' || e.key == '{') {
-		e.preventDefault();
-		pushFlag = "symbol";
-		completeAround({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'});
+		e.preventDefault()
+		historyType = "symbol"
+		completeAround({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'})
 	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
-		e.preventDefault();
-		pushFlag = "symbol";
-		completeAround({before: e.key, after: e.key == '"' ? '"' : "'"});
+		e.preventDefault()
+		historyType = "symbol"
+		completeAround({before: e.key, after: e.key == '"' ? '"' : "'"})
 	} else if (e.key.startsWith("Arrow")) {
-		pushFlag = 'move'
+		historyType = 'move'
 	} else if (e.key == ' ') {
-		pushFlag = 'blank'
+		historyType = 'blank'
 	} else if (e.key != 'Shift' && e.key != 'Control' && e.key != 'Alt' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
-		pushFlag = 'input'
+		historyType = 'input'
 	}
 }
 
 const onDragEnd = () => {
-	pushFlag = 'dragend'
+	historyType = 'dragend'
 }
 
 // 查找与替换功能
@@ -707,7 +705,7 @@ const searchCurrent = () => {
 
 	searchCalculateStyle.value = "width: " + textarea.value.clientWidth + 'px;';
 
-	pushFlag = 'search'
+	historyType = 'find'
 
 	nextTick(() => {
 		textarea.value.focus()
@@ -785,7 +783,7 @@ const replaceOne = () => {
 	nextTick(() => {
 		textarea.value.selectionStart = start;
 		textarea.value.selectionEnd = start + replaceData.replaceTo.length;
-		pushFlag = 'replaceOne'
+		historyType = 'replaceOne'
 		searchNext();
 	})
 }
@@ -802,7 +800,7 @@ const replaceAll = () => {
 	}
 
 	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
-	pushFlag = 'replaceAll'
+	historyType = 'replaceAll'
 }
 
 let historyInterval: number
@@ -810,11 +808,11 @@ let tempText: string
 let tempSelectStart: number
 let tempSelectEnd: number
 let tempScrollTop: number
-let oldPushFlag: string
+let oldHistoryType: string
 
 onMounted(() => {
 	historyInterval = setInterval(() => {
-		if (pushFlag == 'undo' || pushFlag == 'redo') {
+		if (historyType == 'undo' || historyType == 'redo') {
 			return
 		}
 
@@ -823,9 +821,10 @@ onMounted(() => {
 		const end = textarea.value.selectionEnd
 		const scrollTop = textarea.value.scrollTop
 
-		if (oldPushFlag != pushFlag) {
+		if (oldHistoryType != historyType) {
 			push();
-			oldPushFlag = pushFlag
+			console.log("push")
+			oldHistoryType = historyType
 			tempText = textValue
 			tempSelectStart = start
 			tempSelectEnd = end
