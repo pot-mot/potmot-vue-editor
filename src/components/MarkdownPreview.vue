@@ -49,10 +49,10 @@ const props = defineProps({
 		default: false,
 	},
 	renderDebounce: {
-		type: Boolean,
+		type: Array as PropType<number[][]>,
 		required: false,
-		default: false,
-	}
+		default: [[2000, 0], [5000, 80], [20000, 200], [50000, 300], [150000, 600]],
+	},
 })
 
 let markdownCard = ref()
@@ -79,23 +79,52 @@ const renderMermaid = () => {
 	mermaidBatchRender(elements)
 }
 
+const judgeDebounce = () => {
+	if (props.renderDebounce == undefined) return
+
+	let i
+
+	for (i = 0; i < props.renderDebounce.length; i++) {
+		if (props.markdownText?.length < props.renderDebounce[i][0]) {
+			break
+		}
+	}
+
+	if (markdownRenderWatch != undefined) {
+		markdownRenderWatch()
+	}
+
+	if (i >= props.renderDebounce.length) {
+		i = props.renderDebounce.length - 1
+	}
+
+	const wait = props.renderDebounce[i][1]
+
+	if (wait == 0) {
+		markdownRenderWatch = watch(() => props.markdownText, () => {
+			if (props.suspend) return
+			renderMarkdown()
+		})
+	} else {
+		markdownRenderWatch = watch(() => props.markdownText, debounce(() => {
+			if (props.suspend) return
+			renderMarkdown()
+		}, wait))
+	}
+}
+
+let markdownRenderWatch: any
+
 onMounted(() => {
+	judgeDebounce()
 	renderMarkdown()
 	nextTick(() => {
 		renderMermaid()
 	})
 
-	if (props.renderDebounce) {
-		watch(() => props.markdownText, debounce(() => {
-			if (props.suspend) return
-			renderMarkdown()
-		}, 200))
-	} else {
-		watch(() => props.markdownText, () => {
-			if (props.suspend) return
-			renderMarkdown()
-		})
-	}
+	watch(() => props.markdownText, debounce(
+		judgeDebounce, 500),
+		{immediate: true})
 
 	watch(() => props.markdownText, debounce(() => {
 		if (props.suspend) return
@@ -104,7 +133,7 @@ onMounted(() => {
 
 	watch(() => props.suspend, (value) => {
 		if (value == false) {
-			html.value = marked(props.markdownText, {tokenizer, renderer})
+			renderMarkdown()
 			nextTick(() => {
 				renderMermaid()
 			})

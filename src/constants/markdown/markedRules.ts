@@ -148,10 +148,10 @@ export const footnote: TokenizerAndRendererExtension = {
     },
     renderer(token: marked.Tokens.Generic): string {
         const opt = this.parser.options
-        return `<p>
+        return `<p class="footnote">
 <span>${token.label}</span>
 ${marked.parseInline(token.detail, opt)}
-<a name="footnote-${token.label}" href="#${token.label}" title='回到文档'>↩</a>
+<a name="footnote-${token.label}" href="#footnoteRef-${token.label}" title='跳转回引用内容'>↩</a>
 </p>`
     }
 }
@@ -180,6 +180,6 @@ export const footnoteRef: TokenizerAndRendererExtension = {
         }
     },
     renderer(token: marked.Tokens.Generic): string {
-        return `<sup><a name="${token.label}" href='#footnote-${token.label}'>${token.label}</a></sup>`
+        return `<sup class="footnote-ref"><a name="footnoteRef-${token.label}" href='#footnote-${token.label}' title="查看脚注内容">${token.label}</a></sup>`
     }
 }

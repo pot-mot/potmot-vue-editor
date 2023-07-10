@@ -79,8 +79,16 @@
     color: #333;
 }
 
+:not(pre) > code {
+    background-color: #eee;
+    color: #474949;
+    padding: 0.3em;
+    border-radius: 3px;
+}
+
 .markdown-card .code-container {
     margin: 0.5em 0;
+    border-radius: 3px;
 }
 
 .markdown-card table {
@@ -130,4 +138,8 @@
 .markdown-card svg:hover,
 .markdown-card video:hover {
     border-color: var(--hover-border-color);
+}
+
+.markdown-card hr {
+    margin: 1em 0;
 }

@@ -62,8 +62,7 @@
 				 class="preview-card"
 				 @scroll="syncScroll(previewCard, textarea)">
 				<slot name="preview" :text="text">
-					<MarkdownPreview :markdown-text="text" :suspend="!isPreview"
-									 :render-debounce="props.previewRenderDebounce"></MarkdownPreview>
+					<MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
 				</slot>
 			</div>
 		</div>
@@ -164,11 +163,6 @@ const props = defineProps({
 		required: false,
 		default: 100,
 	},
-	previewRenderDebounce: {
-		type: Boolean,
-		required: false,
-		default: false,
-	}
 })
 
 // 盒型数据
@@ -985,7 +979,7 @@ onBeforeUnmount(() => {
 		grid-template-columns: 0 100%;
 
 		> .edit-card {
-			padding: 0;
+			padding: 0.5em;
 			margin: 0;
 		}
 	}
@@ -994,7 +988,7 @@ onBeforeUnmount(() => {
 		grid-template-columns: 100%;
 
 		> .preview-card {
-			padding: 0;
+			padding: 0.5em;
 			margin: 0;
 		}
 	}

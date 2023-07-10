@@ -32,19 +32,10 @@ pre span {
     cursor: text;
 }
 
-/* code inline */
-:not(pre) > code {
-    background-color: #eee;
-    color: var(--code-back-color);
-    padding: 0.3em;
-    border-radius: 3px;
-}
-
 /* code block */
 .code-container {
     position: relative;
     background-color: var(--code-back-color);
-    border-radius: 3px;
     overflow: hidden;
     padding-top: 0.5em;
 }
@@ -122,7 +113,6 @@ pre span {
     top: 0;
     right: 1.8em;
     color: #999;
-    user-select: none;
     cursor: default;
 }
 
