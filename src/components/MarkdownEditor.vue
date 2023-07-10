@@ -66,7 +66,7 @@
 				</slot>
 			</div>
 		</div>
-		<slot name="footer" :textarea="textarea" :data="statisticalData" :history="historyData">
+		<slot name="footer" :textarea="textarea" :data="statisticalData">
 			<ul class="statistical-list" v-if="textarea !== undefined">
 				<li>字数 {{ text.length }}</li>
 				<li>
@@ -94,7 +94,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
+import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {debounce} from "lodash";
 
 import {isMobile} from "../utils/common/platform";
@@ -175,6 +175,7 @@ let historyType = "init";
 
 // 组件初始化
 onMounted(() => {
+	pushIntoHistory()
 	if (props.startWithFullScreen) {
 		isFullScreen.value = true;
 		isPreview.value = true;
@@ -195,13 +196,14 @@ const emit = defineEmits(['update:modelValue']);
 
 watch(() => props.modelValue, () => {
 	if (text.value != props.modelValue) {
-		text.value = props.modelValue;
+		text.value = props.modelValue
 		historyType = 'outside' + now()
 	}
 }, {immediate: true})
 
 watch(() => text.value, () => {
-	emit('update:modelValue', text.value);
+	emit('update:modelValue', text.value)
+	pushIntoHistory()
 })
 
 // 统计数据
@@ -244,7 +246,6 @@ const editTools = reactive(<EditTool[]>[
 		method: () => {
 			historyType = "undo";
 			undo();
-			setFromHistory();
 		}
 	},
 	<EditTool>{
@@ -258,7 +259,6 @@ const editTools = reactive(<EditTool[]>[
 		method: () => {
 			historyType = "redo";
 			redo();
-			setFromHistory();
 		}
 	},
 
@@ -436,50 +436,40 @@ watch(() => isPreview.value, () => {
 	}
 })
 
-
-/**
- * 历史记录
- */
-const defaultHistory = () => {
-	return {
-		start: textarea.value ? textarea.value.selectionStart : 0,
-		end: textarea.value ? textarea.value.selectionEnd : 0,
-		text: text.value,
-		scrollTop: textarea.value ? textarea.value.scrollTop : 0,
-	}
-}
-
 const {
-	historyData,
 	redo,
 	undo,
 	push,
-	top,
-} = useHistoryStack(400,
+	setTop,
+} = useHistoryStack(
+	(history: EditorHistory) => {
+		text.value = history.text
+		nextTick(() => {
+			textarea.value.selectionStart = history.start
+			textarea.value.selectionEnd = history.end
+			textarea.value.scrollTo(0, history.scrollTop)
+		})
+	},
+	() => {
+		return {
+			start: textarea.value ? textarea.value.selectionStart : 0,
+			end: textarea.value ? textarea.value.selectionEnd : 0,
+			text: text.value,
+			scrollTop: textarea.value ? textarea.value.scrollTop : 0,
+		}
+	},
 	() => {
 		alert("已是最后，无法继续撤销")
 	},
 	() => {
 		alert("已是最新，无法继续重做")
 	},
-	defaultHistory,
 );
 
-const setFromHistory = (historyTop: EditorHistory = historyData.stack[historyData.stackTop]) => {
-	text.value = historyTop.text
-	nextTick(() => {
-		textarea.value.selectionStart = historyTop.start
-		textarea.value.selectionEnd = historyTop.end
-		textarea.value.scrollTo(0, historyTop.scrollTop)
-	})
-}
-
 onMounted(() => {
-	top.value = defaultHistory()
-
-	// 当输入法切换时，默认历史记录
+	// 当输入法切换时，保存历史记录
 	textarea.value.addEventListener('compositionend', () => {
-		top.value = defaultHistory()
+		setTop()
 	})
 })
 
@@ -490,7 +480,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		ctrl: true,
 		method: () => {
 			historyType = "cut"
-			setTimeout(push, 200)
 		}
 	},
 	{
@@ -498,7 +487,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		ctrl: true,
 		method: () => {
 			historyType = "copy"
-			setTimeout(push, 200)
 		}
 	},
 	{
@@ -507,7 +495,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		method: () => {
 			historyType = "undo"
 			undo()
-			setFromHistory()
 		},
 		prevent: true,
 		reject: true,
@@ -518,7 +505,6 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		method: () => {
 			historyType = "redo"
 			redo()
-			setFromHistory()
 		},
 		prevent: true,
 		reject: true,
@@ -536,7 +522,7 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 	{
 		key: "Enter",
 		method: () => {
-			historyType = 'enter' + now()
+			historyType = 'enter'
 			batchEnter()
 		},
 		prevent: true,
@@ -803,56 +789,20 @@ const replaceAll = () => {
 	historyType = 'replaceAll'
 }
 
-let historyInterval: number
-let tempText: string
-let tempSelectStart: number
-let tempSelectEnd: number
-let tempScrollTop: number
 let oldHistoryType: string
 
-onMounted(() => {
-	historyInterval = setInterval(() => {
-		if (historyType == 'undo' || historyType == 'redo') {
-			return
-		}
+const pushIntoHistory = () => {
+	if (historyType == 'undo' || historyType == 'redo') {
+		return
+	}
 
-		const textValue = text.value
-		const start = textarea.value.selectionStart
-		const end = textarea.value.selectionEnd
-		const scrollTop = textarea.value.scrollTop
-
-		if (oldHistoryType != historyType) {
-			push();
-			console.log("push")
-			oldHistoryType = historyType
-			tempText = textValue
-			tempSelectStart = start
-			tempSelectEnd = end
-			tempScrollTop = scrollTop
-		} else {
-			if (tempText != textValue) {
-				tempText = textValue
-				top.value.text = textValue
-			}
-			if (tempSelectStart != start) {
-				tempSelectStart = start
-				top.value.start = start
-			}
-			if (tempSelectEnd != end) {
-				tempSelectEnd = end
-				top.value.end = end
-			}
-			if (tempScrollTop != scrollTop) {
-				tempScrollTop = scrollTop
-				top.value.scrollTop = scrollTop
-			}
-		}
-	}, props.historyStep)
-})
-
-onBeforeUnmount(() => {
-	clearInterval(historyInterval)
-})
+	if (oldHistoryType != historyType) {
+		oldHistoryType = historyType
+		nextTick(push)
+	} else {
+		nextTick(setTop)
+	}
+}
 </script>
 
 <style lang="scss">

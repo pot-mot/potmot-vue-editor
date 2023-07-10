@@ -1,6 +1,7 @@
 <template>
 <!--	<TestEditorBase></TestEditorBase>-->
-		<TestMarkdown :test-cases="markdownTestCase"></TestMarkdown>
+	<TestMarkdown></TestMarkdown>
+<!--	<TestMarkdown :test-cases="markdownTestCase"></TestMarkdown>-->
 <!--		<TestKatex></TestKatex>-->
 	<!--	<TestSvg></TestSvg>-->
 </template>

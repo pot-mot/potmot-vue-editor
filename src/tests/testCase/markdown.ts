@@ -1,7 +1,5 @@
 export const markdownTestCase = [
     `
-# 这是一个复杂的 Markdown 文档
-
 ## 一、介绍
 
 这是一个演示复杂 Markdown 格式的文档，包含各种不同的元素和样式。
