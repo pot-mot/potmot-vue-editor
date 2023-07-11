@@ -1,15 +1,29 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const markColor: InsertUnit = {
     alt: true,
     key: '=',
     label: "标亮",
-    insert: (args) => {
+    insert: (args, textarea) => {
         const warningColor = args.get("warningColor")!.value
 
-        if (warningColor == 'red') return {before: "==", after: "=="}
-        return {before: "==(" + warningColor + ")", after: "=="}
+        if (warningColor == 'red') {
+            return simpleInsert(
+                textarea,
+                "insert link",
+                "==",
+                "=="
+            )
+        } else {
+            return simpleInsert(
+                textarea,
+                "insert link",
+                `==(${warningColor})`,
+                "=="
+            )
+        }
     },
     arguments: [
         <InputInsertArgument<string>>{

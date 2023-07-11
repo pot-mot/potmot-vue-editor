@@ -7,7 +7,7 @@
 				<ul>
 					<li v-for="item in props.insertUnits" class="insert-text">
                         <span ignore-v-drag
-							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item)"
+							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
 							  :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'
 							  v-text="item.label"/>
 						<template v-for="arg in item.arguments">
@@ -113,7 +113,7 @@ import {vAdapt} from "../directives/adapt";
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
 import {judgeKeyForEditorKeyEvent} from "../utils/editor/editorEvent";
-import {getArgsMap, insertIntoString} from "../utils/editor/insertUtil";
+import {getArgsMap} from "../utils/editor/insertUtil";
 
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
@@ -183,7 +183,7 @@ let historyType = "init";
 
 // 组件初始化
 onMounted(() => {
-	pushIntoHistory()
+	nextTick(push)
 	if (props.startWithFullScreen) {
 		isFullScreen.value = true;
 		isPreview.value = true;
@@ -211,7 +211,7 @@ watch(() => props.modelValue, () => {
 
 watch(() => text.value, () => {
 	emit('update:modelValue', text.value)
-	pushIntoHistory()
+	nextTick(push)
 })
 
 // 统计数据
@@ -407,31 +407,10 @@ const changeSelectArg = (name: string, e: Event) => {
 	argsMap.value.get(name)!.value = (<HTMLSelectElement>e.target).value;
 }
 
-const insertIntoTextarea = (insertUnit: InsertUnit) => {
-	let start = textarea.value.selectionStart;
-	let selectEnd = textarea.value.selectionEnd;
-	let end: number;
-	const {before, after} = insertUnit.insert(argsMap.value, text.value, textarea.value);
-	if (insertUnit.replace) {
-		text.value = insertIntoString(before, text.value, start, selectEnd);
-		end = start + before.length;
-	} else {
-		text.value = insertIntoString(before, text.value, start);
-		end = selectEnd + before.length
-	}
-	if (after.length > 0) {
-		text.value = insertIntoString(after, text.value, end);
-	}
-	historyType = "insert: " + insertUnit.label;
-	nextTick(() => {
-		if (insertUnit.keepSelect && start != selectEnd) {
-			textarea.value.selectionStart = start;
-			textarea.value.selectionEnd = end + after.length;
-		} else {
-			textarea.value.selectionStart = start + before.length;
-			textarea.value.selectionEnd = start + before.length;
-		}
-	})
+const insertIntoTextarea = (insertUnit: InsertUnit, key: string | undefined) => {
+	const history = insertUnit.insert(argsMap.value, textarea.value, key)
+	changeHook(history)
+	push(history)
 }
 
 /**
@@ -456,6 +435,25 @@ watch(() => isPreview.value, () => {
 	}
 })
 
+const changeHook = (history: EditorHistory) => {
+	text.value = history.text
+	nextTick(() => {
+		textarea.value.selectionStart = history.start
+		textarea.value.selectionEnd = history.end
+		textarea.value.scrollTo(0, history.scrollTop)
+	})
+}
+
+const pushDefault = () => {
+	return {
+		start: textarea.value ? textarea.value.selectionStart : 0,
+		end: textarea.value ? textarea.value.selectionEnd : 0,
+		text: text.value,
+		scrollTop: textarea.value ? textarea.value.scrollTop : 0,
+		type: historyType
+	}
+}
+
 const {
 	undoStack,
 	redo,
@@ -464,23 +462,8 @@ const {
 	top,
 	setTop,
 } = useHistoryStack(
-	(history: EditorHistory) => {
-		text.value = history.text
-		nextTick(() => {
-			textarea.value.selectionStart = history.start
-			textarea.value.selectionEnd = history.end
-			textarea.value.scrollTo(0, history.scrollTop)
-		})
-	},
-	() => {
-		return {
-			start: textarea.value ? textarea.value.selectionStart : 0,
-			end: textarea.value ? textarea.value.selectionEnd : 0,
-			text: text.value,
-			scrollTop: textarea.value ? textarea.value.scrollTop : 0,
-			type: historyType
-		}
-	},
+	changeHook,
+	pushDefault,
 	() => {
 		alert("已是最后，无法继续撤销")
 	},
@@ -588,7 +571,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 		if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
 			if (insertUnit.prevent) e.preventDefault()
 			historyType = "insert" + new Date().getUTCMilliseconds()
-			insertIntoTextarea(insertUnit)
+			insertIntoTextarea(insertUnit, e.key)
 			if (insertUnit.reject) return
 		}
 	}
@@ -602,6 +585,8 @@ const onKeyDown = (e: KeyboardEvent) => {
 			if (shortcutKey.reject) return
 		}
 	}
+
+	if (e.altKey || e.ctrlKey || e.metaKey) return
 
 	if (['(', '[', '{'].includes(e.key)) {
 		historyType = "bracket: " + e.key
@@ -851,14 +836,6 @@ const replaceAll = () => {
 
 	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
 	historyType = 'replaceAll'
-}
-
-const pushIntoHistory = () => {
-	if (historyType == 'undo' || historyType == 'redo') {
-		return
-	}
-
-	nextTick(push)
 }
 </script>
 

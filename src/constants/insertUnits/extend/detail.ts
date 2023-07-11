@@ -1,14 +1,21 @@
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {ref} from "vue";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const detail: InsertUnit = {
     key: ":",
     ctrl: true,
     label: "折叠块",
-    insert: (args) => {
+    insert: (args, textarea) => {
         const summary = args.get("detailIsSummary")!.value
         const isOpen = args.get("detailIsOpen")!.value
-        return {before: ":::" + (isOpen == '展开' ? '+' : '') + summary + "\n", after: "\n:::"}
+
+        return simpleInsert(
+            textarea,
+            "insert detail",
+            `:::${isOpen == '展开' ? '+' : ''}${summary}\n`,
+            "\n:::"
+        )
     },
     arguments: [
         <InputInsertArgument<string>>{
@@ -31,7 +38,6 @@ export const detail: InsertUnit = {
             options: ["收起", "展开"]
         }
     ],
-    keepSelect: true,
     reject: true,
     prevent: true,
 }

@@ -64,6 +64,8 @@
 
 .markdown-card ul,
 .markdown-card ol {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     padding-inline-start: 1.5rem;
 }
 

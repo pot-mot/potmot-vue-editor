@@ -2,8 +2,8 @@ import {Renderer} from "marked";
 import katex from "katex";
 import mermaid, {RenderResult} from "mermaid";
 import Prism from "prismjs";
-import {prismLanguageList} from "../../constants/prismLanguageList";
-import {decodeHTML, encodeHTML} from "../common/htmlParse";
+import {prismLanguageList} from "../prismLanguageList";
+import {decodeHTML, encodeHTML} from "../../utils/common/htmlParse";
 
 mermaid.initialize(
     {

@@ -20,6 +20,8 @@ export const useHistoryStack = (
     const redoStack = ref(<EditorHistory[]>[])
 
     const push = (input = pushDefault()) => {
+        if (input.type == 'undo' || input.type == 'redo') return
+
         if (undoStack.value.length == 0 || pushDefault().type != top().type) {
             undoStack.value.push(input)
             if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length)

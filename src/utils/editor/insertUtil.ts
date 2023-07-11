@@ -1,5 +1,6 @@
 import {Ref} from "vue";
 import {InsertUnit} from "../../declare/EditorUtil";
+import {now} from "../../tests/time";
 
 /**
  * 在字符串中插入替换部分
@@ -25,4 +26,48 @@ export const getArgsMap = (units: InsertUnit[]): Map<string, Ref> => {
         }
     }
     return argsMap
+}
+
+export const simpleInsert = (
+    textarea: HTMLTextAreaElement,
+    type: string,
+    before: string,
+    after: string = "",
+    keepSelect: boolean = false,
+    replace: boolean = false,
+    pushNow: boolean = true,
+): EditorHistory => {
+    const text = textarea.value
+    const oldStart = textarea.selectionStart
+    const oldEnd = textarea.selectionEnd
+    const top = textarea.scrollTop
+
+    let content
+    let newStart
+    let newEnd
+
+    if (replace) {
+        content = insertIntoString(before, text, oldStart, oldEnd);
+    } else {
+        content = insertIntoString(before, text, oldStart);
+    }
+    newEnd = oldEnd + before.length
+    if (after.length > 0) {
+        content = insertIntoString(after, content, newEnd);
+    }
+    if (keepSelect) {
+        newStart = oldStart
+        newEnd = newEnd + after.length
+    } else {
+        newStart = oldStart + before.length
+        newEnd = oldStart + before.length
+    }
+
+    return {
+        scrollTop: top,
+        text: content,
+        type: type + (pushNow ? ` ${now()}` : ''),
+        start: newStart != undefined ? newStart : oldStart,
+        end: newEnd != undefined ? newEnd : (newStart != undefined ? newStart : oldStart),
+    }
 }

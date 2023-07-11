@@ -1,14 +1,15 @@
 import {getLeadingSpace} from "../../../utils/editor/textUtils";
 import {InsertUnit} from "../../../declare/EditorUtil";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const quote: InsertUnit = {
     key: '>',
     ctrl: true,
     label: "引用",
-    replace: true,
-    keepSelect: true,
-    insert: (args, text, textarea) => {
+    insert: (args, textarea) => {
         let returnText = "";
+
+        const text = textarea.value
 
         if (textarea.selectionStart != textarea.selectionEnd) {
             let start = textarea.selectionStart
@@ -25,9 +26,9 @@ export const quote: InsertUnit = {
                 returnText += `${space}> ${item.trim()}\n`;
             })
 
-            return {before: "", after: returnText}
+            return  simpleInsert(textarea, "format quote", "", returnText, true, true)
         } else {
-            return {before: "> ", after: " \n" + returnText}
+            return  simpleInsert(textarea, "format quote", "> ", " \n" + returnText)
         }
     },
     arguments: [],

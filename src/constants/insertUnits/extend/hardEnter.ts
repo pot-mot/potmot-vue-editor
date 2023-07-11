@@ -1,11 +1,16 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const hardEnter: InsertUnit = {
     key: "Enter",
-    ctrl: true,
+    alt: true,
     label: "换行",
-    insert: () => {
-        return {before: "<br>", after: ""}
+    insert: (args, textarea) => {
+        return simpleInsert(
+            textarea,
+            "insert enter",
+            "<br>"
+        )
     },
     arguments: [],
     reject: true,

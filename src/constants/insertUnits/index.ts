@@ -15,6 +15,7 @@ import {mermaidGraph} from "./extend/mermaidGraph";
 import {hardEnter} from "./extend/hardEnter";
 
 export const markdownInsertUnits: InsertUnit[] = [
+    code,
     title,
     table,
     orderedList,
@@ -22,7 +23,6 @@ export const markdownInsertUnits: InsertUnit[] = [
     quote,
     link,
     image,
-    code,
     markColor
 ]
 

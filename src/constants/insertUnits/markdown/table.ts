@@ -1,15 +1,16 @@
 import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const table: InsertUnit = {
     key: "|",
     ctrl: true,
     label: "表格",
-    replace: true,
-    insert: (args, text, textarea) => {
+    insert: (args, textarea) => {
         const whiteSpace = "  ";
         const headerSpace = " --- "
+        const text = textarea.value
 
         const createLine = (length: number, data: string[] = [], space: string = whiteSpace) => {
             let line = "|"
@@ -61,7 +62,14 @@ export const table: InsertUnit = {
             }
         }
 
-        return {before: returnText.slice(0, 2), after: returnText.slice(2)}
+        return simpleInsert(
+            textarea,
+            "insert table",
+            returnText.slice(0, 2),
+            returnText.slice(2),
+            false,
+            true
+        )
     },
     arguments: [
         <InputInsertArgument<number>>{

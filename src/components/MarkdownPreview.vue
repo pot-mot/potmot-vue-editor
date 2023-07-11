@@ -16,8 +16,8 @@ import 'katex/dist/katex.css'
 import {debounce} from "lodash";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 
-import {tokenizer} from "../utils/markedExtension/tokenizer";
-import {renderer, mermaidBatchRender} from "../utils/markedExtension/renderer";
+import {tokenizer} from "../constants/markedExtension/tokenizer";
+import {renderer, mermaidBatchRender} from "../constants/markedExtension/renderer";
 import {copyCode} from "../utils/common/copyUtil";
 import {
 	detailRule,
@@ -26,7 +26,7 @@ import {
 	warningRule,
 	footnote,
 	footnoteRef,
-} from "../utils/markedExtension/rules";
+} from "../constants/markedExtension/rules";
 
 /**
  * 外部传入参数

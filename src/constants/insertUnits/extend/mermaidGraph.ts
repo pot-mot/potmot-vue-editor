@@ -1,19 +1,25 @@
 import {mermaidTypeMap, mermaidTypeNameList} from "../../mermaidGraph";
 import {InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {ref} from "vue";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const mermaidGraph: InsertUnit = {
     key: ['`', '~'],
     alt: true,
     label: "mermaid图",
-    insert: (args) => {
+    insert: (args, textarea, key) => {
         let mermaidTypeName = args.get("mermaidTypeName")!.value
         let example = args.get("mermaidExample")!.value
         let mermaidType = mermaidTypeMap.get(mermaidTypeName)!
-        return {
-            before: "```mermaid\n" + (example == '生成' ? mermaidType.value : mermaidType.key) + "\n",
-            after: "\n```"
-        };
+        const fence = (key == undefined || key == '`') ? '```' : '~~~'
+
+        return simpleInsert(
+            textarea,
+            "insert mermaid",
+            `${fence}mermaid\n${example == '生成' ? mermaidType.value : mermaidType.key}\n`,
+            "\n" + fence
+
+        )
     },
     arguments: [
         <OptionInsertArgument>{

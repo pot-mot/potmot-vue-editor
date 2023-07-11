@@ -2,15 +2,15 @@ import {getLeadingSpace} from "../../../utils/editor/textUtils";
 import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const orderedList: InsertUnit = {
     key: '%',
     ctrl: true,
     label: "有序列表",
-    replace: true,
-    keepSelect: true,
-    insert: (args, text, textarea) => {
+    insert: (args, textarea) => {
         let returnText = "";
+        const text = textarea.value
 
         if (textarea.selectionStart != textarea.selectionEnd) {
             let start = textarea.selectionStart
@@ -27,7 +27,13 @@ export const orderedList: InsertUnit = {
                 returnText += `${space + (i + 1)}. ${list[i].trim()}\n`;
             }
 
-            return {before: "", after: returnText}
+            return simpleInsert(
+                textarea,
+                "ordered list",
+                "",
+                returnText,
+                true,
+                true)
         } else {
             let listLength = args.get("orderedListLength")!.value
             let listStart = args.get("orderedListStart")!.value
@@ -38,7 +44,13 @@ export const orderedList: InsertUnit = {
             for (let i = 0; i < listLength - 1; i++) {
                 returnText += `${space + (i + listStart + 1)}. \n`;
             }
-            return {before: listStart + ". ", after: "\n" + returnText}
+
+            return simpleInsert(
+                textarea,
+                "insert ordered list",
+                `${listStart}. `,
+                "\n" + returnText
+            )
         }
     },
     arguments: [

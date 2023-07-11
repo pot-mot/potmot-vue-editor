@@ -1,15 +1,28 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
+import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const image: InsertUnit = {
     key: '!',
     ctrl: true,
     label: "图片",
-    insert: (args) => {
+    insert: (args, textarea) => {
         const label = args.get("pictureName")!.value
         const url = args.get("pictureUrl")!.value
-        if (label.length > 0 && url.length > 0) return {before: "![" + label + "](" + url + ")", after: ""}
-        else return {before: "![" + label + "](" + url, after: ")"}
+        if (label.length > 0 && url.length > 0) {
+            return simpleInsert(
+                textarea,
+                "insert picture link",
+                `![${label}](${url})`
+            )
+        } else {
+            return simpleInsert(
+                textarea,
+                "insert picture link",
+                `![${label}](`,
+                ")"
+            )
+        }
     },
     arguments: [
         <InputInsertArgument<string>>{
