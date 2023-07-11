@@ -2,38 +2,32 @@ import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {getLeadingSpace} from "../../../utils/editor/textUtils";
 import {limit} from "../../../utils/common/math";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert, simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const unorderedList: InsertUnit = {
-    key: ['*', '-', '+'],
+    key: '}',
     ctrl: true,
     label: "无序列表",
-    insert: (args, textarea, key) => {
+    insert: (args, textarea) => {
+        const mark = '-'
         const text = textarea.value
         let returnText = "";
 
         if (textarea.selectionStart != textarea.selectionEnd) {
-            let start = textarea.selectionStart
-
-            while (text[start] == " " || text[start] == "\t") {
-                start++;
-            }
-
-            const space = getLeadingSpace(text, start).replace("\n", "")
-
-            const list = text.slice(start, textarea.selectionEnd).split("\n")
-
-            list.forEach(item => {
-                returnText += `${space}${key} ${item.trim()}\n`;
-            })
-
-            return simpleInsert(
+            return formatInsert(
                 textarea,
                 "format unordered list",
-                "",
-                returnText,
-                true,
-                true
+                (startPart, midPart, endPart, space) => {
+                    const list = midPart.split("\n")
+                    list.forEach(item => {
+                        returnText += `${space}${mark} ${item.trim()}\n`;
+                    })
+                    return {
+                        content: [startPart, returnText.slice(0, returnText.length - 1), endPart],
+                        start: startPart.length,
+                        end: startPart.length + returnText.length - 1
+                    }
+                }
             )
         } else {
             const space = getLeadingSpace(text, textarea.selectionStart).replace("\n", "")
@@ -43,13 +37,13 @@ export const unorderedList: InsertUnit = {
 
 
             for (let i = 0; i < listLength - 1; i++) {
-                returnText += `${space}${key} \n`;
+                returnText += `${space}${mark} \n`;
             }
 
             return simpleInsert(
                 textarea,
                 "insert unordered list",
-                `${key} `,
+                `${mark} `,
                 " \n" + returnText
             )
         }

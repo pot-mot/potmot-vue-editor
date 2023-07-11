@@ -101,6 +101,11 @@ const getContextMenuPosition = (key: string) => {
         font-size: 1rem;
         list-style: none;
 
+		-moz-user-select: none;
+		-webkit-user-select:none;
+		-ms-user-select:none;
+		user-select:none;
+
         > .iconfont {
             display: inline-block;
             height: 1.8rem;

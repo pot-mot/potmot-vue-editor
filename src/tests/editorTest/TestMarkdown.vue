@@ -19,7 +19,7 @@ const props = defineProps({
     stepTime: {
         type: Number,
         required: false,
-        default: 10000,
+        default: 200,
     }
 })
 

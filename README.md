@@ -4,7 +4,7 @@
 
 ## 介绍
 
-> 当前版本 v0.10 2023/7/5
+> 当前版本 v0.11 2023/7/11
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.10.4
+npm install potmot-vue-editor@0.11.0
 ```
 
 main.js 中引用
@@ -73,91 +73,16 @@ import 'potmot-vue-editor/src/asserts/code-theme/potmot-dark.css'
 
 **props 参数说明**
 
-| 参数                  | 类型                  | 说明           | 必须                                                     |
-|---------------------|---------------------|--------------|--------------------------------------------------------|
-| v-model             | Ref<String>         | 绑定输入字符串      | 是                                                      |
-| placeholder         | String              | 占位           | 否，默认值 ""                                               |
-| width               | String              | 宽度           | 否，默认值 "960px"                                          |
-| height              | String              | 高度           | 否，默认值 "540px"                                          |
-| placeholder         | String              | 占位字符串        | 否，默认值 ""                                               |
-| ShortcutKeys        | EditorShortcutKey[] | 自定义快捷键，具体见下  | 否，默认值 []                                               |
-| insertUnits         | InsertUnit[]        | 自定义插入单元，具体见下 | 否，默认值 [...markdownInsertUnits, ...extendedInsertUnits] |
-| startWithFullScreen | Boolean             | 是否以全屏启动      | 否，默认值 false                                            |
-
-#### EditorShortcutKey 编辑器快捷键
-
-```typescript
-// 编辑器按键事件
-interface EditorKeyEvent {
-    // 按键配置
-    // key 参照 event keycode
-    key?: string;
-    ctrl?: boolean;
-    alt?: boolean;
-    shift?: boolean;
-
-    // 是否取消默认事件
-    prevent?: boolean;
-    // 是否取消后续事件
-    reject?: boolean;
-}
-
-// 编辑器快捷键
-interface EditorShortcutKey extends EditorKeyEvent {
-    // 快捷键执行函数，默认参数有：
-    // e: KeyboardEvent，即当前键盘事件
-    method: Function;
-}
-```
-
-通过配置 触发快捷键 和 method 可实现在编辑器中任意自定义快捷键
-
-例如：Ctrl + s 保存修改
-
-```typescript
-const ShortcutKeys = [
-    {
-        key: 's',
-        ctrl: true,
-        method: () => {
-            saveUpdate();
-        },
-        prevent: true,
-        reject: true,
-    },
-]
-```
-
-#### InsertUnit 插入单元
-
-插入单元是快捷插入工具，根据 insertArgument 生成一段特定的插入字符串。
-
-```typescript
-interface InsertUnit extends EditorKeyEvent {
-    label: string;
-    // 插入事件，参数有参数map，text 当前编辑文本和 textarea
-    insert: (args: Map<string, Ref>, text: string, textarea: HTMLTextAreaElement) => InsertText;
-    arguments: InsertArgument<any>[];
-    replace?: boolean;
-    keepSelect?: boolean;
-}
-```
-
-例如：Ctrl + Enter 输入 `<br>`
-
-```typescript
-const extendedInsertUnits: InsertUnit[] = [{
-    key: "Enter",
-    ctrl: true,
-    label: "换行",
-    insert: () => {
-        return {before: "<br>", after: ""}
-    },
-    arguments: [],
-    reject: true,
-    prevent: true,
-}]
-```
+| 参数                  | 类型                  | 说明      | 必须            |
+|---------------------|---------------------|---------|---------------|
+| v-model             | Ref<String>         | 绑定输入字符串 | 是             |
+| placeholder         | String              | 占位      | 否，默认值 ""      |
+| width               | String              | 宽度      | 否，默认值 "960px" |
+| height              | String              | 高度      | 否，默认值 "540px" |
+| placeholder         | String              | 占位字符串   | 否，默认值 ""      |
+| ShortcutKeys        | EditorShortcutKey[] | 自定义快捷键  | 否，默认值 []      |
+| insertUnits         | InsertUnit[]        | 自定义插入单元 | 否             |
+| startWithFullScreen | Boolean             | 是否以全屏启动 | 否，默认值 false   |
 
 ### 2. MarkdownPreview 预览
 
@@ -170,11 +95,11 @@ const extendedInsertUnits: InsertUnit[] = [{
 
 **props 参数说明**
 
-| 参数           | 类型                              | 说明                                                                                 | 必须                  |
-|--------------|---------------------------------|------------------------------------------------------------------------------------|---------------------|
-| markdownText | String                          | 传入的markdown文本，将被解析成html                                                            | 是                   |
-| extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档                                                         | 否，默认值 []            |
-| suspend      | Boolean                         | 暂停渲染，用于优化性能                                                                        | 否，默认 false          |
+| 参数           | 类型                              | 说明                         | 必须         |
+|--------------|---------------------------------|----------------------------|------------|
+| markdownText | String                          | 传入的markdown文本，将被解析成html    | 是          |
+| extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档 | 否，默认值 []   |
+| suspend      | Boolean                         | 暂停渲染，用于优化性能                | 否，默认 false |
 
 #### 代碼支持
 

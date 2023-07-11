@@ -61,6 +61,8 @@ export const vDrag = {
 
                 document.addEventListener('touchmove', setXY);
                 document.addEventListener('touchend', removeSetXY);
+
+                return false
             })
         } else {
             // 网页端鼠标事件
@@ -109,6 +111,8 @@ export const vDrag = {
 
                 document.addEventListener('mousemove', setXY);
                 document.addEventListener('mouseup', removeSetXY);
+
+                return false
             }
         }
     }

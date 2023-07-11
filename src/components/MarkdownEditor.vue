@@ -46,11 +46,6 @@
 					<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-v-drag></MarkdownOutline>
 				</slot>
 			</template>
-			<template #history>
-				<ul v-for="history in undoStack">
-					<li>{{ history.type }} {{ history.start }} {{ history.end }}</li>
-				</ul>
-			</template>
 		</ToolBar>
 		<div class="container" :class="containerClass">
 			<textarea
@@ -244,18 +239,6 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
-		name: "history",
-		label: "历史记录",
-		icon: "icon-search-list",
-		active: false,
-		contextMenu: true,
-		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
-		position: "left",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
-	},
-	<EditTool>{
 		name: "undo",
 		label: "撤销",
 		icon: "icon-undo",
@@ -407,10 +390,10 @@ const changeSelectArg = (name: string, e: Event) => {
 	argsMap.value.get(name)!.value = (<HTMLSelectElement>e.target).value;
 }
 
-const insertIntoTextarea = (insertUnit: InsertUnit, key: string | undefined) => {
+const insertIntoTextarea = (insertUnit: InsertUnit, key?: string) => {
 	const history = insertUnit.insert(argsMap.value, textarea.value, key)
+	historyType = history.type
 	changeHook(history)
-	push(history)
 }
 
 /**
@@ -455,7 +438,6 @@ const pushDefault = () => {
 }
 
 const {
-	undoStack,
 	redo,
 	undo,
 	push,
@@ -586,7 +568,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 		}
 	}
 
-	if (e.altKey || e.ctrlKey || e.metaKey) return
+	if (e.altKey || e.ctrlKey || e.metaKey || e.key == 'Control' || e.key == 'Alt') return
 
 	if (['(', '[', '{'].includes(e.key)) {
 		historyType = "bracket: " + e.key

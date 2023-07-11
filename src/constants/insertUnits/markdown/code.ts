@@ -1,7 +1,7 @@
 import {InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {prismLanguageList} from "../../prismLanguageList";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtil";
 
 export const code: InsertUnit = {
     key: ['`', '~'],
@@ -10,12 +10,15 @@ export const code: InsertUnit = {
     insert: (args, textarea, key): EditorHistory => {
         const language = args.get("codeLanguage")!.value
         const fence = (key == undefined || key == '`') ? '```' : '~~~'
-
-        return simpleInsert(
+        return formatInsert(
             textarea,
             "insert code",
-            fence + language + '\n',
-            '\n' + fence
+            (startPart, midPart, endPart) => {
+                return {
+                    content: [startPart, fence, language, `\n${midPart}\n`, fence, endPart],
+                    start: startPart.length + fence.length + language.length + midPart.length + 1,
+                }
+            },
         )
     },
     arguments: [

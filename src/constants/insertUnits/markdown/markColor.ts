@@ -21,7 +21,7 @@ export const markColor: InsertUnit = {
                 textarea,
                 "insert link",
                 `==(${warningColor})`,
-                "=="
+                "==",
             )
         }
     },

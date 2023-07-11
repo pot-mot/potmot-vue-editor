@@ -2,10 +2,10 @@ import {getLeadingSpace} from "../../../utils/editor/textUtils";
 import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert, simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const orderedList: InsertUnit = {
-    key: '%',
+    key: '{',
     ctrl: true,
     label: "有序列表",
     insert: (args, textarea) => {
@@ -13,27 +13,21 @@ export const orderedList: InsertUnit = {
         const text = textarea.value
 
         if (textarea.selectionStart != textarea.selectionEnd) {
-            let start = textarea.selectionStart
-
-            while (text[start] == " " || text[start] == "\t") {
-                start++;
-            }
-
-            const space = getLeadingSpace(text, start).replace("\n", "")
-
-            const list = text.slice(start, textarea.selectionEnd).split("\n")
-
-            for (let i = 0; i < list.length; i++) {
-                returnText += `${space + (i + 1)}. ${list[i].trim()}\n`;
-            }
-
-            return simpleInsert(
+            return formatInsert(
                 textarea,
                 "ordered list",
-                "",
-                returnText,
-                true,
-                true)
+                (startPart, midPart, endPart, space) => {
+                    const list = midPart.split("\n")
+                    for (let i = 0; i < list.length; i++) {
+                        returnText += `${space + (i + 1)}. ${list[i].trim()}\n`;
+                    }
+                    return {
+                        content: [startPart, returnText.slice(0, returnText.length - 1), endPart],
+                        start: startPart.length,
+                        end: startPart.length + returnText.length - 1
+                    }
+                }
+            )
         } else {
             let listLength = args.get("orderedListLength")!.value
             let listStart = args.get("orderedListStart")!.value
