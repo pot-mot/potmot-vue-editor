@@ -1,9 +1,3 @@
-<script lang="ts">
-export default {
-    name: 'ContextMenu'
-}
-</script>
-
 <script setup lang="ts">
 import {vDrag} from "../../directives/drag";
 import {nextTick, onMounted, PropType, reactive, ref, watch} from "vue";

@@ -603,29 +603,34 @@ const onKeyDown = (e: KeyboardEvent) => {
 		}
 	}
 
-	if (e.key == 'Backspace') {
-		historyType = 'backspace'
-	} else if (e.key == 'Delete') {
-		historyType = 'delete'
-	} else if (['(', '[', '{'].includes(e.key)) {
-		e.preventDefault()
+	if (['(', '[', '{'].includes(e.key)) {
 		historyType = "bracket: " + e.key
+		e.preventDefault()
 		const map = new Map<string, string>([['(', ')'], ['[', ']'], ['{', '}']])
 		completeAround({before: e.key, after: map.get(e.key)!})
-	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && ['"', "'", '`'].includes(e.key)) {
-		e.preventDefault()
+	} else if ([')', ']', '}'].includes(e.key)) {
+		historyType = "bracket: " + e.key
+		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
+			e.preventDefault()
+			const map = new Map<string, string>([[')', '('], [']', '['], ['}', '{']])
+			completeAround({before: map.get(e.key)!, after: e.key})
+		}
+	} else if (['"', "'", '`', '*', '_', '='].includes(e.key)) {
 		historyType = "quotation: " + e.key
-		completeAround({before: e.key, after: e.key})
+		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
+			e.preventDefault()
+			completeAround({before: e.key, after: e.key})
+		}
 	} else if (e.key.startsWith("Arrow")) {
 		setTimeout(pushMoveOrSelect, 0)
 	} else if (e.key == ' ') {
 		historyType = 'blank'
-	} else if (e.key != 'Shift' && e.key != 'Control' && e.key != 'Alt' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
-		historyType = 'input'
+	} else if (e.key == 'Backspace' || e.key == 'Delete') {
+		historyType = e.key
+	} else {
+		historyType = 'common'
 	}
 }
-
-
 
 const pushMoveOrSelect = () => {
 	if (!textarea.value) return
@@ -633,11 +638,13 @@ const pushMoveOrSelect = () => {
 	let oldStart = top().start
 	let oldEnd = top().end
 
+	if (textarea.value.selectionStart == oldStart && textarea.value.selectionEnd == oldEnd) return
+
 	nextTick(() => {
 		if (textarea.value.selectionStart != textarea.value.selectionEnd) {
 			historyType = 'select'
 			push()
-		} else if (textarea.value.selectionStart != oldStart || textarea.value.selectionEnd != oldEnd) {
+		} else {
 			historyType = 'move'
 			push()
 		}

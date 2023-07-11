@@ -22,11 +22,10 @@ export const useHistoryStack = (
     const push = (input = pushDefault()) => {
         if (undoStack.value.length == 0 || pushDefault().type != top().type) {
             undoStack.value.push(input)
+            if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length)
         } else {
             setTop(input)
         }
-
-        if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length)
     };
 
     // 撤销

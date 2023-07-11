@@ -1,10 +1,8 @@
-import ContextMenu from "./components/contextMenu/ContextMenu.vue";
 import MarkdownEditor from "./components/MarkdownEditor.vue";
 import MarkdownOutline from "./components/MarkdownOutline.vue";
 import MarkdownPreview from "./components/MarkdownPreview.vue";
 
 const components = [
-    ContextMenu,
     MarkdownPreview,
     MarkdownEditor,
     MarkdownOutline
