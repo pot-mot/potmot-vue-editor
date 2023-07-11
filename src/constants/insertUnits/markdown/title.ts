@@ -21,7 +21,7 @@ export const title: InsertUnit = {
             (startPart, midPart, endPart) => {
                 return {
                     content: [startPart, returnText, midPart, endPart],
-                    start: startPart.length + returnText.length + midPart.length + 1
+                    start: startPart.length + returnText.length + midPart.length
                 }
             }
         )

@@ -3,7 +3,7 @@ import {Tokenizer} from "marked";
 export const tokenizer = new Tokenizer()
 
 tokenizer.lheading = (src: string): any => {
-    const cap = /^((?:.|\n(?!\n))+?)\n(=+|-+)\n/.exec(src);
+    const cap = /^((?:.|\n(?!\n))+?)\n(={3,}|-{3,})/.exec(src);
 
     if (cap) {
         return {

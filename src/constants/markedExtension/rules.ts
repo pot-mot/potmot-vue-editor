@@ -92,10 +92,10 @@ export const detailRule: TokenizerAndRendererExtension = {
     level: 'block',
     name: 'detail',
     start(src) {
-        return src.match(/:::([\s\S]*?):::/)?.index;
+        return src.match(/:{3,}([\s\S]*?):{3,}/)?.index;
     },
     tokenizer(src): marked.Tokens.Generic | void {
-        const rule = /^:::(.*?)\n([\s\S]*?):::/;
+        const rule = /^:{3,}(.*?)\n([\s\S]*?):{3,}/;
         const match: RegExpExecArray | null = rule.exec(src);
         if (match) {
             try {

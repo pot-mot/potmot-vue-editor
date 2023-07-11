@@ -1,8 +1,13 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
-import {getLeadingSpace} from "../../../utils/editor/textUtils";
-import {limit} from "../../../utils/common/math";
 import {ref} from "vue";
-import {formatInsert, simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtil";
+import {
+    unorderedListCreat,
+    unorderedListFormat,
+    unorderedListJudge,
+    unorderedListReformat
+} from "../../../utils/markdown/listUtils";
+
 
 export const unorderedList: InsertUnit = {
     key: '}',
@@ -10,43 +15,28 @@ export const unorderedList: InsertUnit = {
     label: "无序列表",
     insert: (args, textarea) => {
         const mark = '-'
-        const text = textarea.value
-        let returnText = "";
-
-        if (textarea.selectionStart != textarea.selectionEnd) {
-            return formatInsert(
-                textarea,
-                "format unordered list",
-                (startPart, midPart, endPart, space) => {
+        return formatInsert(
+            textarea,
+            "unordered list",
+            (startPart, midPart, endPart, space) => {
+                if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    list.forEach(item => {
-                        returnText += `${space}${mark} ${item.trim()}\n`;
-                    })
+                    const result = unorderedListJudge(list) ? unorderedListReformat(list, space).join("\n") : unorderedListFormat(list, mark, space)
                     return {
-                        content: [startPart, returnText.slice(0, returnText.length - 1), endPart],
+                        content: [startPart, result, endPart],
                         start: startPart.length,
-                        end: startPart.length + returnText.length - 1
+                        end: startPart.length + result.length
+                    }
+                } else {
+                    const length = parseInt(args.get("unorderedListLength")!.value)
+                    const result = unorderedListCreat(length, mark, space)
+                    return {
+                        content: [startPart, result, endPart],
+                        start: startPart.length + 2,
                     }
                 }
-            )
-        } else {
-            const space = getLeadingSpace(text, textarea.selectionStart).replace("\n", "")
-
-            let listLength = args.get("unorderedListLength")!.value
-            listLength = limit(listLength, 1, 99);
-
-
-            for (let i = 0; i < listLength - 1; i++) {
-                returnText += `${space}${mark} \n`;
             }
-
-            return simpleInsert(
-                textarea,
-                "insert unordered list",
-                `${mark} `,
-                " \n" + returnText
-            )
-        }
+        )
     },
     arguments: [
         <InputInsertArgument<number>>{

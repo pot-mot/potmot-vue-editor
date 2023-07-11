@@ -1,51 +1,41 @@
-import {getLeadingSpace} from "../../../utils/editor/textUtils";
-import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {formatInsert, simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtil";
+import {
+    orderedListCreat,
+    orderedListFormat,
+    orderedListJudge,
+    orderedListReformat
+} from "../../../utils/markdown/listUtils";
 
 export const orderedList: InsertUnit = {
     key: '{',
     ctrl: true,
     label: "有序列表",
     insert: (args, textarea) => {
-        let returnText = "";
-        const text = textarea.value
-
-        if (textarea.selectionStart != textarea.selectionEnd) {
-            return formatInsert(
-                textarea,
-                "ordered list",
-                (startPart, midPart, endPart, space) => {
+        return formatInsert(
+            textarea,
+            "ordered list",
+            (startPart, midPart, endPart, space) => {
+                if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    for (let i = 0; i < list.length; i++) {
-                        returnText += `${space + (i + 1)}. ${list[i].trim()}\n`;
-                    }
+                    const result = orderedListJudge(list) ? orderedListReformat(list, space).join("\n") : orderedListFormat(list, space)
                     return {
-                        content: [startPart, returnText.slice(0, returnText.length - 1), endPart],
+                        content: [startPart, result, endPart],
                         start: startPart.length,
-                        end: startPart.length + returnText.length - 1
+                        end: startPart.length + result.length
+                    }
+                } else {
+                    const length = parseInt(args.get("orderedListLength")!.value)
+                    const start = parseInt(args.get("orderedListStart")!.value)
+                    const result = orderedListCreat(length, start, space)
+                    return {
+                        content: [startPart, result, endPart],
+                        start: startPart.length + (start + '').length + 2,
                     }
                 }
-            )
-        } else {
-            let listLength = args.get("orderedListLength")!.value
-            let listStart = args.get("orderedListStart")!.value
-            listLength = limit(listLength, 1, 99);
-            listStart = limit(listStart, 0, 9999);
-
-            const space = getLeadingSpace(text, textarea.selectionStart).replace("\n", "")
-            for (let i = 0; i < listLength - 1; i++) {
-                returnText += `${space + (i + listStart + 1)}. \n`;
             }
-
-            return simpleInsert(
-                textarea,
-                "insert ordered list",
-                `${listStart}. `,
-                "\n" + returnText
-            )
-        }
+        )
     },
     arguments: [
         <InputInsertArgument<number>>{
