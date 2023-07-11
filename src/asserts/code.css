@@ -60,7 +60,7 @@ pre span {
     display: block;
 }
 
-.code-container > pre .line {
+.code-container > pre .code-line {
     display: inline-block;
     font-style: normal;
     font-weight: normal;
@@ -76,6 +76,11 @@ pre span {
     border-right: 1px solid var(--count-color);
     color: var(--count-color);
     text-align: center;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .code-copy-button {

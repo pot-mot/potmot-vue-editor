@@ -6,143 +6,143 @@ import {groupBy} from "../../utils/common/groupBy";
 import {toMap} from "../../utils/common/toMap";
 
 const props = defineProps({
-    tools: {
-        type: Array as PropType<EditTool[]>,
-        required: true,
-    },
+	tools: {
+		type: Array as PropType<EditTool[]>,
+		required: true,
+	},
 	withContextMenu: {
-        type: Boolean,
+		type: Boolean,
 		default: true,
 	}
 })
 
 const toolPositionMap = computed(() => {
-    return groupBy(props.tools, 'position')
+	return groupBy(props.tools, 'position')
 })
 
 const toolMap = computed(() => {
-    return toMap(props.tools, 'name')
+	return toMap(props.tools, 'name')
 })
 
 const contextMenus = computed(() => {
-    const map = new Map<string, any>()
-    props.tools.forEach(item => map.set(item.name, {
-        visible: getContextMenuShow(item.name),
-        position: getContextMenuPosition(item.name)
-    }))
-    return map
+	const map = new Map<string, any>()
+	props.tools.forEach(item => map.set(item.name, {
+		visible: getContextMenuShow(item.name),
+		position: getContextMenuPosition(item.name)
+	}))
+	return map
 })
 
 const getContextMenuShow = (key: string): boolean => {
-    if (!toolMap.value.has(key)) return false
-    const item = toolMap.value.get(key)!
-    if (item.show == undefined) return false
-    return item.show() && item.active
+	if (!toolMap.value.has(key)) return false
+	const item = toolMap.value.get(key)!
+	if (item.show == undefined) return false
+	return item.show() && item.active
 }
 
 const getContextMenuPosition = (key: string) => {
-    if (!toolMap.value.has(key)) return {}
+	if (!toolMap.value.has(key)) return {}
 
-    const item = toolMap.value.get(key)!
+	const item = toolMap.value.get(key)!
 
-    if (item.position == 'left') {
-        return {
-            top: '2rem',
-            left: '0'
-        }
-    } else {
-        return {
-            top: '2rem',
-            right: '0'
-        }
-    }
+	if (item.position == 'left') {
+		return {
+			top: '2rem',
+			left: '0'
+		}
+	} else {
+		return {
+			top: '2rem',
+			right: '0'
+		}
+	}
 }
 </script>
 
 <template>
-    <div class="toolbar">
-        <ul v-for="position in toolPositionMap.keys()" :class="position">
-            <li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()">
+	<div class="toolbar">
+		<ul v-for="position in toolPositionMap.keys()" :class="position">
+			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()">
 				<span
-                        @mousedown.prevent.stop="tool.method(tool)"
-                        :title="tool.label"
-                        class="iconfont"
-                        :class="[tool.active ? 'chosen' : '',tool.icon]">
+					@mousedown.prevent.stop="tool.method(tool)"
+					:title="tool.label"
+					class="iconfont"
+					:class="[tool.active ? 'chosen' : '',tool.icon]">
 				</span>
-                <slot v-if="!withContextMenu" :name="tool.name"></slot>
-                <ContextMenu v-else-if="tool.contextMenu"
-                             :title="tool.label"
-                             :visible="contextMenus.get(tool.name).visible"
-                             :position="contextMenus.get(tool.name).position"
-                             :close="() => {tool.active = false}">
-                    <slot :name="tool.name"></slot>
-                </ContextMenu>
-            </li>
-        </ul>
-    </div>
+				<slot v-if="!withContextMenu" :name="tool.name"></slot>
+				<ContextMenu v-else-if="tool.contextMenu"
+							 :title="tool.label"
+							 :visible="contextMenus.get(tool.name).visible"
+							 :position="contextMenus.get(tool.name).position"
+							 :close="() => {tool.active = false}">
+					<slot :name="tool.name"></slot>
+				</ContextMenu>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <style scoped lang="scss">
 @import "../../asserts/iconfont.css";
 
 .toolbar {
-    display: grid;
-    grid-template-columns: 50% 50%;
+	display: grid;
+	grid-template-columns: 50% 50%;
 
-    * {
-        box-sizing: border-box;
-        margin: 0;
+	* {
+		box-sizing: border-box;
+		margin: 0;
 		padding: 0;
-    }
+	}
 
-    > ul > li {
-        position: relative;
-        display: inline-block;
-        font-size: 1rem;
-        list-style: none;
+	> ul > li {
+		position: relative;
+		display: inline-block;
+		font-size: 1rem;
+		list-style: none;
 
+		user-select: none;
 		-moz-user-select: none;
-		-webkit-user-select:none;
-		-ms-user-select:none;
-		user-select:none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
 
-        > .iconfont {
-            display: inline-block;
-            height: 1.8rem;
-            width: 1.8rem;
-        }
+		> .iconfont {
+			display: inline-block;
+			height: 1.8rem;
+			width: 1.8rem;
+		}
 
-        > .iconfont:before {
-            color: #999;
-            text-align: center;
-            padding: 0.25rem;
-            font-size: 1.3rem;
-            border-radius: 3px;
-        }
+		> .iconfont:before {
+			color: #999;
+			text-align: center;
+			padding: 0.25rem;
+			font-size: 1.3rem;
+			border-radius: 3px;
+		}
 
-        > .iconfont:hover:before {
-            color: #7a7a7a;
-            background-color: #eee;
-        }
+		> .iconfont:hover:before {
+			color: #7a7a7a;
+			background-color: #eee;
+		}
 
-        > .iconfont.chosen:before {
-            color: #fff;
-            background-color: #bcbcbc;
-        }
-    }
+		> .iconfont.chosen:before {
+			color: #fff;
+			background-color: #bcbcbc;
+		}
+	}
 
-    > .left {
-        > li {
-            padding-right: 0.5rem;
-        }
-    }
+	> .left {
+		> li {
+			padding-right: 0.5rem;
+		}
+	}
 
-    > .right {
-        justify-self: right;
+	> .right {
+		justify-self: right;
 
-        > li {
-            padding-left: 0.5rem;
-        }
-    }
+		> li {
+			padding-left: 0.5rem;
+		}
+	}
 }
 </style>

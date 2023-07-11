@@ -1,7 +1,7 @@
 import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtil";
 
 export const title: InsertUnit = {
     key: '#',
@@ -9,17 +9,21 @@ export const title: InsertUnit = {
     label: "标题",
     insert: (args, textarea) => {
         let level = args.get("titleLevel")!.value
-        level = limit(level, 1, 6);
+        level = limit(level, 1, 6)
         let returnText = ""
         for (let i = 0; i < level; i++) {
-            returnText += "#";
+            returnText += "#"
         }
-        return simpleInsert(
+        returnText += " "
+        return formatInsert(
             textarea,
             "insert title",
-            `${returnText} `,
-            "",
-            true,
+            (startPart, midPart, endPart) => {
+                return {
+                    content: [startPart, returnText, midPart, endPart],
+                    start: startPart.length + returnText.length + midPart.length + 1
+                }
+            }
         )
     },
     arguments: [

@@ -121,9 +121,13 @@ const setPosition = () => {
 
 .context-menu {
     position: absolute;
-    user-select: none;
     cursor: all-scroll;
     display: flex;
+
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 
     > .content {
         flex: 1;

@@ -24,7 +24,7 @@ const setLine = (code: string) => {
     let codes = code.split("\n")
     let res = ''
     for (let i = 0; i < codes.length; i++) {
-        res += `<span class="count">${i + 1}</span><span class="line">${codes[i]}</span>\n`
+        res += `<span class="count">${i + 1}</span><span class="code-line">${codes[i]}</span><br>`
     }
     return res;
 }

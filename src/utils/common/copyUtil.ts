@@ -14,9 +14,12 @@ export const copy = (text: string) => {
 export const copyCode = (e: MouseEvent) => {
     let node = <HTMLElement>e.target;
     try {
-        let code = <HTMLElement>node!.parentElement!.getElementsByTagName('code')[0];
-        let temp: string = code.textContent ? code.textContent : '';
-        copy(temp);
+        const codes = node!.parentElement!.querySelectorAll('.code-line');
+        const temp: string[] = []
+        codes.forEach(code => {
+            temp.push(code.textContent!, '\n')
+        })
+        copy(temp.join(""));
         alert("已复制");
     } catch (e) {
         alert("复制失败:" + e);
