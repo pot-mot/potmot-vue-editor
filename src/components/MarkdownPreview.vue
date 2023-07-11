@@ -51,7 +51,7 @@ const props = defineProps({
 	renderDebounce: {
 		type: Array as PropType<number[][]>,
 		required: false,
-		default: [[2000, 0], [5000, 80], [20000, 200], [50000, 300], [150000, 600]],
+		default: [[2000, 0], [5000, 80], [20000, 200], [50000, 300], [100000, 500], [200000, 1000]],
 	},
 })
 

@@ -46,6 +46,11 @@
 					<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-v-drag></MarkdownOutline>
 				</slot>
 			</template>
+			<template #history>
+				<ul v-for="history in undoStack">
+					<li>{{ history.type }} {{ history.start }} {{ history.end }}</li>
+				</ul>
+			</template>
 		</ToolBar>
 		<div class="container" :class="containerClass">
 			<textarea
@@ -56,6 +61,9 @@
 				class="edit-card"
 				@scroll="syncScroll(textarea, previewCard)"
 				@keydown.self="onKeyDown"
+				@mousedown.self="onMouseDown"
+				@mouseup.self="onMouseUp"
+				@select.self="onSelect"
 				@dragend.self="onDragEnd">
 			</textarea>
 			<div ref="previewCard"
@@ -236,6 +244,18 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
+		name: "history",
+		label: "历史记录",
+		icon: "icon-search-list",
+		active: false,
+		contextMenu: true,
+		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
+		position: "left",
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	<EditTool>{
 		name: "undo",
 		label: "撤销",
 		icon: "icon-undo",
@@ -402,7 +422,7 @@ const insertIntoTextarea = (insertUnit: InsertUnit) => {
 	if (after.length > 0) {
 		text.value = insertIntoString(after, text.value, end);
 	}
-	historyType = "insert";
+	historyType = "insert: " + insertUnit.label;
 	nextTick(() => {
 		if (insertUnit.keepSelect && start != selectEnd) {
 			textarea.value.selectionStart = start;
@@ -437,9 +457,11 @@ watch(() => isPreview.value, () => {
 })
 
 const {
+	undoStack,
 	redo,
 	undo,
 	push,
+	top,
 	setTop,
 } = useHistoryStack(
 	(history: EditorHistory) => {
@@ -456,6 +478,7 @@ const {
 			end: textarea.value ? textarea.value.selectionEnd : 0,
 			text: text.value,
 			scrollTop: textarea.value ? textarea.value.scrollTop : 0,
+			type: historyType
 		}
 	},
 	() => {
@@ -467,7 +490,7 @@ const {
 );
 
 onMounted(() => {
-	// 当输入法切换时，保存历史记录
+	// 当输入法切换结束，保存历史记录（即保存中文输入）
 	textarea.value.addEventListener('compositionend', () => {
 		setTop()
 	})
@@ -580,23 +603,57 @@ const onKeyDown = (e: KeyboardEvent) => {
 		}
 	}
 
-	if (e.key == 'Backspace' || e.key == 'Delete') {
-		historyType = 'back'
-	} else if (e.key == '(' || e.key == '[' || e.key == '{') {
+	if (e.key == 'Backspace') {
+		historyType = 'backspace'
+	} else if (e.key == 'Delete') {
+		historyType = 'delete'
+	} else if (['(', '[', '{'].includes(e.key)) {
 		e.preventDefault()
-		historyType = "symbol"
-		completeAround({before: e.key, after: e.key == '(' ? ")" : e.key == '{' ? '}' : ']'})
-	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && (e.key == '"' || e.key == "'")) {
+		historyType = "bracket: " + e.key
+		const map = new Map<string, string>([['(', ')'], ['[', ']'], ['{', '}']])
+		completeAround({before: e.key, after: map.get(e.key)!})
+	} else if (textarea.value.selectionEnd != textarea.value.selectionStart && ['"', "'", '`'].includes(e.key)) {
 		e.preventDefault()
-		historyType = "symbol"
-		completeAround({before: e.key, after: e.key == '"' ? '"' : "'"})
+		historyType = "quotation: " + e.key
+		completeAround({before: e.key, after: e.key})
 	} else if (e.key.startsWith("Arrow")) {
-		historyType = 'move'
+		setTimeout(pushMoveOrSelect, 0)
 	} else if (e.key == ' ') {
 		historyType = 'blank'
 	} else if (e.key != 'Shift' && e.key != 'Control' && e.key != 'Alt' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
 		historyType = 'input'
 	}
+}
+
+
+
+const pushMoveOrSelect = () => {
+	if (!textarea.value) return
+
+	let oldStart = top().start
+	let oldEnd = top().end
+
+	nextTick(() => {
+		if (textarea.value.selectionStart != textarea.value.selectionEnd) {
+			historyType = 'select'
+			push()
+		} else if (textarea.value.selectionStart != oldStart || textarea.value.selectionEnd != oldEnd) {
+			historyType = 'move'
+			push()
+		}
+	})
+}
+
+const onMouseDown = () => {
+	pushMoveOrSelect()
+}
+
+const onMouseUp = () => {
+	pushMoveOrSelect()
+}
+
+const onSelect = () => {
+	pushMoveOrSelect()
 }
 
 const onDragEnd = () => {
@@ -789,19 +846,12 @@ const replaceAll = () => {
 	historyType = 'replaceAll'
 }
 
-let oldHistoryType: string
-
 const pushIntoHistory = () => {
 	if (historyType == 'undo' || historyType == 'redo') {
 		return
 	}
 
-	if (oldHistoryType != historyType) {
-		oldHistoryType = historyType
-		nextTick(push)
-	} else {
-		nextTick(setTop)
-	}
+	nextTick(push)
 }
 </script>
 
