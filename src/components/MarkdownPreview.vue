@@ -17,7 +17,7 @@ import {debounce} from "lodash";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 
 import {tokenizer} from "../constants/markedExtension/tokenizer";
-import {renderer, mermaidBatchRender, imageRender} from "../constants/markedExtension/renderer";
+import {renderer, mermaidBatchRender} from "../constants/markedExtension/renderer";
 import {copyCode} from "../utils/common/copyUtil";
 import {
 	detailRule,
@@ -74,13 +74,11 @@ const renderMarkdown = () => {
 	})
 }
 
-// 图片和 mermaid 渲染
+// mermaid 渲染
 const renderPicture = () => {
 	if (markdownCard.value == undefined) return;
 	const mermaidElements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
 	mermaidBatchRender(mermaidElements)
-	const imageElements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.wait-image'));
-	imageRender(imageElements)
 }
 
 const judgeDebounce = () => {

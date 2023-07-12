@@ -139,33 +139,25 @@ renderer.code = (code: string, language: string): string => {
 </div>`;
 }
 
-const imageDataCache = new Map<string, HTMLImageElement>()
-
-const imageRenderCache = new Map<string, string>()
-
-export const imageRender = (elements: HTMLElement[]) => {
-    for (const element of elements) {
-        const href = element.title
-        if (imageRenderCache.has(href)) {
-            element.innerHTML = imageRenderCache.get(href)!
-        }
-    }
-}
+const imageErrorCache = new Map<string, string>
 
 renderer.image = (href, title, text) => {
-    if (href == null) {
+    if (href === null) {
         return text;
-    } else if (imageRenderCache.has(href)) {
-        return imageRenderCache.get(href)!
+    } else if (imageErrorCache.has(href)) {
+        return imageErrorCache.get(href)!
     }
-    const img = new Image()
-    img.onload = () => {
-        imageRenderCache.set(href, `<img src="${href}" alt="${text}" title="${title}"/>`)
+
+    if (title == null) {
+        title = text
     }
-    img.onerror = () => {
-        imageRenderCache.set(href, `图片错误`)
+
+    const image = new Image()
+    image.onerror = () => {
+        imageErrorCache.set(href, `<img title="${title}" alt="${text}" class="error"/>`)
+        image.remove()
     }
-    img.src = href
-    imageDataCache.set(href, img)
-    return `<div class="wait-image" title="${href}">wait for render</div>`;
+    image.src = href
+
+    return `<img src="${href}" title="${title}" alt="${text}" onerror="this.classList.add('error');" ${renderer.options.xhtml ? '/>' : '>'}`;
 }
