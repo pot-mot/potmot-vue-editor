@@ -6,13 +6,14 @@ tokenizer.lheading = (src: string): any => {
     const cap = /^((?:.|\n(?!\n))+?)\n(={3,}|-{3,})/.exec(src);
 
     if (cap) {
+        const text = `${cap[1]}<hr/>`
         return {
             type: 'heading',
             raw: cap[0],
             depth: cap[2].charAt(0) == '=' ? 1 : 2,
-            text: cap[1],
+            text,
             // @ts-ignore
-            tokens: tokenizer.lexer.inline(cap[1])
+            tokens: tokenizer.lexer.inline(text)
         };
     }
 }

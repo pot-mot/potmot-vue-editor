@@ -118,6 +118,11 @@ renderer.link = (href, title, text): string => {
     return out;
 }
 
+renderer.heading = (text: string, level, raw, slugger): string=> {
+    const id = renderer.options.headerPrefix + slugger.slug(raw);
+    return `<h${level} id="${id}">${text}</h${level}>\n`;
+}
+
 renderer.code = (code: string, language: string): string => {
     if (language == 'mermaid') {
         if (mermaidCache.has(code)) return `<div>${mermaidCache.get(code)}</div>`

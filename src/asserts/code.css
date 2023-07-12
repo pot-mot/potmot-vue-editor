@@ -38,6 +38,7 @@ pre span {
     background-color: var(--code-back-color);
     overflow: hidden;
     padding-top: 0.8em;
+    min-width: 10em;
 }
 
 .code-container.fold {

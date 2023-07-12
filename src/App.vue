@@ -1,9 +1,10 @@
 <template>
-	<TestLeadingSpace></TestLeadingSpace>
 	<TestEditorBase></TestEditorBase>
 	<!--	<TestMarkdown></TestMarkdown>-->
-	<!--	<TestMarkdown :test-cases="markdownTestCase"></TestMarkdown>-->
+	<!--		<TestMarkdown :test-cases="markdownTestCase"></TestMarkdown>-->
+	<!--	<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
 	<!--		<TestKatex></TestKatex>-->
+	<!--	<TestLeadingSpace></TestLeadingSpace>-->
 	<!--	<TestSvg></TestSvg>-->
 </template>
 
@@ -14,6 +15,7 @@ import {markdownTestCase} from "./tests/testCase/markdown";
 import TestEditorBase from "./tests/editorTest/TestEditorBase.vue";
 import TestSvg from "./tests/TestSvg.vue";
 import TestLeadingSpace from "./tests/regexTest/TestLeadingSpace.vue";
+import {indentTestCases} from "./tests/testCase/indent";
 </script>
 
 <style>

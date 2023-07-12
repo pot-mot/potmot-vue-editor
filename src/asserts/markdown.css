@@ -17,22 +17,24 @@
 
 .markdown-card h1,
 .markdown-card h2 {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .markdown-card h1 {
     font-size: 2em;
+    line-height: 1.2em;
 }
 
 .markdown-card h2 {
     font-size: 1.5em;
+    line-height: 1.2em;
 }
 
 .markdown-card h3,
 .markdown-card h4 {
-    padding-top: 0.4em;
-    padding-bottom: 0.4em;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
 }
 
 .markdown-card h3 {
@@ -45,8 +47,8 @@
 
 .markdown-card h5,
 .markdown-card h6 {
-    padding-top: 0.3em;
-    padding-bottom: 0.3em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
 }
 
 .markdown-card h5 {
@@ -57,9 +59,20 @@
     font-size: 0.67em;
 }
 
+.markdown-card hr {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 .markdown-card * + h1,
 .markdown-card * + h2 {
     margin-top: 0.2em;
+}
+
+.markdown-card h1 > hr,
+.markdown-card h2 > hr {
+    margin-top: 0.3em;
+    margin-bottom: 0;
 }
 
 .markdown-card ul,
@@ -164,8 +177,4 @@
 .markdown-card svg:hover,
 .markdown-card video:hover {
     border-color: var(--hover-border-color);
-}
-
-.markdown-card hr {
-    margin: 1em 0;
 }

@@ -17,7 +17,7 @@ const marksTestCases = new Map<string, string>([
 	["\t+ text", "\t+ "],
 	["\t+test", "\t"],
 
-	["\t +\t - test", "\t "],
+	["\t +\t - test", "\t +\t - "],
 
 
 	["1. text", "2. "],

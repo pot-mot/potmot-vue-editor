@@ -892,14 +892,17 @@ const replaceAll = () => {
 	> .preview-card {
 		display: block;
 		padding: 0.5rem;
-		overflow: auto;
+
 		tab-size: 4;
 		font-size: 1em;
 		line-height: inherit;
 		font-family: inherit;
-		overflow-x: visible;
+
+		overflow-y: auto;
+		overflow-x: hidden;
 		overscroll-behavior-y: contain;
 		scrollbar-gutter: stable;
+
 		height: 100%;
 	}
 }
