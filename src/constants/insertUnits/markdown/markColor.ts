@@ -3,8 +3,12 @@ import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const markColor: InsertUnit = {
-    alt: true,
-    key: '=',
+    triggers: [
+        {
+            alt: true,
+            key: '=',
+        }
+    ],
     label: "标亮",
     insert: (args, textarea) => {
         const warningColor = args.get("warningColor")!.value

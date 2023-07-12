@@ -9,8 +9,12 @@ import {
 } from "../../../utils/markdown/listUtils";
 
 export const orderedList: InsertUnit = {
-    key: '{',
-    ctrl: true,
+    triggers: [
+        {
+            key: '{',
+            ctrl: true,
+        }
+    ],
     label: "有序列表",
     insert: (args, textarea) => {
         return formatInsert(
@@ -19,7 +23,7 @@ export const orderedList: InsertUnit = {
             (startPart, midPart, endPart, space) => {
                 if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    const result = orderedListJudge(list) ? orderedListReformat(list, space).join("\n") : orderedListFormat(list, space)
+                    const result = orderedListFormat(list, space)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,

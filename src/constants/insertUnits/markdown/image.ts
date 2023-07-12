@@ -3,8 +3,12 @@ import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const image: InsertUnit = {
-    key: '!',
-    ctrl: true,
+    triggers: [
+        {
+            key: '!',
+            ctrl: true,
+        }
+    ],
     label: "图片",
     insert: (args, textarea) => {
         const label = args.get("pictureName")!.value

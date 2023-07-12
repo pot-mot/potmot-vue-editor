@@ -4,8 +4,12 @@ import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const mermaidGraph: InsertUnit = {
-    key: ['`', '~'],
-    alt: true,
+    triggers: [
+        {
+            key: ['`', '~'],
+            alt: true,
+        }
+    ],
     label: "mermaid图",
     insert: (args, textarea, key) => {
         let mermaidTypeName = args.get("mermaidTypeName")!.value

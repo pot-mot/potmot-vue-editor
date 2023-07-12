@@ -4,8 +4,12 @@ import {ref} from "vue";
 import {formatInsert} from "../../../utils/editor/insertUtil";
 
 export const code: InsertUnit = {
-    key: ['`', '~'],
-    ctrl: true,
+    triggers: [
+        {
+            key: ['`', '~'],
+            ctrl: true,
+        }
+    ],
     label: "代码块",
     insert: (args, textarea, key): EditorHistory => {
         const language = args.get("codeLanguage")!.value

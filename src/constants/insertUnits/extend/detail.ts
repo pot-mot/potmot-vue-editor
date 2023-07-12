@@ -3,8 +3,12 @@ import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const detail: InsertUnit = {
-    key: ":",
-    ctrl: true,
+    triggers: [
+        {
+            key: ":",
+            ctrl: true,
+        }
+    ],
     label: "折叠块",
     insert: (args, textarea) => {
         const summary = args.get("detailIsSummary")!.value

@@ -3,8 +3,12 @@ import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const link: InsertUnit = {
-    key: "@",
-    ctrl: true,
+    triggers: [
+        {
+            key: "@",
+            ctrl: true,
+        }
+    ],
     label: "链接",
     insert: (args, textarea) => {
         const label = args.get("linkLabel")!.value

@@ -4,8 +4,12 @@ import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtil";
 
 export const table: InsertUnit = {
-    key: "|",
-    ctrl: true,
+    triggers: [
+        {
+            key: "|",
+            ctrl: true,
+        }
+    ],
     label: "表格",
     insert: (args, textarea) => {
         const whiteSpace = "  ";
@@ -25,7 +29,7 @@ export const table: InsertUnit = {
             return line
         }
 
-        let returnText = ""
+        let resultText = ""
         let width = limit(args.get("tableWidth")!.value, 1, 99)
         let height
 
@@ -45,28 +49,28 @@ export const table: InsertUnit = {
 
             for (let i = 0; i < height; i++) {
                 if (i == 0) {
-                    returnText += createLine(width)
-                    returnText += createLine(width, [], headerSpace)
+                    resultText += createLine(width)
+                    resultText += createLine(width, [], headerSpace)
                 }
-                returnText += createLine(width, data[i])
+                resultText += createLine(width, data[i])
             }
         } else {
             height = limit(args.get("tableHeight")!.value, 1, 99)
 
             for (let i = 0; i < height; i++) {
                 if (i == 0) {
-                    returnText += createLine(width)
-                    returnText += createLine(width, [], headerSpace)
+                    resultText += createLine(width)
+                    resultText += createLine(width, [], headerSpace)
                 }
-                returnText += createLine(width)
+                resultText += createLine(width)
             }
         }
 
         return simpleInsert(
             textarea,
             "insert table",
-            returnText.slice(0, 2),
-            returnText.slice(2),
+            resultText.slice(0, 2),
+            resultText.slice(2),
             false,
             true
         )

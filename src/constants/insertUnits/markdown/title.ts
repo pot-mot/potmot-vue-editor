@@ -4,24 +4,28 @@ import {ref} from "vue";
 import {formatInsert} from "../../../utils/editor/insertUtil";
 
 export const title: InsertUnit = {
-    key: '#',
-    ctrl: true,
+    triggers: [
+        {
+            key: '#',
+            ctrl: true,
+        }
+    ],
     label: "标题",
     insert: (args, textarea) => {
         let level = args.get("titleLevel")!.value
         level = limit(level, 1, 6)
-        let returnText = ""
+        let resultText = ""
         for (let i = 0; i < level; i++) {
-            returnText += "#"
+            resultText += "#"
         }
-        returnText += " "
+        resultText += " "
         return formatInsert(
             textarea,
             "insert title",
             (startPart, midPart, endPart) => {
                 return {
-                    content: [startPart, returnText, midPart, endPart],
-                    start: startPart.length + returnText.length + midPart.length
+                    content: [startPart, resultText, midPart, endPart],
+                    start: startPart.length + resultText.length + midPart.length
                 }
             }
         )

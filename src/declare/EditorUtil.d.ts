@@ -22,11 +22,14 @@ interface OptionInsertArgument extends InsertArgument<string> {
     options: string[];
 }
 
-interface EditorKeyEvent {
+interface KeyEvent {
     key?: string | string[]
     ctrl?: boolean
     alt?: boolean
     shift?: boolean
+}
+
+interface EditorKeyEvent extends KeyEvent {
     // 是否取消默认事件
     prevent?: boolean
     // 是否取消后续事件
@@ -47,9 +50,14 @@ interface EditTool extends EditorShortcutKey{
     position: "left" | "right"
 }
 
-interface InsertUnit extends EditorKeyEvent{
+interface InsertUnit {
+    triggers: KeyEvent[],
     label: string
     // 插入事件，参数有参数map，textarea 当前编辑框元素, key 当前触发按键
     insert: (args: Map<string, Ref>, textarea: HTMLTextAreaElement, key: string | undefined) => EditorHistory
-    arguments: InsertArgument<any>[]
+    arguments: InsertArgument<any>[],
+    // 是否取消默认事件
+    prevent?: boolean
+    // 是否取消后续事件
+    reject?: boolean
 }

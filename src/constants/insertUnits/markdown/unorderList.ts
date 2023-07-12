@@ -10,8 +10,12 @@ import {
 
 
 export const unorderedList: InsertUnit = {
-    key: '}',
-    ctrl: true,
+    triggers: [
+        {
+            key: '}',
+            ctrl: true,
+        }
+    ],
     label: "无序列表",
     insert: (args, textarea) => {
         const mark = '-'
@@ -21,7 +25,7 @@ export const unorderedList: InsertUnit = {
             (startPart, midPart, endPart, space) => {
                 if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    const result = unorderedListJudge(list) ? unorderedListReformat(list, space).join("\n") : unorderedListFormat(list, mark, space)
+                    const result = unorderedListFormat(list, mark, space)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,

@@ -1,33 +1,40 @@
-import type {EditorKeyEvent} from "../../declare/EditorUtil";
+import type {KeyEvent} from "../../declare/EditorUtil";
 
 /**
  * 判断按键事件是否符合快捷键要求
  *
- * @param editorKeyEvent 编辑器按键事件
+ * @param trigger 编辑器按键事件
  * @param event 触发事件
  */
-export const judgeKeyForEditorKeyEvent = (editorKeyEvent: EditorKeyEvent, event: KeyboardEvent) => {
-    if (editorKeyEvent.ctrl != undefined && editorKeyEvent.ctrl != event.ctrlKey) {
+export const judgeKeyEventTrigger = (trigger: KeyEvent, event: KeyboardEvent): boolean => {
+    if (trigger.ctrl != undefined && trigger.ctrl != event.ctrlKey) {
         return false;
     }
 
-    if (editorKeyEvent.alt != undefined && editorKeyEvent.alt != event.altKey) {
+    if (trigger.alt != undefined && trigger.alt != event.altKey) {
         return false;
     }
 
-    if (editorKeyEvent.shift != undefined && editorKeyEvent.shift != event.shiftKey) {
+    if (trigger.shift != undefined && trigger.shift != event.shiftKey) {
         return false;
     }
 
-    if (editorKeyEvent.key instanceof Array) {
-        for (const key of editorKeyEvent.key) {
+    if (trigger.key instanceof Array) {
+        for (const key of trigger.key) {
             if (key == event.key) {
                 return true;
             }
         }
-    } else if (editorKeyEvent.key != undefined && editorKeyEvent.key == event.key) {
+    } else if (trigger.key != undefined && trigger.key == event.key) {
         return true;
     }
 
     return false;
+}
+
+export const judgeKeyEventTriggers = (triggers: KeyEvent[], event: KeyboardEvent): boolean => {
+    for (let trigger of triggers) {
+        if (judgeKeyEventTrigger(trigger, event)) return true
+    }
+    return false
 }

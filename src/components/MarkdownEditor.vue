@@ -8,7 +8,7 @@
 					<li v-for="item in props.insertUnits" class="insert-text">
                         <span ignore-v-drag
 							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
-							  :title='item.key ? (item.ctrl? "Ctrl + ":"") + (item.shift? "Shift + ":"") + (item.alt? "Alt + ":"") + item.key: "无快捷键"'
+							  :title='formatTriggers(item).join("\n")'
 							  v-text="item.label"/>
 						<template v-for="arg in item.arguments">
 							<label>{{ arg.label }}</label>
@@ -107,7 +107,7 @@ import {vAdapt} from "../directives/adapt";
 
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
-import {judgeKeyForEditorKeyEvent} from "../utils/editor/editorEvent";
+import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/editorEvent";
 import {getArgsMap} from "../utils/editor/insertUtil";
 
 import MarkdownOutline from "./MarkdownOutline.vue";
@@ -119,6 +119,7 @@ import {useStatistics} from "../hooks/editor/statistics";
 import {useExtendInput} from "../hooks/editor/inputAction";
 import {extendInsertUnits, markdownInsertUnits} from "../constants/insertUnits";
 import {now} from "../tests/time";
+import {formatTriggers} from "../utils/editor/insertUnitUtils";
 
 /**
  * 外部传入参数
@@ -540,7 +541,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 	for (const shortcutKey of props.shortcutKeys) {
 		if (!shortcutKey.key) continue
 
-		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
+		if (judgeKeyEventTrigger(shortcutKey, e)) {
 			if (shortcutKey.prevent) e.preventDefault();
 			shortcutKey.method(e);
 			if (shortcutKey.reject) return
@@ -548,9 +549,9 @@ const onKeyDown = (e: KeyboardEvent) => {
 	}
 
 	for (const insertUnit of props.insertUnits) {
-		if (!insertUnit.key) continue
+		if (insertUnit.triggers.length == 0) continue
 
-		if (judgeKeyForEditorKeyEvent(insertUnit, e)) {
+		if (judgeKeyEventTriggers(insertUnit.triggers, e)) {
 			if (insertUnit.prevent) e.preventDefault()
 			historyType = "insert" + new Date().getUTCMilliseconds()
 			insertIntoTextarea(insertUnit, e.key)
@@ -561,7 +562,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 	for (const shortcutKey of shortcutKeys) {
 		if (!shortcutKey.key) continue
 
-		if (judgeKeyForEditorKeyEvent(shortcutKey, e)) {
+		if (judgeKeyEventTrigger(shortcutKey, e)) {
 			if (shortcutKey.prevent) e.preventDefault()
 			shortcutKey.method(e)
 			if (shortcutKey.reject) return
