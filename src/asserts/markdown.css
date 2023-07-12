@@ -175,6 +175,8 @@
 .markdown-card video {
     max-width: 100%;
     display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .markdown-card img:hover,
@@ -182,6 +184,12 @@
 .markdown-card video:hover {
     outline: 2px solid var(--deep-border-color);
     cursor: zoom-in;
+}
+
+.markdown-card img + br,
+.markdown-card svg + br,
+.markdown-card video + br {
+    display: none;
 }
 
 .markdown-card img.error {
