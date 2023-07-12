@@ -17,7 +17,7 @@ import {debounce} from "lodash";
 import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 
 import {tokenizer} from "../constants/markedExtension/tokenizer";
-import {renderer, mermaidBatchRender} from "../constants/markedExtension/renderer";
+import {renderer, mermaidBatchRender, imageRender} from "../constants/markedExtension/renderer";
 import {copyCode} from "../utils/common/copyUtil";
 import {
 	detailRule,
@@ -74,11 +74,13 @@ const renderMarkdown = () => {
 	})
 }
 
-// mermaid 渲染
-const renderMermaid = () => {
+// 图片和 mermaid 渲染
+const renderPicture = () => {
 	if (markdownCard.value == undefined) return;
-	const elements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
-	mermaidBatchRender(elements)
+	const mermaidElements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
+	mermaidBatchRender(mermaidElements)
+	const imageElements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.wait-image'));
+	imageRender(imageElements)
 }
 
 const judgeDebounce = () => {
@@ -121,7 +123,7 @@ onMounted(() => {
 	judgeDebounce()
 	renderMarkdown()
 	nextTick(() => {
-		renderMermaid()
+		renderPicture()
 	})
 
 	watch(() => props.markdownText, debounce(
@@ -130,14 +132,14 @@ onMounted(() => {
 
 	watch(() => props.markdownText, debounce(() => {
 		if (props.suspend) return
-		renderMermaid()
+		renderPicture()
 	}, 1000))
 
 	watch(() => props.suspend, (value) => {
 		if (value == false) {
 			renderMarkdown()
 			nextTick(() => {
-				renderMermaid()
+				renderPicture()
 			})
 		}
 	})

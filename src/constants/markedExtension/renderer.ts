@@ -29,7 +29,7 @@ const setLine = (code: string) => {
     return res;
 }
 
-const codeCache: Map<{language: string, text: string}, string> = new Map<{language: string, text: string}, string>()
+const codeCache: Map<{ language: string, text: string }, string> = new Map<{ language: string, text: string }, string>()
 
 export const codeRender = (text: string, language: string): string => {
     try {
@@ -118,7 +118,7 @@ renderer.link = (href, title, text): string => {
     return out;
 }
 
-renderer.heading = (text: string, level, raw, slugger): string=> {
+renderer.heading = (text: string, level, raw, slugger): string => {
     const id = renderer.options.headerPrefix + slugger.slug(raw);
     return `<h${level} id="${id}">${text}</h${level}>\n`;
 }
@@ -132,9 +132,40 @@ renderer.code = (code: string, language: string): string => {
     }
 
     code = codeRender(code, language)
-    return`<div class="code-container">
+    return `<div class="code-container">
     <pre><code>${code}</code></pre>
     <div class="code-copy-button" title="复制"></div>
     <div class="code-language">${language ? language : ''}</div>
 </div>`;
+}
+
+const imageDataCache = new Map<string, HTMLImageElement>()
+
+const imageRenderCache = new Map<string, string>()
+
+export const imageRender = (elements: HTMLElement[]) => {
+    for (const element of elements) {
+        const href = element.title
+        if (imageRenderCache.has(href)) {
+            element.innerHTML = imageRenderCache.get(href)!
+        }
+    }
+}
+
+renderer.image = (href, title, text) => {
+    if (href == null) {
+        return text;
+    } else if (imageRenderCache.has(href)) {
+        return imageRenderCache.get(href)!
+    }
+    const img = new Image()
+    img.onload = () => {
+        imageRenderCache.set(href, `<img src="${href}" alt="${text}" title="${title}"/>`)
+    }
+    img.onerror = () => {
+        imageRenderCache.set(href, `图片错误`)
+    }
+    img.src = href
+    imageDataCache.set(href, img)
+    return `<div class="wait-image" title="${href}">wait for render</div>`;
 }
