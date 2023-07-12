@@ -12,7 +12,7 @@ export const math: InsertUnit = {
     insert: (args, textarea) => {
         return simpleInsert(
             textarea,
-            "insert math block",
+            "math block",
             "$$\n",
             "\n$$"
         )

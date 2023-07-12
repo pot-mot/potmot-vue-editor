@@ -13,13 +13,13 @@ export const quote: InsertUnit = {
     insert: (args, textarea) => {
         return formatInsert(
             textarea,
-            "insert quote",
+            "quote",
             (startPart, midPart, endPart, space) => {
                 if (midPart.length != 0) {
                     const result: string[] = [];
                     const list = midPart.split("\n")
                     list.forEach(item => {
-                        result.push(`${space}> ${ltrim(item)}`);
+                        result.push(`> ${space}${item}`);
                     })
                     const resultText: string = result.join("\n")
                     return {
@@ -30,7 +30,7 @@ export const quote: InsertUnit = {
                     const resultText = `> \n${space}> \n${space}> `
                     return {
                         content: [startPart, resultText, endPart],
-                        start: startPart.length + resultText.length - 3 + space.length * 2
+                        start: startPart.length + resultText.length - 3 - space.length
                     }
                 }
             }

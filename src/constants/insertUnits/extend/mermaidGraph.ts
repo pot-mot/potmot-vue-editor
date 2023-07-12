@@ -19,7 +19,7 @@ export const mermaidGraph: InsertUnit = {
 
         return simpleInsert(
             textarea,
-            "insert mermaid",
+            "mermaid",
             `${fence}mermaid\n${example == '生成' ? mermaidType.value : mermaidType.key}\n`,
             "\n" + fence
 

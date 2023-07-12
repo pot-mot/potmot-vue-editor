@@ -134,7 +134,7 @@ export const formatInsert = (
     while (text[temp] == " " || text[temp] == "\t") {
         temp++;
     }
-    const space = getLeadingSpace(text, temp).replace("\n", "")
+    const space = getLeadingSpace(text, temp)
 
     const {content, start, end} = formatter(startPart, midPart, endPart, space);
 

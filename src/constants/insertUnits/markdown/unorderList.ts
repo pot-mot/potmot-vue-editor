@@ -4,9 +4,8 @@ import {formatInsert} from "../../../utils/editor/insertUtil";
 import {
     unorderedListCreat,
     unorderedListFormat,
-    unorderedListJudge,
-    unorderedListReformat
 } from "../../../utils/markdown/listUtils";
+import {limit} from "../../../utils/common/math";
 
 
 export const unorderedList: InsertUnit = {
@@ -23,17 +22,18 @@ export const unorderedList: InsertUnit = {
             textarea,
             "unordered list",
             (startPart, midPart, endPart, space) => {
+                const placeholder = args.get("unorderedListWhiteSpace")!.value
                 if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    const result = unorderedListFormat(list, mark, space)
+                    const result = unorderedListFormat(list, mark, space, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
                         end: startPart.length + result.length
                     }
                 } else {
-                    const length = parseInt(args.get("unorderedListLength")!.value)
-                    const result = unorderedListCreat(length, mark, space)
+                    const length = limit(parseInt(args.get("unorderedListLength")!.value), 1, 99)
+                    const result = unorderedListCreat(length, mark, space, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length + 2,
@@ -52,7 +52,17 @@ export const unorderedList: InsertUnit = {
                 return ref(unorderedListLength);
             },
             inputLength: 2,
-        }
+        },
+        <InputInsertArgument<string>>{
+            name: "unorderedListWhiteSpace",
+            label: "空占位",
+            type: "string",
+            getRef: () => {
+                let unorderedListWhiteSpace = "";
+                return ref(unorderedListWhiteSpace);
+            },
+            inputLength: 50,
+        },
     ],
     reject: true,
     prevent: true,

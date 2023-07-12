@@ -1,5 +1,5 @@
 import {nextTick} from "vue";
-import {getLeadingSpace} from "../../utils/editor/textUtils";
+import {getLeadingMarks} from "../../utils/editor/textUtils";
 import {insertIntoString} from "../../utils/editor/insertUtil";
 
 export const useExtendInput = (
@@ -36,10 +36,10 @@ export const useExtendInput = (
     const batchEnter = () => {
         const textarea = target()
         const start = textarea.selectionStart;
-        const LeadingSpace = getLeadingSpace(textarea.value, start)
-        const newValue = insertIntoString(LeadingSpace, textarea.value, start);
+        const space = getLeadingMarks(textarea.value, start)
+        const newValue = insertIntoString("\n" + space, textarea.value, start);
         update(newValue)
-        resetSelection(start + LeadingSpace.length, start + LeadingSpace.length)
+        resetSelection(start + space.length + 1, start + space.length + 1)
     }
 
     // 批量缩进（Tab）

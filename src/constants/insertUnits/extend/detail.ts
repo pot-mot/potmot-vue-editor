@@ -16,7 +16,7 @@ export const detail: InsertUnit = {
 
         return simpleInsert(
             textarea,
-            "insert detail",
+            "detail",
             `:::${isOpen == '展开' ? '+' : ''}${summary}\n`,
             "\n:::"
         )

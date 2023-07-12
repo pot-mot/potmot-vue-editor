@@ -1,7 +1,10 @@
 import {limit} from "../../../utils/common/math";
-import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
+import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtil";
+import {tableCreate, tableFormat} from "../../../utils/markdown/tableUtils";
+
+export const tableHeadOptions = ["首行" , "空缺" , "不含表头"]
 
 export const table: InsertUnit = {
     triggers: [
@@ -12,73 +15,42 @@ export const table: InsertUnit = {
     ],
     label: "表格",
     insert: (args, textarea) => {
-        const whiteSpace = "  ";
-        const headerSpace = " --- "
-        const text = textarea.value
-
-        const createLine = (length: number, data: string[] = [], space: string = whiteSpace) => {
-            let line = "|"
-            for (let j = 0; j < length; j++) {
-                if (j < data.length) {
-                    line += ` ${data[j]} |`
-                } else {
-                    line += `${space}|`
-                }
-            }
-            line += "\n"
-            return line
-        }
-
-        let resultText = ""
-        let width = limit(args.get("tableWidth")!.value, 1, 99)
-        let height
-
-        if (textarea.selectionStart != textarea.selectionEnd) {
-            const rows = text.slice(textarea.selectionStart, textarea.selectionEnd).split("\n")
-            const data: string[][] = []
-
-            rows.forEach(line => {
-                const columns = line.split(/\s+/)
-                data.push(columns)
-                if (columns.length > width) {
-                    width = columns.length
-                }
-            })
-
-            height = data.length
-
-            for (let i = 0; i < height; i++) {
-                if (i == 0) {
-                    resultText += createLine(width)
-                    resultText += createLine(width, [], headerSpace)
-                }
-                resultText += createLine(width, data[i])
-            }
-        } else {
-            height = limit(args.get("tableHeight")!.value, 1, 99)
-
-            for (let i = 0; i < height; i++) {
-                if (i == 0) {
-                    resultText += createLine(width)
-                    resultText += createLine(width, [], headerSpace)
-                }
-                resultText += createLine(width)
-            }
-        }
-
-        return simpleInsert(
+        return formatInsert(
             textarea,
-            "insert table",
-            resultText.slice(0, 2),
-            resultText.slice(2),
-            false,
-            true
+            "table",
+            (startPart, midPart, endPart) => {
+                const placeholder = args.get("tablePlaceholder")!.value;
+                let width = limit(parseInt(args.get("tableColumnLength")!.value), 1, 99)
+                const tableHead = args.get("tableHeadConfig")!.value
+                let result: string
+                if (midPart.length > 0) {
+                    const lines = midPart.split("\n")
+                    console.log(lines)
+                    const data: string[][] = []
+                    lines.forEach(line => {
+                        const columns = line.split(/\t+/)
+                        console.log(columns)
+                        data.push(columns)
+                        if (columns.length > width) {
+                            width = columns.length
+                        }
+                    })
+                    result = tableFormat(data, width, placeholder, tableHead)
+                } else {
+                    const height = limit(parseInt(args.get("tableRowLength")!.value), 1, 99)
+                    result = tableCreate(height, width, placeholder, tableHead)
+                }
+                return {
+                    content: [startPart, result, endPart],
+                    start: startPart.length + 2,
+                }
+            }
         )
     },
     arguments: [
         <InputInsertArgument<number>>{
-            name: "tableHeight",
-            label: "高度",
+            name: "tableRowLength",
+            label: "行",
             type: "number",
             getRef: () => {
                 let tableHeight = 3;
@@ -87,8 +59,8 @@ export const table: InsertUnit = {
             inputLength: 2,
         },
         <InputInsertArgument<number>>{
-            name: "tableWidth",
-            label: "宽度",
+            name: "tableColumnLength",
+            label: "列",
             type: "number",
             getRef: () => {
                 let tableWidth = 2;
@@ -96,6 +68,25 @@ export const table: InsertUnit = {
             },
             inputLength: 2,
         },
+        <InputInsertArgument<string>>{
+            name: "tablePlaceholder",
+            label: "空占位",
+            type: "string",
+            getRef: () => {
+                let tableWhiteSpace = "";
+                return ref(tableWhiteSpace);
+            },
+            inputLength: 50,
+        },
+        <OptionInsertArgument>{
+            name: "tableHeadConfig",
+            label: "表头",
+            getRef: () => {
+                let detailIsOpen = "首行";
+                return ref(detailIsOpen);
+            },
+            options: tableHeadOptions
+        }
     ],
     reject: true,
     prevent: true,

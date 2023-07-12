@@ -21,7 +21,7 @@ export const title: InsertUnit = {
         resultText += " "
         return formatInsert(
             textarea,
-            "insert title",
+            "title",
             (startPart, midPart, endPart) => {
                 return {
                     content: [startPart, resultText, midPart, endPart],

@@ -2,10 +2,10 @@ import {ltrim} from "../common/string";
 
 export const unorderedListMarks = ['-', '*', '+']
 
-export const unorderedListCreat = (length: number, mark: string, space: string): string => {
+export const unorderedListCreat = (length: number, mark: string, space: string, placeholder: string = ""): string => {
     let result: string[] = []
     for (let i = 0; i < length; i++) {
-        result.push(`${space}${mark} `)
+        result.push(`${space}${mark} ${placeholder}`)
     }
     return result.join("\n").slice(space.length)
 }
@@ -20,7 +20,7 @@ export const unorderedListJudge = (data: string[]) => {
     return true
 }
 
-export const unorderedListFormat = (data: string[], mark: string, space: string): string => {
+export const unorderedListFormat = (data: string[], mark: string, space: string, placeholder: string = ""): string => {
     if (unorderedListJudge(data)) {
         return unorderedListReformat(data, space).join('\n')
     } else if (orderedListJudge(data)) {
@@ -28,7 +28,7 @@ export const unorderedListFormat = (data: string[], mark: string, space: string)
     }
     let result: string[] = []
     data.forEach(item => {
-        result.push(`${space}${mark} ${ltrim(item)}`)
+        result.push(`${space}${mark} ${ltrim(item).length > 0 ? ltrim(item) : placeholder}`)
     })
     return result.join("\n").slice(space.length)
 }
@@ -54,10 +54,10 @@ export const unorderedListReformat = (data: string[], space?: string): string[] 
     return result
 }
 
-export const orderedListCreat = (length: number, start: number, space: string): string => {
+export const orderedListCreat = (length: number, start: number, space: string, placeholder: string = ""): string => {
     let result: string[] = []
     for (let i = 0; i < length; i++) {
-        result.push(`${space}${start + i}. `)
+        result.push(`${space}${start + i}. ${placeholder}`)
     }
     return result.join("\n").slice(space.length)
 }
@@ -73,7 +73,7 @@ export const orderedListJudge = (data: string[]) => {
     return true
 }
 
-export const orderedListFormat = (data: string[], space: string): string => {
+export const orderedListFormat = (data: string[], space: string, placeholder: string = ""): string => {
     if (orderedListJudge(data)) {
         return orderedListReformat(data, space).join('\n')
     } else if (unorderedListJudge(data)) {
@@ -81,7 +81,8 @@ export const orderedListFormat = (data: string[], space: string): string => {
     }
     let result: string[] = []
     for (let i = 0; i < data.length; i++) {
-        result.push(`${space}${i + 1}. ${ltrim(data[i])}`)
+        const item = ltrim(data[i])
+        result.push(`${space}${i + 1}. ${item.length > 0 ? item : placeholder}`)
     }
     return result.join("\n").slice(space.length)
 }

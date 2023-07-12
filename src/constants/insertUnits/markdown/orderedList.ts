@@ -4,9 +4,8 @@ import {formatInsert} from "../../../utils/editor/insertUtil";
 import {
     orderedListCreat,
     orderedListFormat,
-    orderedListJudge,
-    orderedListReformat
 } from "../../../utils/markdown/listUtils";
+import {limit} from "../../../utils/common/math";
 
 export const orderedList: InsertUnit = {
     triggers: [
@@ -21,18 +20,19 @@ export const orderedList: InsertUnit = {
             textarea,
             "ordered list",
             (startPart, midPart, endPart, space) => {
+                const placeholder = args.get("orderedListWhiteSpace")!.value
                 if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    const result = orderedListFormat(list, space)
+                    const result = orderedListFormat(list, space, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
                         end: startPart.length + result.length
                     }
                 } else {
-                    const length = parseInt(args.get("orderedListLength")!.value)
+                    const length = limit(parseInt(args.get("orderedListLength")!.value), 1, 99)
                     const start = parseInt(args.get("orderedListStart")!.value)
-                    const result = orderedListCreat(length, start, space)
+                    const result = orderedListCreat(length, start, space, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length + (start + '').length + 2,
@@ -61,6 +61,16 @@ export const orderedList: InsertUnit = {
                 return ref(orderedListStart);
             },
             inputLength: 4,
+        },
+        <InputInsertArgument<string>>{
+            name: "orderedListWhiteSpace",
+            label: "空占位",
+            type: "string",
+            getRef: () => {
+                let orderedListWhiteSpace = "";
+                return ref(orderedListWhiteSpace);
+            },
+            inputLength: 50,
         },
     ],
     reject: true,

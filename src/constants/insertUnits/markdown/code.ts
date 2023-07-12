@@ -16,7 +16,7 @@ export const code: InsertUnit = {
         const fence = (key == undefined || key == '`') ? '```' : '~~~'
         return formatInsert(
             textarea,
-            "insert code",
+            "code",
             (startPart, midPart, endPart) => {
                 return {
                     content: [startPart, fence, language, `\n${midPart}\n`, fence, endPart],

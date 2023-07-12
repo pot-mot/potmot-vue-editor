@@ -12,7 +12,7 @@ export const hardEnter: InsertUnit = {
     insert: (args, textarea) => {
         return simpleInsert(
             textarea,
-            "insert enter",
+            "enter",
             "<br>"
         )
     },
