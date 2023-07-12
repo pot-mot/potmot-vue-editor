@@ -1,7 +1,7 @@
 import {mermaidTypeMap, mermaidTypeNameList} from "../../mermaidGraph";
 import {InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {simpleInsert} from "../../../utils/editor/insertUtils";
 
 export const mermaidGraph: InsertUnit = {
     triggers: [

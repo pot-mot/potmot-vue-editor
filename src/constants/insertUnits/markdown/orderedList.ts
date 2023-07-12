@@ -1,6 +1,6 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {formatInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtils";
 import {
     orderedListCreat,
     orderedListFormat,
@@ -21,9 +21,10 @@ export const orderedList: InsertUnit = {
             "ordered list",
             (startPart, midPart, endPart, space) => {
                 const placeholder = args.get("orderedListWhiteSpace")!.value
+                const start = parseInt(args.get("orderedListStart")!.value)
                 if (midPart.length > 0) {
                     const list = midPart.split("\n")
-                    const result = orderedListFormat(list, space, placeholder)
+                    const result = orderedListFormat(list, space, start, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
@@ -31,7 +32,6 @@ export const orderedList: InsertUnit = {
                     }
                 } else {
                     const length = limit(parseInt(args.get("orderedListLength")!.value), 1, 99)
-                    const start = parseInt(args.get("orderedListStart")!.value)
                     const result = orderedListCreat(length, start, space, placeholder)
                     return {
                         content: [startPart, result, endPart],

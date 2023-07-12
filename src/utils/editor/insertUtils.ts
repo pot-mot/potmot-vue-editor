@@ -1,4 +1,4 @@
-import {Ref} from "vue";
+import {nextTick, Ref} from "vue";
 import {InsertUnit} from "../../declare/EditorUtil";
 import {now} from "../../tests/time";
 import {getLeadingSpace} from "./textUtils";
@@ -8,11 +8,24 @@ import {getLeadingSpace} from "./textUtils";
  *
  * @param inserter 插入部分
  * @param target 目标字符串
- * @param start 替换起点
- * @param end 替换终点，默认等于起点（即不进行替换）
+ * @param start 选中起点
+ * @param end 选中终点，默认等于起点（即不进行替换）
  */
 export const insertIntoString = (inserter: string, target: string, start: number, end: number = start): string => {
     return target.slice(0, start) + inserter + target.slice(end);
+}
+
+/**
+ * 更新目标元素内容
+ *
+ * @param target 目标元素
+ * @param text 文本
+ * @param start 选中起点
+ * @param end 选中终点，默认等于起点
+ */
+export const updateTarget = (target: HTMLTextAreaElement | HTMLInputElement,  text: string, start: number, end: number = start) => {
+    target.value = text
+    nextTick(() => [target.selectionStart, target.selectionEnd] = [start, end]).then()
 }
 
 /**

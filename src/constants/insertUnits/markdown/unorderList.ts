@@ -1,6 +1,6 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {formatInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtils";
 import {
     unorderedListCreat,
     unorderedListFormat,

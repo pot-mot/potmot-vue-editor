@@ -51,7 +51,7 @@ const props = defineProps({
 	renderDebounce: {
 		type: Array as PropType<number[][]>,
 		required: false,
-		default: [[2000, 0], [5000, 80], [20000, 200], [50000, 300], [100000, 500], [200000, 1000]],
+		default: [[2000, 0], [5000, 80], [20000, 200], [50000, 300], [100000, 500], [200000, 2000]],
 	},
 })
 
@@ -69,7 +69,9 @@ marked.use({
 const html = ref("")
 
 const renderMarkdown = () => {
-	html.value = marked(props.markdownText, {tokenizer, renderer})
+	return new Promise(() => {
+		html.value = marked(props.markdownText, {tokenizer, renderer})
+	})
 }
 
 // mermaid 渲染

@@ -6,7 +6,7 @@ export const getCurrentLine = (text: string, start: number): string => {
 
 export const getCurrentLineBefore = (text: string, start: number): string => {
     const startIndex = text.lastIndexOf('\n', start - 1) + 1;  // 当前行的起始位置
-    return text.slice(startIndex, start);
+    return text.slice(startIndex, start)
 }
 
 /**
@@ -16,7 +16,9 @@ export const getCurrentLineBefore = (text: string, start: number): string => {
  * @param start 当前起点
  */
 export const getLeadingSpace = (text: string, start: number): string => {
-    return getLeadingMarks(text, start, /^\s*/)
+    const line = getCurrentLineBefore(text, start)
+    const leadingSpaces = line.match(/^\s*/)
+    return (leadingSpaces != null && leadingSpaces.length != 0) ? leadingSpaces[0] : ''
 }
 
 /**
@@ -24,10 +26,15 @@ export const getLeadingSpace = (text: string, start: number): string => {
  *
  * @param text 整个文段
  * @param start 当前起点
- * @param marks 标记前缀
  */
-export const getLeadingMarks = (text: string, start: number, marks: RegExp = /^\s*(([-+*>] |\d+\. )\s*)*/): string => {
+export const getLeadingMarks = (text: string, start: number): string => {
     const line = getCurrentLineBefore(text, start)
-    const leadingMarks = line.match(marks)
-    return (leadingMarks != null && leadingMarks.length != 0) ? leadingMarks[0] : ''
+    const leadingMarks = line.match(/^\s*([-+*>]\s+|\d+\.\s+)*/)
+
+    if (leadingMarks == null || leadingMarks.length == 0) return ''
+
+    return leadingMarks[0].replaceAll(/\d+\./g, orderedListMark => {
+        const incrementedNumber = parseInt(orderedListMark.slice(0, orderedListMark.length - 1)) + 1;
+        return `${incrementedNumber}.`;
+    })
 }

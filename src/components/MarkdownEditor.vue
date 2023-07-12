@@ -107,8 +107,8 @@ import {vAdapt} from "../directives/adapt";
 
 import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
-import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/editorEvent";
-import {getArgsMap} from "../utils/editor/insertUtil";
+import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/editorKeyEvent";
+import {getArgsMap} from "../utils/editor/insertUtils";
 
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";

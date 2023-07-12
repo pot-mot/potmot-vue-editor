@@ -11,7 +11,7 @@ import {limit} from "../utils/common/math";
  * 注意！触控端为避免冲突，会开启 e.preventDefault() 导致原有事件被覆盖，请尽可能给有需要交互的元素给定 ignore-v-drag
  */
 export const vDrag = {
-    mounted(el: HTMLDivElement, binding: {value: PositionRange}) {
+    mounted(el: HTMLElement, binding: {value: PositionRange}) {
         if (isMobile.value) {
             // 移动端手指触碰事件
             el.addEventListener('touchstart', (e: TouchEvent) => {

@@ -37,7 +37,7 @@ pre span {
     position: relative;
     background-color: var(--code-back-color);
     overflow: hidden;
-    padding-top: 0.5em;
+    padding-top: 0.8em;
 }
 
 .code-container.fold {
@@ -53,7 +53,7 @@ pre span {
 
 .code-container > pre {
     overflow-x: auto;
-    padding-bottom: 0.5em;
+    padding-bottom: 0.8em;
 }
 
 .code-container > pre > code {

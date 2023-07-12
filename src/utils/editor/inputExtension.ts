@@ -1,26 +1,23 @@
-export const item = 0
-// import {getLeadingSpace} from "./textUtils";
-// import {insertIntoString} from "./insertUtil";
-//
-// // 补全（括号和引号）
-// const completeAround = (textarea: HTMLTextAreaElement, insertText: { before: string, after: string }): EditorHistory => {
-//     let start = textarea.selectionStart;
-//     let selectEnd = textarea.selectionEnd;
-//     let text = textarea.value;
-//     let end: number;
-//     const {before, after} = insertText;
-//     text = insertIntoString(before, text, start);
-//     end = selectEnd + before.length;
-//     if (after.length > 0) {
-//         text = insertIntoString(after, text, end);
-//     }
-//     update(text)
-//     if (textarea.selectionStart != textarea.selectionEnd) {
-//         resetSelection(start, end + after.length)
-//     } else {
-//         resetSelection(start + before.length, start + before.length)
-//     }
-// }
+// 补全（括号和引号）
+import {insertIntoString, updateTarget} from "./insertUtils";
+
+const completeAround = (target: HTMLTextAreaElement | HTMLInputElement, insertText: { before: string, after: string }) => {
+    // let start = textarea.selectionStart;
+    // let selectEnd = textarea.selectionEnd;
+    // let text = textarea.value;
+    // let end: number;
+    // const {before, after} = insertText;
+    // text = insertIntoString(before, text, start);
+    // end = selectEnd + before.length;
+    // if (after.length > 0) {
+    //     text = insertIntoString(after, text, end);
+    // }
+    // if (textarea.selectionStart != textarea.selectionEnd) {
+    //     updateTarget(target, text, start, end + after.length)
+    // } else {
+    //     updateTarget(target, text, start + before.length, start + before.length)
+    // }
+}
 //
 // // 回车保留缩进
 // const batchEnter = (textarea: HTMLTextAreaElement): EditorHistory => {

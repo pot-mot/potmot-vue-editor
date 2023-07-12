@@ -73,7 +73,7 @@ export const orderedListJudge = (data: string[]) => {
     return true
 }
 
-export const orderedListFormat = (data: string[], space: string, placeholder: string = ""): string => {
+export const orderedListFormat = (data: string[], space: string, start: number = 1, placeholder: string = ""): string => {
     if (orderedListJudge(data)) {
         return orderedListReformat(data, space).join('\n')
     } else if (unorderedListJudge(data)) {
@@ -82,7 +82,7 @@ export const orderedListFormat = (data: string[], space: string, placeholder: st
     let result: string[] = []
     for (let i = 0; i < data.length; i++) {
         const item = ltrim(data[i])
-        result.push(`${space}${i + 1}. ${item.length > 0 ? item : placeholder}`)
+        result.push(`${space}${i + start}. ${item.length > 0 ? item : placeholder}`)
     }
     return result.join("\n").slice(space.length)
 }

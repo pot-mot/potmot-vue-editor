@@ -1,4 +1,5 @@
 <template>
+	<TestLeadingSpace></TestLeadingSpace>
 	<TestEditorBase></TestEditorBase>
 	<!--	<TestMarkdown></TestMarkdown>-->
 	<!--	<TestMarkdown :test-cases="markdownTestCase"></TestMarkdown>-->

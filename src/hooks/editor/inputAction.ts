@@ -1,6 +1,6 @@
 import {nextTick} from "vue";
 import {getLeadingMarks} from "../../utils/editor/textUtils";
-import {insertIntoString} from "../../utils/editor/insertUtil";
+import {insertIntoString} from "../../utils/editor/insertUtils";
 
 export const useExtendInput = (
     target: () => HTMLTextAreaElement,

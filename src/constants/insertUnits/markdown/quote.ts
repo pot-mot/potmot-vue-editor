@@ -1,5 +1,5 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
-import {formatInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtils";
 import {ltrim} from "../../../utils/common/string";
 
 export const quote: InsertUnit = {

@@ -1,5 +1,5 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
-import {simpleInsert} from "../../../utils/editor/insertUtil";
+import {simpleInsert} from "../../../utils/editor/insertUtils";
 
 export const math: InsertUnit = {
     triggers: [

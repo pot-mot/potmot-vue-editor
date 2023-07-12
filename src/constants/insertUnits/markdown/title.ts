@@ -1,7 +1,7 @@
 import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {formatInsert} from "../../../utils/editor/insertUtil";
+import {formatInsert} from "../../../utils/editor/insertUtils";
 
 export const title: InsertUnit = {
     triggers: [

@@ -20,22 +20,22 @@ const marksTestCases = new Map<string, string>([
 	["\t +\t - test", "\t "],
 
 
-	["1. text", "1. "],
-	["\t1. \ttext", "\t1. \t"],
-	["\t1223123. \ttext", "\t1223123. \t"],
+	["1. text", "2. "],
+	["\t1. \ttext", "\t2. \t"],
+	["\t1223123. \ttext", "\t1223124. \t"],
 	["\t6.text", "\t"],
 
-	["\t1. \t> \t+ \t- \t* \ttext", "\t1. \t> \t+ \t- \t* \t"],
-	["\t1. \t> \t+ \t- \t*\ttext", "\t1. \t> \t+ \t- \t"],
+	["\t1. \t> \t+ \t- \t* \ttext", "\t2. \t> \t+ \t- \t* \t"],
+	["\t1. \t> \t+  2. \t- \t*\ttext", "\t2. \t> \t+  3. \t- \t*\t"],
 	["> > text", "> > "],
-	["\t  21. text\t> \t", "\t  21. "],
+	["\t  21. text\t> \t", "\t  22. "],
 ])
 
 marksTestCases.forEach((value, key) => {
-	const result = getLeadingMarks(key, 0)
+	const result = getLeadingMarks(key, key.length)
 	const judge = result == value
 	if (!judge) {
-		console.log(`result: '${result}' target: '${value}'`)
+		console.log(`value: '${key}' target: '${value}' result: '${result}'`)
 	}
 })
 </script>
