@@ -1,11 +1,8 @@
 <script setup lang="ts">
+import SvgIcon from "../components/icon/SvgIcon.vue";
 
 </script>
 
 <template>
-<div class="test"></div>
+	<SvgIcon name="break" size="50em"></SvgIcon>
 </template>
-
-<style scoped lang="scss">
-
-</style>

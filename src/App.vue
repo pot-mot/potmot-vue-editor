@@ -1,11 +1,11 @@
 <template>
-	<TestEditorBase></TestEditorBase>
+<!--	<TestEditorBase></TestEditorBase>-->
 	<!--	<TestMarkdown></TestMarkdown>-->
 	<!--		<TestMarkdown :test-cases="markdownTestCase"></TestMarkdown>-->
 	<!--	<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
 	<!--		<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->
-	<!--	<TestSvg></TestSvg>-->
+	<TestSvg></TestSvg>
 </template>
 
 <script lang="ts" setup>

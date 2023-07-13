@@ -1,8 +1,15 @@
 import {defineConfig} from 'vite'
+
 import vue from '@vitejs/plugin-vue'
-import {prismjsPlugin} from "vite-plugin-prismjs"
-// import dts from 'vite-plugin-dts'
 import {resolve} from 'path'
+// import dts from 'vite-plugin-dts'
+
+// 代码上色
+import {prismjsPlugin} from "vite-plugin-prismjs"
+
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
+
 
 export default defineConfig({
     // 如果需要打包成lib文件取消注释即可
@@ -60,6 +67,24 @@ export default defineConfig({
                 'swift'
             ],
             css: false,
+        }),
+        createSvgIconsPlugin({
+            // 指定需要缓存的图标文件夹
+            iconDirs: [path.resolve(process.cwd(), 'src/icons')],
+            // 指定symbolId格式
+            symbolId: 'icon-[dir]-[name]',
+
+            /**
+             * 自定义插入位置
+             * @default: body-last
+             */
+            // inject?: 'body-last' | 'body-first'
+
+            /**
+             * custom dom id
+             * @default: __svg__icons__dom__
+             */
+            // customDomId: '__svg__icons__dom__',
         }),
     ],
     base: "./"

@@ -207,6 +207,6 @@ img.error::before {
     height: 100%;
     text-align: center;
     overflow: hidden;
-    background: #f5f5f5 url("../asserts/svg/break.svg") no-repeat center / 150% 150%;
+    background: #f5f5f5 url("../icons/break.svg") no-repeat center / 150% 150%;
     content: '';
 }
