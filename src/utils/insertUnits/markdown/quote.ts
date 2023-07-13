@@ -1,6 +1,6 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
-import {formatInsert} from "../../../utils/editor/insertUtils";
-import {ltrim} from "../../../utils/common/string";
+import {formatInsert} from "../../editor/insertUtils";
+import {ltrim} from "../../common/string";
 
 export const quote: InsertUnit = {
     triggers: [

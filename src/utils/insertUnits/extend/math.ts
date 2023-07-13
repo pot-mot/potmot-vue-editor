@@ -1,19 +1,20 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
-import {simpleInsert} from "../../../utils/editor/insertUtils";
+import {simpleInsert} from "../../editor/insertUtils";
 
-export const hardEnter: InsertUnit = {
+export const math: InsertUnit = {
     triggers: [
         {
-            key: "Enter",
-            alt: true,
+            key: "$",
+            ctrl: true,
         }
     ],
-    label: "换行",
+    label: "数学算式",
     insert: (args, textarea) => {
         return simpleInsert(
             textarea,
-            "enter",
-            "<br>"
+            "math block",
+            "$$\n",
+            "\n$$"
         )
     },
     arguments: [],

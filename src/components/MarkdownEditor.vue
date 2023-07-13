@@ -117,7 +117,7 @@ import ToolBar from "./toolBar/ToolBar.vue";
 import {useHistoryStack} from "../hooks/editor/editHistory";
 import {useStatistics} from "../hooks/editor/statistics";
 import {useExtendInput} from "../hooks/editor/inputAction";
-import {extendInsertUnits, markdownInsertUnits} from "../constants/insertUnits";
+import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 import {now} from "../tests/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 

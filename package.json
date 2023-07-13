@@ -1,7 +1,7 @@
 {
   "name": "potmot-vue-editor",
   "private": false,
-  "version": "0.11.2",
+  "version": "0.11.3",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -62,7 +62,6 @@
     "vite": "^3.1.0",
     "vite-plugin-dts": "^2.1.0",
     "vite-plugin-prismjs": "^0.0.8",
-    "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^0.40.4"
   }
 }

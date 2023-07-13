@@ -1,50 +1,50 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtils";
+import {simpleInsert} from "../../editor/insertUtils";
 
-export const link: InsertUnit = {
+export const image: InsertUnit = {
     triggers: [
         {
-            key: "@",
+            key: '!',
             ctrl: true,
         }
     ],
-    label: "链接",
+    label: "图片",
     insert: (args, textarea) => {
-        const label = args.get("linkLabel")!.value
-        const url = args.get("linkUrl")!.value
+        const label = args.get("pictureName")!.value
+        const url = args.get("pictureUrl")!.value
         if (label.length > 0 && url.length > 0) {
             return simpleInsert(
                 textarea,
-                "insert link",
-                `[${label}](${url})`
+                "insert picture link",
+                `![${label}](${url})`
             )
         } else {
             return simpleInsert(
                 textarea,
-                "insert link",
-                `[${label}](`,
+                "insert picture link",
+                `![${label}](`,
                 ")"
             )
         }
     },
     arguments: [
         <InputInsertArgument<string>>{
-            name: "linkLabel",
-            label: "标题",
+            name: "pictureName",
+            label: "名称",
             type: "string",
             getRef: () => {
-                let linkLabel = "";
-                return ref(linkLabel);
-            },
+                let pictureName = "";
+                return ref(pictureName);
+            }
         },
         <InputInsertArgument<string>>{
-            name: "linkUrl",
+            name: "pictureUrl",
             label: "URL",
             type: "string",
             getRef: () => {
-                let linkUrl = "";
-                return ref(linkUrl);
+                let pictureUrl = "";
+                return ref(pictureUrl);
             },
             styleWidth: "12em",
         }

@@ -1,6 +1,6 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../../utils/editor/insertUtils";
+import {simpleInsert} from "../../editor/insertUtils";
 
 export const markColor: InsertUnit = {
     triggers: [

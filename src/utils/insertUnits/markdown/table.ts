@@ -1,8 +1,8 @@
-import {limit} from "../../../utils/common/math";
+import {limit} from "../../common/math";
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {ref} from "vue";
-import {formatInsert} from "../../../utils/editor/insertUtils";
-import {tableCreate, tableFormat} from "../../../utils/markdown/tableUtils";
+import {formatInsert} from "../../editor/insertUtils";
+import {tableCreate, tableFormat} from "../../markdown/tableUtils";
 
 export const tableHeadOptions = ["首行" , "空缺" , "不含表头"]
 

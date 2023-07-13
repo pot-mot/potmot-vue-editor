@@ -2,8 +2,9 @@ import {Renderer} from "marked";
 import katex from "katex";
 import mermaid, {RenderResult} from "mermaid";
 import Prism from "prismjs";
-import {prismLanguageList} from "../prismLanguageList";
-import {decodeHTML, encodeHTML} from "../../utils/common/htmlParse";
+import {prismLanguageList} from "../../constants/prismLanguageList";
+import {decodeHTML, encodeHTML} from "../common/htmlParse";
+import {imageBreak} from "../../constants/icon/imageBreak";
 
 mermaid.initialize(
     {
@@ -153,11 +154,15 @@ renderer.image = (href, title, text) => {
     }
 
     const image = new Image()
+    image.onload = () => {
+        imageErrorCache.delete(href)
+        image.remove()
+    }
     image.onerror = () => {
         imageErrorCache.set(href, `<img title="${title}" alt="${text}" class="error"/>`)
         image.remove()
     }
     image.src = href
 
-    return `<img src="${href}" title="${title}" alt="${text}" onerror="this.classList.add('error');" ${renderer.options.xhtml ? '/>' : '>'}`;
+    return `<img src="${href}" title="${title}" alt="${text}" onload="this.classList.remove('error');" onerror="this.classList.add('error');" ${renderer.options.xhtml ? '/>' : '>'}`;
 }

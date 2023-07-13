@@ -1,4 +1,4 @@
-import {tableHeadOptions} from "../../constants/insertUnits/markdown/table";
+import {tableHeadOptions} from "../insertUnits/markdown/table";
 
 const headerSpace = "---"
 
