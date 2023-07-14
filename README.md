@@ -1,6 +1,6 @@
 # potmot-vue-editor
 
-一个基于 vue3、typescript、marked、prismjs、katex、mermaid 的简单 markdown 编辑器，开箱即用
+一个基于 vue3、typescript、marked、prismjs、katex、mermaid、viewer 的简单 markdown 编辑器，开箱即用
 
 ## 介绍
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.11.5
+npm install potmot-vue-editor@0.11.6
 ```
 
 main.js 中引用

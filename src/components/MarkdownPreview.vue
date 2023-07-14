@@ -5,19 +5,14 @@
 			v-html="html"
 			@click="onClick">
 		</div>
-		<image-preview
-			v-model="isPreviewImage"
-			@click-mask="closeImagePreview"
-			:title="previewImageTitle"
-			:src="previewImageSrc"
-			:alt="previewImageAlt">
-		</image-preview>
 	</div>
 </template>
 
 <script lang="ts">
+import "viewerjs/dist/viewer.css";
+
 export default {
-	name: 'MarkdownPreview'
+	name: 'MarkdownPreview',
 }
 </script>
 
@@ -25,9 +20,11 @@ export default {
 import {nextTick, onMounted, PropType, ref, watch} from "vue";
 
 import {marked} from "marked";
+import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
+
 import 'katex/dist/katex.css'
 import {debounce} from "lodash";
-import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
+import {api as viewerApi} from "v-viewer"
 
 import {tokenizer} from "../utils/markedExtension/tokenizer";
 import {renderer, mermaidBatchRender} from "../utils/markedExtension/renderer";
@@ -40,7 +37,6 @@ import {
 	footnote,
 	footnoteRef,
 } from "../utils/markedExtension/rules";
-import ImagePreview from "./image/ImagePreview.vue";
 
 /**
  * 外部传入参数
@@ -157,25 +153,22 @@ onMounted(() => {
 	})
 })
 
-const isPreviewImage = ref(false)
-
-const previewImageSrc = ref("")
-const previewImageAlt = ref("")
-const previewImageTitle = ref("")
-
-const closeImagePreview = () => {
-	isPreviewImage.value = false
-}
-
 const onClick = (e: MouseEvent) => {
-	if (e.target) {
+	if (e.target && markdownCard.value) {
 		const element = <HTMLElement>(e.target);
 
 		if (element instanceof HTMLImageElement) {
-			isPreviewImage.value = true
-			previewImageSrc.value = element.src
-			previewImageAlt.value = element.alt
-			previewImageTitle.value = element.title
+			const container = <HTMLElement>markdownCard.value
+			const images = container.querySelectorAll('img')
+			const imageSrcList = []
+			let index
+			for (let i = 0; i < images.length; i++) {
+				imageSrcList.push(images[i].src)
+				if (images[i] == element) {
+					index = i
+				}
+			}
+			viewerApi({images: imageSrcList, options: {initialViewIndex: index}})
 		}
 
 		if (element.classList.contains("code-copy-button")) {
@@ -184,3 +177,14 @@ const onClick = (e: MouseEvent) => {
 	}
 }
 </script>
+
+<style scoped lang="scss">
+.markdown-card > .image-preview {
+	position: fixed;
+
+	height: 100vh;
+	width: 100vw;
+
+	overflow: hidden;
+}
+</style>
