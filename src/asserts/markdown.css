@@ -187,13 +187,16 @@
 .markdown-card svg:hover,
 .markdown-card video:hover {
     outline: 2px solid var(--deep-border-color);
-    cursor: zoom-in;
 }
 
 .markdown-card img + br,
 .markdown-card svg + br,
 .markdown-card video + br {
     display: none;
+}
+
+.markdown-card img:hover {
+    cursor: zoom-in;
 }
 
 .markdown-card img.error {
@@ -203,7 +206,7 @@
     position: relative;
 }
 
-img.error::before {
+.markdown-card img.error::before {
     position: absolute;
     left: 0;
     top: 0;

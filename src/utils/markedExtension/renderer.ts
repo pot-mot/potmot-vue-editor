@@ -159,7 +159,7 @@ renderer.image = (href, title, text) => {
         image.remove()
     }
     image.onerror = () => {
-        imageErrorCache.set(href, `<img title="${title}" alt="${text}" class="error"/>`)
+        imageErrorCache.set(href, `<img class="error" src="${href}" title="${title}" alt="${text}" onload="this.classList.remove('error');" onerror="this.classList.add('error');" ${renderer.options.xhtml ? '/>' : '>'}`)
         image.remove()
     }
     image.src = href

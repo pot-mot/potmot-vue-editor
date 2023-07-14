@@ -1,5 +1,18 @@
 <template>
-	<div ref="markdownCard" class="markdown-card" v-html="html" @click="judgeCopyCode"></div>
+	<div class="markdown-card">
+		<div
+			ref="markdownCard"
+			v-html="html"
+			@click="onClick">
+		</div>
+		<image-preview
+			v-model="isPreviewImage"
+			@click-mask="closeImagePreview"
+			:title="previewImageTitle"
+			:src="previewImageSrc"
+			:alt="previewImageAlt">
+		</image-preview>
+	</div>
 </template>
 
 <script lang="ts">
@@ -27,6 +40,7 @@ import {
 	footnote,
 	footnoteRef,
 } from "../utils/markedExtension/rules";
+import ImagePreview from "./image/ImagePreview.vue";
 
 /**
  * 外部传入参数
@@ -125,7 +139,7 @@ onMounted(() => {
 	})
 
 	watch(() => props.markdownText, debounce(
-		judgeDebounce, 500),
+			judgeDebounce, 500),
 		{immediate: true})
 
 	watch(() => props.markdownText, debounce(() => {
@@ -143,9 +157,27 @@ onMounted(() => {
 	})
 })
 
-const judgeCopyCode = (e: MouseEvent) => {
+const isPreviewImage = ref(false)
+
+const previewImageSrc = ref("")
+const previewImageAlt = ref("")
+const previewImageTitle = ref("")
+
+const closeImagePreview = () => {
+	isPreviewImage.value = false
+}
+
+const onClick = (e: MouseEvent) => {
 	if (e.target) {
 		const element = <HTMLElement>(e.target);
+
+		if (element instanceof HTMLImageElement) {
+			isPreviewImage.value = true
+			previewImageSrc.value = element.src
+			previewImageAlt.value = element.alt
+			previewImageTitle.value = element.title
+		}
+
 		if (element.classList.contains("code-copy-button")) {
 			copyCode(e);
 		}
