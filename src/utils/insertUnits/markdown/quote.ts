@@ -1,6 +1,6 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
 import {formatInsert} from "../../editor/insertUtils";
-import {ltrim} from "../../common/string";
+import {quoteFormat} from "../../markdownFormat/quote";
 
 export const quote: InsertUnit = {
     triggers: [
@@ -16,15 +16,11 @@ export const quote: InsertUnit = {
             "quote",
             (startPart, midPart, endPart, space) => {
                 if (midPart.length != 0) {
-                    const result: string[] = [];
-                    const list = midPart.split("\n")
-                    list.forEach(item => {
-                        result.push(`> ${space}${item}`);
-                    })
-                    const resultText: string = result.join("\n")
+                    const result = quoteFormat(midPart, space)
                     return {
-                        content: [startPart, resultText, endPart],
-                        start: startPart.length + resultText.length
+                        content: [startPart, result, endPart],
+                        start: startPart.length,
+                        end: startPart.length + result.length
                     }
                 } else {
                     const resultText = `> \n${space}> \n${space}> `

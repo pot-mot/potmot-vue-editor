@@ -2,7 +2,7 @@ import {limit} from "../../common/math";
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
 import {ref} from "vue";
 import {formatInsert} from "../../editor/insertUtils";
-import {tableCreate, tableFormat} from "../../markdownFormat/tableUtils";
+import {tableCreate, tableFormat} from "../../markdownFormat/table";
 
 export const tableHeadOptions = ["首行" , "空缺" , "不含表头"]
 

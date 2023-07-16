@@ -4,7 +4,7 @@ import {formatInsert} from "../../editor/insertUtils";
 import {
     unorderedListCreat,
     unorderedListFormat,
-} from "../../markdownFormat/listUtils";
+} from "../../markdownFormat/list";
 import {limit} from "../../common/math";
 
 
@@ -24,8 +24,7 @@ export const unorderedList: InsertUnit = {
             (startPart, midPart, endPart, space) => {
                 const placeholder = args.get("unorderedListWhiteSpace")!.value
                 if (midPart.length > 0) {
-                    const list = midPart.split("\n")
-                    const result = unorderedListFormat(list, mark, space, placeholder)
+                    const result = unorderedListFormat(midPart, mark, space, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
@@ -33,7 +32,7 @@ export const unorderedList: InsertUnit = {
                     }
                 } else {
                     const length = limit(parseInt(args.get("unorderedListLength")!.value), 1, 99)
-                    const result = unorderedListCreat(length, mark, space, placeholder)
+                    const result = unorderedListCreat(length, mark, space, placeholder).slice(space.length)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length + 2,

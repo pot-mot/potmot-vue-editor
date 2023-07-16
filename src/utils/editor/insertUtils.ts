@@ -1,7 +1,7 @@
 import {nextTick, Ref} from "vue";
 import {InsertUnit} from "../../declare/EditorUtil";
 import {now} from "../../tests/time";
-import {getLeadingSpace} from "./textUtils";
+import {getLeadingSpace} from "../common/textUtils";
 
 /**
  * 在字符串中插入替换部分

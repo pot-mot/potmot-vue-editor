@@ -22,6 +22,24 @@ export const getLeadingSpace = (text: string, start: number): string => {
 }
 
 /**
+ * 返回一个字符串前缀和后缀的空白段，以及去除空白段的部分
+ * 如果整个字符串为空白，则返回自身和两个空串
+ */
+export const getLeadingAndTrailingSpaces = (str: string) => {
+    const trimStart = str.trimStart()
+    const trimEnd = str.trimEnd()
+
+    const leadingSpaces = str.replace(trimStart, '')
+    const trailingSpaces = str.replace(trimEnd, '')
+
+    const text = str.trim()
+    if (text.length == 0) {
+        return {leadingSpaces: '', text: str, trailingSpaces: ''}
+    }
+    return {leadingSpaces, text, trailingSpaces}
+}
+
+/**
  * 获取当前行前方的缩进与标记前缀
  *
  * @param text 整个文段
@@ -41,7 +59,6 @@ export const getLeadingMarks = (text: string, start: number): string => {
     })
 
     result = result.replace(/([-+*]|\d+\.) \[[xX ]]/g, todoListMark => {
-        console.log(todoListMark)
         return todoListMark.replace(/\[[xX ]]/g, '[ ]')
     })
 

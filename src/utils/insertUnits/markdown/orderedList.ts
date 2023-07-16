@@ -4,7 +4,7 @@ import {formatInsert} from "../../editor/insertUtils";
 import {
     orderedListCreat,
     orderedListFormat,
-} from "../../markdownFormat/listUtils";
+} from "../../markdownFormat/list";
 import {limit} from "../../common/math";
 
 export const orderedList: InsertUnit = {
@@ -23,8 +23,7 @@ export const orderedList: InsertUnit = {
                 const placeholder = args.get("orderedListWhiteSpace")!.value
                 const start = parseInt(args.get("orderedListStart")!.value)
                 if (midPart.length > 0) {
-                    const list = midPart.split("\n")
-                    const result = orderedListFormat(list, space, start, placeholder)
+                    const result = orderedListFormat(midPart, space, start, placeholder)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
@@ -32,7 +31,7 @@ export const orderedList: InsertUnit = {
                     }
                 } else {
                     const length = limit(parseInt(args.get("orderedListLength")!.value), 1, 99)
-                    const result = orderedListCreat(length, start, space, placeholder)
+                    const result = orderedListCreat(length, start, space, placeholder).slice(space.length)
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length + (start + '').length + 2,
