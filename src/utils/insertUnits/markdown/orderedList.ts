@@ -4,7 +4,7 @@ import {formatInsert} from "../../editor/insertUtils";
 import {
     orderedListCreat,
     orderedListFormat,
-} from "../../markdown/listUtils";
+} from "../../markdownFormat/listUtils";
 import {limit} from "../../common/math";
 
 export const orderedList: InsertUnit = {

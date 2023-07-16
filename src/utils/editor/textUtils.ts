@@ -29,12 +29,21 @@ export const getLeadingSpace = (text: string, start: number): string => {
  */
 export const getLeadingMarks = (text: string, start: number): string => {
     const line = getCurrentLineBefore(text, start)
-    const leadingMarks = line.match(/^\s*([-+*>]\s+|\d+\.\s+)*/)
+    const leadingMarks = line.match(/^\s*((>|([-+*]|\d+\.)( \[[xX ]])?)\s+)*/)
 
     if (leadingMarks == null || leadingMarks.length == 0) return ''
 
-    return leadingMarks[0].replaceAll(/\d+\./g, orderedListMark => {
+    let result = leadingMarks[0]
+
+    result = result.replace(/\d+\./g, orderedListMark => {
         const incrementedNumber = parseInt(orderedListMark.slice(0, orderedListMark.length - 1)) + 1;
         return `${incrementedNumber}.`;
     })
+
+    result = result.replace(/([-+*]|\d+\.) \[[xX ]]/g, todoListMark => {
+        console.log(todoListMark)
+        return todoListMark.replace(/\[[xX ]]/g, '[ ]')
+    })
+
+    return result
 }

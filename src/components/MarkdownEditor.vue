@@ -105,7 +105,7 @@ import {smoothScroll} from "../utils/common/scroll";
 
 import {vAdapt} from "../directives/adapt";
 
-import type {EditorShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
+import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
 import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/editorKeyEvent";
 import {getArgsMap} from "../utils/editor/insertUtils";
@@ -147,7 +147,7 @@ const props = defineProps({
 	},
 
 	shortcutKeys: {
-		type: Array as PropType<EditorShortcutKey[]>,
+		type: Array as PropType<ShortcutKey[]>,
 		required: false,
 		default: []
 	},
@@ -216,6 +216,7 @@ const {statisticalData} = useStatistics(() => textarea.value)
 // 工具列表
 const editTools = reactive(<EditTool[]>[
 	<EditTool>{
+		triggers: [],
 		name: "insert",
 		label: "快捷插入",
 		icon: "icon-bulletpoint",
@@ -228,6 +229,7 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
+		triggers: [],
 		name: "replace",
 		label: "文本查找与替换",
 		icon: "icon-search-list",
@@ -240,6 +242,7 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
+		triggers: [],
 		name: "undo",
 		label: "撤销",
 		icon: "icon-undo",
@@ -253,6 +256,7 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
+		triggers: [],
 		name: "redo",
 		label: "重做",
 		icon: "icon-redo",
@@ -267,6 +271,7 @@ const editTools = reactive(<EditTool[]>[
 	},
 
 	<EditTool>{
+		triggers: [],
 		name: "outline",
 		label: "预览大纲",
 		icon: "icon-file-tree",
@@ -279,6 +284,7 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
+		triggers: [],
 		name: "preview",
 		label: "预览",
 		icon: "icon-browse",
@@ -291,6 +297,7 @@ const editTools = reactive(<EditTool[]>[
 		}
 	},
 	<EditTool>{
+		triggers: [],
 		name: "fullScreen",
 		label: "全屏/收起全屏",
 		icon: "icon-full-screen",
@@ -391,8 +398,8 @@ const changeSelectArg = (name: string, e: Event) => {
 	argsMap.value.get(name)!.value = (<HTMLSelectElement>e.target).value;
 }
 
-const insertIntoTextarea = (insertUnit: InsertUnit, key?: string) => {
-	const history = insertUnit.insert(argsMap.value, textarea.value, key)
+const insertIntoTextarea = (insertUnit: InsertUnit, e?: KeyboardEvent) => {
+	const history = insertUnit.insert(argsMap.value, textarea.value, e)
 	historyType = history.type
 	changeHook(history)
 }
@@ -463,24 +470,30 @@ onMounted(() => {
 })
 
 // 文本编辑快捷键
-const shortcutKeys = reactive(<EditorShortcutKey[]>[
-	{
-		key: ['x', 'X'],
-		ctrl: true,
+const shortcutKeys = reactive(<ShortcutKey[]>[
+	<ShortcutKey>{
+		trigger: {
+			key: ['x', 'X'],
+			ctrl: true
+		},
 		method: () => {
 			historyType = "cut"
 		}
 	},
-	{
-		key: ['v', 'V'],
-		ctrl: true,
+	<ShortcutKey>{
+		trigger: {
+			key: ['v', 'V'],
+			ctrl: true
+		},
 		method: () => {
 			historyType = "copy"
 		}
 	},
-	{
-		key: ['z'],
-		ctrl: true,
+	<ShortcutKey>{
+		trigger: {
+			key: ['z'],
+			ctrl: true
+		},
 		method: () => {
 			historyType = "undo"
 			undo()
@@ -488,9 +501,11 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		prevent: true,
 		reject: true,
 	},
-	{
-		key: ['y', 'Z'],
-		ctrl: true,
+	<ShortcutKey>{
+		trigger: {
+			key: ['y', 'Z'],
+			ctrl: true
+		},
 		method: () => {
 			historyType = "redo"
 			redo()
@@ -498,9 +513,11 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		prevent: true,
 		reject: true,
 	},
-	{
-		key: ['r', 'f'],
-		ctrl: true,
+	<ShortcutKey>{
+		trigger: {
+			key: ['r', 'f'],
+			ctrl: true
+		},
 		method: () => {
 			replaceData.replaceFrom = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)
 			isReplace.value = true
@@ -508,8 +525,10 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		prevent: true,
 		reject: true,
 	},
-	{
-		key: "Enter",
+	<ShortcutKey>{
+		trigger: {
+			key: "Enter"
+		},
 		method: () => {
 			historyType = 'enter'
 			batchEnter()
@@ -517,8 +536,10 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		prevent: true,
 		reject: true,
 	},
-	{
-		key: "Tab",
+	<ShortcutKey>{
+		trigger: {
+			key: "Tab"
+		},
 		method: (e: KeyboardEvent) => {
 			historyType = 'tab'
 			batchTab(e)
@@ -526,8 +547,10 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 		prevent: true,
 		reject: true,
 	},
-	{
-		key: "Escape",
+	<ShortcutKey>{
+		trigger: {
+			key: "Escape"
+		},
 		method: () => {
 			if (isFullScreen.value) {
 				isFullScreen.value = false
@@ -538,31 +561,24 @@ const shortcutKeys = reactive(<EditorShortcutKey[]>[
 
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
-	for (const shortcutKey of props.shortcutKeys) {
-		if (!shortcutKey.key) continue
+	for (const insertUnit of props.insertUnits) {
+		if (judgeKeyEventTriggers(insertUnit, e)) {
+			if (insertUnit.prevent) e.preventDefault()
+			insertIntoTextarea(insertUnit, e)
+			if (insertUnit.reject) return
+		}
+	}
 
-		if (judgeKeyEventTrigger(shortcutKey, e)) {
+	for (const shortcutKey of props.shortcutKeys) {
+		if (judgeKeyEventTrigger(shortcutKey.trigger, e)) {
 			if (shortcutKey.prevent) e.preventDefault();
 			shortcutKey.method(e);
 			if (shortcutKey.reject) return
 		}
 	}
 
-	for (const insertUnit of props.insertUnits) {
-		if (insertUnit.triggers.length == 0) continue
-
-		if (judgeKeyEventTriggers(insertUnit.triggers, e)) {
-			if (insertUnit.prevent) e.preventDefault()
-			historyType = "insert" + new Date().getUTCMilliseconds()
-			insertIntoTextarea(insertUnit, e.key)
-			if (insertUnit.reject) return
-		}
-	}
-
 	for (const shortcutKey of shortcutKeys) {
-		if (!shortcutKey.key) continue
-
-		if (judgeKeyEventTrigger(shortcutKey, e)) {
+		if (judgeKeyEventTrigger(shortcutKey.trigger, e)) {
 			if (shortcutKey.prevent) e.preventDefault()
 			shortcutKey.method(e)
 			if (shortcutKey.reject) return
@@ -904,6 +920,10 @@ const replaceAll = () => {
 		scrollbar-gutter: stable;
 
 		height: 100%;
+	}
+
+	> .preview-card {
+		padding-left: 1.5em;
 	}
 }
 

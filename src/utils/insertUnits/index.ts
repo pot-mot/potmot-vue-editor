@@ -12,7 +12,11 @@ import {markColor} from "./markdown/markColor";
 import {detail} from "./extend/detail";
 import {math} from "./extend/math";
 import {mermaidGraph} from "./extend/mermaidGraph";
-import {hardEnter} from "./extend/hardEnter";
+import {enter} from "./common/enter";
+
+export const commonInsertUnits: InsertUnit[] = [
+    enter,
+]
 
 export const markdownInsertUnits: InsertUnit[] = [
     code,
@@ -29,6 +33,5 @@ export const markdownInsertUnits: InsertUnit[] = [
 export const extendInsertUnits: InsertUnit[] = [
     detail,
     math,
-    mermaidGraph,
-    hardEnter
+    mermaidGraph
 ]

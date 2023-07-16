@@ -1,4 +1,4 @@
-import type {KeyEvent} from "../../declare/EditorUtil";
+import type {KeyEvent, KeyEventTriggers} from "../../declare/EditorUtil";
 
 /**
  * 判断按键事件是否符合快捷键要求
@@ -32,8 +32,8 @@ export const judgeKeyEventTrigger = (trigger: KeyEvent, event: KeyboardEvent): b
     return false;
 }
 
-export const judgeKeyEventTriggers = (triggers: KeyEvent[], event: KeyboardEvent): boolean => {
-    for (let trigger of triggers) {
+export const judgeKeyEventTriggers = (e: KeyEventTriggers, event: KeyboardEvent): boolean => {
+    for (let trigger of e.triggers) {
         if (judgeKeyEventTrigger(trigger, event)) return true
     }
     return false

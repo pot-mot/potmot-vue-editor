@@ -29,18 +29,28 @@ interface KeyEvent {
     shift?: boolean
 }
 
-interface EditorKeyEvent extends KeyEvent {
+interface KeyEventTriggers {
+    triggers: KeyEvent[]
+}
+
+interface KeyEventConfig {
     // 是否取消默认事件
     prevent?: boolean
     // 是否取消后续事件
     reject?: boolean
 }
 
-interface EditorShortcutKey extends EditorKeyEvent {
-    method: Function;
+interface HiddenConfig {
+    // 是否从工具栏中取消隐藏
+    hidden?: boolean
 }
 
-interface EditTool extends EditorShortcutKey{
+interface ShortcutKey extends KeyEventConfig {
+    trigger: KeyEvent
+    method: Function
+}
+
+interface EditTool extends KeyEventTriggers, HiddenConfig {
     name: string
     label: string
     icon: string
@@ -48,16 +58,13 @@ interface EditTool extends EditorShortcutKey{
     contextMenu: boolean
     show?: () => boolean
     position: "left" | "right"
+    method: Function
 }
 
-interface InsertUnit {
-    triggers: KeyEvent[],
+interface InsertUnit extends KeyEventTriggers, HiddenConfig, KeyEventConfig {
     label: string
-    // 插入事件，参数有参数map，textarea 当前编辑框元素, key 当前触发按键
-    insert: (args: Map<string, Ref>, textarea: HTMLTextAreaElement, key: string | undefined) => EditorHistory
-    arguments: InsertArgument<any>[],
-    // 是否取消默认事件
-    prevent?: boolean
-    // 是否取消后续事件
-    reject?: boolean
+    // 插入事件，参数有参数map，textarea 当前编辑框元素, event 当前触发事件
+    insert: (args: Map<string, Ref>, textarea: HTMLTextAreaElement, event?: KeyboardEvent) => EditorHistory
+    // 参数列表
+    arguments: InsertArgument<any>[]
 }

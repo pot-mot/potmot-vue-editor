@@ -80,7 +80,7 @@ import 'potmot-vue-editor/src/asserts/code-theme/potmot-dark.css'
 | width               | String              | 宽度      | 否，默认值 "960px" |
 | height              | String              | 高度      | 否，默认值 "540px" |
 | placeholder         | String              | 占位字符串   | 否，默认值 ""      |
-| ShortcutKeys        | EditorShortcutKey[] | 自定义快捷键  | 否，默认值 []      |
+| ShortcutKeys        | ShortcutKey[] | 自定义快捷键  | 否，默认值 []      |
 | insertUnits         | InsertUnit[]        | 自定义插入单元 | 否             |
 | startWithFullScreen | Boolean             | 是否以全屏启动 | 否，默认值 false   |
 

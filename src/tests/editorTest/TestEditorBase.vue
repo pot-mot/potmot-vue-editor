@@ -16,8 +16,31 @@ import '../../asserts/code-theme/potmot-light.css'
 import MarkdownEditor from "../../components/MarkdownEditor.vue";
 
 const text = ref(`
-![sadasdas]()
-![sadasdas](https://th.bing.com/th/id/OIP.Mio2eaFee5b7_lXZ1bL98gHaMW?pid=ImgDet&w=480&h=800&rs=1)
+
+
+
+
+
+sadadsadsda
+sadaasdasdasdas
+
+sadasdas
+sadsadasasd
+sadsaasdasdadsad
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 `)
 
 </script>

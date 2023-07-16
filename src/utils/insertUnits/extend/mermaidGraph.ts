@@ -11,10 +11,11 @@ export const mermaidGraph: InsertUnit = {
         }
     ],
     label: "mermaid图",
-    insert: (args, textarea, key) => {
+    insert: (args, textarea, e) => {
         let mermaidTypeName = args.get("mermaidTypeName")!.value
         let example = args.get("mermaidExample")!.value
         let mermaidType = mermaidTypeMap.get(mermaidTypeName)!
+        const key = e?.key
         const fence = (key == undefined || key == '`') ? '```' : '~~~'
 
         return simpleInsert(

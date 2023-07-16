@@ -1,7 +1,7 @@
 import {InsertUnit} from "../../../declare/EditorUtil";
 import {simpleInsert} from "../../editor/insertUtils";
 
-export const hardEnter: InsertUnit = {
+export const enter: InsertUnit = {
     triggers: [
         {
             key: "Enter",

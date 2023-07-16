@@ -82,11 +82,9 @@
 
 .markdown-card ul,
 .markdown-card ol {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-    padding-inline-start: 2em;
+    padding-inline-start: 1.5em;
 }
 
 .markdown-card ol ol,
@@ -96,11 +94,6 @@
     margin-top: 0;
     margin-bottom: 0;
 }
-
-.markdown-card ul > li:has(input[type=checkbox]) {
-    list-style: none;
-}
-
 
 .markdown-card blockquote {
     border-left: 0.4em solid var(--border-color);

@@ -4,7 +4,6 @@ import mermaid, {RenderResult} from "mermaid";
 import Prism from "prismjs";
 import {prismLanguageList} from "../../constants/prismLanguageList";
 import {decodeHTML, encodeHTML} from "../common/htmlParse";
-import {imageBreak} from "../../constants/icon/imageBreak";
 
 mermaid.initialize(
     {
