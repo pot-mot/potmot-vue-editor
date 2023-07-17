@@ -70,11 +70,12 @@ const getContextMenuPosition = (key: string) => {
 					:class="[tool.active ? 'chosen' : '',tool.icon]">
 				</span>
 				<slot v-if="!withContextMenu" :name="tool.name"></slot>
-				<ContextMenu v-else-if="tool.contextMenu"
-							 :title="tool.label"
-							 :visible="contextMenus.get(tool.name).visible"
-							 :position="contextMenus.get(tool.name).position"
-							 :close="() => {tool.active = false}">
+				<ContextMenu
+					v-else-if="tool.contextMenu"
+					:title="tool.label"
+					:visible="contextMenus.get(tool.name).visible"
+					:position="contextMenus.get(tool.name).position"
+					@cancel="tool.active = false">
 					<slot :name="tool.name"></slot>
 				</ContextMenu>
 			</li>

@@ -9,8 +9,6 @@
 </template>
 
 <script lang="ts">
-import "viewerjs/dist/viewer.css";
-
 export default {
 	name: 'MarkdownPreview',
 }
@@ -25,6 +23,7 @@ import TokenizerAndRendererExtension = marked.TokenizerAndRendererExtension;
 import 'katex/dist/katex.css'
 import {debounce} from "lodash";
 import {api as viewerApi} from "v-viewer"
+import "viewerjs/dist/viewer.css";
 
 import {tokenizer} from "../utils/markedExtension/tokenizer";
 import {renderer, mermaidBatchRender} from "../utils/markedExtension/renderer";

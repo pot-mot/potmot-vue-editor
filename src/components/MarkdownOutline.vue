@@ -17,7 +17,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref, watch} from "vue";
+import {computed, nextTick, onMounted, PropType, ref} from "vue";
 import {useScrollCurrent} from "../hooks/outline/scrollCurrent";
 import {debounce} from "lodash";
 
@@ -57,12 +57,6 @@ const props = defineProps({
     handleScroll: {
         type: Function as PropType<(target: HTMLElement, item: HTMLElement) => void>,
         required: false,
-    },
-
-    step: {
-        type: Number,
-        required: false,
-        default: 200,
     },
 
     suspend: {
@@ -145,24 +139,11 @@ const markCurrent = () => {
     }
 }
 
-let interval: number;
-
 onMounted(() => {
     nextTick(act)
-    interval = setInterval(act, props.step)
-})
-
-watch(() => props.suspend, (value) => {
-    if (value == false) {
-        act()
-        interval = setInterval(act, props.step)
-    } else {
-        clearInterval(interval)
-    }
-})
-
-onBeforeUnmount(() => {
-    clearInterval(interval);
+	if (props.target) {
+		props.target.onscroll = act
+	}
 })
 
 const act = debounce(() => {
