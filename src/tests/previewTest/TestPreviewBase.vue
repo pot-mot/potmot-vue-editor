@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {onMounted, PropType, ref, watch} from "vue";
 
-import '../../asserts/code.css'
-import '../../asserts/markdown.css'
-import '../../asserts/code-theme/potmot-dark.css'
+import '../../assets/code.css'
+import '../../assets/markdown.css'
+import '../../assets/code-theme/potmot-dark.css'
 import MarkdownPreview from "../../components/MarkdownPreview.vue";
 
 const text = ref("")

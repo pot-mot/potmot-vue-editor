@@ -565,7 +565,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 // 键盘按下事件
 const onKeyDown = (e: KeyboardEvent) => {
 	for (const insertUnit of props.insertUnits) {
-		if (judgeKeyEventTriggers(insertUnit, e)) {
+		if (judgeKeyEventTriggers(insertUnit.triggers, e)) {
 			if (insertUnit.prevent) e.preventDefault()
 			insertIntoTextarea(insertUnit, e)
 			if (insertUnit.reject) return

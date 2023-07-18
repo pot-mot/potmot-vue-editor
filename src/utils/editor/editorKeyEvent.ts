@@ -7,15 +7,15 @@ import type {KeyEvent, KeyEventTriggers} from "../../declare/EditorUtil";
  * @param event 触发事件
  */
 export const judgeKeyEventTrigger = (trigger: KeyEvent, event: KeyboardEvent): boolean => {
-    if (trigger.ctrl != undefined && trigger.ctrl != event.ctrlKey) {
+    if (trigger.ctrl && trigger.ctrl != event.ctrlKey) {
         return false;
     }
 
-    if (trigger.alt != undefined && trigger.alt != event.altKey) {
+    if (trigger.alt && trigger.alt != event.altKey) {
         return false;
     }
 
-    if (trigger.shift != undefined && trigger.shift != event.shiftKey) {
+    if (trigger.shift && trigger.shift != event.shiftKey) {
         return false;
     }
 
@@ -32,8 +32,8 @@ export const judgeKeyEventTrigger = (trigger: KeyEvent, event: KeyboardEvent): b
     return false;
 }
 
-export const judgeKeyEventTriggers = (e: KeyEventTriggers, event: KeyboardEvent): boolean => {
-    for (let trigger of e.triggers) {
+export const judgeKeyEventTriggers = (e: KeyEvent[], event: KeyboardEvent): boolean => {
+    for (let trigger of e) {
         if (judgeKeyEventTrigger(trigger, event)) return true
     }
     return false

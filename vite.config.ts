@@ -7,11 +7,11 @@ import {resolve} from 'path'
 // 代码上色
 import {prismjsPlugin} from "vite-plugin-prismjs"
 
-
 export default defineConfig({
-    // 如果需要打包成lib文件取消注释即可
     build: {
         assetsDir: "assets",
+        // 如果需要打包成lib文件取消注释即可
+        // --- 从这里开始 ---
         lib: {
             entry: resolve(__dirname, 'src/index.ts'),
             name: "potmot-vue-editor",
@@ -25,6 +25,7 @@ export default defineConfig({
                 }
             }
         }
+        // --- 到此为止 ---
     },
 
     plugins: [
