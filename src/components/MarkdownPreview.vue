@@ -77,8 +77,14 @@ marked.use({
 
 const html = ref("")
 
+/**
+ * 用于判断 markdown 渲染缓存的变量
+ */
+let oldMarkdownText: string = ""
+
 const renderMarkdown = () => {
-	return new Promise(() => {
+	oldMarkdownText = props.markdownText
+	new Promise(() => {
 		html.value = marked(props.markdownText, {tokenizer, renderer})
 	})
 }
@@ -133,8 +139,7 @@ onMounted(() => {
 		renderPicture()
 	})
 
-	watch(() => props.markdownText, debounce(
-			judgeDebounce, 500),
+	watch(() => props.markdownText, debounce(judgeDebounce, 500),
 		{immediate: true})
 
 	watch(() => props.markdownText, debounce(() => {
@@ -143,7 +148,7 @@ onMounted(() => {
 	}, 1000))
 
 	watch(() => props.suspend, (value) => {
-		if (value == false) {
+		if (value == false && props.markdownText != oldMarkdownText) {
 			renderMarkdown()
 			nextTick(() => {
 				renderPicture()

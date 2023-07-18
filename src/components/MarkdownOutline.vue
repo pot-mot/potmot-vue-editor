@@ -17,13 +17,15 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, PropType, ref} from "vue";
+import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref, watch} from "vue";
 import {useScrollCurrent} from "../hooks/outline/scrollCurrent";
-import {debounce} from "lodash";
+import {throttle} from "lodash";
 
-const {handleScroll, setCurrent} = useScrollCurrent()
+const {handleScroll, getCurrent} = useScrollCurrent()
 
 let items = ref<OutlineItem[]>([]);
+
+const emits = defineEmits(["clickItem"])
 
 const props = defineProps({
     target: {
@@ -35,10 +37,6 @@ const props = defineProps({
         type: String,
         required: false,
         default: "offset"
-    },
-    click: {
-        type: Function,
-        required: false,
     },
 
     regex: {
@@ -54,10 +52,11 @@ const props = defineProps({
         }
     },
 
-    handleScroll: {
-        type: Function as PropType<(target: HTMLElement, item: HTMLElement) => void>,
-        required: false,
-    },
+	step: {
+		type: Number,
+		required: false,
+		default: 100,
+	},
 
     suspend: {
         type: Boolean,
@@ -94,12 +93,28 @@ const setItemFromHtml = (
     if (html == oldHtml) return
 
     oldHtml = html
-    const result: OutlineItem[] = [];
-    let match: RegExpExecArray | null;
+    const result: OutlineItem[] = []
+    let match: RegExpExecArray | null
     while (match = regex.exec(html)) {
-        result.push(parse(match));
+        result.push(parse(match))
     }
-    items.value = result;
+
+	if (!compare(items.value, result)) {
+		result[0].current = true
+		items.value = result
+	}
+}
+
+const compare = (oldItems: OutlineItem[], newItems: OutlineItem[]) => {
+	if (oldItems.length != newItems.length) return false
+	for (let i = 0; i < oldItems.length; i++) {
+		if (
+			oldItems[i].level != newItems[i].level ||
+			oldItems[i].id != newItems[i].id ||
+			oldItems[i].text != newItems[i].text
+		) return false
+	}
+	return true
 }
 
 let oldScrollHeight: number = 0
@@ -109,71 +124,82 @@ let oldScrollTop: number = 0
  * 标记当前元素
  */
 const markCurrent = () => {
-    if (!props.target) return;
+    if (!props.target) return
 
-    const scrollHeight = props.target.scrollHeight
-    const scrollTop = props.target.scrollTop
+	// 注意，为避免直接跳转后的current值发生变更，需要提前判断一下滚动高度是否与过去一致
+	const scrollHeight = props.target.scrollHeight
+	const scrollTop = props.target.scrollTop
 
-    if (scrollHeight == oldScrollHeight && scrollTop == oldScrollTop) return
+	if (scrollHeight == oldScrollHeight && scrollTop == oldScrollTop) return
 
-    oldScrollHeight = scrollHeight
-    oldScrollTop = scrollTop
+	oldScrollHeight = scrollHeight
+	oldScrollTop = scrollTop
 
     const elements = []
 
     for (const item of items.value) {
         const element = props.target.querySelector(`#${item.id}`)
         if (!element || !(element instanceof HTMLElement)) {
+			// 哪怕不存在的元素也要记作 index
             elements.push(undefined)
         } else {
             elements.push(element)
         }
     }
 
-    let current = setCurrent(props.target, elements)
+    let current = getCurrent(props.target, elements)
 
-    if (current == undefined) return;
+    if (current == undefined) return
 
     for (let i = 0; i < items.value.length; i++) {
-        items.value[i].current = i == current;
+        items.value[i].current = i == current
     }
 }
 
+const jumpTo = (clickedItem: OutlineItem) => {
+	emits("clickItem", clickedItem)
+
+	if (!props.target) return
+
+	if (!clickedItem.id || clickedItem.id.length == 0) return
+
+	for (const item of items.value) {
+		item.current = item.id == clickedItem.id
+	}
+
+	if (props.policy == "anchor") {
+		props.target.querySelector('#' + clickedItem.id)?.scrollIntoView();
+	} else if (props.policy == "offset") {
+		const element = <HTMLHeadElement>(props.target.querySelector('#' + clickedItem.id))
+		handleScroll(props.target, element)
+	}
+}
+
+let interval: number;
+
 onMounted(() => {
-    nextTick(act)
-	if (props.target) {
-		props.target.onscroll = act
+	nextTick(act)
+	interval = setInterval(act, props.step)
+})
+
+watch(() => props.suspend, (value) => {
+	if (value == false) {
+		act()
+		interval = setInterval(act, props.step)
+	} else {
+		clearInterval(interval)
 	}
 })
 
-const act = debounce(() => {
-    if (props.suspend) return
-    setItemFromHtml()
-    markCurrent()
-}, 100)
+onBeforeUnmount(() => {
+	clearInterval(interval);
+})
 
-const jumpTo = (clickedItem: OutlineItem) => {
-    if (props.click) props.click(clickedItem)
-
-    if (!props.target) return;
-
-    if (!clickedItem.id || clickedItem.id.length == 0) return;
-
-    for (const item of items.value) {
-        item.current = item.id == clickedItem.id
-    }
-
-    if (props.policy == "anchor") {
-        props.target.querySelector('#' + clickedItem.id)?.scrollIntoView();
-    } else if (props.policy == "offset") {
-        const element = <HTMLHeadElement>(props.target.querySelector('#' + clickedItem.id))
-        if (props.handleScroll == undefined) {
-            handleScroll(props.target, element)
-        } else {
-            props.handleScroll(props.target, element)
-        }
-    }
-}
+const act = throttle(() => {
+	if (props.suspend) return
+	setItemFromHtml()
+	markCurrent()
+}, props.step)
 </script>
 
 <style lang="scss" scoped>

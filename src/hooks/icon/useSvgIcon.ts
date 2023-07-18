@@ -1,7 +1,7 @@
 import {onMounted} from "vue";
-import {svgIconMap} from "../../constants/icon/svgIcon";
+import {svgIcon, svgIconPrefix} from "../../constants/icon/svgIcon";
 
-export const useSvgIconLib = (icons: string[], containerId: string = "svg-icon-lib-container") => {
+export const useSvgIcon = (icons: string[], containerId: string = `${svgIconPrefix}container`) => {
     const svgNameList = new Set
 
     onMounted(() => {
@@ -15,13 +15,18 @@ export const useSvgIconLib = (icons: string[], containerId: string = "svg-icon-l
         } else {
             const item = document.createElement('div')
             item.id = containerId
+            item.style.overflow = "hidden"
+            item.style.width = "0"
+            item.style.height = "0"
+            item.style.display = "none"
+            item.style.visibility = "hidden"
             document.documentElement.appendChild(item)
             container = item
         }
 
         icons.forEach(iconName => {
-            if (!svgNameList.has(iconName) && svgIconMap.has(iconName) && container) {
-                container.innerHTML += svgIconMap.get(iconName)!
+            if (!svgNameList.has(`${svgIconPrefix}${iconName}`) && iconName in svgIcon && container) {
+                container.innerHTML += svgIcon[iconName]!
             }
         })
     })

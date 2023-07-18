@@ -144,7 +144,6 @@ interface OutlineItem {
 | click        | Function    | 点击事件，在点击条目后触发，参数是 OutlineItem                              | 否                                                      |
 | regex        | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
 | parse        | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
-| handleScroll | Function    | 策略为 "offset" 时执行的跳转函数，可以精细跳转对应scroll操作                     | 否，声明为 `(target: HTMLElement, item: HTMLElement): void` |
 | suspend      | Boolean     | 暂停渲染，用于优化性能                                                | 否，默认 false                                             |
 
 ## 依赖

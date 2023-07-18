@@ -3,8 +3,13 @@ import {ref} from "vue";
 
 /**
  * 使用精确控制滚动，配合创造平滑滚动效果结束后保持点击时 current 不发生变更
+ * @param maxTime 最大滚动时间，默认为 300
+ * @param endDuration 结束后释放 isScroll 的时间，默认为 100
  */
-export const useScrollCurrent = () => {
+export const useScrollCurrent = (
+    maxTime: number = 300,
+    endDuration: number = 100
+) => {
     // 是否处于滚动状态
     const isScroll = ref(false)
 
@@ -13,14 +18,10 @@ export const useScrollCurrent = () => {
      *
      * @param scroller 将被滚动的元素
      * @param target 目标元素
-     * @param maxTime 最大滚动时间，默认为 300
-     * @param endDuration 结束后释放 isScroll 的时间，默认为 100
      */
     const handleScroll = (
         scroller: HTMLElement,
-        target: HTMLElement,
-        maxTime: number = 300,
-        endDuration: number = 100
+        target: HTMLElement
     ) => {
         isScroll.value = true
         smoothScroll(scroller, target.offsetTop - scroller.offsetTop, () => {
@@ -41,7 +42,7 @@ export const useScrollCurrent = () => {
      *
      * @return 当前元素下标
      */
-    const setCurrent = (
+    const getCurrent = (
         container: HTMLElement,
         items: Array<HTMLElement | undefined>,
         judge: (container: HTMLElement, item: HTMLElement) => boolean =
@@ -49,7 +50,7 @@ export const useScrollCurrent = () => {
                 return item.getBoundingClientRect().top <= (container.getBoundingClientRect().top + 40)
             }
     ): number | undefined => {
-        if (isScroll.value) return;
+        if (isScroll.value) return
 
         if (!(container instanceof HTMLElement) || !Array.isArray(items)) {
             return
@@ -68,7 +69,7 @@ export const useScrollCurrent = () => {
     return {
         isScroll,
         handleScroll,
-        setCurrent
+        getCurrent
     }
 }
 

@@ -2,9 +2,11 @@
 import {vDrag} from "../../directives/drag";
 import {onMounted, PropType, ref} from "vue";
 import SvgIcon from "../svg/SvgIcon.vue";
-import {useSvgIconLib} from "../../hooks/icon/useSvgIconLib";
+import {useSvgIcon} from "../../hooks/icon/useSvgIcon";
 
 const contextMenu = ref()
+
+useSvgIcon(["close"])
 
 const emit = defineEmits(['cancel'])
 
@@ -42,8 +44,6 @@ onMounted(() => {
 const clickClose = () => {
 	emit("cancel")
 }
-
-useSvgIconLib(["close"])
 
 const setPosition = () => {
 	if (props.resetPosition && contextMenu.value && contextMenu.value instanceof HTMLElement && props.position) {
