@@ -83,7 +83,7 @@ const setPosition = () => {
 		<div class="content">
 			<div class="close" ignore-v-drag>
 				<slot name="close">
-					<svg-icon class="close-icon" @mousedown.prevent.stop="clickClose" name="close" size="1.25em"></svg-icon>
+					<SvgIcon class="close-icon" @mousedown.prevent.stop="clickClose" name="close" size="1.25em"></SvgIcon>
 				</slot>
 			</div>
 

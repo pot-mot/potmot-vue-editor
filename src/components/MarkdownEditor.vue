@@ -120,6 +120,7 @@ import {useExtendInput} from "../hooks/editor/inputAction";
 import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 import {now} from "../tests/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
+import {useSvgIcon} from "../hooks/icon/useSvgIcon";
 
 /**
  * 外部传入参数
@@ -170,7 +171,7 @@ const props = defineProps({
 	},
 })
 
-// 盒型数据
+// 元素
 const textarea = ref();
 const previewCard = ref();
 
@@ -219,7 +220,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "insert",
 		label: "快捷插入",
-		icon: "icon-bulletpoint",
+		icon: "more",
 		active: false,
 		contextMenu: true,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
@@ -232,7 +233,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "replace",
 		label: "文本查找与替换",
-		icon: "icon-search-list",
+		icon: "search",
 		active: false,
 		contextMenu: true,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
@@ -245,7 +246,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "undo",
 		label: "撤销",
-		icon: "icon-undo",
+		icon: "undo",
 		active: false,
 		contextMenu: false,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
@@ -259,7 +260,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "redo",
 		label: "重做",
-		icon: "icon-redo",
+		icon: "redo",
 		active: false,
 		contextMenu: false,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
@@ -274,7 +275,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "outline",
 		label: "预览大纲",
-		icon: "icon-file-tree",
+		icon: "outline",
 		active: false,
 		contextMenu: true,
 		show: () => isPreview.value,
@@ -287,7 +288,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "preview",
 		label: "预览",
-		icon: "icon-browse",
+		icon: "preview",
 		active: false,
 		contextMenu: false,
 		show: () => true,
@@ -300,7 +301,7 @@ const editTools = reactive(<EditTool[]>[
 		triggers: [],
 		name: "fullScreen",
 		label: "全屏/收起全屏",
-		icon: "icon-full-screen",
+		icon: "fullScreen",
 		active: false,
 		contextMenu: false,
 		show: () => true,
@@ -310,6 +311,8 @@ const editTools = reactive(<EditTool[]>[
 		},
 	},
 ])
+
+useSvgIcon(editTools.map(item => item.icon))
 
 const {batchTab, batchEnter, completeAround} = useExtendInput(() => textarea.value, (newValue) => {
 	text.value = newValue
@@ -923,7 +926,8 @@ const replaceAll = () => {
 	}
 
 	> .preview-card {
-		padding-left: 1.5em;
+		padding-left: 1em;
+		padding-right: 1em;
 	}
 }
 
@@ -1063,15 +1067,13 @@ const replaceAll = () => {
 
 .editor {
 	&.non-full > .toolbar {
-		padding: 0.2% 1px;
+		padding-left: 1px;
+		padding-right: 1px;
 	}
 
 	&.full > .toolbar {
-		padding: 0.2% 0.6% 0.2% 0.6%;
-	}
-
-	&.full.mobile > .toolbar {
-		padding: 0.6%;
+		padding-left: 0.6%;
+		padding-right: 0.6%;
 	}
 }
 

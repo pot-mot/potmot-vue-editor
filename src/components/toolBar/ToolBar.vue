@@ -4,6 +4,7 @@ import {EditTool} from "../../declare/EditorUtil";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
 import {toMap} from "../../utils/common/toMap";
+import SvgIcon from "../svg/SvgIcon.vue";
 
 const props = defineProps({
 	tools: {
@@ -63,12 +64,14 @@ const getContextMenuPosition = (key: string) => {
 	<div class="toolbar">
 		<ul v-for="position in toolPositionMap.keys()" :class="position">
 			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()">
-				<span
+				<SvgIcon
 					@mousedown.prevent.stop="tool.method(tool)"
+					:name="tool.icon"
+					size="1rem"
 					:title="tool.label"
-					class="iconfont"
-					:class="[tool.active ? 'chosen' : '',tool.icon]">
-				</span>
+					class="icon"
+					:class="[tool.active ? 'active' : '']">
+				</SvgIcon>
 				<slot v-if="!withContextMenu" :name="tool.name"></slot>
 				<ContextMenu
 					v-else-if="tool.contextMenu"
@@ -89,11 +92,17 @@ const getContextMenuPosition = (key: string) => {
 .toolbar {
 	display: grid;
 	grid-template-columns: 50% 50%;
+	height: 2rem;
+	line-height: 1.8rem;
 
 	* {
 		box-sizing: border-box;
 		margin: 0;
 		padding: 0;
+	}
+
+	> ul {
+		height: 2rem;
 	}
 
 	> ul > li {
@@ -102,31 +111,30 @@ const getContextMenuPosition = (key: string) => {
 		font-size: 1rem;
 		list-style: none;
 
+		height: 2rem;
+		width: 2rem;
+		padding: 0.2rem;
+
 		user-select: none;
 		-moz-user-select: none;
 		-webkit-user-select: none;
 		-ms-user-select: none;
 
-		> .iconfont {
+		> .icon {
 			display: inline-block;
-			height: 1.8rem;
-			width: 1.8rem;
-		}
-
-		> .iconfont:before {
 			color: #999;
-			text-align: center;
-			padding: 0.25rem;
-			font-size: 1.3rem;
+			height: 1.6rem;
+			width: 1.6rem;
+			padding: 0.3rem;
 			border-radius: 3px;
 		}
 
-		> .iconfont:hover:before {
+		> .icon:hover {
 			color: #7a7a7a;
 			background-color: #eee;
 		}
 
-		> .iconfont.chosen:before {
+		> .icon.active {
 			color: #fff;
 			background-color: #bcbcbc;
 		}
@@ -134,7 +142,7 @@ const getContextMenuPosition = (key: string) => {
 
 	> .left {
 		> li {
-			padding-right: 0.5rem;
+			margin-right: 0.4rem;
 		}
 	}
 
@@ -142,7 +150,7 @@ const getContextMenuPosition = (key: string) => {
 		justify-self: right;
 
 		> li {
-			padding-left: 0.5rem;
+			margin-left: 0.4rem;
 		}
 	}
 }
