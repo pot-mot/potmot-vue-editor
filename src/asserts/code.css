@@ -3,11 +3,6 @@
     src: url('consola.ttf');
 }
 
-@font-face {
-    font-family: "iconfont"; /* Project id  */
-    src: url('iconfont.ttf?t=1673615946702') format('truetype');
-}
-
 code,
 pre {
     font-family: consola, system-ui;

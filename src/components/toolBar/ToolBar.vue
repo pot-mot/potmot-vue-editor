@@ -87,8 +87,6 @@ const getContextMenuPosition = (key: string) => {
 </template>
 
 <style scoped lang="scss">
-@import "../../asserts/iconfont.css";
-
 .toolbar {
 	display: grid;
 	grid-template-columns: 50% 50%;
