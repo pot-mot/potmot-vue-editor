@@ -55,6 +55,7 @@ export const useExtendInput = (
                 if (temp.length === newTemp.length) return;
                 const newValue = `${textarea.value.slice(0, start - temp.length)}${newTemp}${textarea.value.slice(end)}`;
                 update(newValue)
+                resetSelection(start - 1, start - 1)
             } else {
                 const temp = textarea.value.slice(start, end);
                 const newTemp = temp.replace(tab, '').replaceAll(`\n${tab}`, '\n');
