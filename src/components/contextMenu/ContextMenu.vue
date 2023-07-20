@@ -41,7 +41,7 @@ onMounted(() => {
 	setPosition()
 })
 
-const clickClose = () => {
+const close = () => {
 	emit("cancel")
 }
 
@@ -83,7 +83,7 @@ const setPosition = () => {
 		<div class="content">
 			<div class="close" ignore-v-drag>
 				<slot name="close">
-					<SvgIcon class="close-icon" @mousedown.prevent.stop="clickClose" name="close" size="1.25em"></SvgIcon>
+					<SvgIcon class="close-icon" @mousedown.prevent.stop="close" name="close" size="1.25em"></SvgIcon>
 				</slot>
 			</div>
 

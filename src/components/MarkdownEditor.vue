@@ -25,8 +25,8 @@
 				</ul>
 			</template>
 			<template #replace>
-				<textarea v-adapt v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
-				<textarea v-adapt v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
+				<textarea v-extend-input v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
+				<textarea v-extend-input v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
 				<div class="replace-operation" ignore-v-drag>
 					<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
 					<span style="display: inline-block;width: 1em;"></span>
@@ -104,6 +104,7 @@ import {isMobile} from "../utils/common/platform";
 import {smoothScroll} from "../utils/common/scroll";
 
 import {vAdapt} from "../directives/adapt";
+import {vExtendInput} from "../directives/extendInput";
 
 import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
@@ -116,11 +117,11 @@ import ToolBar from "./toolBar/ToolBar.vue";
 
 import {useHistoryStack} from "../hooks/editor/editHistory";
 import {useStatistics} from "../hooks/editor/statistics";
-import {useExtendInput} from "../hooks/editor/inputAction";
 import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 import {now} from "../tests/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {useSvgIcon} from "../hooks/icon/useSvgIcon";
+import {complete} from "../utils/editor/inputExtension";
 
 /**
  * 外部传入参数
@@ -162,12 +163,6 @@ const props = defineProps({
 		type: Boolean,
 		required: false,
 		default: false,
-	},
-
-	historyStep: {
-		type: Number,
-		required: false,
-		default: 50,
 	},
 })
 
@@ -270,7 +265,6 @@ const editTools = reactive(<EditTool[]>[
 			redo();
 		}
 	},
-
 	<EditTool>{
 		triggers: [],
 		name: "outline",
@@ -313,10 +307,6 @@ const editTools = reactive(<EditTool[]>[
 ])
 
 useSvgIcon(editTools.map(item => item.icon))
-
-const {batchTab, batchEnter, completeAround} = useExtendInput(() => textarea.value, (newValue) => {
-	text.value = newValue
-})
 
 const toolMap = computed(() => {
 	const map = new Map<string, EditTool>()
@@ -530,28 +520,6 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 	},
 	<ShortcutKey>{
 		trigger: {
-			key: "Enter"
-		},
-		method: () => {
-			historyType = 'enter'
-			batchEnter()
-		},
-		prevent: true,
-		reject: true,
-	},
-	<ShortcutKey>{
-		trigger: {
-			key: "Tab"
-		},
-		method: (e: KeyboardEvent) => {
-			historyType = 'tab'
-			batchTab(e)
-		},
-		prevent: true,
-		reject: true,
-	},
-	<ShortcutKey>{
-		trigger: {
 			key: "Escape"
 		},
 		method: () => {
@@ -590,23 +558,15 @@ const onKeyDown = (e: KeyboardEvent) => {
 
 	if (e.altKey || e.ctrlKey || e.metaKey || e.key == 'Control' || e.key == 'Alt') return
 
-	if (['(', '[', '{'].includes(e.key)) {
-		historyType = "bracket: " + e.key
-		e.preventDefault()
-		const map = new Map<string, string>([['(', ')'], ['[', ']'], ['{', '}']])
-		completeAround({before: e.key, after: map.get(e.key)!})
-	} else if ([')', ']', '}'].includes(e.key)) {
-		historyType = "bracket: " + e.key
-		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
-			e.preventDefault()
-			const map = new Map<string, string>([[')', '('], [']', '['], ['}', '{']])
-			completeAround({before: map.get(e.key)!, after: e.key})
-		}
-	} else if (['"', "'", '`', '*', '_', '='].includes(e.key)) {
+	if (e.key == 'Enter') {
+		historyType = 'enter' + now()
+	} else if (e.key == 'tab') {
+		historyType = 'tab' + now()
+	} else if (['*', '_', '='].includes(e.key)) {
 		historyType = "quotation: " + e.key
 		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
 			e.preventDefault()
-			completeAround({before: e.key, after: e.key})
+			complete(textarea.value, {before: e.key, after: e.key})
 		}
 	} else if (e.key.startsWith("Arrow")) {
 		setTimeout(pushMoveOrSelect, 0)
@@ -1050,8 +1010,6 @@ const replaceAll = () => {
 }
 
 .editor .replace-box {
-	min-height: 4em;
-	max-height: 13em;
 	line-height: 1.6em;
 	width: 100%;
 	border: 1px solid #e5e5e5;

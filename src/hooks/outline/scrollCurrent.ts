@@ -25,7 +25,7 @@ export const useScrollCurrent = (
     ) => {
         isScroll.value = true
         smoothScroll(scroller, target.offsetTop - scroller.offsetTop, () => {
-            // 在结束后经过 100ms 才重新判断滚动
+            // 在结束后经过一段时间才重新判断滚动
             setTimeout(() => {
                 isScroll.value = false
             }, endDuration)
