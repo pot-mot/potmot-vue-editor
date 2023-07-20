@@ -25,8 +25,8 @@
 				</ul>
 			</template>
 			<template #replace>
-				<textarea v-extend-input v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
-				<textarea v-extend-input v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
+				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
+				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
 				<div class="replace-operation" ignore-v-drag>
 					<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
 					<span style="display: inline-block;width: 1em;"></span>
@@ -104,11 +104,11 @@ import {isMobile} from "../utils/common/platform";
 import {smoothScroll} from "../utils/common/scroll";
 
 import {vAdapt} from "../directives/adapt";
-import {vExtendInput} from "../directives/extendInput";
+import {vInputExtension} from "../directives/inputExtension";
 
 import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
-import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/editorKeyEvent";
+import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/keyEvent";
 import {getArgsMap} from "../utils/editor/insertUtils";
 
 import MarkdownOutline from "./MarkdownOutline.vue";

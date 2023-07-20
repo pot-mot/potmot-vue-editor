@@ -16,19 +16,6 @@ export const insertIntoString = (inserter: string, target: string, start: number
 }
 
 /**
- * 更新目标元素内容
- *
- * @param target 目标元素
- * @param text 文本
- * @param start 选中起点
- * @param end 选中终点，默认等于起点
- */
-export const updateTarget = (target: HTMLTextAreaElement | HTMLInputElement,  text: string, start: number, end: number = start) => {
-    target.value = text
-    nextTick(() => [target.selectionStart, target.selectionEnd] = [start, end]).then()
-}
-
-/**
  * 获取 Ref 参数 Map
  * @param units: 插入列表
  */
