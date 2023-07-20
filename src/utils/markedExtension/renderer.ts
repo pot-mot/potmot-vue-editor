@@ -35,6 +35,8 @@ const codeCache: Map<{ language: string, text: string }, string> = new Map<{ lan
 
 export const codeRender = (text: string, language: string): string => {
     try {
+        if (language == undefined) language = ''
+
         const key = {language, text}
 
         if (codeCache.has(key)) {

@@ -25,11 +25,9 @@ export const table: InsertUnit = {
                 let result: string
                 if (midPart.length > 0) {
                     const lines = midPart.split("\n")
-                    console.log(lines)
                     const data: string[][] = []
                     lines.forEach(line => {
                         const columns = line.split(/\t+/)
-                        console.log(columns)
                         data.push(columns)
                         if (columns.length > width) {
                             width = columns.length

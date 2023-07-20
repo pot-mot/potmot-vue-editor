@@ -1,6 +1,6 @@
 <template>
 	<TestEditorBase></TestEditorBase>
-<!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="1000"></TestMarkdown>-->
+<!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="5000"></TestMarkdown>-->
 <!--		<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
 	<!--		<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->

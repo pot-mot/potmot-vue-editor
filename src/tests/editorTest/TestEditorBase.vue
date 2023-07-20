@@ -12,8 +12,7 @@ import '../../assets/code-theme/potmot-dark.css'
 import MarkdownEditor from "../../components/MarkdownEditor.vue";
 
 const text = ref(`
-
-
+### asdsadasdsdas
 `)
 
 </script>

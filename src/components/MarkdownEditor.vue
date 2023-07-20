@@ -115,13 +115,13 @@ import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 import ToolBar from "./toolBar/ToolBar.vue";
 
-import {useHistoryStack} from "../hooks/editor/editHistory";
 import {useStatistics} from "../hooks/editor/statistics";
+import {useHistoryStack} from "../utils/editor/history";
 import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 import {now} from "../tests/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {useSvgIcon} from "../hooks/icon/useSvgIcon";
-import {complete} from "../utils/editor/inputExtension";
+import {batchEnter, batchTab, complete} from "../utils/editor/inputExtension";
 
 /**
  * 外部传入参数
@@ -203,7 +203,6 @@ watch(() => props.modelValue, () => {
 
 watch(() => text.value, () => {
 	emit('update:modelValue', text.value)
-	nextTick(push)
 })
 
 // 统计数据
@@ -265,6 +264,7 @@ const editTools = reactive(<EditTool[]>[
 			redo();
 		}
 	},
+
 	<EditTool>{
 		triggers: [],
 		name: "outline",
@@ -445,6 +445,7 @@ const {
 	top,
 	setTop,
 } = useHistoryStack(
+	textarea.value,
 	changeHook,
 	pushDefault,
 	() => {
@@ -558,17 +559,39 @@ const onKeyDown = (e: KeyboardEvent) => {
 
 	if (e.altKey || e.ctrlKey || e.metaKey || e.key == 'Control' || e.key == 'Alt') return
 
+	let history: EditorHistory | null = null
 	if (e.key == 'Enter') {
-		historyType = 'enter' + now()
-	} else if (e.key == 'tab') {
-		historyType = 'tab' + now()
+		e.preventDefault()
+		history = batchEnter(textarea.value, e)
+	} else if (e.key == 'Tab') {
+		e.preventDefault()
+		history = batchTab(textarea.value, e)
 	} else if (['*', '_', '='].includes(e.key)) {
-		historyType = "quotation: " + e.key
 		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
 			e.preventDefault()
-			complete(textarea.value, {before: e.key, after: e.key})
+			history = complete(textarea.value, {before: e.key, after: e.key})
 		}
-	} else if (e.key.startsWith("Arrow")) {
+	} else if (['(', '[', '{', '"', "'", '`'].includes(e.key)) {
+		historyType = 'complete' + now()
+		e.preventDefault()
+		const map = new Map<string, string>([['(', ')'], ['[', ']'], ['{', '}'], ['"', '"'], ["'", "'"], ['`', '`']])
+		history = complete(textarea.value, {before: e.key, after: map.get(e.key)!})
+	} else if ([')', ']', '}'].includes(e.key)) {
+		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
+			historyType = 'complete' + now()
+			e.preventDefault()
+			const map = new Map<string, string>([[')', '('], [']', '['], ['}', '{']])
+			history = complete(textarea.value, {before: map.get(e.key)!, after: e.key})
+		}
+	}
+
+	if (history != null) {
+		historyType = history.type
+		push(history)
+	}
+
+
+	if (e.key.startsWith("Arrow")) {
 		setTimeout(pushMoveOrSelect, 0)
 	} else if (e.key == ' ') {
 		historyType = 'blank'

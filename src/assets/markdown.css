@@ -77,7 +77,7 @@
 .markdown-body h2 > hr {
     margin-top: 0.3em;
     margin-bottom: 0;
-    border-color: var(--light-border-color);
+    border-color: var(--light-back-color);
 }
 
 .markdown-body ul,
