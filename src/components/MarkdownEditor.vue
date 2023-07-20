@@ -909,6 +909,8 @@ const replaceAll = () => {
 
 	> .edit-card,
 	> .preview-card {
+		position: relative;
+
 		display: block;
 		padding: 0.5rem;
 

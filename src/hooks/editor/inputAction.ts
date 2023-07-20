@@ -1,5 +1,5 @@
 import {nextTick} from "vue";
-import {getLeadingMarks} from "../../utils/common/textUtils";
+import {getLeadingMarks} from "../../utils/common/text";
 import {insertIntoString} from "../../utils/editor/insertUtils";
 
 export const useExtendInput = (

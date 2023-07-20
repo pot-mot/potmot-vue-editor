@@ -1,5 +1,5 @@
 <template>
-	<div class="markdown-card">
+	<div class="markdown-body">
 		<div
 			ref="markdownCard"
 			v-html="html"
@@ -27,7 +27,7 @@ import "viewerjs/dist/viewer.css";
 
 import {tokenizer} from "../utils/markedExtension/tokenizer";
 import {renderer, mermaidBatchRender} from "../utils/markedExtension/renderer";
-import {copyCode} from "../utils/common/copyUtil";
+import {copyCode} from "../utils/common/copy";
 import {
 	detailRule,
 	mathBlockRule,
@@ -96,6 +96,8 @@ const renderPicture = () => {
 	mermaidBatchRender(mermaidElements)
 }
 
+let markdownRenderWatch: any
+
 const judgeDebounce = () => {
 	if (props.renderDebounce == undefined) return
 
@@ -115,9 +117,9 @@ const judgeDebounce = () => {
 		i = props.renderDebounce.length - 1
 	}
 
-	const wait = props.renderDebounce[i][1]
+	const timeout = props.renderDebounce[i][1]
 
-	if (wait == 0) {
+	if (timeout == 0) {
 		markdownRenderWatch = watch(() => props.markdownText, () => {
 			if (props.suspend) return
 			renderMarkdown()
@@ -126,11 +128,9 @@ const judgeDebounce = () => {
 		markdownRenderWatch = watch(() => props.markdownText, debounce(() => {
 			if (props.suspend) return
 			renderMarkdown()
-		}, wait))
+		}, timeout))
 	}
 }
-
-let markdownRenderWatch: any
 
 onMounted(() => {
 	judgeDebounce()
@@ -183,7 +183,7 @@ const onClick = (e: MouseEvent) => {
 </script>
 
 <style scoped lang="scss">
-.markdown-card > .image-preview {
+.markdown-body > .image-preview {
 	position: fixed;
 
 	height: 100vh;

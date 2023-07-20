@@ -21,12 +21,14 @@ const errResult = (e: any, msg: string): string => {
 }
 
 const setLine = (code: string) => {
-    let codes = code.split("\n")
-    let res = ''
+    const counts: string[] = []
+    const codes = code.split('\n')
+    const resultCodes: string[] = []
     for (let i = 0; i < codes.length; i++) {
-        res += `<span class="count">${i + 1}</span><span class="code-line">${codes[i]}</span><br>`
+        counts.push(`${i+1}`)
+        resultCodes.push(`${codes[i]}\n`)
     }
-    return res;
+    return `<div class="count">${counts.join('\n')}</div><code>${resultCodes.join('')}</code>`;
 }
 
 const codeCache: Map<{ language: string, text: string }, string> = new Map<{ language: string, text: string }, string>()
@@ -132,11 +134,8 @@ renderer.code = (code: string, language: string): string => {
     }
 
     code = codeRender(code, language)
-    return `<div class="code-container">
-    <pre><code>${code}</code></pre>
-    <div class="code-copy-button" title="复制"></div>
-    <div class="code-language">${language ? language : ''}</div>
-</div>`;
+    return `
+<pre class="code-container"><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div>${code}</pre>`;
 }
 
 const imageErrorCache = new Map<string, string>
