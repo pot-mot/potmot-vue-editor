@@ -189,7 +189,8 @@
     display: none;
 }
 
-.markdown-body img:hover {
+.markdown-body img:hover,
+.markdown-body svg:hover {
     cursor: zoom-in;
 }
 

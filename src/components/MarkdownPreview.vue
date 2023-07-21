@@ -161,13 +161,20 @@ const onClick = (e: MouseEvent) => {
 	if (e.target && markdownCard.value) {
 		const element = <HTMLElement>(e.target);
 
-		if (element instanceof HTMLImageElement) {
+		if (element instanceof HTMLImageElement || element instanceof SVGElement) {
 			const container = <HTMLElement>markdownCard.value
-			const images = container.querySelectorAll('img')
+			const images = container.querySelectorAll('img, svg')
 			const imageSrcList = []
 			let index
 			for (let i = 0; i < images.length; i++) {
-				imageSrcList.push(images[i].src)
+				if (images[i] instanceof HTMLImageElement) {
+					imageSrcList.push((<HTMLImageElement>images[i]).src)
+				} else if (images[i] instanceof SVGElement) {
+					imageSrcList.push(`data:image/svg+xml,${encodeURIComponent((<SVGElement>images[i]).outerHTML)}`)
+				} else {
+					imageSrcList.push('')
+				}
+
 				if (images[i] == element) {
 					index = i
 				}
