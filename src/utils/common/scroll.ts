@@ -30,4 +30,4 @@ export const smoothScroll = (
         target.scrollBy({top: step}); //执行滚动
         i++;
     }, stepTime);
-};
+}

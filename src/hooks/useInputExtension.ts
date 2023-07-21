@@ -180,8 +180,13 @@ export const useInputExtension = (
         addHistoryEvent()
     }
 
+    const setHistoryType = (newVal: string) => {
+        historyType.value = newVal
+    }
+
     return {
         ...historyStack,
         historyType,
+        setHistoryType,
     }
 }

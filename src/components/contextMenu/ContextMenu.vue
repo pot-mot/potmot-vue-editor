@@ -81,7 +81,7 @@ const setPosition = () => {
 		 v-drag="props.dragRange">
 
 		<div class="content">
-			<div class="close" ignore-v-drag>
+			<div class="close" ignore-drag>
 				<slot name="close">
 					<SvgIcon class="close-icon" @mousedown.prevent.stop="close" name="close" size="1.25em"></SvgIcon>
 				</slot>

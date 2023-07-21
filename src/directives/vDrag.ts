@@ -1,20 +1,21 @@
 import {isMobile} from "../utils/common/platform";
 import {limit} from "../utils/common/math";
+import {throttle} from "lodash";
 
 /**
  * 拖曳指令，可以通过给定范围来控制拖曳范围。具体如下：
  * v-drag="{minX: 0, minY: 0, maxX: 500, maxY: 500}", 可以使目标保持在以初始位置为（0，0）的范围中
  *
  * input、button、textarea、select、option默认不会触发 v-drag
- * 可以通过给定 ignore-v-drag 属性来使其他子元素避免拖动事件
+ * 可以通过给定 ignore-drag 属性来使其他子元素避免拖动事件
  *
- * 注意！触控端为避免冲突，会开启 e.preventDefault() 导致原有事件被覆盖，请尽可能给有需要交互的元素给定 ignore-v-drag
+ * 注意！触控端为避免冲突，会开启 e.preventDefault() 导致原有事件被覆盖，请尽可能给有需要交互的元素给定 ignore-drag
  */
 export const vDrag = {
     mounted(el: HTMLElement, binding: {value: PositionRange}) {
         if (isMobile.value) {
             // 移动端手指触碰事件
-            el.addEventListener('touchstart', (e: TouchEvent) => {
+            el.addEventListener('touchstart', throttle((e: TouchEvent) => {
                 for (const eventTarget of e.composedPath()) {
                     if (eventTarget instanceof HTMLElement) {
                         const element = <HTMLElement>eventTarget
@@ -23,7 +24,7 @@ export const vDrag = {
                             element instanceof HTMLTextAreaElement ||
                             element instanceof HTMLSelectElement ||
                             element instanceof HTMLButtonElement ||
-                            element.attributes.getNamedItem('ignore-v-drag') != undefined
+                            element.attributes.getNamedItem('ignore-drag') != undefined
                         ) return
                     }
                 }
@@ -40,10 +41,8 @@ export const vDrag = {
                 const startY = e.touches[0].clientY;
 
                 const setXY = (e: TouchEvent) => {
-                    const endX = e.touches[0].clientX;
-                    const endY = e.touches[0].clientY;
-                    const moveX = endX - startX + rectLeft;
-                    const moveY = endY - startY + rectTop;
+                    const moveX = e.touches[0].clientX - startX + rectLeft;
+                    const moveY = e.touches[0].clientY - startY + rectTop;
 
                     if (positionRange == undefined) {
                         el.style.top = moveY + 'px'
@@ -63,10 +62,10 @@ export const vDrag = {
                 document.addEventListener('touchend', removeSetXY);
 
                 return false
-            })
+            }, 100))
         } else {
             // 网页端鼠标事件
-            el.onmousedown = (e: MouseEvent) => {
+            el.addEventListener('mousedown', throttle((e: MouseEvent) => {
                 for (const eventTarget of e.composedPath()) {
                     if (eventTarget instanceof HTMLElement) {
                         const element = <HTMLElement>eventTarget
@@ -75,7 +74,7 @@ export const vDrag = {
                             element instanceof HTMLTextAreaElement ||
                             element instanceof HTMLSelectElement ||
                             element instanceof HTMLButtonElement ||
-                            element.attributes.getNamedItem('ignore-v-drag') != undefined
+                            element.attributes.getNamedItem('ignore-drag') != undefined
                         ) return
                     }
                 }
@@ -90,10 +89,8 @@ export const vDrag = {
                 const startY = e.clientY;
 
                 const setXY = (e: MouseEvent) => {
-                    const endX = e.clientX;
-                    const endY = e.clientY;
-                    const moveX = endX - startX + rectLeft;
-                    const moveY = endY - startY + rectTop;
+                    const moveX = e.clientX - startX + rectLeft;
+                    const moveY = e.clientY - startY + rectTop;
 
                     if (positionRange == undefined) {
                         el.style.top = moveY + 'px'
@@ -113,7 +110,7 @@ export const vDrag = {
                 document.addEventListener('mouseup', removeSetXY);
 
                 return false
-            }
+            }, 100))
         }
     }
 }

@@ -6,7 +6,7 @@
 			<template #insert>
 				<ul>
 					<li v-for="item in props.insertUnits" class="insert-text">
-                        <span ignore-v-drag
+                        <span ignore-drag
 							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
 							  :title='formatTriggers(item).join("\n")'
 							  v-text="item.label"/>
@@ -29,7 +29,7 @@
 						  class="replace-box" placeholder="查找文本"/>
 				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo"
 						  class="replace-box" placeholder="替换文本"/>
-				<div class="replace-operation" ignore-v-drag>
+				<div class="replace-operation" ignore-drag>
 					<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
 					<span style="display: inline-block;width: 1em;"></span>
 					<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
@@ -45,7 +45,7 @@
 			</template>
 			<template #outline>
 				<slot name="outline" :target="previewCard">
-					<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-v-drag></MarkdownOutline>
+					<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-drag></MarkdownOutline>
 				</slot>
 			</template>
 		</ToolBar>
@@ -121,9 +121,23 @@ import {updateTextarea} from "../utils/common/textarea";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {getLeadingMarks} from "../utils/common/text";
 
+// 元素
+const textarea = ref();
+const previewCard = ref();
+
+/**
+ * 文本与统计数据
+ */
+//region Text Data
+const text = ref("")
+
+const {statisticalData} = useStatistics(() => textarea.value)
+//endregion
+
 /**
  * 外部传入参数
  */
+//region Props
 const props = defineProps({
 	modelValue: {
 		type: String,
@@ -163,29 +177,12 @@ const props = defineProps({
 		default: false,
 	},
 })
+//endregion
 
-// 元素
-const textarea = ref();
-const previewCard = ref();
-
-// 核心容器样式类
-const containerClass = computed(() => {
-	if (!isFullScreen.value) return '';
-	if (isPreview.value) return 'edit-preview';
-	return 'edit';
-})
-
-// 文本数据
-const text = ref("")
-
-const setHistoryType = (newVal: string) => {
-	historyType.value = newVal
-}
-
-// 统计数据
-const {statisticalData} = useStatistics(() => textarea.value)
-
-// 工具列表
+/**
+ * 工具栏与状态
+ */
+//region Tool List and Status
 const editTools = reactive(<EditTool[]>[
 	<EditTool>{
 		triggers: [],
@@ -283,8 +280,6 @@ const editTools = reactive(<EditTool[]>[
 	},
 ])
 
-useSvgIcon(editTools.map(item => item.icon))
-
 const toolMap = computed(() => {
 	const map = new Map<string, EditTool>()
 	editTools.forEach(item => map.set(item.name, item))
@@ -362,9 +357,21 @@ onMounted(() => {
 	}
 })
 
+useSvgIcon(editTools.map(item => item.icon))
+
+// 核心容器样式类
+const containerClass = computed(() => {
+	if (!isFullScreen.value) return '';
+	if (isPreview.value) return 'edit-preview';
+	return 'edit';
+})
+
+//endregion
+
 /**
- * 插入工具
+ * 文本插入工具与历史记录
  */
+//region Insert Tool and History
 const argsMap = ref(new Map<string, Ref>)
 
 argsMap.value = getArgsMap(props.insertUnits)
@@ -381,28 +388,6 @@ const insertIntoTextarea = (insertUnit: InsertUnit, e?: KeyboardEvent) => {
 	setHistoryType(history.type)
 	changeHook(history)
 }
-
-/**
- * 滚动同步
- */
-let scrollSyncFlag = false
-
-const syncScroll = (from: HTMLElement, to: HTMLElement) => {
-	if (scrollSyncFlag) return
-	scrollSyncFlag = true
-	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight)
-	setTimeout(() => {
-		scrollSyncFlag = false
-	}, 20)
-}
-
-watch(() => isPreview.value, () => {
-	if (isPreview.value) {
-		syncScroll(textarea.value, previewCard.value);
-	} else if (!isFullScreen.value && !isMobile.value) {
-		syncScroll(previewCard.value, textarea.value);
-	}
-})
 
 const changeHook = (history: EditorHistory) => {
 	updateTextarea(textarea.value, history)
@@ -450,7 +435,7 @@ const {
 	undo,
 	push,
 	top,
-	historyType,
+	setHistoryType,
 } = useInputExtension(
 	() => {
 		return textarea.value
@@ -459,22 +444,12 @@ const {
 	props.insertUnits,
 	argsMap.value,
 )
+//endregion
 
-const emit = defineEmits(['update:modelValue'])
-
-watch(() => props.modelValue, () => {
-	if (text.value != props.modelValue) {
-		text.value = props.modelValue
-		setHistoryType('outside' + now())
-		nextTick(push)
-	}
-}, {immediate: true})
-
-watch(() => text.value, () => {
-	emit('update:modelValue', text.value)
-})
-
-// 查找与替换功能
+/**
+ * 查找与替换功能
+ */
+//region Search And Replace
 // 用于测算 textarea 当前文本高度的工具盒子
 let searchCalculate = ref();
 
@@ -659,6 +634,50 @@ const replaceAll = () => {
 	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo)
 	setHistoryType('replaceAll' + now())
 }
+//endregion
+
+/**
+ * 滚动同步
+ */
+//region Scroll Sync
+let scrollSyncFlag = false
+
+const syncScroll = (from: HTMLElement, to: HTMLElement) => {
+	if (scrollSyncFlag) return
+	scrollSyncFlag = true
+	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight)
+	setTimeout(() => {
+		scrollSyncFlag = false
+	}, 20)
+}
+
+watch(() => isPreview.value, () => {
+	if (isPreview.value) {
+		syncScroll(textarea.value, previewCard.value);
+	} else if (!isFullScreen.value && !isMobile.value) {
+		syncScroll(previewCard.value, textarea.value);
+	}
+})
+//endregion
+
+/**
+ * 同步 v-model 的文本变更
+ */
+//region Sync vModel
+const emit = defineEmits(['update:modelValue'])
+
+watch(() => props.modelValue, () => {
+	if (text.value != props.modelValue) {
+		text.value = props.modelValue
+		setHistoryType('outside' + now())
+		nextTick(push)
+	}
+}, {immediate: true})
+
+watch(() => text.value, () => {
+	emit('update:modelValue', text.value)
+})
+//endregion
 </script>
 
 <style lang="scss">

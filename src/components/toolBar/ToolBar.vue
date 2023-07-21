@@ -139,17 +139,11 @@ const getContextMenuPosition = (key: string) => {
 	}
 
 	> .left {
-		> li {
-			margin-right: 0.4rem;
-		}
+		justify-self: left;
 	}
 
 	> .right {
 		justify-self: right;
-
-		> li {
-			margin-left: 0.4rem;
-		}
 	}
 }
 </style>
