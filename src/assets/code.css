@@ -53,8 +53,8 @@ pre span {
     font-style: normal;
     font-weight: normal;
     width: 3em;
-    border-right: 1px solid var(--count-color);
-    color: var(--count-color);
+    border-right: 1px solid var(--code-count-color);
+    color: var(--code-count-color);
     background-color: var(--code-back-color);
     text-align: center;
 
@@ -112,16 +112,16 @@ pre span {
 .token.doctype,
 .token.cdata {
     font-style: italic;
-    color: var(--comment-color);
+    color: var(--code-comment-color);
 }
 
 .token.operator {
-    color: var(--operator-color);
+    color: var(--code-operator-color);
 }
 
 .token.punctuation,
 .token.interpolation-punctuation {
-    color: var(--punctuation-color);
+    color: var(--code-punctuation-color);
 }
 
 .token.namespace {
@@ -135,7 +135,7 @@ pre span {
 .token.constant,
 .token.symbol,
 .token.deleted {
-    color: var(--number-color);
+    color: var(--code-number-color);
 }
 
 .token.selector,
@@ -145,28 +145,28 @@ pre span {
 .token.builtin,
 .token.url,
 .token.inserted {
-    color: var(--string-color);
+    color: var(--code-string-color);
 }
 
 .token.entity {
-    color: var(--entity-color);
+    color: var(--code-entity-color);
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-    color: var(--keyword-color);
+    color: var(--code-keyword-color);
 }
 
 .token.function,
 .token.class-name {
-    color: var(--function-color);
+    color: var(--code-function-color);
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-    color: var(--variable-color);
+    color: var(--code-variable-color);
 }
 
 .token.bold {

@@ -1,0 +1,8 @@
+.editor {
+    --editor-back-color: #f5f5f5;
+    --editor-light-back-color: #fff;
+    --editor-font-color: #050505;
+    --editor-light-color: #333;
+    --editor-hover-color: #4f92ff;
+    --editor-border-color: #eee;
+}

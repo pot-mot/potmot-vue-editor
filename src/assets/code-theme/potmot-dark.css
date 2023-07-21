@@ -2,15 +2,15 @@
     --code-back-color: #474949;
     --code-font-color: #d5d5d5;
 
-    --count-color: #888;
+    --code-count-color: #888;
 
-    --number-color: #c1ddee;
-    --punctuation-color: #b1b1c1;
-    --operator-color: #aaccff;
-    --function-color: #99ccee;
-    --keyword-color: #99aaff;
-    --string-color: #bbcc99;
-    --comment-color: #999;
-    --variable-color: #ffcc33;
-    --entity-color: #7799cc;
+    --code-number-color: #c1ddee;
+    --code-punctuation-color: #b1b1c1;
+    --code-operator-color: #aaccff;
+    --code-function-color: #99ccee;
+    --code-keyword-color: #99aaff;
+    --code-string-color: #bbcc99;
+    --code-comment-color: #999;
+    --code-variable-color: #ffcc33;
+    --code-entity-color: #7799cc;
 }

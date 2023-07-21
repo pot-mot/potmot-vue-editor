@@ -36,7 +36,7 @@ export default defineConfig({
                 'javascript', 'typescript',
                 'css', 'css-extras', 'html', 'less', 'sass', 'scss',
                 'svg', 'icon',
-                'markup',
+                'markup', "markdown", "md",
                 'http', 'uri', 'url',
                 'c', 'cpp', 'cmake', 'objc',
                 'rust',

@@ -721,7 +721,7 @@ watch(() => text.value, () => {
 
 <style lang="scss" scoped>
 .editor {
-	--back-ground-color: #f5f5f5;
+	color: var(--editor-font-color);
 
 	padding: 0;
 	margin: 0;
@@ -735,7 +735,7 @@ watch(() => text.value, () => {
 	}
 
 	.hover-color-blue:hover {
-		color: #4f92ff;
+		color: var(--editor-hover-color);
 	}
 
 	ul,
@@ -773,7 +773,7 @@ watch(() => text.value, () => {
 	height: 100vh;
 	width: 99vw;
 	z-index: 1000;
-	background-color: var(--back-ground-color);
+	background-color: var(--editor-back-color);
 	padding: 0 0.5vw;
 }
 
@@ -814,7 +814,7 @@ watch(() => text.value, () => {
 	> .preview-card {
 		width: 100%;
 		height: 100%;
-		border: 1px solid #eee;
+		border: 1px solid var(--editor-border-color);
 		padding-bottom: 4em;
 	}
 }
@@ -827,7 +827,7 @@ watch(() => text.value, () => {
 
 	> .edit-card,
 	> .preview-card {
-		background-color: white;
+		background-color: var(--editor-light-back-color);
 		padding-bottom: 50vh;
 	}
 }
@@ -864,9 +864,9 @@ watch(() => text.value, () => {
 
 .editor {
 	:deep(.context-menu) {
-		background-color: var(--back-ground-color);
+		background-color: var(--editor-back-color);
 		font-size: 0.8rem;
-		border: 1px solid #ccc;
+		border: 1px solid var(--editor-border-color);
 		border-radius: 3px;
 		line-height: 1.6rem;
 	}
@@ -925,7 +925,7 @@ watch(() => text.value, () => {
 .editor .replace-box {
 	line-height: 1.6em;
 	width: 100%;
-	border: 1px solid #e5e5e5;
+	border: 1px solid var(--editor-border-color);
 	padding: 0.5em;
 }
 
@@ -947,7 +947,7 @@ watch(() => text.value, () => {
 		font-size: 0.8rem;
 		display: inline-block;
 		padding: 0 0.5rem;
-		color: #333;
+		color: var(--editor-light-color);
 	}
 }
 
@@ -960,6 +960,6 @@ watch(() => text.value, () => {
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
 	padding: 0.5em;
-	border: 1px solid #eee;
+	border: 1px solid var(--editor-border-color);
 }
 </style>
