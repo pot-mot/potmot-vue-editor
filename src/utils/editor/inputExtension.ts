@@ -1,5 +1,5 @@
 import {insertIntoString} from "./insertUtils";
-import {getLeadingMarks, getLeadingSpace} from "../common/text";
+import {getLeadingSpace} from "../common/text";
 import {now} from "../../tests/time";
 
 // 补全
@@ -36,9 +36,9 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
 }
 
 // 回车保留缩进
-export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent): EditorHistory => {
+export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
     const start = textarea.selectionStart;
-    const space = e.altKey ? getLeadingSpace(textarea.value, start) : getLeadingMarks(textarea.value, start)
+    const space = getSpace(textarea.value, start)
     const text = insertIntoString("\n" + space, textarea.value, start);
     return {
         scrollTop: textarea.scrollTop, end: start + space.length + 1, start: start + space.length + 1, text, type: "enter" + now()

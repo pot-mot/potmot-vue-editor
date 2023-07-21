@@ -1,10 +1,6 @@
 import {Ref, ref} from "vue";
 
-const historyStackMap =
-    new Map<HTMLTextAreaElement, {undoStack: Ref<EditorHistory[]>, redoStack: Ref<EditorHistory[]>}>
-
 export const useHistoryStack = (
-    target: HTMLTextAreaElement,
     changeHook: (history: EditorHistory) => void,
     pushDefault: () => EditorHistory,
     undoFinalHook: Function = () => {
@@ -13,18 +9,8 @@ export const useHistoryStack = (
     },
     topFinalHook: Function = undoFinalHook,
 ) => {
-    let undoStack: Ref<EditorHistory[]>
-    let redoStack: Ref<EditorHistory[]>
-
-    if (historyStackMap.has(target)) {
-        const result = historyStackMap.get(target)!
-        undoStack = result.undoStack
-        redoStack = result.redoStack
-    } else {
-        undoStack = ref([])
-        redoStack = ref([])
-        historyStackMap.set(target, {undoStack, redoStack})
-    }
+    const undoStack: Ref<EditorHistory[]> = ref([])
+    const redoStack: Ref<EditorHistory[]> = ref([])
 
     const push = (input = pushDefault()) => {
         if (input.type == 'undo' || input.type == 'redo') return

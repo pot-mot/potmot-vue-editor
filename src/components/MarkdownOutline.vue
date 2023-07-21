@@ -18,7 +18,7 @@ export default {
 
 <script lang="ts" setup>
 import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref, watch} from "vue";
-import {useScrollCurrent} from "../hooks/outline/scrollCurrent";
+import {useScrollCurrent} from "../hooks/useScrollCurrent";
 import {throttle} from "lodash";
 
 const {handleScroll, getCurrent} = useScrollCurrent()

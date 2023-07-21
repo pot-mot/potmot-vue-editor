@@ -1,4 +1,4 @@
-import {smoothScroll} from "../../utils/common/scroll";
+import {smoothScroll} from "../utils/common/scroll";
 import {ref} from "vue";
 
 /**

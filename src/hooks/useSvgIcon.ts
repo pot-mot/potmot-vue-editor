@@ -1,5 +1,5 @@
 import {onMounted} from "vue";
-import {svgIcon, svgIconPrefix} from "../../constants/icon/svgIcon";
+import {svgIcon, svgIconPrefix} from "../constants/icon/svgIcon";
 
 export const useSvgIcon = (icons: string[], containerId: string = `${svgIconPrefix}container`) => {
     const svgNameList = new Set

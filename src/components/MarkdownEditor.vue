@@ -25,8 +25,10 @@
 				</ul>
 			</template>
 			<template #replace>
-				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom" class="replace-box" placeholder="查找文本"/>
-				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo" class="replace-box" placeholder="替换文本"/>
+				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom"
+						  class="replace-box" placeholder="查找文本"/>
+				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo"
+						  class="replace-box" placeholder="替换文本"/>
 				<div class="replace-operation" ignore-v-drag>
 					<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
 					<span style="display: inline-block;width: 1em;"></span>
@@ -54,12 +56,7 @@
 				v-model="text"
 				:placeholder="props.placeholder"
 				class="edit-card"
-				@scroll="syncScroll(textarea, previewCard)"
-				@keydown.self="onKeyDown"
-				@mousedown.self="onMouseDown"
-				@mouseup.self="onMouseUp"
-				@select.self="onSelect"
-				@dragend.self="onDragEnd">
+				@scroll="syncScroll(textarea, previewCard)">
 			</textarea>
 			<div ref="previewCard"
 				 class="preview-card"
@@ -103,25 +100,24 @@ import {debounce} from "lodash";
 import {isMobile} from "../utils/common/platform";
 import {smoothScroll} from "../utils/common/scroll";
 
-import {vAdapt} from "../directives/adapt";
-import {vInputExtension} from "../directives/inputExtension";
+import {vAdapt} from "../directives/vAdapt";
+import {vInputExtension} from "../directives/vInputExtension";
 
 import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 
-import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/keyEvent";
 import {getArgsMap} from "../utils/editor/insertUtils";
 
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 import ToolBar from "./toolBar/ToolBar.vue";
 
-import {useStatistics} from "../hooks/editor/statistics";
-import {useHistoryStack} from "../utils/editor/history";
+import {useStatistics} from "../hooks/useStatistics";
+import {useInputExtension} from "../hooks/useInputExtension";
 import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 import {now} from "../tests/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
-import {useSvgIcon} from "../hooks/icon/useSvgIcon";
-import {batchEnter, batchTab, complete} from "../utils/editor/inputExtension";
+import {useSvgIcon} from "../hooks/useSvgIcon";
+import {updateTextarea} from "../utils/common/textarea";
 
 /**
  * 外部传入参数
@@ -170,9 +166,6 @@ const props = defineProps({
 const textarea = ref();
 const previewCard = ref();
 
-// 当前操作类别
-let historyType = "init";
-
 // 组件初始化
 onMounted(() => {
 	nextTick(push)
@@ -192,12 +185,22 @@ const containerClass = computed(() => {
 // 数据
 const text = ref("")
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue'])
+
+const setHistoryType = (newVal: string) => {
+	// tip: 避免初始化时historyType还不存在就进行赋值导致出错
+	try {
+		historyType.value = newVal
+	} catch (e) {
+		console.warn(e)
+	}
+}
 
 watch(() => props.modelValue, () => {
 	if (text.value != props.modelValue) {
 		text.value = props.modelValue
-		historyType = 'outside' + now()
+		setHistoryType('outside' + now())
+		nextTick(push)
 	}
 }, {immediate: true})
 
@@ -246,8 +249,8 @@ const editTools = reactive(<EditTool[]>[
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
 		position: "left",
 		method: () => {
-			historyType = "undo";
-			undo();
+			setHistoryType("undo" + now())
+			undo()
 		}
 	},
 	<EditTool>{
@@ -260,7 +263,7 @@ const editTools = reactive(<EditTool[]>[
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
 		position: "left",
 		method: () => {
-			historyType = "redo";
+			setHistoryType("redo" + now())
 			redo();
 		}
 	},
@@ -393,7 +396,7 @@ const changeSelectArg = (name: string, e: Event) => {
 
 const insertIntoTextarea = (insertUnit: InsertUnit, e?: KeyboardEvent) => {
 	const history = insertUnit.insert(argsMap.value, textarea.value, e)
-	historyType = history.type
+	setHistoryType(history.type)
 	changeHook(history)
 }
 
@@ -420,93 +423,12 @@ watch(() => isPreview.value, () => {
 })
 
 const changeHook = (history: EditorHistory) => {
-	text.value = history.text
-	nextTick(() => {
-		textarea.value.selectionStart = history.start
-		textarea.value.selectionEnd = history.end
-		textarea.value.scrollTo(0, history.scrollTop)
-	})
+	updateTextarea(textarea.value, history)
 }
-
-const pushDefault = () => {
-	return {
-		start: textarea.value ? textarea.value.selectionStart : 0,
-		end: textarea.value ? textarea.value.selectionEnd : 0,
-		text: text.value,
-		scrollTop: textarea.value ? textarea.value.scrollTop : 0,
-		type: historyType
-	}
-}
-
-const {
-	redo,
-	undo,
-	push,
-	top,
-	setTop,
-} = useHistoryStack(
-	textarea.value,
-	changeHook,
-	pushDefault,
-	() => {
-		alert("已是最后，无法继续撤销")
-	},
-	() => {
-		alert("已是最新，无法继续重做")
-	},
-);
-
-onMounted(() => {
-	// 当输入法切换结束，保存历史记录（即保存中文输入）
-	textarea.value.addEventListener('compositionend', () => {
-		setTop()
-	})
-})
 
 // 文本编辑快捷键
 const shortcutKeys = reactive(<ShortcutKey[]>[
-	<ShortcutKey>{
-		trigger: {
-			key: ['x', 'X'],
-			ctrl: true
-		},
-		method: () => {
-			historyType = "cut"
-		}
-	},
-	<ShortcutKey>{
-		trigger: {
-			key: ['v', 'V'],
-			ctrl: true
-		},
-		method: () => {
-			historyType = "copy"
-		}
-	},
-	<ShortcutKey>{
-		trigger: {
-			key: ['z'],
-			ctrl: true
-		},
-		method: () => {
-			historyType = "undo"
-			undo()
-		},
-		prevent: true,
-		reject: true,
-	},
-	<ShortcutKey>{
-		trigger: {
-			key: ['y', 'Z'],
-			ctrl: true
-		},
-		method: () => {
-			historyType = "redo"
-			redo()
-		},
-		prevent: true,
-		reject: true,
-	},
+	...props.shortcutKeys,
 	<ShortcutKey>{
 		trigger: {
 			key: ['r', 'f'],
@@ -531,111 +453,20 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 	}
 ])
 
-// 键盘按下事件
-const onKeyDown = (e: KeyboardEvent) => {
-	for (const insertUnit of props.insertUnits) {
-		if (judgeKeyEventTriggers(insertUnit.triggers, e)) {
-			if (insertUnit.prevent) e.preventDefault()
-			insertIntoTextarea(insertUnit, e)
-			if (insertUnit.reject) return
-		}
-	}
-
-	for (const shortcutKey of props.shortcutKeys) {
-		if (judgeKeyEventTrigger(shortcutKey.trigger, e)) {
-			if (shortcutKey.prevent) e.preventDefault();
-			shortcutKey.method(e);
-			if (shortcutKey.reject) return
-		}
-	}
-
-	for (const shortcutKey of shortcutKeys) {
-		if (judgeKeyEventTrigger(shortcutKey.trigger, e)) {
-			if (shortcutKey.prevent) e.preventDefault()
-			shortcutKey.method(e)
-			if (shortcutKey.reject) return
-		}
-	}
-
-	if (e.altKey || e.ctrlKey || e.metaKey || e.key == 'Control' || e.key == 'Alt') return
-
-	let history: EditorHistory | null = null
-	if (e.key == 'Enter') {
-		e.preventDefault()
-		history = batchEnter(textarea.value, e)
-	} else if (e.key == 'Tab') {
-		e.preventDefault()
-		history = batchTab(textarea.value, e)
-	} else if (['*', '_', '='].includes(e.key)) {
-		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
-			e.preventDefault()
-			history = complete(textarea.value, {before: e.key, after: e.key})
-		}
-	} else if (['(', '[', '{', '"', "'", '`'].includes(e.key)) {
-		historyType = 'complete' + now()
-		e.preventDefault()
-		const map = new Map<string, string>([['(', ')'], ['[', ']'], ['{', '}'], ['"', '"'], ["'", "'"], ['`', '`']])
-		history = complete(textarea.value, {before: e.key, after: map.get(e.key)!})
-	} else if ([')', ']', '}'].includes(e.key)) {
-		if (textarea.value.selectionEnd != textarea.value.selectionStart) {
-			historyType = 'complete' + now()
-			e.preventDefault()
-			const map = new Map<string, string>([[')', '('], [']', '['], ['}', '{']])
-			history = complete(textarea.value, {before: map.get(e.key)!, after: e.key})
-		}
-	}
-
-	if (history != null) {
-		historyType = history.type
-		push(history)
-	}
-
-
-	if (e.key.startsWith("Arrow")) {
-		setTimeout(pushMoveOrSelect, 0)
-	} else if (e.key == ' ') {
-		historyType = 'blank'
-	} else if (e.key == 'Backspace' || e.key == 'Delete') {
-		historyType = e.key
-	} else {
-		historyType = 'common'
-	}
-}
-
-const pushMoveOrSelect = () => {
-	if (!textarea.value) return
-
-	let oldStart = top().start
-	let oldEnd = top().end
-
-	if (textarea.value.selectionStart == oldStart && textarea.value.selectionEnd == oldEnd) return
-
-	nextTick(() => {
-		if (textarea.value.selectionStart != textarea.value.selectionEnd) {
-			historyType = 'select'
-			push()
-		} else {
-			historyType = 'move'
-			push()
-		}
-	})
-}
-
-const onMouseDown = () => {
-	pushMoveOrSelect()
-}
-
-const onMouseUp = () => {
-	pushMoveOrSelect()
-}
-
-const onSelect = () => {
-	pushMoveOrSelect()
-}
-
-const onDragEnd = () => {
-	historyType = 'dragend'
-}
+const {
+	redo,
+	undo,
+	push,
+	top,
+	historyType,
+} = useInputExtension(
+	() => {
+		return textarea.value
+	},
+	shortcutKeys,
+	props.insertUnits,
+	argsMap.value,
+)
 
 // 查找与替换功能
 // 用于测算 textarea 当前文本高度的工具盒子
@@ -725,7 +556,7 @@ const searchCurrent = () => {
 
 	searchCalculateStyle.value = "width: " + textarea.value.clientWidth + 'px;';
 
-	historyType = 'find'
+	setHistoryType('find' + now())
 
 	nextTick(() => {
 		textarea.value.focus()
@@ -801,9 +632,9 @@ const replaceOne = () => {
 	const end = start + replaceData.replaceFrom.length
 	text.value = text.value.slice(0, start) + replaceData.replaceTo + text.value.slice(end);
 	nextTick(() => {
-		textarea.value.selectionStart = start;
-		textarea.value.selectionEnd = start + replaceData.replaceTo.length;
-		historyType = 'replaceOne'
+		textarea.value.selectionStart = start
+		textarea.value.selectionEnd = start + replaceData.replaceTo.length
+		setHistoryType('replaceOne' + now())
 		searchNext();
 	})
 }
@@ -816,11 +647,11 @@ const replaceAll = () => {
 
 	if (searchData.indexes.length == 0) {
 		searchData.index = -1
-		return;
+		return
 	}
 
-	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo);
-	historyType = 'replaceAll'
+	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo)
+	setHistoryType('replaceAll' + now())
 }
 </script>
 

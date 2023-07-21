@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {vDrag} from "../../directives/drag";
+import {vDrag} from "../../directives/vDrag";
 import {onMounted, PropType, ref} from "vue";
 import SvgIcon from "../svg/SvgIcon.vue";
-import {useSvgIcon} from "../../hooks/icon/useSvgIcon";
+import {useSvgIcon} from "../../hooks/useSvgIcon";
 
 const contextMenu = ref()
 

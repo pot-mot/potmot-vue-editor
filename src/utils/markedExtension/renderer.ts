@@ -35,8 +35,6 @@ const codeCache: Map<{ language: string, text: string }, string> = new Map<{ lan
 
 export const codeRender = (text: string, language: string): string => {
     try {
-        if (language == undefined) language = ''
-
         const key = {language, text}
 
         if (codeCache.has(key)) {
@@ -128,6 +126,8 @@ renderer.heading = (text: string, level, raw, slugger): string => {
 }
 
 renderer.code = (code: string, language: string): string => {
+    if (language == undefined) language = ''
+
     if (language == 'mermaid') {
         if (mermaidCache.has(code)) return `<div>${mermaidCache.get(code)}</div>`
         return `<div class="mermaid">${code}</div>`
@@ -136,8 +136,7 @@ renderer.code = (code: string, language: string): string => {
     }
 
     code = codeRender(code, language)
-    return `
-<pre class="code-container"><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div>${code}</pre>`;
+    return `<pre class="code-container"><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div>${code}</pre>`;
 }
 
 const imageErrorCache = new Map<string, string>
