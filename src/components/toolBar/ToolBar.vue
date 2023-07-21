@@ -11,9 +11,15 @@ const props = defineProps({
 		type: Array as PropType<EditTool[]>,
 		required: true,
 	},
-	withContextMenu: {
-		type: Boolean,
-		default: true,
+	positionMap: {
+		type: Object as PropType<Map<string, Position | undefined>>,
+		required: false,
+		default: new Map([
+			["LT", {top: '2em', left: '0'}],
+			["RT", {top: '2em', right: '0'}],
+			["LB", {bottom: '2em', left: '0'}],
+			["RB", {bottom: '2em', right: '0'}]
+		])
 	}
 })
 
@@ -27,10 +33,13 @@ const toolMap = computed(() => {
 
 const contextMenus = computed(() => {
 	const map = new Map<string, any>()
-	props.tools.forEach(item => map.set(item.name, {
-		visible: getContextMenuShow(item.name),
-		position: getContextMenuPosition(item.name)
-	}))
+	props.tools.forEach(item => {
+		if (!item.contextMenu) return
+		map.set(item.name, {
+			visible: getContextMenuShow(item.name),
+			position: getContextMenuPosition(item.name)
+		})
+	})
 	return map
 })
 
@@ -43,44 +52,33 @@ const getContextMenuShow = (key: string): boolean => {
 
 const getContextMenuPosition = (key: string) => {
 	if (!toolMap.value.has(key)) return {}
-
 	const item = toolMap.value.get(key)!
-
-	if (item.position == 'left') {
-		return {
-			top: '2rem',
-			left: '0'
-		}
-	} else {
-		return {
-			top: '2rem',
-			right: '0'
-		}
-	}
+	return props.positionMap.get(item.position)
 }
 </script>
 
 <template>
 	<div class="toolbar">
-		<ul v-for="position in toolPositionMap.keys()" :class="position">
-			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()">
+		<ul v-for="position in positionMap.keys()" :class="position">
+			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label">
 				<SvgIcon
+					v-if="tool.icon"
 					@mousedown.prevent.stop="tool.method(tool)"
 					:name="tool.icon"
 					size="1rem"
-					:title="tool.label"
 					class="icon"
 					:class="[tool.active ? 'active' : '']">
 				</SvgIcon>
-				<slot v-if="!withContextMenu" :name="tool.name"></slot>
 				<ContextMenu
-					v-else-if="tool.contextMenu"
+					v-if="tool.contextMenu"
 					:title="tool.label"
 					:visible="contextMenus.get(tool.name).visible"
 					:position="contextMenus.get(tool.name).position"
 					@cancel="tool.active = false">
 					<slot :name="tool.name"></slot>
 				</ContextMenu>
+				<slot v-else :name="`${tool.name}`">
+				</slot>
 			</li>
 		</ul>
 	</div>
@@ -88,10 +86,10 @@ const getContextMenuPosition = (key: string) => {
 
 <style scoped lang="scss">
 .toolbar {
+	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: 50% 50%;
-	height: 2rem;
-	line-height: 1.8rem;
+	line-height: 1rem;
 
 	* {
 		box-sizing: border-box;
@@ -100,31 +98,28 @@ const getContextMenuPosition = (key: string) => {
 	}
 
 	> ul {
-		height: 2rem;
+		min-height: 2rem;
+		padding: 0.2rem 0;
 	}
 
 	> ul > li {
 		position: relative;
 		display: inline-block;
-		font-size: 1rem;
 		list-style: none;
-
-		height: 2rem;
-		width: 2rem;
-		padding: 0.2rem;
-
-		user-select: none;
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
+		height: 1.6rem;
 
 		> .icon {
 			display: inline-block;
 			color: #999;
+			border-radius: 3px;
 			height: 1.6rem;
 			width: 1.6rem;
 			padding: 0.3rem;
-			border-radius: 3px;
+
+			user-select: none;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
 		}
 
 		> .icon:hover {
@@ -138,12 +133,20 @@ const getContextMenuPosition = (key: string) => {
 		}
 	}
 
-	> .left {
+	> .LT,
+	> .LB {
 		justify-self: left;
+		> li {
+			margin-right: 0.5rem;
+		}
 	}
 
-	> .right {
+	> .RT,
+	> .RB {
 		justify-self: right;
+		> li {
+			margin-left: 0.5rem;
+		}
 	}
 }
 </style>

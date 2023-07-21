@@ -1,7 +1,7 @@
 import {onMounted} from "vue";
 import {svgIcon, svgIconPrefix} from "../constants/icon/svgIcon";
 
-export const useSvgIcon = (icons: string[], containerId: string = `${svgIconPrefix}container`) => {
+export const useSvgIcon = (icons: (string | undefined)[], containerId: string = `${svgIconPrefix}container`) => {
     const svgNameList = new Set
 
     onMounted(() => {
@@ -25,6 +25,7 @@ export const useSvgIcon = (icons: string[], containerId: string = `${svgIconPref
         }
 
         icons.forEach(iconName => {
+            if (iconName == undefined) return
             if (!svgNameList.has(`${svgIconPrefix}${iconName}`) && iconName in svgIcon && container) {
                 container.innerHTML += svgIcon[iconName]!
             }

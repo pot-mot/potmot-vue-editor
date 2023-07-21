@@ -1,90 +1,94 @@
 <template>
-	<div class="editor"
-		 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc']"
-		 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
-		<ToolBar class="toolbar" :tools="editTools">
-			<template #insert>
-				<ul>
-					<li v-for="item in props.insertUnits" class="insert-text">
+	<Teleport :disabled="!isFullScreen" to="body">
+		<div class="editor"
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc']"
+			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
+			<ToolBar :tools="editTools"
+					 :position-map="new Map([['LT', {left: '0', top: '1.8rem'}], ['RT', {right: '0', top: '1.8rem'}]])">
+				<template #insert>
+					<ul>
+						<li v-for="item in props.insertUnits" class="insert-text">
                         <span ignore-drag
 							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
 							  :title='formatTriggers(item).join("\n")'
 							  v-text="item.label"/>
-						<template v-for="arg in item.arguments">
-							<label>{{ arg.label }}</label>
-							<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
-									@change="(e) => {changeSelectArg(arg.name, e)}">
-								<option v-for="item in arg.options">{{ item }}</option>
-							</select>
-							<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
-								   :maxlength="'inputLength' in arg ? arg.inputLength : 100"
-								   :style="'styleWidth' in arg ? 'width: ' + arg.styleWidth : ''"
-								   @input="(e) => {changeInputArg(arg.name, e)}">
-						</template>
-					</li>
-				</ul>
-			</template>
-			<template #replace>
+							<template v-for="arg in item.arguments">
+								<label>{{ arg.label }}</label>
+								<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
+										@change="(e) => {changeSelectArg(arg.name, e)}">
+									<option v-for="item in arg.options">{{ item }}</option>
+								</select>
+								<input v-else-if="'type' in arg" :type="arg.type" :value="argsMap.get(arg.name).value"
+									   :maxlength="'inputLength' in arg ? arg.inputLength : 100"
+									   :style="'styleWidth' in arg ? 'width: ' + arg.styleWidth : ''"
+									   @input="(e) => {changeInputArg(arg.name, e)}">
+							</template>
+						</li>
+					</ul>
+				</template>
+				<template #replace>
 				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom"
 						  class="replace-box" placeholder="查找文本"/>
-				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo"
-						  class="replace-box" placeholder="替换文本"/>
-				<div class="replace-operation" ignore-drag>
-					<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
-					<span style="display: inline-block;width: 1em;"></span>
-					<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
-					<span style="display: inline-block;width: 1em;"></span>
-					<span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
-					<input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
-						   v-model="searchIndex">
-					<span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
-					<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
-					<span style="display: inline-block;width: 1em;"></span>
-					<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo"
+							  class="replace-box" placeholder="替换文本"/>
+					<div class="replace-operation" ignore-drag>
+						<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+						<span style="display: inline-block;width: 1em;"></span>
+						<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+						<span style="display: inline-block;width: 1em;"></span>
+						<span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
+						<input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
+							   v-model="searchIndex">
+						<span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
+						<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
+						<span style="display: inline-block;width: 1em;"></span>
+						<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+					</div>
+				</template>
+				<template #outline>
+					<slot name="outline" :target="previewCard">
+						<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-drag></MarkdownOutline>
+					</slot>
+				</template>
+			</ToolBar>
+			<div class="container" :class="containerClass">
+				<textarea
+					:style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
+					ref="textarea"
+					v-model="text"
+					:placeholder="props.placeholder"
+					class="edit-card">
+				</textarea>
+				<div ref="previewCard"
+					 class="preview-card">
+					<slot name="preview" :text="text">
+						<MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
+					</slot>
 				</div>
-			</template>
-			<template #outline>
-				<slot name="outline" :target="previewCard">
-					<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-drag></MarkdownOutline>
-				</slot>
-			</template>
-		</ToolBar>
-		<div class="container" :class="containerClass">
-			<textarea
-				:style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
-				ref="textarea"
-				v-model="text"
-				:placeholder="props.placeholder"
-				class="edit-card"
-				@scroll="syncScroll(textarea, previewCard)">
-			</textarea>
-			<div ref="previewCard"
-				 class="preview-card"
-				 @scroll="syncScroll(previewCard, textarea)">
-				<slot name="preview" :text="text">
-					<MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
-				</slot>
+			</div>
+			<ToolBar :tools="editTools"
+					 :position-map="new Map([['LB', {left: '0', bottom: '1.8rem'}], ['RB', {right: '0', bottom: '1.8rem'}]])">
+				<template #statisticalData>
+					<ul class="statistical-list" v-if="textarea !== undefined">
+						<li>字数 {{ text.length }}</li>
+						<li>
+							{{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
+							<span v-show="statisticalData.selectLength > 0">
+								至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}
+							</span>
+						</li>
+						<li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
+					</ul>
+				</template>
+			</ToolBar>
+
+			<div ref="searchCalculate"
+				 class="search-calculate-box"
+				 v-text="searchCalculateSubText"
+				 :style="searchCalculateStyle">
 			</div>
 		</div>
-		<slot name="footer" :textarea="textarea" :data="statisticalData">
-			<ul class="statistical-list" v-if="textarea !== undefined">
-				<li>字数 {{ text.length }}</li>
-				<li>
-					{{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
-					<span v-show="statisticalData.selectLength > 0">
-					至 {{ statisticalData.endPlace.y }}:{{ statisticalData.endPlace.x }}
-				</span>
-				</li>
-				<li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
-			</ul>
-		</slot>
-
-		<div ref="searchCalculate"
-			 class="search-calculate-box"
-			 v-text="searchCalculateSubText"
-			 :style="searchCalculateStyle">
-		</div>
-	</div>
+	</Teleport>
 </template>
 
 <script lang="ts">
@@ -98,7 +102,7 @@ import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from
 import {debounce} from "lodash";
 
 import {isMobile} from "../utils/common/platform";
-import {smoothScroll} from "../utils/common/scroll";
+import {resetScrollTop, setSyncScroll, smoothScroll} from "../utils/common/scroll";
 
 import {vAdapt} from "../directives/vAdapt";
 import {vInputExtension} from "../directives/vInputExtension";
@@ -120,6 +124,7 @@ import {useSvgIcon} from "../hooks/useSvgIcon";
 import {updateTextarea} from "../utils/common/textarea";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {getLeadingMarks} from "../utils/common/text";
+import {useSyncScroll} from "../hooks/useSyncScroll";
 
 // 元素
 const textarea = ref();
@@ -185,54 +190,50 @@ const props = defineProps({
 //region Tool List and Status
 const editTools = reactive(<EditTool[]>[
 	<EditTool>{
-		triggers: [],
 		name: "insert",
 		label: "快捷插入",
 		icon: "more",
 		active: false,
 		contextMenu: true,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
-		position: "left",
+		position: "LT",
 		method: (self: EditTool) => {
 			self.active = !self.active
 		}
 	},
 	<EditTool>{
-		triggers: [],
 		name: "replace",
 		label: "文本查找与替换",
 		icon: "search",
 		active: false,
 		contextMenu: true,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
-		position: "left",
+		position: "LT",
 		method: (self: EditTool) => {
 			self.active = !self.active
 		}
 	},
 	<EditTool>{
-		triggers: [],
 		name: "undo",
 		label: "撤销",
 		icon: "undo",
 		active: false,
 		contextMenu: false,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
-		position: "left",
+		position: "LT",
 		method: () => {
 			setHistoryType("undo" + now())
 			undo()
 		}
 	},
 	<EditTool>{
-		triggers: [],
 		name: "redo",
 		label: "重做",
 		icon: "redo",
 		active: false,
 		contextMenu: false,
 		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
-		position: "left",
+		position: "LT",
 		method: () => {
 			setHistoryType("redo" + now())
 			redo();
@@ -240,40 +241,58 @@ const editTools = reactive(<EditTool[]>[
 	},
 
 	<EditTool>{
-		triggers: [],
+		name: "statisticalData",
+		label: "统计数据",
+		active: false,
+		contextMenu: false,
+		show: () => true,
+		position: "LB",
+	},
+
+	<EditTool>{
+		name: "syncScroll",
+		label: "滚动同步",
+		icon: "lock",
+		active: true,
+		contextMenu: false,
+		show: () => true,
+		position: "RB",
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	<EditTool>{
 		name: "outline",
 		label: "预览大纲",
 		icon: "outline",
 		active: false,
 		contextMenu: true,
 		show: () => isPreview.value,
-		position: "right",
+		position: "RT",
 		method: (self: EditTool) => {
 			self.active = !self.active
 		}
 	},
 	<EditTool>{
-		triggers: [],
 		name: "preview",
 		label: "预览",
 		icon: "preview",
 		active: false,
 		contextMenu: false,
 		show: () => true,
-		position: "right",
+		position: "RT",
 		method: (self: EditTool) => {
 			self.active = !self.active
 		}
 	},
 	<EditTool>{
-		triggers: [],
 		name: "fullScreen",
 		label: "全屏/收起全屏",
 		icon: "fullScreen",
 		active: false,
 		contextMenu: false,
 		show: () => true,
-		position: "right",
+		position: "RT",
 		method: (self: EditTool) => {
 			self.active = !self.active
 		},
@@ -306,22 +325,6 @@ const isFullScreen = computed({
 	}
 })
 
-let beforeFullScreenTop = 0
-
-watch(() => isFullScreen.value, async (newValue) => {
-	if (newValue) {
-		isPreview.value = !isMobile.value;
-		document.documentElement.classList.add('hideScroll')
-		beforeFullScreenTop = document.documentElement.scrollTop;
-	} else {
-		isPreview.value = false;
-		document.documentElement.classList.remove('hideScroll')
-		await nextTick(() => {
-			document.documentElement.scrollTop = beforeFullScreenTop;
-		})
-	}
-})
-
 const isReplace = computed({
 	get() {
 		return getEditToolActive('replace');
@@ -349,12 +352,66 @@ const isOutline = computed({
 	}
 })
 
+const isSyncScroll = computed({
+	get() {
+		return getEditToolActive('syncScroll')
+	},
+	set(newValue: boolean) {
+		setEditToolActive('syncScroll', newValue);
+	}
+})
+
 // 组件初始化全屏
 onMounted(() => {
 	if (props.startWithFullScreen) {
 		isFullScreen.value = true;
 		isPreview.value = true;
 	}
+})
+
+let beforeFullScreenDocumentScrollTop = 0
+
+watch(() => isFullScreen.value, (newValue) => {
+	// 因为使用 teleport, 所以需要手动重置滚动高度
+	resetScrollTop(textarea.value)
+	resetScrollTop(previewCard.value)
+
+	if (newValue) {
+		isPreview.value = !isMobile.value
+		document.documentElement.classList.add('hideScroll')
+		beforeFullScreenDocumentScrollTop = document.documentElement.scrollTop
+	} else {
+		isPreview.value = false;
+		document.documentElement.classList.remove('hideScroll')
+		nextTick(() => {
+			document.documentElement.scrollTop = beforeFullScreenDocumentScrollTop
+		})
+	}
+})
+
+/**
+ * 滚动同步
+ */
+onMounted(() => {
+	useSyncScroll([textarea.value, previewCard.value], () => !isSyncScroll.value)
+})
+
+const setSyncScrollTop = () => {
+	if (!isSyncScroll.value) return
+	// 仅切换至预览，全屏的手机端时，将 textarea 同步为 preview
+	if (!isPreview.value && !isFullScreen.value && !isMobile.value) {
+		setSyncScroll(previewCard.value, textarea.value);
+	} else {
+		setSyncScroll(textarea.value, previewCard.value);
+	}
+}
+
+watch(() => isSyncScroll.value, () => {
+	setSyncScrollTop()
+})
+
+watch(() => isPreview.value, () => {
+	setSyncScrollTop()
 })
 
 useSvgIcon(editTools.map(item => item.icon))
@@ -637,30 +694,6 @@ const replaceAll = () => {
 //endregion
 
 /**
- * 滚动同步
- */
-//region Scroll Sync
-let scrollSyncFlag = false
-
-const syncScroll = (from: HTMLElement, to: HTMLElement) => {
-	if (scrollSyncFlag) return
-	scrollSyncFlag = true
-	to.scrollTop = from.scrollTop * (to.scrollHeight - to.offsetHeight) / (from.scrollHeight - from.offsetHeight)
-	setTimeout(() => {
-		scrollSyncFlag = false
-	}, 20)
-}
-
-watch(() => isPreview.value, () => {
-	if (isPreview.value) {
-		syncScroll(textarea.value, previewCard.value);
-	} else if (!isFullScreen.value && !isMobile.value) {
-		syncScroll(previewCard.value, textarea.value);
-	}
-})
-//endregion
-
-/**
  * 同步 v-model 的文本变更
  */
 //region Sync vModel
@@ -730,6 +763,7 @@ watch(() => text.value, () => {
 
 .editor.non-full {
 	position: relative;
+	padding: 0 3px;
 }
 
 .editor.full {
@@ -737,9 +771,10 @@ watch(() => text.value, () => {
 	top: 0;
 	left: 0;
 	height: 100vh;
-	width: 100vw;
+	width: 99vw;
 	z-index: 1000;
 	background-color: var(--back-ground-color);
+	padding: 0 0.5vw;
 }
 
 .editor > .container {
@@ -789,7 +824,6 @@ watch(() => text.value, () => {
 	display: grid;
 	grid-template-rows: 100%;
 	grid-column-gap: 0.6%;
-	padding: 0 0.6%;
 
 	> .edit-card,
 	> .preview-card {
@@ -904,19 +938,7 @@ watch(() => text.value, () => {
 	}
 }
 
-.editor {
-	&.non-full > .toolbar {
-		padding-left: 1px;
-		padding-right: 1px;
-	}
-
-	&.full > .toolbar {
-		padding-left: 0.6%;
-		padding-right: 0.6%;
-	}
-}
-
-.editor > .statistical-list {
+.editor .statistical-list {
 	height: 1.6rem;
 	line-height: 1.6rem;
 	margin-left: 0.4rem;

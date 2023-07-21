@@ -29,10 +29,6 @@ interface KeyEvent {
     shift?: boolean
 }
 
-interface KeyEventTriggers {
-    triggers: KeyEvent[]
-}
-
 interface KeyEventConfig {
     // 是否取消默认事件
     prevent?: boolean
@@ -45,18 +41,19 @@ interface ShortcutKey extends KeyEventConfig {
     method: Function
 }
 
-interface EditTool extends KeyEventTriggers {
+interface EditTool {
     name: string
     label: string
-    icon: string
+    icon?: string
     active: boolean
     contextMenu: boolean
     show?: () => boolean
-    position: "left" | "right"
+    position: "LT" | "RT" | "LB" | "RB"
     method: Function
 }
 
-interface InsertUnit extends KeyEventTriggers, KeyEventConfig {
+interface InsertUnit extends KeyEventConfig {
+    triggers: KeyEvent[],
     label: string
     // 插入事件，参数有参数map，textarea 当前编辑框元素, event 当前触发事件
     insert: (args: Map<string, Ref>, textarea: HTMLTextAreaElement, event?: KeyboardEvent) => EditorHistory

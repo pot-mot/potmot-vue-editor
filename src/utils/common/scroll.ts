@@ -1,3 +1,5 @@
+import {nextTick} from "vue";
+
 /**
  * 平滑滚动到目标位置
  * @param target 目标元素
@@ -30,4 +32,23 @@ export const smoothScroll = (
         target.scrollBy({top: step}); //执行滚动
         i++;
     }, stepTime);
+}
+
+/**
+ * 同步滚动
+ * @param master 主动方
+ * @param slaves 从动方
+ */
+export const setSyncScroll = (master: HTMLElement, ...slaves: HTMLElement[]) => {
+    slaves.forEach(slave => {
+        slave.scrollTop = master.scrollTop * (slave.scrollHeight - slave.offsetHeight) / (master.scrollHeight - master.offsetHeight)
+    })
+}
+
+export const resetScrollTop = (el: HTMLElement) => {
+    if (!el) return
+    const oldScrollRatio = el.scrollTop / (el.scrollHeight - el.offsetHeight)
+    nextTick(() => {
+        el.scrollTop = (el.scrollHeight - el.offsetHeight) * oldScrollRatio
+    }).then()
 }
