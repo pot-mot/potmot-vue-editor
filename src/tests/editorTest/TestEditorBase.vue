@@ -13,6 +13,12 @@ import MarkdownEditor from "../../components/MarkdownEditor.vue";
 
 const text = ref(`
 ### asdsadasdsdas
+
+init test
+
+>
+> sdsadsadas
+>
 `)
 
 </script>

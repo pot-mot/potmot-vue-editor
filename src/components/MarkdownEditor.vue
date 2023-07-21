@@ -118,6 +118,8 @@ import {now} from "../tests/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {useSvgIcon} from "../hooks/useSvgIcon";
 import {updateTextarea} from "../utils/common/textarea";
+import {batchEnter} from "../utils/editor/inputExtension";
+import {getLeadingMarks} from "../utils/common/text";
 
 /**
  * 外部传入参数
@@ -166,15 +168,6 @@ const props = defineProps({
 const textarea = ref();
 const previewCard = ref();
 
-// 组件初始化
-onMounted(() => {
-	nextTick(push)
-	if (props.startWithFullScreen) {
-		isFullScreen.value = true;
-		isPreview.value = true;
-	}
-})
-
 // 核心容器样式类
 const containerClass = computed(() => {
 	if (!isFullScreen.value) return '';
@@ -182,31 +175,12 @@ const containerClass = computed(() => {
 	return 'edit';
 })
 
-// 数据
+// 文本数据
 const text = ref("")
 
-const emit = defineEmits(['update:modelValue'])
-
 const setHistoryType = (newVal: string) => {
-	// tip: 避免初始化时historyType还不存在就进行赋值导致出错
-	try {
-		historyType.value = newVal
-	} catch (e) {
-		console.warn(e)
-	}
+	historyType.value = newVal
 }
-
-watch(() => props.modelValue, () => {
-	if (text.value != props.modelValue) {
-		text.value = props.modelValue
-		setHistoryType('outside' + now())
-		nextTick(push)
-	}
-}, {immediate: true})
-
-watch(() => text.value, () => {
-	emit('update:modelValue', text.value)
-})
 
 // 统计数据
 const {statisticalData} = useStatistics(() => textarea.value)
@@ -380,6 +354,14 @@ const isOutline = computed({
 	}
 })
 
+// 组件初始化全屏
+onMounted(() => {
+	if (props.startWithFullScreen) {
+		isFullScreen.value = true;
+		isPreview.value = true;
+	}
+})
+
 /**
  * 插入工具
  */
@@ -431,6 +413,16 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 	...props.shortcutKeys,
 	<ShortcutKey>{
 		trigger: {
+			key: ['Enter']
+		},
+		method: (e: KeyboardEvent) => {
+			push(batchEnter(textarea.value, e, getLeadingMarks))
+		},
+		prevent: true,
+		reject: true,
+	},
+	<ShortcutKey>{
+		trigger: {
 			key: ['r', 'f'],
 			ctrl: true
 		},
@@ -467,6 +459,20 @@ const {
 	props.insertUnits,
 	argsMap.value,
 )
+
+const emit = defineEmits(['update:modelValue'])
+
+watch(() => props.modelValue, () => {
+	if (text.value != props.modelValue) {
+		text.value = props.modelValue
+		setHistoryType('outside' + now())
+		nextTick(push)
+	}
+}, {immediate: true})
+
+watch(() => text.value, () => {
+	emit('update:modelValue', text.value)
+})
 
 // 查找与替换功能
 // 用于测算 textarea 当前文本高度的工具盒子
