@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, PropType} from "vue";
+import {computed, PropType, ref} from "vue";
 import {EditTool} from "../../declare/EditorUtil";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
@@ -14,14 +14,11 @@ const props = defineProps({
 	positionMap: {
 		type: Object as PropType<Map<string, Position | undefined>>,
 		required: false,
-		default: new Map([
-			["LT", {top: '2em', left: '0'}],
-			["RT", {top: '2em', right: '0'}],
-			["LB", {bottom: '2em', left: '0'}],
-			["RB", {bottom: '2em', right: '0'}]
-		])
+		default: new Map
 	}
 })
+
+const toolbar = ref()
 
 const toolPositionMap = computed(() => {
 	return groupBy(props.tools, 'position')
@@ -58,7 +55,7 @@ const getContextMenuPosition = (key: string) => {
 </script>
 
 <template>
-	<div class="toolbar">
+	<div class="toolbar" ref="toolbar">
 		<ul v-for="position in positionMap.keys()" :class="position">
 			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label">
 				<SvgIcon
@@ -69,16 +66,18 @@ const getContextMenuPosition = (key: string) => {
 					class="icon"
 					:class="[tool.active ? 'active' : '']">
 				</SvgIcon>
-				<ContextMenu
-					v-if="tool.contextMenu"
-					:title="tool.label"
-					:visible="contextMenus.get(tool.name).visible"
-					:position="contextMenus.get(tool.name).position"
-					@cancel="tool.active = false">
-					<slot :name="tool.name"></slot>
-				</ContextMenu>
 				<slot v-else :name="`${tool.name}`">
 				</slot>
+				<teleport :to="toolbar" :disabled="!toolbar">
+					<ContextMenu
+						v-if="tool.contextMenu"
+						:title="tool.label"
+						:visible="contextMenus.get(tool.name).visible"
+						:position="contextMenus.get(tool.name).position"
+						@cancel="tool.active = false">
+						<slot :name="tool.name"></slot>
+					</ContextMenu>
+				</teleport>
 			</li>
 		</ul>
 	</div>
@@ -98,8 +97,15 @@ const getContextMenuPosition = (key: string) => {
 	}
 
 	> ul {
-		min-height: 2rem;
+		position: relative;
+		height: 2rem;
 		padding: 0.2rem 0;
+		overflow: hidden;
+	}
+
+	> ul:hover {
+		overflow: visible;
+		z-index: 10001;
 	}
 
 	> ul > li {

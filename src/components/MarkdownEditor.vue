@@ -4,7 +4,7 @@
 			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc']"
 			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
 			<ToolBar :tools="editTools"
-					 :position-map="new Map([['LT', {left: '0', top: '1.8rem'}], ['RT', {right: '0', top: '1.8rem'}]])">
+					 :position-map="new Map([['LT', {left: '0.5rem', top: '2rem'}], ['RT', {right: '0.5rem', top: '2rem'}]])">
 				<template #insert>
 					<ul>
 						<li v-for="item in props.insertUnits" class="insert-text">
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<ToolBar :tools="editTools"
-					 :position-map="new Map([['LB', {left: '0', bottom: '1.8rem'}], ['RB', {right: '0', bottom: '1.8rem'}]])">
+					 :position-map="new Map([['LB', {left: '0.5rem', bottom: '2rem'}], ['RB', {right: '0.5rem', bottom: '2rem'}]])">
 				<template #statisticalData>
 					<ul class="statistical-list" v-if="textarea !== undefined">
 						<li>字数 {{ text.length }}</li>
@@ -729,7 +729,7 @@ watch(() => text.value, () => {
 .editor {
 	color: var(--editor-font-color);
 
-	padding: 0;
+	padding: 0 0.5em;
 	margin: 0;
 	overflow: visible;
 
@@ -769,7 +769,6 @@ watch(() => text.value, () => {
 
 .editor.non-full {
 	position: relative;
-	padding: 0 3px;
 	background-color: var(--editor-non-full-back-color);
 }
 
@@ -778,10 +777,9 @@ watch(() => text.value, () => {
 	top: 0;
 	left: 0;
 	height: 100vh;
-	width: 99vw;
-	z-index: 1000;
+	width: calc(100vw - 1em);
+	z-index: 10000;
 	background-color: var(--editor-full-back-color);
-	padding: 0 0.5vw;
 }
 
 .editor > .container {
@@ -891,7 +889,7 @@ watch(() => text.value, () => {
 	}
 
 	&.full :deep(.context-menu) {
-		z-index: 1001;
+		z-index: 10001;
 	}
 
 	&.pc :deep(.context-menu) {

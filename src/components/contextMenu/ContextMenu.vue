@@ -152,7 +152,6 @@ const setPosition = () => {
 			overflow-y: auto;
 			width: 100%;
 			padding: 0.5em;
-			overflow-x: hidden;
 		}
 	}
 }
