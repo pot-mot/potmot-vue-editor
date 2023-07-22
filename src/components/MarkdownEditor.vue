@@ -7,7 +7,7 @@
 					 :position-map="new Map([['LT', {left: '0.5rem', top: '2rem'}], ['RT', {right: '0.5rem', top: '2rem'}]])">
 				<template #insert>
 					<ul>
-						<li v-for="item in props.insertUnits" class="insert-text">
+						<li v-for="item in insertUnits" class="insert-text">
                         <span ignore-drag
 							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
 							  :title='formatTriggers(item).join("\n")'
@@ -187,7 +187,7 @@ const props = defineProps({
 /**
  * 工具栏与状态
  */
-//region Tool List and Status
+//region Tool and Status
 const editTools = reactive(<EditTool[]>[
 	<EditTool>{
 		name: "insert",
@@ -520,10 +520,13 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 ])
 
 const {
+	undoStack,
+	redoStack,
 	redo,
 	undo,
 	push,
 	top,
+	historyType,
 	setHistoryType,
 } = useInputExtension(
 	() => {
@@ -741,6 +744,38 @@ watch(() => props.modelValue, () => {
 
 watch(() => text.value, () => {
 	emit('update:modelValue', text.value)
+})
+//endregion
+
+//region Expose
+defineExpose({
+	isFullScreen,
+	isReplace,
+	isPreview,
+	isOutline,
+	isSyncScroll,
+	isEditorDarkTheme,
+	setSyncScrollTop,
+	useSvgIcon,
+
+	undoStack,
+	redoStack,
+	redo,
+	undo,
+	push,
+	top,
+	historyType,
+	setHistoryType,
+	changeHook,
+
+	searchData,
+	replaceData,
+	statisticalData,
+
+	shortcutKeys,
+	insertUnits: props.insertUnits,
+	argsMap,
+	editTools,
 })
 //endregion
 </script>
