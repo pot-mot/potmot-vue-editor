@@ -1,5 +1,5 @@
 import {Ref, ref} from "vue";
-import {now} from "lodash";
+import {now} from "../utils/common/time";
 
 export const useHistoryStack = (
     changeHook: (history: EditorHistory) => void,

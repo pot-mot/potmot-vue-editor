@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 
-import {countTime} from "./time";
+import {countTime} from "../utils/common/time";
 
 const html = `<div>
     <div></div>

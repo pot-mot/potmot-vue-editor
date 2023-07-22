@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {parse} from '@vue/compiler-dom';
 import {marked} from "marked";
-import {countTime} from "./time";
+import {countTime} from "../utils/common/time";
 import {nextTick, onMounted, ref, watch} from "vue";
 
 let md = ref("")

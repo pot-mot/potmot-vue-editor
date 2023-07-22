@@ -1,7 +1,7 @@
 import {batchEnter, batchTab, complete} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {useHistoryStack} from "./useHistoryStack";
-import {now} from "../tests/time";
+import {now} from "../utils/common/time";
 import {nextTick, onMounted, Ref, ref} from "vue";
 import {InsertUnit, ShortcutKey} from "../declare/EditorUtil";
 import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/keyEvent";

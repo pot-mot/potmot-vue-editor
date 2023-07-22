@@ -1,6 +1,6 @@
 import {insertIntoString} from "./insertUtils";
 import {getLeadingSpace} from "../common/text";
-import {now} from "../../tests/time";
+import {now} from "../common/time";
 
 // 补全
 export const complete = (textarea: HTMLTextAreaElement, insertText: { before: string, after: string }): EditorHistory => {

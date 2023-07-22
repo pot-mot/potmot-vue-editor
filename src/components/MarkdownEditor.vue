@@ -81,9 +81,9 @@
 					</ul>
 				</template>
 				<template #history>
-					<ul>
-						<li v-for="item in undoStack" style="white-space: nowrap; overflow: hidden; max-width: 100%;">
-							[{{ item.type }}] {{ item.text }}
+					<ul style="height: 100%; overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack">
+						<li v-for="item in undoStack" style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
+							{{ item.type }}
 						</li>
 					</ul>
 				</template>
@@ -107,30 +107,31 @@ export default {
 import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {debounce} from "lodash";
 
-import {isDarkTheme, isMobile} from "../utils/common/platform";
 import {resetScrollTop, setSyncScroll, smoothScroll} from "../utils/common/scroll";
-
-import {vAdapt} from "../directives/vAdapt";
-import {vInputExtension} from "../directives/vInputExtension";
-
 import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
-
 import {getArgsMap} from "../utils/editor/insertUtils";
 
 import MarkdownOutline from "./MarkdownOutline.vue";
 import MarkdownPreview from "./MarkdownPreview.vue";
 import ToolBar from "./toolBar/ToolBar.vue";
 
+import {vAdapt} from "../directives/vAdapt";
+import {vInputExtension} from "../directives/vInputExtension";
+import {vKeepBottom} from "../directives/vKeepBottom";
+
 import {useStatistics} from "../hooks/useStatistics";
 import {useInputExtension} from "../hooks/useInputExtension";
-import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
-import {now} from "../tests/time";
-import {formatTriggers} from "../utils/editor/insertUnitUtils";
-import {useSvgIcon} from "../hooks/useSvgIcon";
-import {updateTextarea} from "../utils/common/textarea";
-import {batchEnter} from "../utils/editor/inputExtension";
-import {getLeadingMarks} from "../utils/common/text";
 import {useSyncScroll} from "../hooks/useSyncScroll";
+import {useSvgIcon} from "../hooks/useSvgIcon";
+
+import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
+
+import {isDarkTheme, isMobile} from "../utils/common/platform";
+import {now} from "../utils/common/time";
+import {formatTriggers} from "../utils/editor/insertUnitUtils";
+import {batchEnter} from "../utils/editor/inputExtension";
+import {updateTextarea} from "../utils/common/textarea";
+import {getLeadingMarks} from "../utils/common/text";
 import {syncHeightCssStyle} from "../utils/common/css";
 
 // 元素
