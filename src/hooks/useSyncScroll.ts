@@ -2,6 +2,12 @@ import {Ref, ref} from "vue";
 import {setSyncScroll} from "../utils/common/scroll";
 import {throttle} from "lodash";
 
+/**
+ * 对一组元素启用同步滚动
+ * @param elements 元素列表
+ * @param disabled 禁用函数
+ * @param timeout 时间间隔
+ */
 export const useSyncScroll = (
     elements: HTMLElement[],
     disabled: () => boolean,

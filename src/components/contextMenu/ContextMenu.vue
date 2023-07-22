@@ -81,7 +81,7 @@ const setPosition = () => {
 		 v-drag="props.dragRange">
 
 		<div class="content">
-			<div class="close" ignore-drag>
+			<div class="close" ignore-drag title="关闭">
 				<slot name="close">
 					<SvgIcon class="close-icon" @mousedown.prevent.stop="close" name="close" size="1.25em"></SvgIcon>
 				</slot>
@@ -134,12 +134,13 @@ const setPosition = () => {
 			cursor: pointer;
 
 			> .close-icon {
-				color: #999;
+				color: var(--editor-close-icon-default-color);
+				background-color: var(--editor-close-icon-default-back-color);
 			}
 
 			> .close-icon:hover {
-				color: #fff;
-				background-color: red;
+				color: var(--editor-close-icon-hover-color);
+				background-color: var(--editor-close-icon-hover-back-color);
 			}
 		}
 

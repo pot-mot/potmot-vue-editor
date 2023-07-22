@@ -110,7 +110,8 @@ const getContextMenuPosition = (key: string) => {
 
 		> .icon {
 			display: inline-block;
-			color: #999;
+			color: var(--editor-tool-default-color);
+			background-color: var(--editor-tool-default-back-color);
 			border-radius: 3px;
 			height: 1.6rem;
 			width: 1.6rem;
@@ -123,13 +124,13 @@ const getContextMenuPosition = (key: string) => {
 		}
 
 		> .icon:hover {
-			color: #7a7a7a;
-			background-color: #eee;
+			color: var(--editor-tool-hover-color);
+			background-color: var(--editor-tool-hover-back-color);
 		}
 
 		> .icon.active {
-			color: #fff;
-			background-color: #bcbcbc;
+			color: var(--editor-tool-active-color);
+			background-color: var(--editor-tool-active-back-color);
 		}
 	}
 

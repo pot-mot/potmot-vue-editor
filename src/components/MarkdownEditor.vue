@@ -27,8 +27,8 @@
 					</ul>
 				</template>
 				<template #replace>
-				<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom"
-						  class="replace-box" placeholder="查找文本"/>
+					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom"
+							  class="replace-box" placeholder="查找文本"/>
 					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo"
 							  class="replace-box" placeholder="替换文本"/>
 					<div class="replace-operation" ignore-drag>
@@ -770,6 +770,7 @@ watch(() => text.value, () => {
 .editor.non-full {
 	position: relative;
 	padding: 0 3px;
+	background-color: var(--editor-non-full-back-color);
 }
 
 .editor.full {
@@ -779,7 +780,7 @@ watch(() => text.value, () => {
 	height: 100vh;
 	width: 99vw;
 	z-index: 1000;
-	background-color: var(--editor-back-color);
+	background-color: var(--editor-full-back-color);
 	padding: 0 0.5vw;
 }
 
@@ -805,6 +806,9 @@ watch(() => text.value, () => {
 		scrollbar-gutter: stable;
 
 		height: 100%;
+
+		border: 1px solid var(--editor-border-color);
+		background-color: var(--editor-region-back-color);
 	}
 
 	> .preview-card {
@@ -820,7 +824,6 @@ watch(() => text.value, () => {
 	> .preview-card {
 		width: 100%;
 		height: 100%;
-		border: 1px solid var(--editor-border-color);
 		padding-bottom: 4em;
 	}
 }
@@ -833,7 +836,6 @@ watch(() => text.value, () => {
 
 	> .edit-card,
 	> .preview-card {
-		background-color: var(--editor-light-back-color);
 		padding-bottom: 50vh;
 	}
 }
@@ -870,11 +872,18 @@ watch(() => text.value, () => {
 
 .editor {
 	:deep(.context-menu) {
-		background-color: var(--editor-back-color);
+		background-color: var(--editor-context-menu-back-color);
 		font-size: 0.8rem;
-		border: 1px solid var(--editor-border-color);
+		border: 1px solid var(--editor-context-menu-border-color);
 		border-radius: 3px;
 		line-height: 1.6rem;
+
+		input,
+		textarea,
+		select {
+			border: 1px solid var(--editor-tool-input-border-color);
+			background-color: var(--editor-tool-input-back-color);
+		}
 	}
 
 	&.non-full :deep(.context-menu) {
@@ -908,6 +917,7 @@ watch(() => text.value, () => {
 
 	> input {
 		margin-left: 0.5em;
+		margin-right: 0.5em;
 		width: 4em;
 	}
 
@@ -915,7 +925,6 @@ watch(() => text.value, () => {
 		padding: 0;
 		margin-left: 0.5em;
 		outline: none;
-		border: none;
 		border-radius: 0;
 
 		> option {
@@ -931,7 +940,6 @@ watch(() => text.value, () => {
 .editor .replace-box {
 	line-height: 1.6em;
 	width: 100%;
-	border: 1px solid var(--editor-border-color);
 	padding: 0.5em;
 }
 
@@ -966,6 +974,6 @@ watch(() => text.value, () => {
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
 	padding: 0.5em;
-	border: 1px solid var(--editor-border-color);
+	border: 1px solid var(--editor-tool-input-border-color);
 }
 </style>
