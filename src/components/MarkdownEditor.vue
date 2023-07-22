@@ -389,20 +389,26 @@ watch(() => isFullScreen.value, (newValue) => {
 	}
 })
 
+let lastScroll: Ref<HTMLElement | undefined>
+
 /**
  * 滚动同步
  */
 onMounted(() => {
-	useSyncScroll([textarea.value, previewCard.value], () => !isSyncScroll.value)
+	const result = useSyncScroll([textarea.value, previewCard.value], () => !isSyncScroll.value)
+	lastScroll = result.lastScroll
 })
 
 const setSyncScrollTop = () => {
 	if (!isSyncScroll.value) return
+
 	// 仅切换至预览，全屏的手机端时，将 textarea 同步为 preview
 	if (!isPreview.value && !isFullScreen.value && !isMobile.value) {
-		setSyncScroll(previewCard.value, textarea.value);
+		setSyncScroll(previewCard.value, textarea.value)
+	} else if (lastScroll && lastScroll.value) {
+		setSyncScroll(lastScroll.value, textarea.value, previewCard.value)
 	} else {
-		setSyncScroll(textarea.value, previewCard.value);
+		setSyncScroll(textarea.value, previewCard.value)
 	}
 }
 

@@ -40,7 +40,7 @@ export const smoothScroll = (
  * @param slaves 从动方
  */
 export const setSyncScroll = (master: HTMLElement, ...slaves: HTMLElement[]) => {
-    slaves.forEach(slave => {
+    slaves.filter(element => element != master).forEach(slave => {
         slave.scrollTop = master.scrollTop * (slave.scrollHeight - slave.offsetHeight) / (master.scrollHeight - master.offsetHeight)
     })
 }
