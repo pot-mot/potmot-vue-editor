@@ -1,8 +1,12 @@
 .markdown-body {
     box-sizing: border-box;
     margin: 0;
-    max-width: 100%;
     word-break: break-word;
+}
+
+.no-wrap.markdown-body,
+.no-warp .markdown-body {
+    max-width: 100%;
 }
 
 .markdown-body * {
@@ -219,4 +223,22 @@
     background-repeat: no-repeat;
     background-size: 80% 80%;
     background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%201024%201024%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23d5d5d5%22%3E%3Cpath%20d%3D%22M544%2064l-128%20251.552%20116.304%20263.328L544%20960H64a64%2064%200%200%201-64-64V128a64%2064%200%200%201%2064-64h480zM362.88%20314.08L465.712%20112H64a16%2016%200%200%200-15.888%2014.128L48%20128v768a16%2016%200%200%200%2014.128%2015.888L64%20912h430.496l-9.888-322.272-121.728-275.632z%22%2F%3E%3Cpath%20d%3D%22M246.56%20250.448a75.872%2075.872%200%201%201%200%20151.728%2075.872%2075.872%200%200%201%200-151.728z%20m100.448%20509.008l-42.288-42.288L481.584%20533.92l43.04%2039.296-177.6%20186.24zM130.352%20614.304l160.96-160.912%20111.712%20111.712-42.304%2042.368-69.408-69.408-118.672%20118.592-42.288-42.352z%22%2F%3E%3Cpath%20d%3D%22M640%2064l-128%20251.552%20107.696%20263.328L640%20960h320a64%2064%200%200%200%2064-64V128a64%2064%200%200%200-64-64H640z%20m-75.248%20253.728L669.44%20112H960a16%2016%200%200%201%2015.888%2014.128L976%20128v768a16%2016%200%200%201-14.128%2015.888L960%20912H685.52L667.2%20568.224l-102.448-250.496z%22%2F%3E%3Cpath%20d%3D%22M614.56%20492.032l-42.304-42.288%20107.936-108.128%20205.664%20205.664-42.304%2042.304-163.36-163.296z%22%2F%3E%0A%3C%2Fsvg%3E")
+}
+
+.no-wrap.markdown-body blockquote,
+.no-warp .markdown-body blockquote,
+.no-wrap.markdown-body table,
+.no-wrap .markdown-body table,
+.no-wrap.markdown-body pre,
+.no-wrap .markdown-body pre {
+    max-width: 100%;
+}
+
+.wrap.markdown-body blockquote,
+.warp .markdown-body blockquote,
+.wrap.markdown-body table,
+.wrap .markdown-body table,
+.wrap.markdown-body pre,
+.wrap .markdown-body pre {
+    width: 100%;
 }

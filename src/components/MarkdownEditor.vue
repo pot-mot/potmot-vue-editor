@@ -88,10 +88,9 @@
 					</ul>
 				</template>
 			</ToolBar>
-
 			<div ref="searchCalculate"
 				 class="search-calculate-box"
-				 v-text="searchCalculateSubText">
+				 v-html="searchCalculateSubText">
 			</div>
 		</div>
 	</Teleport>
@@ -107,7 +106,7 @@ export default {
 import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {debounce} from "lodash";
 
-import {resetScrollTop, setSyncScroll, smoothScroll} from "../utils/common/scroll";
+import {resetScroll, setSyncScroll, smoothScroll} from "../utils/common/scroll";
 import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
 import {getArgsMap} from "../utils/editor/insertUtils";
 
@@ -119,7 +118,7 @@ import {vAdapt} from "../directives/vAdapt";
 import {vInputExtension} from "../directives/vInputExtension";
 import {vKeepBottom} from "../directives/vKeepBottom";
 
-import {useStatistics} from "../hooks/useStatistics";
+import {getPlace, useStatistics} from "../hooks/useStatistics";
 import {useInputExtension} from "../hooks/useInputExtension";
 import {useSyncScroll} from "../hooks/useSyncScroll";
 import {useSvgIcon} from "../hooks/useSvgIcon";
@@ -131,8 +130,8 @@ import {now} from "../utils/common/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
-import {getLeadingMarks} from "../utils/common/text";
-import {syncHeightCssStyle} from "../utils/common/css";
+import {getCurrentLineBefore, getLeadingMarks} from "../utils/common/text";
+import {syncSearchCssStyle} from "../utils/common/css";
 
 // 元素
 const textarea = ref();
@@ -440,8 +439,8 @@ let beforeFullScreenDocumentScrollTop = 0
 
 watch(() => isFullScreen.value, (newValue) => {
 	// 因为使用 teleport, 所以需要手动重置滚动高度
-	resetScrollTop(textarea.value)
-	resetScrollTop(previewCard.value)
+	resetScroll(textarea.value)
+	resetScroll(previewCard.value)
 
 	if (newValue) {
 		isPreview.value = !isMobile.value
@@ -525,7 +524,7 @@ const changeHook = (history: EditorHistory) => {
 
 const smoothChangeHook = (history: EditorHistory) => {
 	updateTextarea(textarea.value, history, false)
-	smoothScroll(textarea.value, history.scrollTop)
+	smoothScroll(textarea.value, history.scrollTop, history.scrollLeft)
 }
 
 // 文本编辑快捷键
@@ -657,14 +656,22 @@ const searchCurrent = (focus: boolean = true) => {
 		return
 	}
 
-	searchCalculateSubText.value = text.value.substring(0, searchData.indexes[searchData.index]);
+	const {y} = getPlace(searchData.indexes[searchData.index], text.value)
+	const line = getCurrentLineBefore(text.value, searchData.indexes[searchData.index])
+	const subTexts = []
+	for (let i = 0; i < y; i++) {
+		subTexts.push("\n")
+	}
+	subTexts.push(line + replaceData.replaceFrom)
+	searchCalculateSubText.value = subTexts.join('').replaceAll('\n', '<br>')
 
-	syncHeightCssStyle(searchCalculate.value, textarea.value)
+	syncSearchCssStyle(searchCalculate.value, textarea.value)
 
 	nextTick(() => {
 		if (focus) textarea.value.focus()
 
 		const topDelta: number = searchCalculate.value.scrollHeight - textarea.value.clientHeight / 2.4
+		const leftDelta: number = searchCalculate.value.scrollWidth - textarea.value.clientWidth / 3
 
 		const history: EditorHistory = {
 			type: 'searchCurrent' + now(),
@@ -672,7 +679,7 @@ const searchCurrent = (focus: boolean = true) => {
 			start: searchData.indexes[searchData.index],
 			end: searchData.indexes[searchData.index] + replaceData.replaceFrom.length,
 			scrollTop: topDelta > 0 ? topDelta : 0,
-			scrollLeft: textarea.value.scrollLeft
+			scrollLeft: leftDelta > 0 ? leftDelta : 0
 		}
 		push(history, smoothChangeHook)
 	})
@@ -1105,10 +1112,15 @@ defineExpose({
 }
 
 .editor > .search-calculate-box {
-	pointer-events: none;
 	position: fixed;
 	left: -1000vh;
 	top: -1000vw;
 	visibility: hidden;
+
+	pointer-events: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 </style>

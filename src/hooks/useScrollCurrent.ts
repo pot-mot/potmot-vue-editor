@@ -24,7 +24,7 @@ export const useScrollCurrent = (
         target: HTMLElement
     ) => {
         isScroll.value = true
-        smoothScroll(scroller, target.offsetTop - scroller.offsetTop, () => {
+        smoothScroll(scroller, target.offsetTop - scroller.offsetTop, target.offsetLeft - scroller.offsetLeft, () => {
             // 在结束后经过一段时间才重新判断滚动
             setTimeout(() => {
                 isScroll.value = false

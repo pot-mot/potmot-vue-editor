@@ -1,7 +1,7 @@
 export const syncCommonCssStyle = (
     target: HTMLElement,
     from: HTMLElement,
-    syncStyles: string[] = ['padding', 'margin', 'lineHeight', 'height', 'width', 'whiteSpace', 'border', 'scale', 'wordBreak', 'wordSpacing', 'display', 'overflow', 'tabSize', 'textAlign', 'scrollPadding', 'scrollbarGutter', 'fontSize', 'boxSizing', 'wordWrap', 'resize', 'outline', '']
+    syncStyles: string[] = ['padding', 'margin', 'lineHeight', 'height', 'width', 'whiteSpace', 'border', 'scale', 'wordBreak', 'wordSpacing', 'display', 'overflowX', 'overflowY', 'tabSize', 'textAlign', 'scrollPadding', 'scrollbarGutter', 'fontSize', 'boxSizing', 'wordWrap', 'resize', 'outline', 'fontFamily', 'minWidth', 'maxWidth', 'minHeight', 'maxHeight']
 ) => {
     const fromStyles = window.getComputedStyle(from)
     syncStyles.forEach(prop => {
@@ -12,11 +12,11 @@ export const syncCommonCssStyle = (
     })
 }
 
-export const syncHeightCssStyle = (
+export const syncSearchCssStyle = (
     target: HTMLElement,
     from: HTMLElement,
 ) => {
-    syncCommonCssStyle(target, from,
-        ['paddingTop', 'paddingLeft', 'paddingRight', 'marginTop', 'marginLeft', 'marginRight', 'lineHeight', 'width', 'whiteSpace', 'border', 'scale', 'wordBreak', 'wordSpacing', 'display', 'overflow', 'tabSize', 'textAlign', 'scrollPadding', 'scrollbarGutter', 'fontSize', 'boxSizing', 'wordWrap', 'resize', 'outline', '']
-    )
+    const styleList = ['paddingTop', 'paddingLeft', 'paddingRight', 'marginTop', 'marginLeft', 'marginRight', 'lineHeight', 'whiteSpace', 'border', 'scale', 'wordBreak', 'wordSpacing', 'display', 'overflowX', 'overflowY', 'tabSize', 'textAlign', 'scrollPadding', 'scrollbarGutter', 'fontSize', 'boxSizing', 'wordWrap', 'resize', 'outline', 'fontFamily', 'minWidth', 'maxWidth', 'minHeight', 'maxHeight']
+    syncCommonCssStyle(target, from, styleList)
+    target.style.width = 'max-content'
 }
