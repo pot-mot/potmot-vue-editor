@@ -4,7 +4,7 @@
 
 ## 介绍
 
-> 当前版本 v0.14 2023/7/21
+> 当前版本 v0.15 2023/7/22
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
 
@@ -13,7 +13,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.14.0
+npm install potmot-vue-editor@0.15.0
 ```
 
 main.js 中引用
@@ -24,11 +24,11 @@ import 'potmot-vue-editor/dist/style.css'
 
 app.use(editor)
 
-// 使用预定义的代码样式，引入如下
+// 使用预定义的 code 和 markdown 样式，引入如下
 import 'potmot-vue-editor/src/assets/code.css'
 import 'potmot-vue-editor/src/assets/markdown.css'
 
-// 主题样式
+// 应用主题样式
 import 'potmot-vue-editor/src/assets/editor-theme/default.css'
 import 'potmot-vue-editor/src/assets/markdown-theme/default.css'
 import 'potmot-vue-editor/src/assets/code-theme/default.css'
