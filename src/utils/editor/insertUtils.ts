@@ -1,4 +1,4 @@
-import {nextTick, Ref} from "vue";
+import {Ref} from "vue";
 import {InsertUnit} from "../../declare/EditorUtil";
 import {now} from "../../tests/time";
 import {getLeadingSpace} from "../common/text";
@@ -52,10 +52,7 @@ export const simpleInsert = (
     replace: boolean = false,
     mergeMulti: boolean = false,
 ): EditorHistory => {
-    const text = textarea.value
-    const oldStart = textarea.selectionStart
-    const oldEnd = textarea.selectionEnd
-    const top = textarea.scrollTop
+    const {selectionStart: oldStart, selectionEnd: oldEnd, value: text, scrollTop, scrollLeft} = textarea;
 
     const startPart: string = text.slice(0, oldStart)
     const midPart: string = replace ? '' : text.slice(oldStart, oldEnd)
@@ -75,7 +72,8 @@ export const simpleInsert = (
     }
 
     return {
-        scrollTop: top,
+        scrollTop,
+        scrollLeft,
         text: content.join(""),
         type: type + (mergeMulti ? '' : ` ${now()}`),
         start: newStart,
@@ -121,10 +119,7 @@ export const formatInsert = (
     },
     mergeMulti: boolean = false,
 ): EditorHistory => {
-    const text = textarea.value
-    const oldStart = textarea.selectionStart
-    const oldEnd = textarea.selectionEnd
-    const top = textarea.scrollTop
+    const {selectionStart: oldStart, selectionEnd: oldEnd, value: text, scrollTop, scrollLeft} = textarea;
 
     const startPart: string = text.slice(0, oldStart)
     const midPart: string = text.slice(oldStart, oldEnd)
@@ -139,7 +134,8 @@ export const formatInsert = (
     const {content, start, end} = formatter(startPart, midPart, endPart, space);
 
     return {
-        scrollTop: top,
+        scrollTop,
+        scrollLeft,
         text: typeof content == "string" ? content : content.join(""),
         type: type + (mergeMulti ? '' : ` ${now()}`),
         start: start,

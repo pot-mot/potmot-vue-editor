@@ -35,7 +35,7 @@ export const smoothScroll = (
 }
 
 /**
- * 同步滚动
+ * 同步滚动高度
  * @param master 主动方
  * @param slaves 从动方
  */

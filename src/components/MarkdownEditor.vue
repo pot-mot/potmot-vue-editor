@@ -1,9 +1,9 @@
 <template>
 	<Teleport :disabled="!isFullScreen" to="body">
 		<div class="editor"
-			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', isEditorDarkTheme? 'dark' : 'light']"
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', isEditorDarkTheme? 'dark' : 'light', isWrap? 'wrap' : 'no-wrap']"
 			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
-			<ToolBar :tools="editTools"
+			<ToolBar  v-if="textarea !== undefined" :tools="editTools"
 					 :position-map="new Map([['LT', {left: '0.5rem', top: '2rem'}], ['RT', {right: '0.5rem', top: '2rem'}]])">
 				<template #insert>
 					<ul>
@@ -66,10 +66,10 @@
 					</slot>
 				</div>
 			</div>
-			<ToolBar :tools="editTools"
+			<ToolBar  v-if="textarea !== undefined" :tools="editTools"
 					 :position-map="new Map([['LB', {left: '0.5rem', bottom: '2rem'}], ['RB', {right: '0.5rem', bottom: '2rem'}]])">
 				<template #statisticalData>
-					<ul class="statistical-list" v-if="textarea !== undefined">
+					<ul class="statistical-list">
 						<li>字数 {{ text.length }}</li>
 						<li>
 							{{ statisticalData.startPlace.y }}:{{ statisticalData.startPlace.x }}
@@ -80,12 +80,18 @@
 						<li v-show="statisticalData.selectLength > 0">选中 {{ statisticalData.selectLength }}</li>
 					</ul>
 				</template>
+				<template #history>
+					<ul>
+						<li v-for="item in undoStack" style="white-space: nowrap; overflow: hidden; max-width: 100%;">
+							[{{ item.type }}] {{ item.text }}
+						</li>
+					</ul>
+				</template>
 			</ToolBar>
 
 			<div ref="searchCalculate"
 				 class="search-calculate-box"
-				 v-text="searchCalculateSubText"
-				 :style="searchCalculateStyle">
+				 v-text="searchCalculateSubText">
 			</div>
 		</div>
 	</Teleport>
@@ -125,6 +131,7 @@ import {updateTextarea} from "../utils/common/textarea";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {getLeadingMarks} from "../utils/common/text";
 import {useSyncScroll} from "../hooks/useSyncScroll";
+import {syncHeightCssStyle} from "../utils/common/css";
 
 // 元素
 const textarea = ref();
@@ -249,6 +256,30 @@ const editTools = reactive(<EditTool[]>[
 		position: "LB",
 	},
 
+	<EditTool>{
+		name: "wrap",
+		label: "换行",
+		icon: "wrap",
+		active: true,
+		contextMenu: false,
+		show: () => true,
+		position: "RB",
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	<EditTool>{
+		name: "history",
+		label: "历史记录",
+		icon: "history",
+		active: false,
+		contextMenu: true,
+		show: () => true,
+		position: "RB",
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
 	<EditTool>{
 		name: "darkTheme",
 		label: "暗色主题",
@@ -383,6 +414,15 @@ const isEditorDarkTheme = computed({
 	}
 })
 
+const isWrap = computed({
+	get() {
+		return getEditToolActive("wrap")
+	},
+	set(newValue: boolean) {
+		setEditToolActive('wrap', newValue)
+	}
+})
+
 watch(() => isDarkTheme.value, () => {
 	isEditorDarkTheme.value = isDarkTheme.value
 }, {immediate: true})
@@ -482,6 +522,11 @@ const changeHook = (history: EditorHistory) => {
 	updateTextarea(textarea.value, history)
 }
 
+const smoothChangeHook = (history: EditorHistory) => {
+	updateTextarea(textarea.value, history, false)
+	smoothScroll(textarea.value, history.scrollTop)
+}
+
 // 文本编辑快捷键
 const shortcutKeys = reactive(<ShortcutKey[]>[
 	...props.shortcutKeys,
@@ -528,6 +573,7 @@ const {
 	top,
 	historyType,
 	setHistoryType,
+	pushDefault,
 } = useInputExtension(
 	() => {
 		return textarea.value
@@ -569,27 +615,12 @@ watch(() => text.value, () => {
 	setSearchData();
 })
 
-watch(() => isReplace.value, () => {
-	setSearchData();
-})
-
-watch(() => isPreview.value, () => {
-	setSearchData();
-})
-
-watch(() => isFullScreen.value, () => {
-	setSearchData();
-})
-
-
 const setSearchData = debounce(() => {
 	searchData.index = -1;
 	searchData.indexes = [];
-	if (textarea.value == undefined) return;
-	searchCalculate.value.style.width = textarea.value.scrollWidth + 'px';
-
 	if (replaceData.replaceFrom.length <= 0) return;
 	if (text.value.length <= 0) return;
+	if (textarea.value == undefined || searchCalculate.value == undefined) return;
 
 	let index = text.value.indexOf(replaceData.replaceFrom, 0);
 	let count = 0;
@@ -605,12 +636,6 @@ const setSearchData = debounce(() => {
 	}
 }, 200)
 
-// 控制 textarea 进行跳转
-const jumpTo = (target: number) => {
-	smoothScroll(textarea.value, target)
-}
-
-let searchCalculateStyle = ref("")
 let searchCalculateSubText = ref("")
 
 const searchIndex = ref(0)
@@ -627,23 +652,22 @@ const searchCurrent = () => {
 
 	searchCalculateSubText.value = text.value.substring(0, searchData.indexes[searchData.index]);
 
-	searchCalculateStyle.value = "width: " + textarea.value.clientWidth + 'px;';
-
-	setHistoryType('find' + now())
+	syncHeightCssStyle(searchCalculate.value, textarea.value)
 
 	nextTick(() => {
 		textarea.value.focus()
 
-		nextTick(() => {
-			textarea.value.selectionStart = searchData.indexes[searchData.index];
-			textarea.value.selectionEnd = searchData.indexes[searchData.index] + replaceData.replaceFrom.length;
+		const topDelta: number = searchCalculate.value.scrollHeight - textarea.value.clientHeight / 2.4
 
-			if (searchCalculate.value.scrollHeight > textarea.value.clientHeight / 2.4) {
-				jumpTo(searchCalculate.value.scrollHeight - textarea.value.clientHeight / 2.4);
-			} else {
-				jumpTo(0);
-			}
-		})
+		const history: EditorHistory = {
+			type: 'searchCurrent' + now(),
+			text: text.value,
+			start: searchData.indexes[searchData.index],
+			end: searchData.indexes[searchData.index] + replaceData.replaceFrom.length,
+			scrollTop: topDelta > 0 ? topDelta : 0,
+			scrollLeft: textarea.value.scrollLeft
+		}
+		push(history, smoothChangeHook)
 	})
 }
 
@@ -679,15 +703,15 @@ const searchNext = () => {
 
 	if (searchData.indexes.length == 0) {
 		searchData.index = -1
-		return;
+		return
 	}
 
 	if (searchData.index < searchData.indexes.length - 1) {
-		searchData.index++;
+		searchData.index++
 	} else {
 		searchData.index = 0
 	}
-	searchCurrent();
+	searchCurrent()
 }
 
 const replaceOne = () => {
@@ -698,18 +722,25 @@ const replaceOne = () => {
 
 	if (searchData.indexes.length == 0) {
 		searchData.index = -1
-		return;
+		return
+	}
+
+	if (replaceData.replaceFrom != text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)) {
+		return
 	}
 
 	const start = searchData.indexes[searchData.index]
-	const end = start + replaceData.replaceFrom.length
-	text.value = text.value.slice(0, start) + replaceData.replaceTo + text.value.slice(end);
-	nextTick(() => {
-		textarea.value.selectionStart = start
-		textarea.value.selectionEnd = start + replaceData.replaceTo.length
-		setHistoryType('replaceOne' + now())
-		searchNext();
-	})
+	const end = start + replaceData.replaceTo.length
+
+	const history: EditorHistory = {
+		start,
+		end,
+		text: text.value.slice(0, start) + replaceData.replaceTo + text.value.slice(end),
+		type: 'replaceOne' + now(),
+		scrollTop: textarea.value.scrollTop,
+		scrollLeft: textarea.value.scrollLeft
+	}
+	push(history, smoothChangeHook)
 }
 
 const replaceAll = () => {
@@ -724,7 +755,10 @@ const replaceAll = () => {
 	}
 
 	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo)
-	setHistoryType('replaceAll' + now())
+	nextTick(() => {
+		setHistoryType('replaceAll' + now())
+		push()
+	})
 }
 //endregion
 
@@ -736,9 +770,10 @@ const emit = defineEmits(['update:modelValue'])
 
 watch(() => props.modelValue, () => {
 	if (text.value != props.modelValue) {
+		if (historyType.value.startsWith('redo') || historyType.value.startsWith("undo")) return
 		text.value = props.modelValue
 		setHistoryType('outside' + now())
-		nextTick(push)
+		push()
 	}
 }, {immediate: true})
 
@@ -754,7 +789,8 @@ defineExpose({
 	isPreview,
 	isOutline,
 	isSyncScroll,
-	isEditorDarkTheme,
+	isDarkTheme: isEditorDarkTheme,
+	isWrap,
 	setSyncScrollTop,
 	useSvgIcon,
 
@@ -767,6 +803,7 @@ defineExpose({
 	historyType,
 	setHistoryType,
 	changeHook,
+	pushDefault,
 
 	searchData,
 	replaceData,
@@ -871,7 +908,6 @@ defineExpose({
 		font-family: inherit;
 
 		overflow-y: auto;
-		overflow-x: hidden;
 		overscroll-behavior-y: contain;
 		scrollbar-gutter: stable;
 
@@ -884,6 +920,29 @@ defineExpose({
 	> .preview-card {
 		padding-left: 1em;
 		padding-right: 1em;
+	}
+}
+
+.editor.wrap > .container {
+	> .edit-card,
+	> .preview-card {
+		overflow-x: hidden;
+	}
+
+	> .edit-card {
+		white-space: pre-line;
+	}
+
+	> .preview-card {
+		white-space: normal;
+	}
+}
+
+.editor.no-wrap > .container {
+	> .edit-card,
+	> .preview-card {
+		overflow-x: auto;
+		white-space: nowrap;
 	}
 }
 
@@ -1011,6 +1070,8 @@ defineExpose({
 	line-height: 1.6em;
 	width: 100%;
 	padding: 0.5em;
+	white-space: pre;
+	scrollbar-gutter: stable;
 }
 
 .editor .replace-operation {
@@ -1026,6 +1087,7 @@ defineExpose({
 	height: 1.6rem;
 	line-height: 1.6rem;
 	margin-left: 0.4rem;
+	white-space: nowrap;
 
 	> li {
 		font-size: 0.8rem;
@@ -1041,9 +1103,5 @@ defineExpose({
 	left: -1000vh;
 	top: -1000vw;
 	visibility: hidden;
-	white-space: pre-wrap;
-	overflow-wrap: break-word;
-	padding: 0.5em;
-	border: 1px solid var(--editor-tool-input-border-color);
 }
 </style>

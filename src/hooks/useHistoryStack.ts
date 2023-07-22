@@ -1,4 +1,5 @@
 import {Ref, ref} from "vue";
+import {now} from "lodash";
 
 export const useHistoryStack = (
     changeHook: (history: EditorHistory) => void,
@@ -12,17 +13,29 @@ export const useHistoryStack = (
     const undoStack: Ref<EditorHistory[]> = ref([])
     const redoStack: Ref<EditorHistory[]> = ref([])
 
-    const push = (input = pushDefault()) => {
-        if (input.type == 'undo' || input.type == 'redo') return
+    // 上一次设置 setTop 的时间
+    let lastSetTopTime = 0
 
-        if (undoStack.value.length == 0 || pushDefault().type != top().type) {
-            undoStack.value.push(input)
-            if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length)
+    /**
+     * 向 undoStack 推入，同时清空 redoStack
+     * 如果上一次推入后的 2s 内推入的下一个历史的类型与前一次相同，将合并这两个历史，即覆盖 top
+     * @param history
+     * @param change
+     */
+    const push = (history = pushDefault(), change: Function | undefined = changeHook) => {
+        if (history.type.startsWith('undo') || history.type.startsWith('redo')) return
+
+        const pushTime = now()
+
+        if (undoStack.value.length > 0 && pushDefault().type == top().type && pushTime - lastSetTopTime <= 2000) {
+            setTop(history)
         } else {
-            setTop(input)
+            undoStack.value.push(history)
+            if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length)
         }
+        lastSetTopTime = pushTime
 
-        changeHook(input)
+        if (change) change(history)
     };
 
     // 撤销
@@ -77,6 +90,7 @@ export const useHistoryStack = (
         push,
         clear,
         top,
-        setTop
+        setTop,
+        pushDefault,
     }
 };

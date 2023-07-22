@@ -4,8 +4,8 @@ import {now} from "../../tests/time";
 
 // 补全
 export const complete = (textarea: HTMLTextAreaElement, insertText: { before: string, after: string }): EditorHistory => {
-    const {selectionStart: start, selectionEnd: end, value: text, scrollTop} = textarea;
-    let result: EditorHistory = {scrollTop, end, start, text, type: 'complete' + now()}
+    const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
+    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'complete' + now()}
 
     const {before, after} = insertText;
 
@@ -41,15 +41,19 @@ export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent, getS
     const space = getSpace(textarea.value, start)
     const text = insertIntoString("\n" + space, textarea.value, start);
     return {
-        scrollTop: textarea.scrollTop, end: start + space.length + 1, start: start + space.length + 1, text, type: "enter" + now()
+        scrollTop: textarea.scrollTop,
+        scrollLeft: textarea.scrollLeft,
+        end: start + space.length + 1,
+        start: start + space.length + 1,
+        text,
+        type: "enter" + now()
     }
 }
 
 // 批量缩进（Tab）
 export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent, tab: string = '\t'): EditorHistory | null => {
-    const {selectionStart: start, selectionEnd: end, value: text, scrollTop} = textarea;
-
-    let result: EditorHistory = {scrollTop, end, start, text, type: 'tab' + now()}
+    const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
+    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'tab' + now()}
 
     if (e.shiftKey) {
         if (start == end) {

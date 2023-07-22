@@ -18,6 +18,8 @@ const props = defineProps({
 	}
 })
 
+const emits = defineEmits(["clickTool"])
+
 const toolbar = ref()
 
 const toolPositionMap = computed(() => {
@@ -52,15 +54,20 @@ const getContextMenuPosition = (key: string) => {
 	const item = toolMap.value.get(key)!
 	return props.positionMap.get(item.position)
 }
+
+const clickTool = (tool: EditTool) => {
+	tool.method(tool)
+	emits("clickTool", {tool})
+}
 </script>
 
 <template>
 	<div class="toolbar" ref="toolbar">
 		<ul v-for="position in positionMap.keys()" :class="position">
-			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label">
+			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label"
+				@click.prevent.stop="clickTool(tool)">
 				<SvgIcon
 					v-if="tool.icon"
-					@mousedown.prevent.stop="tool.method(tool)"
 					:name="tool.icon"
 					size="1rem"
 					class="icon"
@@ -143,6 +150,7 @@ const getContextMenuPosition = (key: string) => {
 	> .LT,
 	> .LB {
 		justify-self: left;
+
 		> li {
 			margin-right: 0.5rem;
 		}
@@ -151,6 +159,7 @@ const getContextMenuPosition = (key: string) => {
 	> .RT,
 	> .RB {
 		justify-self: right;
+
 		> li {
 			margin-left: 0.5rem;
 		}

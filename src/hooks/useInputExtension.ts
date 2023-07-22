@@ -17,27 +17,37 @@ export const useInputExtension = (
             updateTextarea(el, history)
         }
     },
+    pushDefault: (() => EditorHistory) | undefined = undefined
 ) => {
     let historyType = ref("init")
 
-    const historyStack = useHistoryStack(
-        changeHook,
-        () => {
+    const undoFinalHook = () => {
+        alert("无法继续撤回")
+    }
+
+    const redoFinalHook = () => {
+        alert("无法继续重做")
+    }
+
+    if (pushDefault == undefined) {
+        pushDefault = () => {
             const el = target()
             return {
                 text: el ? el.value : '',
                 scrollTop: el ? el.scrollTop : 0,
+                scrollLeft: el ? el.scrollLeft : 0,
                 start: el ? el.selectionStart : 0,
                 end: el ? el.selectionEnd : 0,
                 type: historyType.value,
             }
-        },
-        () => {
-            alert("无法继续撤回")
-        },
-        () => {
-            alert("无法继续重做")
         }
+    }
+
+    const historyStack = useHistoryStack(
+        changeHook,
+        pushDefault,
+        undoFinalHook,
+        redoFinalHook
     )
 
     const {redo, undo, push, top} = historyStack
@@ -87,7 +97,7 @@ export const useInputExtension = (
 
         el.addEventListener('compositionend', (e) => {
             if (e.target != el) return
-            historyType.value = 'compositionend' + now()
+            historyType.value = 'common'
             push()
         })
 
@@ -119,11 +129,7 @@ export const useInputExtension = (
 
             if (e.key == 'Alt' || e.key == 'Shift' || e.key == 'Control' || e.key == 'Meta') return
 
-            if ((e.key == 'x' || e.key == 'X') && e.ctrlKey) {
-                historyType.value = "cut";
-            } else if ((e.key == 'v' || e.key == 'V') && e.ctrlKey) {
-                historyType.value = "copy";
-            } else if (e.key == 'z' && e.ctrlKey) {
+            if (e.key == 'z' && e.ctrlKey) {
                 e.preventDefault()
                 historyType.value = "undo";
                 undo()
@@ -133,6 +139,12 @@ export const useInputExtension = (
                 historyType.value = "redo";
                 redo()
                 return
+            } else if ((e.key == 'x' || e.key == 'X') && e.ctrlKey) {
+                historyType.value = "cut" + now();
+            } else if ((e.key == 'v' || e.key == 'V') && e.ctrlKey) {
+                historyType.value = "paste" + now();
+            } else if ((e.key == 'c' || e.key == 'C') && e.ctrlKey) {
+                historyType.value = "copy" + now();
             } else if (e.key == 'Tab') {
                 historyType.value = 'enter' + now()
                 e.preventDefault()

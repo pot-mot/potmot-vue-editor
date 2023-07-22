@@ -47,12 +47,17 @@ export const setTextareaAdapt = (textarea: HTMLTextAreaElement, min: number = 1,
     })
 }
 
-export const updateTextarea = (textarea: HTMLTextAreaElement, history: EditorHistory) => {
-    const {start, end, scrollTop, text} = history
+export const updateTextarea = (textarea: HTMLTextAreaElement, history: EditorHistory, scroll: boolean = true) => {
+    const {start, end, scrollTop, scrollLeft, text} = history
     textarea.value = text
     textarea.dispatchEvent(new Event("input"))
     nextTick(() => {
-        textarea.scrollTo(0, history.scrollTop)
+        if (scroll) {
+            textarea.scrollTo({
+                left: scrollLeft,
+                top: scrollTop,
+            })
+        }
         textarea.selectionStart = start
         textarea.selectionEnd = end
     }).then()
