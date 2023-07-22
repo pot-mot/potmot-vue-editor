@@ -1,5 +1,7 @@
 .dark.code-container,
-.dark .code-container {
+.dark .code-container,
+.dark:not(pre) > code,
+.dark :not(pre) > code {
     --code-back-color: #414141;
     --code-font-color: #d5d5d5;
 
@@ -17,7 +19,9 @@
 }
 
 .light.code-container,
-.light .code-container {
+.light .code-container,
+.light:not(pre) > code,
+.light :not(pre) > code {
     --code-back-color: #f5f5f5;
     --code-font-color: #444;
 

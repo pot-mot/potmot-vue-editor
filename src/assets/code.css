@@ -27,6 +27,11 @@ pre span {
     cursor: text;
 }
 
+/* code inline */
+:not(pre) > code {
+    background-color: var(--code-back-color);
+}
+
 /* code block */
 .code-container {
     position: relative;
