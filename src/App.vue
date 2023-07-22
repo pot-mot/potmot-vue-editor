@@ -2,12 +2,18 @@
 	<TestEditorBase></TestEditorBase>
 <!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="5000"></TestMarkdown>-->
 <!--		<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
-	<!--		<TestKatex></TestKatex>-->
+<!--			<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->
 <!--	<TestSvg></TestSvg>-->
 </template>
 
 <script lang="ts" setup>
+import './assets/code.css'
+import './assets/markdown.css'
+import './assets/markdown-theme/default.css'
+import './assets/code-theme/default.css'
+import './assets/editor-theme/default.css'
+
 import TestKatex from "./tests/previewTest/TestKatex.vue";
 import TestMarkdown from "./tests/editorTest/TestMarkdown.vue";
 import {markdownTestCase} from "./tests/testCase/markdown";

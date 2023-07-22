@@ -2,8 +2,8 @@
 import {onMounted, PropType, ref, watch} from "vue";
 
 import '../../assets/code.css'
-import '../../assets/markdown.css'
-import '../../assets/code-theme/potmot-dark.css'
+import '../../assets/markdown-theme/default.css'
+import '../../assets/code-theme/default.css'
 import MarkdownPreview from "../../components/MarkdownPreview.vue";
 
 const text = ref("")

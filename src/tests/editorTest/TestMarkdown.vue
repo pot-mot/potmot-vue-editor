@@ -2,9 +2,6 @@
 import MarkdownEditor from "../../components/MarkdownEditor.vue";
 import {PropType, ref, watch} from "vue";
 
-import '../../assets/code.css'
-import '../../assets/markdown.css'
-import '../../assets/code-theme/potmot-dark.css'
 const text = ref("")
 
 const props = defineProps({

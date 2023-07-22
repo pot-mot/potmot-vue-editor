@@ -1,7 +1,7 @@
 <template>
 	<Teleport :disabled="!isFullScreen" to="body">
 		<div class="editor"
-			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc']"
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', isEditorDarkTheme? 'dark' : 'light']"
 			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
 			<ToolBar :tools="editTools"
 					 :position-map="new Map([['LT', {left: '0.5rem', top: '2rem'}], ['RT', {right: '0.5rem', top: '2rem'}]])">
@@ -101,7 +101,7 @@ export default {
 import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 import {debounce} from "lodash";
 
-import {isMobile} from "../utils/common/platform";
+import {isDarkTheme, isMobile} from "../utils/common/platform";
 import {resetScrollTop, setSyncScroll, smoothScroll} from "../utils/common/scroll";
 
 import {vAdapt} from "../directives/vAdapt";
@@ -250,6 +250,18 @@ const editTools = reactive(<EditTool[]>[
 	},
 
 	<EditTool>{
+		name: "darkTheme",
+		label: "暗色主题",
+		icon: "night",
+		active: false,
+		contextMenu: false,
+		show: () => true,
+		position: "RB",
+		method: (self: EditTool) => {
+			self.active = !self.active
+		}
+	},
+	<EditTool>{
 		name: "syncScroll",
 		label: "滚动同步",
 		icon: "lock",
@@ -261,6 +273,7 @@ const editTools = reactive(<EditTool[]>[
 			self.active = !self.active
 		}
 	},
+
 	<EditTool>{
 		name: "outline",
 		label: "预览大纲",
@@ -318,37 +331,37 @@ const setEditToolActive = (key: string, newValue: boolean): void => {
 
 const isFullScreen = computed({
 	get() {
-		return getEditToolActive('fullScreen');
+		return getEditToolActive('fullScreen')
 	},
 	set(newValue: boolean) {
-		setEditToolActive('fullScreen', newValue);
+		setEditToolActive('fullScreen', newValue)
 	}
 })
 
 const isReplace = computed({
 	get() {
-		return getEditToolActive('replace');
+		return getEditToolActive('replace')
 	},
 	set(newValue: boolean) {
-		setEditToolActive('replace', newValue);
+		setEditToolActive('replace', newValue)
 	}
 })
 
 const isPreview = computed({
 	get() {
-		return getEditToolActive('preview');
+		return getEditToolActive('preview')
 	},
 	set(newValue: boolean) {
-		setEditToolActive('preview', newValue);
+		setEditToolActive('preview', newValue)
 	}
 })
 
 const isOutline = computed({
 	get() {
-		return getEditToolActive('outline');
+		return getEditToolActive('outline')
 	},
 	set(newValue: boolean) {
-		setEditToolActive('outline', newValue);
+		setEditToolActive('outline', newValue)
 	}
 })
 
@@ -357,9 +370,22 @@ const isSyncScroll = computed({
 		return getEditToolActive('syncScroll')
 	},
 	set(newValue: boolean) {
-		setEditToolActive('syncScroll', newValue);
+		setEditToolActive('syncScroll', newValue)
 	}
 })
+
+const isEditorDarkTheme = computed({
+	get() {
+		return getEditToolActive('darkTheme')
+	},
+	set(newValue: boolean) {
+		setEditToolActive('darkTheme', newValue)
+	}
+})
+
+watch(() => isDarkTheme.value, () => {
+	isEditorDarkTheme.value = isDarkTheme.value
+}, {immediate: true})
 
 // 组件初始化全屏
 onMounted(() => {
@@ -735,7 +761,18 @@ watch(() => text.value, () => {
 
 	line-height: 1.7em;
 
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: var(--editor-scroll-color);
+		border-radius: 5px;
+	}
+
 	* {
+		color: var(--editor-font-color);
 		box-sizing: border-box;
 		margin: 0;
 	}

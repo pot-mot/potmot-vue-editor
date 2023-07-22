@@ -1,12 +1,4 @@
 .markdown-body {
-    --light-border-color: #bbb;
-    --border-color: #999;
-    --deep-border-color: #555;
-
-    --deep-back-color: #eee;
-    --light-back-color: #f5f5f5;
-    --lightter-back-color: #fefefe;
-
     box-sizing: border-box;
     margin: 0;
     max-width: 100%;
@@ -101,7 +93,6 @@
     padding: 1em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-    color: #333;
 }
 
 .markdown-body blockquote + blockquote {
@@ -151,7 +142,21 @@
 }
 
 .markdown-body a {
+    color: var(--link-color);
     text-decoration: none;
+}
+
+.markdown-body a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+.markdown-body a:visited {
+    color: var(--link-visited-color);
+}
+
+.markdown-body a:visited:hover {
+    color: var(--link-visited-hover-color);
 }
 
 .markdown-body p {

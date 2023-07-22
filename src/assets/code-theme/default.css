@@ -1,0 +1,35 @@
+.dark.code-container,
+.dark .code-container {
+    --code-back-color: #414141;
+    --code-font-color: #d5d5d5;
+
+    --code-count-color: #888;
+
+    --code-number-color: #c1ddee;
+    --code-punctuation-color: #b1b1c1;
+    --code-operator-color: #aaccff;
+    --code-function-color: #99ccee;
+    --code-keyword-color: #99aaff;
+    --code-string-color: #bbcc99;
+    --code-comment-color: #999;
+    --code-variable-color: #ffcc33;
+    --code-entity-color: #7799cc;
+}
+
+.light.code-container,
+.light .code-container {
+    --code-back-color: #f5f5f5;
+    --code-font-color: #444;
+
+    --code-count-color: #ccc;
+
+    --code-number-color: #445566;
+    --code-punctuation-color: #666677;
+    --code-operator-color: #4d79ec;
+    --code-function-color: #3aaee8;
+    --code-keyword-color: #4d5bf5;
+    --code-string-color: #bb46dc;
+    --code-comment-color: #aaa;
+    --code-variable-color: #b48e06;
+    --code-entity-color: #466db6;
+}

@@ -180,6 +180,6 @@ export const footnoteRef: TokenizerAndRendererExtension = {
         }
     },
     renderer(token: marked.Tokens.Generic): string {
-        return `<sup class="footnote-ref"><a id="footnoteRef-${token.label}" href='#footnote-${token.label}' title="查看脚注内容">${token.label}</a></sup>`
+        return `<sup class="footnote-ref"><a id="footnoteRef-${token.label}" href='#footnote-${token.label}' title="查看脚注内容">[${token.label}]</a></sup>`
     }
 }

@@ -24,12 +24,14 @@ import 'potmot-vue-editor/dist/style.css'
 
 app.use(editor)
 
-// 使用预定义的 markdown 样式和代码样式，引入如下
+// 使用预定义的代码样式，引入如下
 import 'potmot-vue-editor/src/assets/code.css'
 import 'potmot-vue-editor/src/assets/markdown.css'
 
-// 代码主题色
-import 'potmot-vue-editor/src/assets/code-theme/potmot-dark.css'
+// 主题样式
+import 'potmot-vue-editor/src/assets/editor-theme/default.css'
+import 'potmot-vue-editor/src/assets/markdown-theme/default.css'
+import 'potmot-vue-editor/src/assets/code-theme/default.css'
 ```
 
 最简使用场景，直接 v-model 绑上即用
@@ -104,12 +106,6 @@ import 'potmot-vue-editor/src/assets/code-theme/potmot-dark.css'
 #### 代碼支持
 
 code 代码块支持复制、标明行号
-
-代码主题通过如下方式引用，实质为作用于 pre 中的 css 变量，可以自行书写
-
-```typescript
-import 'potmot-vue-editor/src/asserts/code-theme/${代码主题}'
-```
 
 ### 3. Outline 大纲
 

@@ -5,10 +5,6 @@
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import '../../assets/code.css'
-import '../../assets/markdown.css'
-import '../../assets/code-theme/potmot-dark.css'
-import '../../assets/editor-theme/light.css'
 
 import MarkdownEditor from "../../components/MarkdownEditor.vue";
 
