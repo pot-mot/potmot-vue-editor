@@ -53,10 +53,10 @@ export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent, getS
 // 批量缩进（Tab）
 export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent, tab: string = '\t'): EditorHistory | null => {
     const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
-    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'tab' + now()}
+    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'tab'}
 
-    if (e.shiftKey) {
-        if (start == end) {
+    if (start == end) {
+        if (e.shiftKey) {
             const index = text.lastIndexOf('\n', start - 1) + 1;
             const temp = text.slice(index, start);
             const newTemp = temp.replace(tab, '');
@@ -65,24 +65,22 @@ export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent, tab: s
             result.start = start - 1
             result.end = start - 1
         } else {
-            const temp = text.slice(start, end);
-            const newTemp = temp.replace(tab, '').replaceAll(`\n${tab}`, '\n');
-            if (temp.length === newTemp.length) return null
-            result.text = `${text.slice(0, start)}${newTemp}${text.slice(start + temp.length)}`
-            result.end = start + newTemp.length
-        }
-    } else {
-        if (start == end) {
             result.text = insertIntoString(tab, text, start)
             result.start = start + tab.length
             result.end = start + tab.length
-        } else {
-            const temp = text.slice(start, end);
-            const newTemp = `${tab}${temp.replaceAll('\n', `\n${tab}`)}`;
-            if (temp.length === newTemp.length) return null
-            result.text = `${text.slice(0, start)}${newTemp}${text.slice(start + temp.length)}`;
-            result.end = start + newTemp.length
         }
+    } else {
+        const temp = text.slice(start, end);
+        let newTemp: string
+        if (e.shiftKey) {
+            newTemp = temp.replace(tab, '').replaceAll(`\n${tab}`, '\n');
+        } else {
+            newTemp = `${tab}${temp.replaceAll('\n', `\n${tab}`)}`;
+        }
+        if (temp.length == newTemp.length) return null
+        result.text = `${text.slice(0, start)}${newTemp}${text.slice(start + temp.length)}`
+        result.end = start + newTemp.length
+        result.type = 'batchTab' + now()
     }
     return result
 }

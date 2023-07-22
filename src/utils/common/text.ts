@@ -17,7 +17,7 @@ export const getCurrentLineBefore = (text: string, start: number): string => {
  */
 export const getLeadingSpace = (text: string, start: number): string => {
     const line = getCurrentLineBefore(text, start)
-    const leadingSpaces = line.match(/^\s*/)
+    const leadingSpaces = line.match(/^[ \t]*/)
     return (leadingSpaces != null && leadingSpaces.length != 0) ? leadingSpaces[0] : ''
 }
 
@@ -47,7 +47,7 @@ export const getLeadingAndTrailingSpaces = (str: string) => {
  */
 export const getLeadingMarks = (text: string, start: number): string => {
     const line = getCurrentLineBefore(text, start)
-    const leadingMarks = line.match(/^\s*((>|([-+*]|\d+\.)( \[[xX ]])?)\s+)*/)
+    const leadingMarks = line.match(/^[ \t]*((>|([-+*]|\d+\.)( \[[xX ]])?)[ \t]+)*/)
 
     if (leadingMarks == null || leadingMarks.length == 0) return ''
 

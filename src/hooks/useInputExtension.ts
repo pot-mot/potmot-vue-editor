@@ -19,7 +19,7 @@ export const useInputExtension = (
     },
     pushDefault: (() => EditorHistory) | undefined = undefined
 ) => {
-    let historyType = ref("init")
+    const historyType = ref("init")
 
     const undoFinalHook = () => {
         alert("无法继续撤回")
@@ -74,8 +74,6 @@ export const useInputExtension = (
         }).then()
     }
 
-    const el = target()
-
     const addHistoryEvent = () => {
         const el = target()
         if (el == undefined) return
@@ -101,7 +99,8 @@ export const useInputExtension = (
             push()
         })
 
-        el.addEventListener('dragend', () => {
+        el.addEventListener('dragend', (e) => {
+            if (e.target != el) return
             historyType.value = 'dragend' + now()
             push()
         })
@@ -146,13 +145,13 @@ export const useInputExtension = (
             } else if ((e.key == 'c' || e.key == 'C') && e.ctrlKey) {
                 historyType.value = "copy" + now();
             } else if (e.key == 'Tab') {
-                historyType.value = 'enter' + now()
                 e.preventDefault()
                 history = batchTab(el, e)
+                if (history && history.type) historyType.value = history.type
             } else if (e.key == 'Enter') {
-                historyType.value = 'tab' + now()
                 e.preventDefault()
                 history = batchEnter(el, e)
+                if (history && history.type) historyType.value = history.type
             } else if (['(', '[', '{', '"', "'", '`'].includes(e.key)) {
                 historyType.value = 'complete' + now()
                 e.preventDefault()
@@ -184,7 +183,7 @@ export const useInputExtension = (
         })
     }
 
-    if (el == undefined) {
+    if (target() == undefined) {
         onMounted(() => {
             addHistoryEvent()
         })

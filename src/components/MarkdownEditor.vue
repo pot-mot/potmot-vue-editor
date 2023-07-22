@@ -535,6 +535,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			key: ['Enter']
 		},
 		method: (e: KeyboardEvent) => {
+			setHistoryType('enter' + now())
 			push(batchEnter(textarea.value, e, getLeadingMarks))
 		},
 		prevent: true,
@@ -615,7 +616,8 @@ watch(() => text.value, () => {
 	setSearchData();
 })
 
-const setSearchData = debounce(() => {
+const setSearchData = debounce((keepSearch: boolean = false) => {
+	const indexSave = searchData.index
 	searchData.index = -1;
 	searchData.indexes = [];
 	if (replaceData.replaceFrom.length <= 0) return;
@@ -634,6 +636,10 @@ const setSearchData = debounce(() => {
 		index = temp + replaceData.replaceFrom.length;
 		count++;
 	}
+	if (keepSearch && searchData.indexes.length > 0) {
+		searchData.index = indexSave > 0 ? indexSave : 0
+		searchCurrent(false)
+	}
 }, 200)
 
 let searchCalculateSubText = ref("")
@@ -644,10 +650,10 @@ watch(() => searchData.index, () => {
 	searchIndex.value = searchData.index + 1
 })
 
-const searchCurrent = () => {
+const searchCurrent = (focus: boolean = true) => {
 	if (searchData.indexes.length == 0) {
 		searchData.index = -1
-		return;
+		return
 	}
 
 	searchCalculateSubText.value = text.value.substring(0, searchData.indexes[searchData.index]);
@@ -655,7 +661,7 @@ const searchCurrent = () => {
 	syncHeightCssStyle(searchCalculate.value, textarea.value)
 
 	nextTick(() => {
-		textarea.value.focus()
+		if (focus) textarea.value.focus()
 
 		const topDelta: number = searchCalculate.value.scrollHeight - textarea.value.clientHeight / 2.4
 
@@ -730,11 +736,11 @@ const replaceOne = () => {
 	}
 
 	const start = searchData.indexes[searchData.index]
-	const end = start + replaceData.replaceTo.length
+	const end = start + replaceData.replaceFrom.length
 
 	const history: EditorHistory = {
 		start,
-		end,
+		end: start + replaceData.replaceTo.length,
 		text: text.value.slice(0, start) + replaceData.replaceTo + text.value.slice(end),
 		type: 'replaceOne' + now(),
 		scrollTop: textarea.value.scrollTop,

@@ -32,7 +32,7 @@ export const unorderedListJudge = (data: string[]) => {
     for (const item of data) {
         // 跳过空行
         if (item.trim().length == 0) continue
-        if (!(/^\s*[-+*]\s/.test(item))) {
+        if (!(/^[ \t]*[-+*][ \t]/.test(item))) {
             return false
         }
     }
@@ -46,7 +46,7 @@ export const unorderedListReformat = (data: string[], space: string = ""): strin
         if (data[i].trim().length == 0) {
             result.push(space)
         } else {
-            const item = data[i].replace(/^\s*[-+*]\s/, '')
+            const item = data[i].replace(/^[ \t]*[-+*][ \t]/, '')
             result.push(`${space}${item}`)
         }
     }
@@ -99,7 +99,7 @@ export const orderedListJudge = (data: string[]) => {
     for (const item of data) {
         // 跳过空行
         if (item.trim().length == 0) continue
-        if (!(/^\s*\d+\.\s/.test(item))) {
+        if (!(/^[ \t]*\d+\.[ \t]/.test(item))) {
             return false
         }
     }
@@ -112,7 +112,7 @@ export const orderedListReformat = (data: string[], space: string = ""): string[
         if (data[i].trim().length == 0) {
             result.push(`${space}`)
         } else {
-            const item = data[i].replace(/^\s*\d+\.\s/, '')
+            const item = data[i].replace(/^[ \t]*\d+\.[ \t]/, '')
             result.push(`${space}${item}`)
         }
     }
