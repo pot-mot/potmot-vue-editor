@@ -14,7 +14,7 @@ const props = defineProps({
 	position: {
 		type: Object as PropType<Position>,
 		required: false,
-		default: {top: 0, left: 0, zIndex: 1000},
+		default: {top: 0, left: 0},
 	},
 	dragRange: {
 		type: Object as PropType<PositionRange>,
@@ -42,11 +42,12 @@ onMounted(() => {
 })
 
 const close = () => {
+	setPosition()
 	emit("cancel")
 }
 
 const setPosition = () => {
-	if (props.resetPosition && contextMenu.value && contextMenu.value instanceof HTMLElement && props.position) {
+	if (props.resetPosition && contextMenu.value && props.position) {
 		if (props.position.top != undefined) {
 			contextMenu.value.style.top = props.position.top
 		} else {
