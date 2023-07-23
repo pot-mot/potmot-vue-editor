@@ -1,4 +1,4 @@
-import {InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
+import {InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {prismLanguageList} from "../../../constants/prismLanguageList";
 import {ref} from "vue";
 import {formatInsert} from "../../editor/insertUtils";

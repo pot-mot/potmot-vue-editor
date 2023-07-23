@@ -12,7 +12,7 @@ import {requirementDiagram} from "./requirementDiagram";
 import {sequenceDiagram} from "./sequenceDiagram";
 import {stateDiagram} from "./stateDiagram";
 import {timeline} from "./timeline";
-import {Option} from "../../declare/EditorUtil";
+import {Option} from "../../declare/InsertUtil";
 import {toMap} from "../../utils/common/toMap";
 
 export const mermaidGraphList = [

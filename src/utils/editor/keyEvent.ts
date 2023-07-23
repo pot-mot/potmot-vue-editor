@@ -1,4 +1,4 @@
-import type {KeyEvent} from "../../declare/EditorUtil";
+import type {KeyEvent} from "../../declare/InsertUtil";
 
 /**
  * 判断按键事件是否符合快捷键要求

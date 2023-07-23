@@ -1,4 +1,4 @@
-import {InsertUnit} from "../../declare/EditorUtil";
+import {InsertUnit} from "../../declare/InsertUtil";
 
 /**
  * 格式化插入单元的快捷键的提示

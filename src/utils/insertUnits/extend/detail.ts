@@ -1,4 +1,4 @@
-import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
+import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {ref} from "vue";
 import {simpleInsert} from "../../editor/insertUtils";
 

@@ -8,10 +8,11 @@
 				<template #insert>
 					<ul>
 						<li v-for="item in insertUnits" class="insert-text">
-                        <span ignore-drag
-							  class="hover-color-blue" @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
-							  :title='formatTriggers(item).join("\n")'
-							  v-text="item.label"/>
+                        	<span ignore-drag class="hover-color"
+								  @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
+								  :title='formatTriggers(item).join("\n")'
+								  v-text="item.label">
+							</span>
 							<template v-for="arg in item.arguments">
 								<label>{{ arg.label }}</label>
 								<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
@@ -32,17 +33,17 @@
 					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceTo"
 							  class="replace-box" placeholder="替换文本"/>
 					<div class="replace-operation" ignore-drag>
-						<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
+						<span class="hover-color" @mousedown.prevent.stop="searchNext">下一个</span>
 						<span style="display: inline-block;width: 1em;"></span>
-						<span class="hover-color-blue" @mousedown.prevent.stop="searchPrevious">上一个</span>
+						<span class="hover-color" @mousedown.prevent.stop="searchPrevious">上一个</span>
 						<span style="display: inline-block;width: 1em;"></span>
-						<span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
+						<span class="hover-color" @mousedown.prevent.stop="searchByIndex">跳转到</span>
 						<input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
 							   v-model="searchIndex">
 						<span style="display: inline-block; min-width: 3em;">/{{ searchList.length }}</span>
-						<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
+						<span class="hover-color" @mousedown.prevent.stop="replaceOne">替换当前</span>
 						<span style="display: inline-block;width: 1em;"></span>
-						<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
+						<span class="hover-color" @mousedown.prevent.stop="replaceAll">替换全部</span>
 					</div>
 				</template>
 				<template #outline>
@@ -57,6 +58,7 @@
 					ref="textarea"
 					v-model="text"
 					:placeholder="props.placeholder"
+					@mouseenter="textarea.focus()"
 					class="edit-card">
 				</textarea>
 				<div ref="previewCard"
@@ -66,7 +68,7 @@
 					</slot>
 				</div>
 			</div>
-			<ToolBar v-if="textarea !== undefined" :tools="editTools"
+			<ToolBar :tools="editTools"
 					 :position-map="new Map([['LB', {left: '0.5rem', bottom: '2rem'}], ['RB', {right: '0.5rem', bottom: '2rem'}]])">
 				<template #statisticalData>
 					<ul class="statistical-list">
@@ -103,7 +105,7 @@ export default {
 import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 
 import {resetScroll, setSyncScroll, smoothScroll} from "../utils/common/scroll";
-import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
+import type {ShortcutKey, InsertUnit} from "../declare/InsertUtil";
 import {getArgsMap} from "../utils/editor/insertUtils";
 
 import MarkdownOutline from "./MarkdownOutline.vue";
@@ -166,6 +168,10 @@ const props = defineProps({
 		type: String,
 		required: false,
 		default: '540px',
+	},
+	tools: {
+		type: Array as PropType<string[]>,
+		required: false,
 	},
 
 	shortcutKeys: {
@@ -539,6 +545,20 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 	},
 	<ShortcutKey>{
 		trigger: {
+			key: 'F3',
+		},
+		method: (e: KeyboardEvent) => {
+			if (e.shiftKey) {
+				searchPrevious()
+			} else {
+				searchNext()
+			}
+		},
+		prevent: true,
+		reject: true,
+	},
+	<ShortcutKey>{
+		trigger: {
 			key: ['r', 'f'],
 			ctrl: true
 		},
@@ -678,7 +698,9 @@ defineExpose({
 
 <style lang="scss" scoped>
 .editor {
-	color: var(--editor-font-color);
+	box-sizing: border-box;
+
+	color: var(--editor-default-color);
 
 	padding: 0 0.5em;
 	margin: 0;
@@ -697,12 +719,16 @@ defineExpose({
 	}
 
 	* {
-		color: var(--editor-font-color);
+		color: var(--editor-default-color);
 		box-sizing: border-box;
 		margin: 0;
 	}
 
-	.hover-color-blue:hover {
+	.hover-color:hover {
+		color: var(--editor-color);
+	}
+
+	.hover-color:hover {
 		color: var(--editor-hover-color);
 	}
 
@@ -738,7 +764,7 @@ defineExpose({
 	top: 0;
 	left: 0;
 	height: 100vh;
-	width: calc(100vw - 1em);
+	width: 100vw;
 	z-index: 10000;
 	background-color: var(--editor-full-back-color);
 }
@@ -798,7 +824,7 @@ defineExpose({
 }
 
 .editor.non-full > .container {
-	height: calc(99% - 3.5em);
+	height: calc(100% - 4rem);
 
 	> .edit-card,
 	> .preview-card {
@@ -944,7 +970,6 @@ defineExpose({
 		font-size: 0.8rem;
 		display: inline-block;
 		padding: 0 0.5rem;
-		color: var(--editor-light-color);
 	}
 }
 </style>

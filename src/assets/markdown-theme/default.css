@@ -8,10 +8,10 @@
     --light-back-color: #f5f5f5;
     --lightter-back-color: #fefefe;
 
-    --link-color: #2167da;
-    --link-hover-color: #47a2ec;
-    --link-visited-color: #723dd7;
-    --link-visited-hover-color: #be82ff;
+    --link-color: #2360bb;
+    --link-hover-color: #5399f8;
+    --link-visited-color: #290467;
+    --link-visited-hover-color: #4007a2;
 }
 
 .dark.markdown-body,
@@ -24,8 +24,8 @@
     --light-back-color: #2d2d2d;
     --lightter-back-color: #232323;
 
-    --link-color: #2167da;
-    --link-hover-color: #47a2ec;
-    --link-visited-color: #6e3cd7;
-    --link-visited-hover-color: #be82ff;
+    --link-color: #466ed2;
+    --link-hover-color: #64a0ff;
+    --link-visited-color: #8c64d2;
+    --link-visited-hover-color: #b48ceb;
 }

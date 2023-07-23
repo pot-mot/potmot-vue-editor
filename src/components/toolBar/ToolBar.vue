@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {computed, PropType, ref} from "vue";
-import {EditTool} from "../../declare/EditorUtil";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
 import {toMap} from "../../utils/common/toMap";
@@ -64,10 +63,10 @@ const clickTool = (tool: EditTool) => {
 <template>
 	<div class="toolbar" ref="toolbar">
 		<ul v-for="position in positionMap.keys()" :class="position">
-			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label"
-				@click.prevent.stop="clickTool(tool)">
+			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label">
 				<SvgIcon
 					v-if="tool.icon"
+					@click.prevent.stop="clickTool(tool)"
 					:name="tool.icon"
 					size="1rem"
 					class="icon"

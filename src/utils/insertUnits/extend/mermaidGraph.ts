@@ -1,5 +1,5 @@
 import {mermaidTypeMap, mermaidTypeNameList} from "../../../constants/mermaidGraph";
-import {InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
+import {InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {ref} from "vue";
 import {simpleInsert} from "../../editor/insertUtils";
 

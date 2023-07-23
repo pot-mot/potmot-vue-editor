@@ -1,5 +1,5 @@
 import {Ref} from "vue";
-import {InsertUnit} from "../../declare/EditorUtil";
+import {InsertUnit} from "../../declare/InsertUtil";
 import {now} from "../common/time";
 import {getLeadingSpace} from "../common/text";
 

@@ -103,6 +103,7 @@ const setPosition = () => {
 
 <style scoped lang="scss">
 .context-menu {
+	box-sizing: border-box;
 	position: absolute;
 	cursor: all-scroll;
 	display: flex;
@@ -111,6 +112,10 @@ const setPosition = () => {
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
+
+	* {
+		box-sizing: border-box;
+	}
 
 	> .content {
 		flex: 1;
@@ -146,7 +151,6 @@ const setPosition = () => {
 		}
 
 		> .menu {
-			box-sizing: border-box;
 			min-height: 3em;
 			height: calc(100% - 1.6rem);
 			overflow-y: auto;

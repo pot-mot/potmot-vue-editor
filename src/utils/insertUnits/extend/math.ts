@@ -1,4 +1,4 @@
-import {InsertUnit} from "../../../declare/EditorUtil";
+import {InsertUnit} from "../../../declare/InsertUtil";
 import {simpleInsert} from "../../editor/insertUtils";
 
 export const math: InsertUnit = {

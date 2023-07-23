@@ -1,4 +1,4 @@
-import {InsertUnit} from "../../../declare/EditorUtil";
+import {InsertUnit} from "../../../declare/InsertUtil";
 import {formatInsert} from "../../editor/insertUtils";
 import {quoteFormat} from "../../markdownFormat/quote";
 

@@ -3,7 +3,7 @@ import {updateTextarea} from "../utils/common/textarea";
 import {useHistoryStack} from "./useHistoryStack";
 import {now} from "../utils/common/time";
 import {nextTick, onMounted, Ref, ref} from "vue";
-import {InsertUnit, ShortcutKey} from "../declare/EditorUtil";
+import {InsertUnit, ShortcutKey} from "../declare/InsertUtil";
 import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/keyEvent";
 
 export const useInputExtension = (

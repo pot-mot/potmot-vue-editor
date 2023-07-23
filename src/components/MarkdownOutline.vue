@@ -212,15 +212,20 @@ const act = throttle(() => {
     > li {
         display: block;
         font-style: normal;
-        color: inherit;
         text-decoration: none;
         cursor: pointer;
         white-space: nowrap;
         overflow-x: hidden;
+		color: var(--editor-default-color);
 
         &.current {
+			color: var(--editor-default-color);
             font-weight: 600;
         }
+
+		&:hover {
+			color: var(--editor-hover-color);
+		}
     }
 }
 </style>

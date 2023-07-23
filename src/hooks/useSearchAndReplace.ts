@@ -100,7 +100,6 @@ export const useSearchAndReplace = (
         if (searchData.index > 0) {
             searchData.index--;
         } else {
-            alert("已找到起点，将回到末尾")
             searchData.index = searchData.indexes.length - 1
         }
         searchCurrent();
@@ -117,7 +116,6 @@ export const useSearchAndReplace = (
         if (searchData.index < searchData.indexes.length - 1) {
             searchData.index++
         } else {
-            alert("已找到末尾，将回到起点")
             searchData.index = 0
         }
         searchCurrent()
@@ -133,11 +131,16 @@ export const useSearchAndReplace = (
 
         if (searchData.indexes.length == 0) {
             searchData.index = -1
+            alert("无文本可替换")
             return
         }
 
         if (replaceFrom.value != text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)) {
-            alert("未选中");
+            alert("匹配文本未选中")
+            if (searchData.index == -1 && searchData.indexes.length > 0) {
+                searchData.index = 0
+                searchCurrent()
+            }
             return
         }
 
@@ -180,6 +183,7 @@ export const useSearchAndReplace = (
 
         if (searchData.indexes.length == 0) {
             searchData.index = -1
+            alert("无文本可替换")
             return
         }
 

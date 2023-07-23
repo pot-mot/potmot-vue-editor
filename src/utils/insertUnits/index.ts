@@ -1,4 +1,4 @@
-import {InsertUnit} from "../../declare/EditorUtil";
+import {InsertUnit} from "../../declare/InsertUtil";
 
 import {title} from "./markdown/title";
 import {table} from "./markdown/table";

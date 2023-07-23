@@ -1,5 +1,5 @@
 import {limit} from "../../common/math";
-import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/EditorUtil";
+import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {ref} from "vue";
 import {formatInsert} from "../../editor/insertUtils";
 import {tableCreate, tableFormat} from "../../markdownFormat/table";

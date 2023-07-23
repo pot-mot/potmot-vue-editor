@@ -1,4 +1,4 @@
-import {Option} from "../../declare/EditorUtil";
+import {Option} from "../../declare/InsertUtil";
 
 export const stateDiagram: Option = {
     key: "stateDiagram-v2",
