@@ -274,7 +274,7 @@ const editTools = reactive(<EditTool[]>[
 		icon: "history",
 		active: false,
 		contextMenu: true,
-		show: () => true,
+		show: () => false,
 		position: "RB",
 		method: (self: EditTool) => {
 			self.active = !self.active
@@ -953,8 +953,7 @@ defineExpose({
 }
 
 .editor.no-wrap > .container {
-	> .edit-card,
-	> .preview-card {
+	> .edit-card {
 		overflow-x: auto;
 		white-space: nowrap;
 	}
