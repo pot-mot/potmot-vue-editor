@@ -1,5 +1,5 @@
 <template>
-	<MarkdownEditor v-model="text" :start-with-full-screen="true">
+	<MarkdownEditor v-model="text">
 	</MarkdownEditor>
 </template>
 

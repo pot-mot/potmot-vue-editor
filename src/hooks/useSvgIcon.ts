@@ -1,5 +1,7 @@
-import {onMounted} from "vue";
+import {onBeforeUnmount, onMounted} from "vue";
 import {svgIcon, svgIconPrefix} from "../constants/icon/svgIcon";
+import {setStyle} from "../utils/common/style";
+import {hideStyle} from "../constants/css/style";
 
 export const useSvgIcon = (icons: (string | undefined)[], containerId: string = `${svgIconPrefix}container`) => {
     const svgNameList = new Set
@@ -15,11 +17,7 @@ export const useSvgIcon = (icons: (string | undefined)[], containerId: string = 
         } else {
             const item = document.createElement('div')
             item.id = containerId
-            item.style.overflow = "hidden"
-            item.style.width = "0"
-            item.style.height = "0"
-            item.style.display = "none"
-            item.style.visibility = "hidden"
+            setStyle(item, hideStyle)
             document.documentElement.appendChild(item)
             container = item
         }
@@ -30,5 +28,10 @@ export const useSvgIcon = (icons: (string | undefined)[], containerId: string = 
                 container.innerHTML += svgIcon[iconName]!
             }
         })
+    })
+
+    onBeforeUnmount(() => {
+        let container: HTMLElement | null = document.getElementById(containerId)
+        if (container) container.remove()
     })
 }

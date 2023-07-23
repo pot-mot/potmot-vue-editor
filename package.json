@@ -43,6 +43,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^10.2.1",
     "d3": "^4.13.0",
     "katex": "^0.16.4",
     "lodash": "^4.17.21",

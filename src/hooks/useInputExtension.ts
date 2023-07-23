@@ -151,7 +151,9 @@ export const useInputExtension = (
             } else if (e.key == 'Enter') {
                 e.preventDefault()
                 history = batchEnter(el, e)
-                if (history && history.type) historyType.value = history.type
+                if (history && history.type) {
+                    historyType.value = history.type
+                }
             } else if (['(', '[', '{', '"', "'", '`'].includes(e.key)) {
                 historyType.value = 'complete' + now()
                 e.preventDefault()

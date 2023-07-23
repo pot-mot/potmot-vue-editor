@@ -3,7 +3,7 @@
 		<div class="editor"
 			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', isEditorDarkTheme? 'dark' : 'light', isWrap? 'wrap' : 'no-wrap']"
 			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
-			<ToolBar  v-if="textarea !== undefined" :tools="editTools"
+			<ToolBar v-if="textarea !== undefined" :tools="editTools"
 					 :position-map="new Map([['LT', {left: '0.5rem', top: '2rem'}], ['RT', {right: '0.5rem', top: '2rem'}]])">
 				<template #insert>
 					<ul>
@@ -27,9 +27,9 @@
 					</ul>
 				</template>
 				<template #replace>
-					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceFrom"
+					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceFrom"
 							  class="replace-box" placeholder="查找文本"/>
-					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceData.replaceTo"
+					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceTo"
 							  class="replace-box" placeholder="替换文本"/>
 					<div class="replace-operation" ignore-drag>
 						<span class="hover-color-blue" @mousedown.prevent.stop="searchNext">下一个</span>
@@ -39,7 +39,7 @@
 						<span class="hover-color-blue" @mousedown.prevent.stop="searchByIndex">跳转到</span>
 						<input type="number" style="width: 4em;" @keydown.prevent.self.enter="searchByIndex"
 							   v-model="searchIndex">
-						<span style="display: inline-block; min-width: 3em;">/{{ searchData.indexes.length }}</span>
+						<span style="display: inline-block; min-width: 3em;">/{{ searchList.length }}</span>
 						<span class="hover-color-blue" @mousedown.prevent.stop="replaceOne">替换当前</span>
 						<span style="display: inline-block;width: 1em;"></span>
 						<span class="hover-color-blue" @mousedown.prevent.stop="replaceAll">替换全部</span>
@@ -66,7 +66,7 @@
 					</slot>
 				</div>
 			</div>
-			<ToolBar  v-if="textarea !== undefined" :tools="editTools"
+			<ToolBar v-if="textarea !== undefined" :tools="editTools"
 					 :position-map="new Map([['LB', {left: '0.5rem', bottom: '2rem'}], ['RB', {right: '0.5rem', bottom: '2rem'}]])">
 				<template #statisticalData>
 					<ul class="statistical-list">
@@ -82,16 +82,13 @@
 				</template>
 				<template #history>
 					<ul style="height: 100%; overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack">
-						<li v-for="item in undoStack" style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
+						<li v-for="item in undoStack"
+							style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
 							{{ item.type }}
 						</li>
 					</ul>
 				</template>
 			</ToolBar>
-			<div ref="searchCalculate"
-				 class="search-calculate-box"
-				 v-html="searchCalculateSubText">
-			</div>
 		</div>
 	</Teleport>
 </template>
@@ -104,7 +101,6 @@ export default {
 
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
-import {debounce} from "lodash";
 
 import {resetScroll, setSyncScroll, smoothScroll} from "../utils/common/scroll";
 import type {ShortcutKey, EditTool, InsertUnit} from "../declare/EditorUtil";
@@ -118,7 +114,7 @@ import {vAdapt} from "../directives/vAdapt";
 import {vInputExtension} from "../directives/vInputExtension";
 import {vKeepBottom} from "../directives/vKeepBottom";
 
-import {getPlace, useStatistics} from "../hooks/useStatistics";
+import {useStatistics} from "../hooks/useStatistics";
 import {useInputExtension} from "../hooks/useInputExtension";
 import {useSyncScroll} from "../hooks/useSyncScroll";
 import {useSvgIcon} from "../hooks/useSvgIcon";
@@ -130,8 +126,8 @@ import {now} from "../utils/common/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
-import {getCurrentLineBefore, getLeadingMarks} from "../utils/common/text";
-import {syncSearchCssStyle} from "../utils/common/css";
+import {getLeadingMarks} from "../utils/common/text";
+import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
 
 // 元素
 const textarea = ref();
@@ -547,7 +543,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			ctrl: true
 		},
 		method: () => {
-			replaceData.replaceFrom = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)
+			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)
 			isReplace.value = true
 		},
 		prevent: true,
@@ -589,191 +585,34 @@ const {
  * 查找与替换功能
  */
 //region Search And Replace
-// 用于测算 textarea 当前文本高度的工具盒子
-let searchCalculate = ref();
+const {
+	searchIndex,
+	searchList,
+	searchByIndex,
+	searchPrevious,
+	searchNext,
 
-const searchData = reactive({
-	index: -1,
-	indexes: <number[]>[],
-})
+	replaceFrom,
+	replaceTo,
+	replaceAll,
+	replaceOne,
 
-const replaceData = reactive({
-	replaceFrom: "",
-	replaceTo: "",
-})
-
-
-watch(() => replaceData.replaceFrom, () => {
-	if (replaceData.replaceFrom.length <= 0) {
-		searchData.index = -1;
-		searchData.indexes = [];
-		return;
-	}
-	setSearchData();
-})
-
-watch(() => text.value, () => {
-	setSearchData();
-})
-
-const setSearchData = debounce((keepSearch: boolean = false) => {
-	const indexSave = searchData.index
-	searchData.index = -1;
-	searchData.indexes = [];
-	if (replaceData.replaceFrom.length <= 0) return;
-	if (text.value.length <= 0) return;
-	if (textarea.value == undefined || searchCalculate.value == undefined) return;
-
-	let index = text.value.indexOf(replaceData.replaceFrom, 0);
-	let count = 0;
-	while (index >= 0) {
-		let temp = text.value.indexOf(replaceData.replaceFrom, index);
-		if (temp < 0) break;
-		if (textarea.value.selectionStart == temp && textarea.value.selectionEnd - textarea.value.selectionStart == replaceData.replaceFrom.length) {
-			searchData.index = count;
-		}
-		searchData.indexes.push(temp);
-		index = temp + replaceData.replaceFrom.length;
-		count++;
-	}
-	if (keepSearch && searchData.indexes.length > 0) {
-		searchData.index = indexSave > 0 ? indexSave : 0
-		searchCurrent(false)
-	}
-}, 200)
-
-let searchCalculateSubText = ref("")
-
-const searchIndex = ref(0)
-
-watch(() => searchData.index, () => {
-	searchIndex.value = searchData.index + 1
-})
-
-const searchCurrent = (focus: boolean = true) => {
-	if (searchData.indexes.length == 0) {
-		searchData.index = -1
-		return
-	}
-
-	const {y} = getPlace(searchData.indexes[searchData.index], text.value)
-	const line = getCurrentLineBefore(text.value, searchData.indexes[searchData.index])
-	const subTexts = []
-	for (let i = 0; i < y; i++) {
-		subTexts.push("\n")
-	}
-	subTexts.push(line + replaceData.replaceFrom)
-	searchCalculateSubText.value = subTexts.join('').replaceAll('\n', '<br>')
-
-	syncSearchCssStyle(searchCalculate.value, textarea.value)
-
-	nextTick(() => {
-		if (focus) textarea.value.focus()
-
-		const topDelta: number = searchCalculate.value.scrollHeight - textarea.value.clientHeight / 2.4
-		const leftDelta: number = searchCalculate.value.scrollWidth - textarea.value.clientWidth / 3
-
-		const history: EditorHistory = {
-			type: 'searchCurrent' + now(),
-			text: text.value,
-			start: searchData.indexes[searchData.index],
-			end: searchData.indexes[searchData.index] + replaceData.replaceFrom.length,
-			scrollTop: topDelta > 0 ? topDelta : 0,
-			scrollLeft: leftDelta > 0 ? leftDelta : 0
-		}
+} = useSearchAndReplace(
+	textarea,
+	text,
+	(history) => {
+		textarea.value.focus()
 		push(history, smoothChangeHook)
-	})
-}
-
-const searchByIndex = () => {
-	const index = searchIndex.value
-	if (index <= 0 || index > searchData.indexes.length) {
-		searchIndex.value = 0
-		return
+	},
+	(history) => {
+		textarea.value.focus()
+		push(history, smoothChangeHook)
+	},
+	(history) => {
+		textarea.value.focus()
+		push(history, smoothChangeHook)
 	}
-	searchData.index = index - 1
-
-	searchCurrent()
-}
-
-const searchPrevious = () => {
-	if (textarea.value == undefined) return;
-
-	if (searchData.indexes.length == 0) {
-		searchData.index = -1
-		return;
-	}
-
-	if (searchData.index > 0) {
-		searchData.index--;
-	} else {
-		searchData.index = searchData.indexes.length - 1
-	}
-	searchCurrent();
-}
-
-const searchNext = () => {
-	if (textarea.value == undefined) return;
-
-	if (searchData.indexes.length == 0) {
-		searchData.index = -1
-		return
-	}
-
-	if (searchData.index < searchData.indexes.length - 1) {
-		searchData.index++
-	} else {
-		searchData.index = 0
-	}
-	searchCurrent()
-}
-
-const replaceOne = () => {
-	if (replaceData.replaceFrom.length <= 0) {
-		alert("替换文本不可为空");
-		return
-	}
-
-	if (searchData.indexes.length == 0) {
-		searchData.index = -1
-		return
-	}
-
-	if (replaceData.replaceFrom != text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)) {
-		return
-	}
-
-	const start = searchData.indexes[searchData.index]
-	const end = start + replaceData.replaceFrom.length
-
-	const history: EditorHistory = {
-		start,
-		end: start + replaceData.replaceTo.length,
-		text: text.value.slice(0, start) + replaceData.replaceTo + text.value.slice(end),
-		type: 'replaceOne' + now(),
-		scrollTop: textarea.value.scrollTop,
-		scrollLeft: textarea.value.scrollLeft
-	}
-	push(history, smoothChangeHook)
-}
-
-const replaceAll = () => {
-	if (replaceData.replaceFrom.length <= 0) {
-		alert("替换文本不可为空");
-		return
-	}
-
-	if (searchData.indexes.length == 0) {
-		searchData.index = -1
-		return
-	}
-
-	text.value = text.value.replaceAll(replaceData.replaceFrom, replaceData.replaceTo)
-	nextTick(() => {
-		setHistoryType('replaceAll' + now())
-		push()
-	})
-}
+)
 //endregion
 
 /**
@@ -818,11 +657,11 @@ defineExpose({
 	setHistoryType,
 	changeHook,
 	pushDefault,
-
-	searchData,
-	replaceData,
+	searchIndex,
+	searchList,
+	replaceFrom,
+	replaceTo,
 	statisticalData,
-
 	shortcutKeys,
 	insertUnits: props.insertUnits,
 	argsMap,
@@ -884,8 +723,7 @@ defineExpose({
 		border-radius: 0;
 		font-family: inherit;
 		cursor: text;
-		overflow-wrap: break-word;
-		word-break: break-all;
+		word-break: break-word;
 		word-wrap: anywhere;
 	}
 }
@@ -1108,18 +946,5 @@ defineExpose({
 		padding: 0 0.5rem;
 		color: var(--editor-light-color);
 	}
-}
-
-.editor > .search-calculate-box {
-	position: fixed;
-	left: -1000vh;
-	top: -1000vw;
-	visibility: hidden;
-
-	pointer-events: none;
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
 }
 </style>
