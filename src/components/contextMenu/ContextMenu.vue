@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {vDrag} from "../../directives/vDrag";
-import {onMounted, PropType, ref} from "vue";
+import {onMounted, PropType, ref, watch} from "vue";
 import SvgIcon from "../svg/SvgIcon.vue";
 import {useSvgIcon} from "../../hooks/useSvgIcon";
+import {ToolContextMenu} from "../../declare/EditTool";
 
 const contextMenu = ref()
 
@@ -11,19 +12,13 @@ useSvgIcon(["close"])
 const emit = defineEmits(['cancel'])
 
 const props = defineProps({
-	position: {
-		type: Object as PropType<Position>,
-		required: false,
-		default: {top: 0, left: 0},
+	menu: {
+		type: Object as PropType<ToolContextMenu>,
+		required: true,
 	},
 	dragRange: {
 		type: Object as PropType<PositionRange>,
 		required: false,
-	},
-	visible: {
-		type: Boolean,
-		required: false,
-		default: true
 	},
 	title: {
 		type: String,
@@ -42,32 +37,43 @@ onMounted(() => {
 })
 
 const close = () => {
-	setPosition()
 	emit("cancel")
 }
 
+watch(() => props.menu.visible, (newVal) => {
+	if (!newVal) {
+		setPosition()
+	}
+})
+
+watch(() => props.menu.position, () => {
+	setPosition()
+})
+
 const setPosition = () => {
-	if (props.resetPosition && contextMenu.value && props.position) {
-		if (props.position.top != undefined) {
-			contextMenu.value.style.top = props.position.top
+	if (props.resetPosition && contextMenu.value && props.menu.position) {
+		let position: Position = props.menu.position
+
+		if (position.top != undefined) {
+			contextMenu.value.style.top = position.top
 		} else {
 			contextMenu.value.style.top = 'auto'
 		}
 
-		if (props.position.left != undefined) {
-			contextMenu.value.style.left = props.position.left
+		if (position.left != undefined) {
+			contextMenu.value.style.left = position.left
 		} else {
 			contextMenu.value.style.left = 'auto'
 		}
 
-		if (props.position.right != undefined) {
-			contextMenu.value.style.right = props.position.right
+		if (position.right != undefined) {
+			contextMenu.value.style.right = position.right
 		} else {
 			contextMenu.value.style.right = 'auto'
 		}
 
-		if (props.position.bottom != undefined) {
-			contextMenu.value.style.bottom = props.position.bottom
+		if (position.bottom != undefined) {
+			contextMenu.value.style.bottom = position.bottom
 		} else {
 			contextMenu.value.style.bottom = 'auto'
 		}
@@ -76,7 +82,7 @@ const setPosition = () => {
 </script>
 
 <template>
-	<div v-show="visible"
+	<div v-show="menu.visible"
 		 class="context-menu"
 		 ref="contextMenu"
 		 v-drag="props.dragRange">

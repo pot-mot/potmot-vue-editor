@@ -38,7 +38,7 @@ interface KeyEventConfig {
 
 interface ShortcutKey extends KeyEventConfig {
     trigger: KeyEvent
-    method: Function
+    onEmit: Function
 }
 
 interface InsertUnit extends KeyEventConfig {

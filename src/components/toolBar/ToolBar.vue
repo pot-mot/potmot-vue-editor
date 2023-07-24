@@ -1,71 +1,61 @@
 <script setup lang="ts">
-import {computed, PropType, ref} from "vue";
+import {computed, PropType} from "vue";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
-import {toMap} from "../../utils/common/toMap";
 import SvgIcon from "../svg/SvgIcon.vue";
+import {EditTool} from "../../declare/EditTool";
+import {
+	closeContextMenu,
+	exeToolClick,
+} from "../../utils/editor/editTool";
 
 const props = defineProps({
 	tools: {
 		type: Array as PropType<EditTool[]>,
 		required: true,
 	},
-	positionMap: {
-		type: Object as PropType<Map<string, Position | undefined>>,
+	positions: {
+		type: Array as PropType<string[]>,
 		required: false,
-		default: new Map
-	}
+		default: [],
+	},
 })
 
 const emits = defineEmits(["clickTool"])
 
-const toolbar = ref()
-
-const toolPositionMap = computed(() => {
+const toolMap = computed(() => {
 	return groupBy(props.tools, 'position')
 })
 
-const toolMap = computed(() => {
-	return toMap(props.tools, 'name')
-})
-
-const contextMenus = computed(() => {
-	const map = new Map<string, any>()
-	props.tools.forEach(item => {
-		if (!item.contextMenu) return
-		map.set(item.name, {
-			visible: getContextMenuShow(item.name),
-			position: getContextMenuPosition(item.name)
-		})
+const menuTools = computed(() => {
+	return <EditTool[]>props.tools.filter(tool => {
+		if (!props.positions?.includes(tool.position)) return false
+		return tool.contextMenu;
 	})
-	return map
 })
-
-const getContextMenuShow = (key: string): boolean => {
-	if (!toolMap.value.has(key)) return false
-	const item = toolMap.value.get(key)!
-	if (item.show == undefined) return false
-	return item.show() && item.active
-}
-
-const getContextMenuPosition = (key: string) => {
-	if (!toolMap.value.has(key)) return {}
-	const item = toolMap.value.get(key)!
-	return props.positionMap.get(item.position)
-}
 
 const clickTool = (tool: EditTool) => {
-	tool.method(tool)
-	emits("clickTool", {tool})
+	const result = exeToolClick(tool)
+	emits("clickTool", {tool, result})
 }
 </script>
 
 <template>
-	<div class="toolbar" ref="toolbar">
-		<ul v-for="position in positionMap.keys()" :class="position">
-			<li v-for="tool in toolPositionMap.get(position)" v-show="tool.show?.()" :title="tool.label">
+	<div class="toolbar">
+		<template v-for="tool in menuTools">
+			<ContextMenu
+				v-if="tool.contextMenu"
+				:title="tool.label"
+				:menu="tool.contextMenu"
+				@cancel="closeContextMenu(tool)">
+				<slot :name="tool.name"></slot>
+			</ContextMenu>
+		</template>
+		<ul v-for="position in props.positions" :class="position">
+			<li v-for="tool in toolMap.get(position)" v-show="tool.show" :title="tool.label">
+				<div v-if="tool.svg" v-html="tool.svg"></div>
 				<SvgIcon
-					v-if="tool.icon"
+					v-else-if="tool.icon"
 					@click.prevent.stop="clickTool(tool)"
 					:name="tool.icon"
 					size="1rem"
@@ -74,16 +64,6 @@ const clickTool = (tool: EditTool) => {
 				</SvgIcon>
 				<slot v-else :name="`${tool.name}`">
 				</slot>
-				<teleport :to="toolbar" :disabled="!toolbar">
-					<ContextMenu
-						v-if="tool.contextMenu"
-						:title="tool.label"
-						:visible="contextMenus.get(tool.name).visible"
-						:position="contextMenus.get(tool.name).position"
-						@cancel="tool.active = false">
-						<slot :name="tool.name"></slot>
-					</ContextMenu>
-				</teleport>
 			</li>
 		</ul>
 	</div>

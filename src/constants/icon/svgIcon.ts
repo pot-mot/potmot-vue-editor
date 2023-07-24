@@ -92,7 +92,7 @@ export const wrap = `
 </svg>
 `
 
-export const svgIcon: {
+export const svgIcons: {
     [key: string]: string
 } = {
     close,
@@ -111,4 +111,4 @@ export const svgIcon: {
     wrap
 }
 
-export const svgIconNameList = getKeys(svgIcon)
+export const svgIconNameList = getKeys(svgIcons)

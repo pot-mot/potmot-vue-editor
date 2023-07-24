@@ -1,10 +1,9 @@
 <template>
 	<Teleport :disabled="!isFullScreen" to="body">
-		<div class="editor"
-			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', isEditorDarkTheme? 'dark' : 'light', isWrap? 'wrap' : 'no-wrap']"
+		<div class="editor" ref="editor"
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', EditorColorTheme, isWrap? 'wrap' : 'no-wrap']"
 			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
-			<ToolBar v-if="textarea !== undefined" :tools="editTools"
-					 :position-map="new Map([['LT', {left: '0.5rem', top: '2rem'}], ['RT', {right: '0.5rem', top: '2rem'}]])">
+			<ToolBar v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
 				<template #insert>
 					<ul>
 						<li v-for="item in insertUnits" class="insert-text">
@@ -68,8 +67,7 @@
 					</slot>
 				</div>
 			</div>
-			<ToolBar :tools="editTools"
-					 :position-map="new Map([['LB', {left: '0.5rem', bottom: '2rem'}], ['RB', {right: '0.5rem', bottom: '2rem'}]])">
+			<ToolBar :tools="toolList" :positions="['LB', 'RB']">
 				<template #statisticalData>
 					<ul class="statistical-list">
 						<li>字数 {{ text.length }}</li>
@@ -102,7 +100,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {computed, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
+import {computed, ComputedRef, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 
 import {resetScroll, setSyncScroll, smoothScroll} from "../utils/common/scroll";
 import type {ShortcutKey, InsertUnit} from "../declare/InsertUtil";
@@ -123,17 +121,20 @@ import {useSvgIcon} from "../hooks/useSvgIcon";
 
 import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 
-import {isDarkTheme, isMobile} from "../utils/common/platform";
+import {isMobile} from "../utils/common/platform";
 import {now} from "../utils/common/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {getLeadingMarks} from "../utils/common/text";
 import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
+import {useColorMode} from "@vueuse/core";
+import {EditTool} from "../declare/EditTool";
 
 // 元素
-const textarea = ref();
-const previewCard = ref();
+const editor = ref()
+const textarea = ref()
+const previewCard = ref()
 
 /**
  * 文本与统计数据
@@ -197,236 +198,190 @@ const props = defineProps({
  * 工具栏与状态
  */
 //region Tool and Status
-const editTools = reactive(<EditTool[]>[
-	<EditTool>{
+const isFullScreen = ref(false)
+
+const isReplace = ref(false)
+
+const isPreview = ref(false)
+
+const isOutline = ref(false)
+
+const isSyncScroll = ref(false)
+
+const EditorColorTheme = ref('')
+
+const isUnFullPreview: ComputedRef<boolean> = computed(() => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value))
+
+const isWrap = ref(false)
+
+const toolList = reactive(<EditTool[]>[
+	{
 		name: "insert",
 		label: "快捷插入",
+		active: ref(false),
 		icon: "more",
-		active: false,
-		contextMenu: true,
-		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
+		show: isUnFullPreview,
 		position: "LT",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
+		contextMenu: {
+			position: {},
+			visible: false,
+		},
 	},
-	<EditTool>{
+	{
 		name: "replace",
 		label: "文本查找与替换",
+		active: isReplace,
 		icon: "search",
-		active: false,
-		contextMenu: true,
-		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
+		show: isUnFullPreview,
 		position: "LT",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
+		contextMenu: {
+			position: {},
+			visible: false,
+		},
 	},
-	<EditTool>{
+	{
 		name: "undo",
 		label: "撤销",
 		icon: "undo",
-		active: false,
-		contextMenu: false,
-		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
+		disable: computed(() => undoStack.value.length <= 1),
+		show: isUnFullPreview,
 		position: "LT",
-		method: () => {
+		onClick: () => {
 			setHistoryType("undo" + now())
 			undo()
 		}
 	},
-	<EditTool>{
+	{
 		name: "redo",
 		label: "重做",
 		icon: "redo",
-		active: false,
-		contextMenu: false,
-		show: () => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value),
+		disable: computed(() => redoStack.value.length <= 0),
+		show: isUnFullPreview,
 		position: "LT",
-		method: () => {
+		onClick: () => {
 			setHistoryType("redo" + now())
 			redo();
 		}
 	},
 
-	<EditTool>{
+	{
 		name: "statisticalData",
 		label: "统计数据",
-		active: false,
-		contextMenu: false,
-		show: () => true,
+		show: true,
 		position: "LB",
 	},
 
-	<EditTool>{
+	{
 		name: "wrap",
 		label: "换行",
 		icon: "wrap",
-		active: true,
-		contextMenu: false,
-		show: () => true,
+		active: ref(true),
+		show: true,
 		position: "RB",
-		method: (self: EditTool) => {
+		onClick: (self: EditTool) => {
 			self.active = !self.active
 		}
 	},
-	<EditTool>{
+	{
 		name: "history",
 		label: "历史记录",
 		icon: "history",
-		active: false,
-		contextMenu: true,
-		show: () => false,
+		active: ref(false),
+		show: false,
 		position: "RB",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
+		contextMenu: {
+			position: {},
+			visible: false,
+		},
 	},
-	<EditTool>{
-		name: "darkTheme",
-		label: "暗色主题",
+	{
+		name: "colorTheme",
+		label: "主题",
 		icon: "night",
-		active: false,
-		contextMenu: false,
-		show: () => true,
+		active: computed(() => EditorColorTheme.value == 'dark'),
+		show: true,
 		position: "RB",
-		method: (self: EditTool) => {
-			self.active = !self.active
+		onClick: (self: EditTool) => {
+			if (self.active) {
+				EditorColorTheme.value = 'light'
+			} else {
+				EditorColorTheme.value = 'dark'
+			}
 		}
 	},
-	<EditTool>{
+	{
 		name: "syncScroll",
 		label: "滚动同步",
 		icon: "lock",
-		active: true,
-		contextMenu: false,
-		show: () => true,
+		active: isSyncScroll,
+		show: true,
 		position: "RB",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
 	},
 
-	<EditTool>{
+	{
 		name: "outline",
 		label: "预览大纲",
 		icon: "outline",
-		active: false,
-		contextMenu: true,
-		show: () => isPreview.value,
+		active: isOutline,
+		show: isPreview,
 		position: "RT",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
+		contextMenu: {
+			position: {},
+			visible: false,
+		},
 	},
-	<EditTool>{
+	{
 		name: "preview",
 		label: "预览",
 		icon: "preview",
-		active: false,
-		contextMenu: false,
-		show: () => true,
+		active: isPreview,
+		show: true,
 		position: "RT",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		}
+		contextMenu: {
+			position: {},
+			visible: false,
+		},
 	},
-	<EditTool>{
+	{
 		name: "fullScreen",
 		label: "全屏/收起全屏",
-		icon: "fullScreen",
-		active: false,
-		contextMenu: false,
-		show: () => true,
+		icon: ref("fullScreen"),
+		active: isFullScreen,
+		show: true,
 		position: "RT",
-		method: (self: EditTool) => {
-			self.active = !self.active
-		},
 	},
 ])
 
-const toolMap = computed(() => {
-	const map = new Map<string, EditTool>()
-	editTools.forEach(item => map.set(item.name, item))
-	return map
-})
-
-const getEditToolActive = (key: string): boolean => {
-	if (!toolMap.value.has(key)) return false
-	return toolMap.value.get(key)!.active
+const getPosition = (tool: EditTool): Position => {
+	if (!editor.value) return {}
+	const {paddingLeft: left, paddingRight: right} = window.getComputedStyle(editor.value)
+	switch (tool.position) {
+		case "LT": return {left, top: '2rem'}
+		case "LB": return {left, bottom: '2rem'}
+		case "RT": return {right, top: '2rem'}
+		case "RB": return {right, bottom: '2rem'}
+	}
+	return {}
 }
 
-const setEditToolActive = (key: string, newValue: boolean): void => {
-	if (!toolMap.value.has(key)) return
-	const item = toolMap.value.get(key)!
-	item.active = newValue
-}
+onMounted(() => {
+	toolList.forEach(tool => {
+		if (tool.contextMenu) tool.contextMenu.position = getPosition(tool)
+	})
 
-const isFullScreen = computed({
-	get() {
-		return getEditToolActive('fullScreen')
-	},
-	set(newValue: boolean) {
-		setEditToolActive('fullScreen', newValue)
-	}
+	watch(() => isFullScreen.value, () => {
+		nextTick(() => {
+			toolList.forEach(tool => {
+				if (tool.contextMenu) tool.contextMenu.position = getPosition(tool)
+			})
+		})
+	})
 })
 
-const isReplace = computed({
-	get() {
-		return getEditToolActive('replace')
-	},
-	set(newValue: boolean) {
-		setEditToolActive('replace', newValue)
-	}
-})
+const {system: colorTheme} = useColorMode()
 
-const isPreview = computed({
-	get() {
-		return getEditToolActive('preview')
-	},
-	set(newValue: boolean) {
-		setEditToolActive('preview', newValue)
-	}
-})
-
-const isOutline = computed({
-	get() {
-		return getEditToolActive('outline')
-	},
-	set(newValue: boolean) {
-		setEditToolActive('outline', newValue)
-	}
-})
-
-const isSyncScroll = computed({
-	get() {
-		return getEditToolActive('syncScroll')
-	},
-	set(newValue: boolean) {
-		setEditToolActive('syncScroll', newValue)
-	}
-})
-
-const isEditorDarkTheme = computed({
-	get() {
-		return getEditToolActive('darkTheme')
-	},
-	set(newValue: boolean) {
-		setEditToolActive('darkTheme', newValue)
-	}
-})
-
-const isWrap = computed({
-	get() {
-		return getEditToolActive("wrap")
-	},
-	set(newValue: boolean) {
-		setEditToolActive('wrap', newValue)
-	}
-})
-
-watch(() => isDarkTheme.value, () => {
-	isEditorDarkTheme.value = isDarkTheme.value
+watch(() => colorTheme.value, () => {
+	EditorColorTheme.value = colorTheme.value
 }, {immediate: true})
 
 // 组件初始化全屏
@@ -488,7 +443,7 @@ watch(() => isPreview.value, () => {
 	setSyncScrollTop()
 })
 
-useSvgIcon(editTools.map(item => item.icon))
+useSvgIcon(toolList.map(item => item.icon))
 
 // 核心容器样式类
 const containerClass = computed(() => {
@@ -496,7 +451,6 @@ const containerClass = computed(() => {
 	if (isPreview.value) return 'edit-preview';
 	return 'edit';
 })
-
 //endregion
 
 /**
@@ -536,9 +490,13 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		trigger: {
 			key: ['Enter']
 		},
-		method: (e: KeyboardEvent) => {
+		onEmit: (e: KeyboardEvent) => {
 			setHistoryType('enter' + now())
-			push(batchEnter(textarea.value, e, getLeadingMarks))
+			if (e.altKey) {
+				push(batchEnter(textarea.value, e))
+			} else {
+				push(batchEnter(textarea.value, e, getLeadingMarks))
+			}
 		},
 		prevent: true,
 		reject: true,
@@ -547,7 +505,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		trigger: {
 			key: 'F3',
 		},
-		method: (e: KeyboardEvent) => {
+		onEmit: (e: KeyboardEvent) => {
 			if (e.shiftKey) {
 				searchPrevious()
 			} else {
@@ -562,7 +520,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			key: ['r', 'f'],
 			ctrl: true
 		},
-		method: () => {
+		onEmit: () => {
 			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)
 			isReplace.value = true
 		},
@@ -573,7 +531,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		trigger: {
 			key: "Escape"
 		},
-		method: () => {
+		onEmit: () => {
 			if (isFullScreen.value) {
 				isFullScreen.value = false
 			}
@@ -657,12 +615,14 @@ watch(() => text.value, () => {
 
 //region Expose
 defineExpose({
+	toolList,
+
 	isFullScreen,
 	isReplace,
 	isPreview,
 	isOutline,
 	isSyncScroll,
-	isDarkTheme: isEditorDarkTheme,
+	colorTheme: EditorColorTheme,
 	isWrap,
 	setSyncScrollTop,
 	useSvgIcon,
@@ -685,7 +645,6 @@ defineExpose({
 	shortcutKeys,
 	insertUnits: props.insertUnits,
 	argsMap,
-	editTools,
 })
 //endregion
 </script>
@@ -702,7 +661,6 @@ defineExpose({
 
 	color: var(--editor-default-color);
 
-	padding: 0 0.5em;
 	margin: 0;
 	overflow: visible;
 
@@ -757,6 +715,7 @@ defineExpose({
 .editor.non-full {
 	position: relative;
 	background-color: var(--editor-non-full-back-color);
+	padding: 0;
 }
 
 .editor.full {
@@ -767,6 +726,11 @@ defineExpose({
 	width: 100vw;
 	z-index: 10000;
 	background-color: var(--editor-full-back-color);
+	padding: 0 0.5em;
+}
+
+.editor.mobile {
+	padding: 0;
 }
 
 .editor > .container {
@@ -847,27 +811,31 @@ defineExpose({
 }
 
 .editor.full.pc > .container {
-	&.edit-preview {
-		grid-template-columns: 1fr 1fr;
-	}
-
 	&.edit {
 		grid-template-columns: 1fr;
+	}
+
+	&.edit-preview {
+		grid-template-columns: 1fr 1fr;
 	}
 }
 
 .editor.full.mobile > .container {
-	&.edit-preview {
-		grid-template-columns: 0 100%;
-
+	&.edit {
 		> .edit-card {
 			padding: 0.5em;
 			margin: 0;
 		}
+
+		> .preview-card {
+			display: none;
+		}
 	}
 
-	&.edit {
-		grid-template-columns: 100%;
+	&.edit-preview {
+		> .edit-card {
+			display: none;
+		}
 
 		> .preview-card {
 			padding: 0.5em;

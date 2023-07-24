@@ -1,19 +1,20 @@
 import {InsertUnit} from "../../../declare/InsertUtil";
 import {simpleInsert} from "../../editor/insertUtils";
 
-export const enter: InsertUnit = {
+export const footnote: InsertUnit = {
     triggers: [
         {
-            key: "Enter",
-            alt: true,
+            key: "^",
+            ctrl: true,
         }
     ],
-    label: "换行",
+    label: "脚标",
     insert: (args, textarea) => {
         return simpleInsert(
             textarea,
-            "enter",
-            "<br>"
+            "footnote",
+            "[^",
+            "]"
         )
     },
     arguments: [],

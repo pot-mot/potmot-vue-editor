@@ -121,7 +121,7 @@ export const useInputExtension = (
             for (const shortcutKey of shortcutKeys) {
                 if (judgeKeyEventTrigger(shortcutKey.trigger, e)) {
                     if (shortcutKey.prevent) e.preventDefault()
-                    shortcutKey.method(e)
+                    shortcutKey.onEmit(e)
                     if (shortcutKey.reject) return
                 }
             }
