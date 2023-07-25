@@ -21,8 +21,8 @@ interface EditTool {
     disable?: boolean | Ref<boolean>
     show?: boolean | Ref<boolean>
 
-    icon?: string
-    svg?: string
+    icon?: string | Ref<string>
+    svg?: string | Ref<string>
     contextMenu?: ToolContextMenu
     onClick?: (self: EditTool) => any
 }
@@ -32,3 +32,14 @@ interface ToolContextMenu {
     visible: boolean
 }
 
+interface EditToolConfig {
+    name: string,
+    label?: string,
+    position?: string,
+    active?: boolean,
+    disable?: boolean,
+    icon?: string,
+    svg?: string,
+    contextMenu?: ToolContextMenu,
+    onClick?: (self: EditTool) => any
+}

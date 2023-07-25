@@ -2,12 +2,11 @@
 import {computed, PropType} from "vue";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
-import SvgIcon from "../svg/SvgIcon.vue";
 import {EditTool} from "../../declare/EditTool";
 import {
 	closeContextMenu,
-	exeToolClick,
 } from "../../utils/editor/editTool";
+import ToolBarItem from "./ToolBarItem.vue";
 
 const props = defineProps({
 	tools: {
@@ -34,9 +33,7 @@ const menuTools = computed(() => {
 	})
 })
 
-const clickTool = (tool: EditTool) => {
-	if (tool.disable) return
-	const result = exeToolClick(tool)
+const clickTool = (tool: EditTool, result: any) => {
 	emits("clickTool", {tool, result})
 }
 </script>
@@ -52,23 +49,12 @@ const clickTool = (tool: EditTool) => {
 			</ContextMenu>
 		</template>
 		<ul v-for="position in props.positions" :class="position">
-			<li v-for="tool in toolMap.get(position)" v-show="tool.show" :title="tool.label">
-				<div v-if="tool.svg" v-html="tool.svg"
-					 class="icon"
-					 @click.prevent.stop="clickTool(tool)"
-					 :class="{'active': tool.active, 'disable': tool.disable}">
-				</div>
-				<SvgIcon
-					v-else-if="tool.icon"
-					@click.prevent.stop="clickTool(tool)"
-					:name="tool.icon"
-					size="1rem"
-					class="icon"
-					:class="{'active': tool.active, 'disable': tool.disable}">
-				</SvgIcon>
-				<slot v-if="!tool.contextMenu" :name="`${tool.name}`">
-				</slot>
-			</li>
+			<template v-for="tool in toolMap.get(position)">
+				<li>
+					<slot :name="`${tool.name}Content`"></slot>
+				</li>
+				<ToolBarItem :tool="tool" @click-tool="clickTool"></ToolBarItem>
+			</template>
 		</ul>
 	</div>
 </template>
@@ -91,50 +77,19 @@ const clickTool = (tool: EditTool) => {
 		height: 2rem;
 		padding: 0.2rem 0;
 		overflow: hidden;
+
+		> li {
+			position: relative;
+			display: inline-block;
+			list-style: none;
+			height: 1.6rem;
+			vertical-align: middle;
+		}
 	}
 
 	> ul:hover {
 		overflow: visible;
 		z-index: 10001;
-	}
-
-	> ul > li {
-		position: relative;
-		display: inline-block;
-		list-style: none;
-		height: 1.6rem;
-
-		> .icon {
-			display: inline-block;
-			color: var(--editor-tool-default-color);
-			background-color: var(--editor-tool-default-back-color);
-			border-radius: 3px;
-			height: 1.6rem;
-			width: 1.6rem;
-			padding: 0.3rem;
-			transition: 0.5s;
-
-			user-select: none;
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-		}
-
-		> .icon:hover {
-			color: var(--editor-tool-hover-color);
-			background-color: var(--editor-tool-hover-back-color);
-		}
-
-		> .icon.active {
-			color: var(--editor-tool-active-color);
-			background-color: var(--editor-tool-active-back-color);
-		}
-
-		> .icon.disable {
-			color: var(--editor-tool-disable-color);
-			background-color: var(--editor-tool-disable-back-color);
-			cursor: not-allowed;
-		}
 	}
 
 	> .LT,

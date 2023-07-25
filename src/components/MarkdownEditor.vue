@@ -1,8 +1,8 @@
 <template>
 	<Teleport :disabled="!isFullScreen" to="body">
 		<div class="editor" ref="editor"
-			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', EditorColorTheme, isWrap? 'wrap' : 'no-wrap']"
-			 :style="isFullScreen ? '' : {width: props.width, height: props.height}">
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', EditorColorTheme, isWrap? 'wrap' : 'no-wrap', ...props.class]"
+			 :style="[isFullScreen ? '' : {width: props.width, height: props.height}, props.style]">
 			<ToolBar v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
 				<template #insert>
 					<ul>
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<ToolBar :tools="toolList" :positions="['LB', 'RB']">
-				<template #statisticalData>
+				<template #statisticalDataContent>
 					<ul class="statistical-list">
 						<li>字数 {{ text.length }}</li>
 						<li>
@@ -127,7 +127,7 @@ import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {getLeadingMarks} from "../utils/common/text";
 import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
-import {EditTool} from "../declare/EditTool";
+import {EditTool, EditToolConfig} from "../declare/EditTool";
 import {usePreferredDark, useScrollLock} from "@vueuse/core";
 
 // 元素
@@ -169,8 +169,17 @@ const props = defineProps({
 		required: false,
 		default: '540px',
 	},
-	tools: {
+	style: {
+		type: Object as PropType<Partial<CSSStyleDeclaration>>,
+		required: false,
+	},
+	class: {
 		type: Array as PropType<string[]>,
+		required: false,
+		default: [],
+	},
+	toolbar: {
+		type: Array as PropType<EditToolConfig[]>,
 		required: false,
 	},
 
@@ -917,15 +926,15 @@ defineExpose({
 }
 
 .editor .statistical-list {
-	height: 1.6rem;
-	line-height: 1.6rem;
-	margin-left: 0.4rem;
+	display: inline-block;
 	white-space: nowrap;
+	height: 1.6em;
+	line-height: 1.6em;
 
 	> li {
 		font-size: 0.8rem;
 		display: inline-block;
-		padding: 0 0.5rem;
+		padding-right: 0.5rem;
 	}
 }
 </style>
