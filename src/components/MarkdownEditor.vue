@@ -57,7 +57,6 @@
 					ref="textarea"
 					v-model="text"
 					:placeholder="props.placeholder"
-					@mouseenter="textarea.focus()"
 					class="edit-card">
 				</textarea>
 				<div ref="previewCard"
@@ -206,7 +205,7 @@ const isPreview = ref(false)
 
 const isOutline = ref(false)
 
-const isSyncScroll = ref(false)
+const isSyncScroll = ref(true)
 
 const EditorColorTheme = ref('')
 
@@ -247,8 +246,11 @@ const toolList = reactive(<EditTool[]>[
 		show: isUnFullPreview,
 		position: "LT",
 		onClick: () => {
-			setHistoryType("undo" + now())
+			setHistoryType("undo")
 			undo()
+			nextTick(() => {
+				textarea.value.focus()
+			})
 		}
 	},
 	{
@@ -259,8 +261,11 @@ const toolList = reactive(<EditTool[]>[
 		show: isUnFullPreview,
 		position: "LT",
 		onClick: () => {
-			setHistoryType("redo" + now())
-			redo();
+			setHistoryType("redo")
+			redo()
+			nextTick(() => {
+				textarea.value.focus()
+			})
 		}
 	},
 
@@ -287,7 +292,7 @@ const toolList = reactive(<EditTool[]>[
 		label: "历史记录",
 		icon: "history",
 		active: ref(false),
-		show: false,
+		show: true,
 		position: "RB",
 		contextMenu: {
 			position: {},
@@ -337,10 +342,6 @@ const toolList = reactive(<EditTool[]>[
 		active: isPreview,
 		show: true,
 		position: "RT",
-		contextMenu: {
-			position: {},
-			visible: false,
-		},
 	},
 	{
 		name: "fullScreen",

@@ -35,6 +35,7 @@ const menuTools = computed(() => {
 })
 
 const clickTool = (tool: EditTool) => {
+	if (tool.disable) return
 	const result = exeToolClick(tool)
 	emits("clickTool", {tool, result})
 }
@@ -44,25 +45,28 @@ const clickTool = (tool: EditTool) => {
 	<div class="toolbar">
 		<template v-for="tool in menuTools">
 			<ContextMenu
-				v-if="tool.contextMenu"
 				:title="tool.label"
-				:menu="tool.contextMenu"
+				:tool="tool"
 				@cancel="closeContextMenu(tool)">
 				<slot :name="tool.name"></slot>
 			</ContextMenu>
 		</template>
 		<ul v-for="position in props.positions" :class="position">
 			<li v-for="tool in toolMap.get(position)" v-show="tool.show" :title="tool.label">
-				<div v-if="tool.svg" v-html="tool.svg"></div>
+				<div v-if="tool.svg" v-html="tool.svg"
+					 class="icon"
+					 @click.prevent.stop="clickTool(tool)"
+					 :class="{'active': tool.active, 'disable': tool.disable}">
+				</div>
 				<SvgIcon
 					v-else-if="tool.icon"
 					@click.prevent.stop="clickTool(tool)"
 					:name="tool.icon"
 					size="1rem"
 					class="icon"
-					:class="[tool.active ? 'active' : '']">
+					:class="{'active': tool.active, 'disable': tool.disable}">
 				</SvgIcon>
-				<slot v-else :name="`${tool.name}`">
+				<slot v-if="!tool.contextMenu" :name="`${tool.name}`">
 				</slot>
 			</li>
 		</ul>
@@ -123,6 +127,12 @@ const clickTool = (tool: EditTool) => {
 		> .icon.active {
 			color: var(--editor-tool-active-color);
 			background-color: var(--editor-tool-active-back-color);
+		}
+
+		> .icon.disable {
+			color: var(--editor-tool-disable-color);
+			background-color: var(--editor-tool-disable-back-color);
+			cursor: not-allowed;
 		}
 	}
 

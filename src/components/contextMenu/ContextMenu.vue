@@ -3,7 +3,7 @@ import {vDrag} from "../../directives/vDrag";
 import {onMounted, PropType, ref, watch} from "vue";
 import SvgIcon from "../svg/SvgIcon.vue";
 import {useSvgIcon} from "../../hooks/useSvgIcon";
-import {ToolContextMenu} from "../../declare/EditTool";
+import {EditTool} from "../../declare/EditTool";
 
 const contextMenu = ref()
 
@@ -12,8 +12,8 @@ useSvgIcon(["close"])
 const emit = defineEmits(['cancel'])
 
 const props = defineProps({
-	menu: {
-		type: Object as PropType<ToolContextMenu>,
+	tool: {
+		type: Object as PropType<EditTool>,
 		required: true,
 	},
 	dragRange: {
@@ -34,25 +34,27 @@ const props = defineProps({
 
 onMounted(() => {
 	setPosition()
-})
 
-const close = () => {
-	emit("cancel")
-}
+	if (props.tool.contextMenu) {
+		watch(() => props.tool.contextMenu!.visible, (newVal) => {
+			if (!newVal) {
+				setPosition()
+			}
+		})
 
-watch(() => props.menu.visible, (newVal) => {
-	if (!newVal) {
-		setPosition()
+		watch(() => props.tool.contextMenu!.position, (newVal) => {
+			setPosition()
+		})
 	}
 })
 
-watch(() => props.menu.position, () => {
-	setPosition()
-})
+const close = (tool: EditTool) => {
+	emit("cancel", {tool})
+}
 
 const setPosition = () => {
-	if (props.resetPosition && contextMenu.value && props.menu.position) {
-		let position: Position = props.menu.position
+	if (props.resetPosition && contextMenu.value && props.tool.contextMenu && props.tool.contextMenu.position) {
+		let position: Position = props.tool.contextMenu.position
 
 		if (position.top != undefined) {
 			contextMenu.value.style.top = position.top
@@ -82,15 +84,17 @@ const setPosition = () => {
 </script>
 
 <template>
-	<div v-show="menu.visible"
-		 class="context-menu"
-		 ref="contextMenu"
-		 v-drag="props.dragRange">
+	<div
+		v-if="tool.contextMenu"
+		v-show="tool.contextMenu.visible && tool.show"
+		class="context-menu"
+		ref="contextMenu"
+		v-drag="props.dragRange">
 
 		<div class="content">
 			<div class="close" ignore-drag title="关闭">
 				<slot name="close">
-					<SvgIcon class="close-icon" @mousedown.prevent.stop="close" name="close" size="1.25em"></SvgIcon>
+					<SvgIcon class="close-icon" @mousedown.prevent.stop="close(tool)" name="close" size="1.25em"></SvgIcon>
 				</slot>
 			</div>
 

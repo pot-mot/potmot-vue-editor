@@ -88,11 +88,6 @@ export const useInputExtension = (
             pushMoveOrSelect()
         })
 
-        el.addEventListener('select', (e) => {
-            if (e.target != el) return
-            pushMoveOrSelect()
-        })
-
         el.addEventListener('compositionend', (e) => {
             if (e.target != el) return
             historyType.value = 'common'
@@ -103,6 +98,11 @@ export const useInputExtension = (
             if (e.target != el) return
             historyType.value = 'dragend' + now()
             push()
+        })
+
+        el.addEventListener('mouseenter', (e) => {
+            if (e.target != el) return
+            if (el.selectionStart != el.selectionEnd) el.focus()
         })
 
         el.addEventListener("keydown", (e: KeyboardEvent) => {
