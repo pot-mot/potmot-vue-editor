@@ -127,8 +127,8 @@ import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {getLeadingMarks} from "../utils/common/text";
 import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
-import {useColorMode} from "@vueuse/core";
 import {EditTool} from "../declare/EditTool";
+import {usePreferredDark, useScrollLock} from "@vueuse/core";
 
 // 元素
 const editor = ref()
@@ -379,7 +379,8 @@ onMounted(() => {
 	})
 })
 
-const {system: colorTheme} = useColorMode()
+const preferredDark = usePreferredDark()
+const colorTheme = computed(() => preferredDark.value ? "dark" : "light")
 
 watch(() => colorTheme.value, () => {
 	EditorColorTheme.value = colorTheme.value
@@ -393,23 +394,19 @@ onMounted(() => {
 	}
 })
 
-let beforeFullScreenDocumentScrollTop = 0
+const isLock = useScrollLock(document.documentElement)
 
 watch(() => isFullScreen.value, (newValue) => {
 	// 因为使用 teleport, 所以需要手动重置滚动高度
 	resetScroll(textarea.value)
 	resetScroll(previewCard.value)
 
+	isLock.value = newValue
+
 	if (newValue) {
 		isPreview.value = !isMobile.value
-		document.documentElement.classList.add('hideScroll')
-		beforeFullScreenDocumentScrollTop = document.documentElement.scrollTop
 	} else {
-		isPreview.value = false;
-		document.documentElement.classList.remove('hideScroll')
-		nextTick(() => {
-			document.documentElement.scrollTop = beforeFullScreenDocumentScrollTop
-		})
+		isPreview.value = false
 	}
 })
 
@@ -446,10 +443,10 @@ watch(() => isPreview.value, () => {
 
 useSvgIcon(toolList.map(item => item.icon))
 
-// 核心容器样式类
+// 容器样式类
 const containerClass = computed(() => {
-	if (!isFullScreen.value) return '';
-	if (isPreview.value) return 'edit-preview';
+	if (!isMobile.value && isFullScreen.value && isPreview.value) return 'edit-preview';
+	if (isPreview.value) return 'preview';
 	return 'edit';
 })
 //endregion
@@ -650,12 +647,6 @@ defineExpose({
 //endregion
 </script>
 
-<style lang="scss">
-.hideScroll {
-	overflow-y: hidden;
-}
-</style>
-
 <style lang="scss" scoped>
 .editor {
 	box-sizing: border-box;
@@ -738,6 +729,9 @@ defineExpose({
 	position: relative;
 	overflow: hidden;
 
+	display: grid;
+	grid-column-gap: 0.6%;
+
 	> .edit-card,
 	> .preview-card {
 		position: relative;
@@ -763,6 +757,38 @@ defineExpose({
 	> .preview-card {
 		padding-left: 1em;
 		padding-right: 1em;
+	}
+
+	&.edit {
+		grid-template-rows: 100%;
+		grid-template-columns: 1fr;
+
+		> .edit-card {
+			padding: 0.5em;
+			margin: 0;
+		}
+
+		> .preview-card {
+			display: none;
+		}
+	}
+
+	&.edit-preview {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	&.preview {
+		grid-template-rows: 100%;
+		grid-template-columns: 1fr;
+
+		> .edit-card {
+			display: none;
+		}
+
+		> .preview-card {
+			padding: 0.5em;
+			margin: 0;
+		}
 	}
 }
 
@@ -793,55 +819,16 @@ defineExpose({
 
 	> .edit-card,
 	> .preview-card {
-		width: 100%;
-		height: 100%;
 		padding-bottom: 4em;
 	}
 }
 
 .editor.full > .container {
 	height: calc(99vh - 4em);
-	display: grid;
-	grid-template-rows: 100%;
-	grid-column-gap: 0.6%;
 
 	> .edit-card,
 	> .preview-card {
 		padding-bottom: 50vh;
-	}
-}
-
-.editor.full.pc > .container {
-	&.edit {
-		grid-template-columns: 1fr;
-	}
-
-	&.edit-preview {
-		grid-template-columns: 1fr 1fr;
-	}
-}
-
-.editor.full.mobile > .container {
-	&.edit {
-		> .edit-card {
-			padding: 0.5em;
-			margin: 0;
-		}
-
-		> .preview-card {
-			display: none;
-		}
-	}
-
-	&.edit-preview {
-		> .edit-card {
-			display: none;
-		}
-
-		> .preview-card {
-			padding: 0.5em;
-			margin: 0;
-		}
 	}
 }
 

@@ -112,6 +112,7 @@ const clickTool = (tool: EditTool) => {
 			height: 1.6rem;
 			width: 1.6rem;
 			padding: 0.3rem;
+			transition: 0.5s;
 
 			user-select: none;
 			-moz-user-select: none;

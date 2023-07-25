@@ -1,5 +1,7 @@
 <template>
-	<TestEditorBase></TestEditorBase>
+	<div style="height: 200vh; width: 200vw;">
+		<TestEditorBase></TestEditorBase>
+	</div>
 <!--	<TestEditorExpose></TestEditorExpose>-->
 <!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="5000"></TestMarkdown>-->
 <!--		<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
