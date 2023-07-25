@@ -381,15 +381,15 @@ const toolList = reactive(<EditTool[]>[
 
 let contextMenuPositionTop: string = 'auto'
 let contextMenuPositionLeft: string = 'auto'
-let contextMenuPositionBottomTop: string = 'auto'
+let contextMenuPositionBottom: string = 'auto'
 let contextMenuPositionRight: string = 'auto'
 
 const getPosition = (tool: EditTool): Position => {
 	switch (tool.position) {
 		case "LT": return {left: contextMenuPositionLeft, top: contextMenuPositionTop}
-		case "LB": return {left: contextMenuPositionLeft, top: contextMenuPositionBottomTop}
+		case "LB": return {left: contextMenuPositionLeft, bottom: contextMenuPositionBottom}
 		case "RT": return {right: contextMenuPositionRight, top: contextMenuPositionTop}
-		case "RB": return {right: contextMenuPositionRight, top: contextMenuPositionBottomTop}
+		case "RB": return {right: contextMenuPositionRight, bottom: contextMenuPositionBottom}
 	}
 	return {}
 }
@@ -398,11 +398,12 @@ onMounted(() => {
 	watch(() => isFullScreen.value, () => {
 		nextTick(() => {
 			if (!editor.value || !topToolBar.value || !topToolBar.value.element) return {}
-			const {paddingLeft: left, paddingRight: right} = window.getComputedStyle(editor.value)
 			const {marginTop: mt1, paddingTop: pt1, height: h1, paddingBottom: pb1, marginBottom: mb1} = window.getComputedStyle(topToolBar.value.element)
-			contextMenuPositionLeft = left
-			contextMenuPositionRight = right
+			const {marginTop: mt2, paddingTop: pt2, height: h2, paddingBottom: pb2, marginBottom: mb2} = window.getComputedStyle(bottomToolBar.value.element)
+			contextMenuPositionLeft = '0'
+			contextMenuPositionRight = '0'
 			contextMenuPositionTop = `calc(${[mt1, pt1, h1, pb1, mb1].join(" + ")})`
+			contextMenuPositionBottom = `calc(${[mt2, pt2, h2, pb2, mb2].join(" + ")})`
 			toolList.forEach(tool => {
 				if (tool.contextMenu) tool.contextMenu.position = getPosition(tool)
 			})

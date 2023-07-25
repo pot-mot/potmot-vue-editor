@@ -70,6 +70,7 @@ defineExpose({
 	display: grid;
 	grid-template-columns: 50% 50%;
 	line-height: 1rem;
+	position: relative;
 
 	* {
 		box-sizing: border-box;
@@ -78,7 +79,6 @@ defineExpose({
 	}
 
 	> ul {
-		position: relative;
 		height: 2rem;
 		padding: 0.2rem 0;
 		overflow: hidden;

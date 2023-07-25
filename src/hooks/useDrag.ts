@@ -3,14 +3,17 @@ import {throttle} from "lodash";
 import {limit} from "../utils/common/math";
 import {onMounted} from "vue";
 
-const setPositionByRange = (el: HTMLElement, range: PositionRange | undefined, moveX: number, moveY: number) => {
-    if (range == undefined) {
-        el.style.top = moveY + 'px'
-        el.style.left = moveX + 'px'
-    } else {
-        el.style.top = limit(moveY, range.minY, range.maxY ? range.maxY - el.offsetWidth : undefined) + "px";
-        el.style.left = limit(moveX, range.minX, range.maxX ? range.maxX - el.offsetWidth : undefined) + "px";
-    }}
+const setPositionByRange = (el: HTMLElement, range: PositionRange | undefined, offsetX: number, offsetY: number) => {
+    if (range != undefined) {
+        offsetX = limit(offsetX, range.minX, range.maxX ? range.maxX - el.offsetWidth : undefined)
+        offsetY = limit(offsetY, range.minY, range.maxY ? range.maxY - el.offsetWidth : undefined)
+    }
+
+    el.style.top = `${offsetY}px`
+    el.style.left = `${offsetX}px`
+    el.style.bottom = 'auto'
+    el.style.right = 'auto'
+}
 
 const setMouseDrag = (el: HTMLElement | undefined, range: PositionRange | (() => PositionRange), throttleTimeout: number) => {
     if (el == undefined) return
@@ -46,9 +49,9 @@ const setMouseDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
         const startY = e.clientY;
 
         const setXY = (e: MouseEvent) => {
-            const moveX = e.clientX - startX + rectLeft;
-            const moveY = e.clientY - startY + rectTop;
-            setPositionByRange(el, positionRange, moveX, moveY)
+            const offsetX = e.clientX - startX + rectLeft;
+            const offsetY = e.clientY - startY + rectTop;
+            setPositionByRange(el, positionRange, offsetX, offsetY)
         };
 
         const removeSetXY = () => {
@@ -100,10 +103,10 @@ const setTouchDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
         const startY = e.touches[0].clientY;
 
         const setXY = (e: TouchEvent) => {
-            const moveX = e.touches[0].clientX - startX + rectLeft;
-            const moveY = e.touches[0].clientY - startY + rectTop;
+            const offsetX = e.touches[0].clientX - startX + rectLeft;
+            const offsetY = e.touches[0].clientY - startY + rectTop;
 
-            setPositionByRange(el, positionRange, moveX, moveY)
+            setPositionByRange(el, positionRange, offsetX, offsetY)
         }
 
         const removeSetXY = () => {
