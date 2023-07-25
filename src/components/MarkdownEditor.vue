@@ -82,7 +82,7 @@
 					</ul>
 				</template>
 				<template #history>
-					<ul style="overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack" ignore-drag>
+					<ul style="height: 100%; overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack" ignore-drag>
 						<li v-for="item in undoStack"
 							style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
 							{{ item.type }}

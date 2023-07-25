@@ -7,6 +7,6 @@ export const vKeepBottom = {
 
         watch(() => binding.value, throttle(() => {
             el.scrollTo({top: el.scrollHeight - el.offsetHeight});
-        }, 20), {immediate: true, deep: true});
+        }, 20), {immediate: true, deep: true})
     }
 }

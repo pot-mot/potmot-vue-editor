@@ -121,7 +121,7 @@ const setTouchDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
     }, throttleTimeout));
 }
 
-export const useDrag = (target: () => HTMLElement | undefined, range: PositionRange | (() => PositionRange), throttleTimeout: number = 100) => {
+export const useDrag = (target: () => HTMLElement | undefined, range: PositionRange | (() => PositionRange), throttleTimeout: number = 20) => {
     const el = target();
     if (el == undefined) {
         onMounted(() => {
