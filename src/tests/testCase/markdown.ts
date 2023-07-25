@@ -104,7 +104,7 @@ export const markdownTestCase = [
 
 这是一个图片：
 
-![Markdown Logo](https://markdown-here.com/img/icon256.png)
+![Markdown Logo](https://markdown-here.com/img/icon256.png);
 `,
     `
 ## 六、代码
@@ -131,7 +131,7 @@ export const markdownTestCase = [
 \`\`\`python
 # 这是一个 Python 代码块
 def hello_world():
-    print("Hello, world!")
+    print("Hello, world!");
 \`\`\`
 `,
     `

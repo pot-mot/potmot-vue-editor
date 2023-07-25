@@ -11,7 +11,7 @@ export const useScrollCurrent = (
     endDuration: number = 100
 ) => {
     // 是否处于滚动状态
-    const isScroll = ref(false)
+    const isScroll = ref(false);
 
     /**
      * 处理滚动，将从一个元素的 offsetTop 滚动到另一个元素的 offsetTop
@@ -28,8 +28,8 @@ export const useScrollCurrent = (
             // 在结束后经过一段时间才重新判断滚动
             setTimeout(() => {
                 isScroll.value = false
-            }, endDuration)
-        }, maxTime)
+            }, endDuration);
+        }, maxTime);
     }
 
     /**
@@ -47,13 +47,13 @@ export const useScrollCurrent = (
         items: Array<HTMLElement | undefined>,
         judge: (container: HTMLElement, item: HTMLElement) => boolean =
             (container, item) => {
-                return item.getBoundingClientRect().top <= (container.getBoundingClientRect().top + 40)
+                return item.getBoundingClientRect().top <= (container.getBoundingClientRect().top + 40);
             }
     ): number | undefined => {
-        if (isScroll.value) return
+        if (isScroll.value) return;
 
         if (!(container instanceof HTMLElement) || !Array.isArray(items)) {
-            return
+            return;
         }
 
         for (let i = items.length - 1; i >= 0; i--) {

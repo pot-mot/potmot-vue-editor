@@ -13,30 +13,30 @@ export const useSelectionFocus = (
     target: () => HTMLTextAreaElement | undefined,
     containerId: string = "search-box-container"
 ) => {
-    let container = document.getElementById(containerId)
+    let container = document.getElementById(containerId);
     if (container == null) {
-        const item = document.createElement('div')
+        const item = document.createElement('div');
         item.id = containerId
-        setStyle(item, hideStyle)
-        document.documentElement.appendChild(item)
+        setStyle(item, hideStyle);
+        document.documentElement.appendChild(item);
         container = item
     }
-    const calculateBox = document.createElement('div')
-    setStyle(calculateBox, hideStyle)
-    container.appendChild(calculateBox)
+    const calculateBox = document.createElement('div');
+    setStyle(calculateBox, hideStyle);
+    container.appendChild(calculateBox);
 
     const getCursorScroll = (start: number) => {
-        const textarea = target()
+        const textarea = target();
         if (textarea == undefined) return {top: 0, left: 0}
 
-        syncSearchCssStyle(calculateBox, textarea)
+        syncSearchCssStyle(calculateBox, textarea);
 
-        calculateBox.textContent = getCurrentLineBefore(textarea.value, start)
+        calculateBox.textContent = getCurrentLineBefore(textarea.value, start);
         const leftDelta: number = calculateBox.scrollWidth - textarea.clientWidth / 3
 
-        const heightText = textarea.value.slice(0, start)
+        const heightText = textarea.value.slice(0, start);
         if (window.getComputedStyle(textarea).whiteSpace == 'nowrap') {
-            calculateBox.innerHTML = encodeHTML(heightText).replaceAll('\n', '<br>')
+            calculateBox.innerHTML = encodeHTML(heightText).replaceAll('\n', '<br>');
         } else {
             calculateBox.textContent = heightText
         }
@@ -49,8 +49,8 @@ export const useSelectionFocus = (
     }
 
     onBeforeUnmount(() => {
-        if (container) container.remove()
-    })
+        if (container) container.remove();
+    });
 
     return {
         getCursorScroll,

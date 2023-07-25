@@ -61,20 +61,20 @@ const props = defineProps({
 		required: false,
 		default: [[2000, 0], [5000, 80], [20000, 200], [50000, 300], [100000, 500], [200000, 2000]],
 	},
-})
+});
 
-let markdownCard = ref()
+let markdownCard = ref();
 
 marked.setOptions({
 	breaks: true,
 	smartLists: true
-})
+});
 
 marked.use({
 	extensions: [mathBlockRule, mathInlineRule, warningRule, detailRule, footnote, footnoteRef, ...props.extension],
-})
+});
 
-const html = ref("")
+const html = ref("");
 
 /**
  * 用于判断 markdown 渲染缓存的变量
@@ -84,21 +84,21 @@ let oldMarkdownText: string = ""
 const renderMarkdown = () => {
 	oldMarkdownText = props.markdownText
 	new Promise(() => {
-		html.value = marked(props.markdownText, {tokenizer, renderer})
-	})
+		html.value = marked(props.markdownText, {tokenizer, renderer});
+	});
 }
 
 // mermaid 渲染
 const renderPicture = () => {
 	if (markdownCard.value == undefined) return;
 	const mermaidElements = <HTMLElement[]>Array.from(markdownCard.value.querySelectorAll('.mermaid'));
-	mermaidBatchRender(mermaidElements)
+	mermaidBatchRender(mermaidElements);
 }
 
 let markdownRenderWatch: any
 
 const judgeDebounce = () => {
-	if (props.renderDebounce == undefined) return
+	if (props.renderDebounce == undefined) return;
 
 	let i
 
@@ -109,7 +109,7 @@ const judgeDebounce = () => {
 	}
 
 	if (markdownRenderWatch != undefined) {
-		markdownRenderWatch()
+		markdownRenderWatch();
 	}
 
 	if (i >= props.renderDebounce.length) {
@@ -120,41 +120,41 @@ const judgeDebounce = () => {
 
 	if (timeout == 0) {
 		markdownRenderWatch = watch(() => props.markdownText, () => {
-			if (props.suspend) return
-			renderMarkdown()
-		})
+			if (props.suspend) return;
+			renderMarkdown();
+		});
 	} else {
 		markdownRenderWatch = watch(() => props.markdownText, debounce(() => {
-			if (props.suspend) return
-			renderMarkdown()
-		}, timeout))
+			if (props.suspend) return;
+			renderMarkdown();
+		}, timeout));
 	}
 }
 
 onMounted(() => {
-	judgeDebounce()
-	renderMarkdown()
+	judgeDebounce();
+	renderMarkdown();
 	nextTick(() => {
-		renderPicture()
-	})
+		renderPicture();
+	});
 
 	watch(() => props.markdownText, debounce(judgeDebounce, 500),
-		{immediate: true})
+		{immediate: true});
 
 	watch(() => props.markdownText, debounce(() => {
-		if (props.suspend) return
-		renderPicture()
-	}, 1000))
+		if (props.suspend) return;
+		renderPicture();
+	}, 1000));
 
 	watch(() => props.suspend, (value) => {
 		if (value == false && props.markdownText != oldMarkdownText) {
-			renderMarkdown()
+			renderMarkdown();
 			nextTick(() => {
-				renderPicture()
-			})
+				renderPicture();
+			});
 		}
-	})
-})
+	});
+});
 
 const onClick = (e: MouseEvent) => {
 	if (e.target && markdownCard.value) {
@@ -162,23 +162,23 @@ const onClick = (e: MouseEvent) => {
 
 		if (element instanceof HTMLImageElement || element instanceof SVGElement) {
 			const container = <HTMLElement>markdownCard.value
-			const images = container.querySelectorAll('img, svg')
+			const images = container.querySelectorAll('img, svg');
 			const imageSrcList = []
 			let index
 			for (let i = 0; i < images.length; i++) {
 				if (images[i] instanceof HTMLImageElement) {
-					imageSrcList.push((<HTMLImageElement>images[i]).src)
+					imageSrcList.push((<HTMLImageElement>images[i]).src);
 				} else if (images[i] instanceof SVGElement) {
-					imageSrcList.push(`data:image/svg+xml,${encodeURIComponent((<SVGElement>images[i]).outerHTML)}`)
+					imageSrcList.push(`data:image/svg+xml,${encodeURIComponent((<SVGElement>images[i]).outerHTML)}`);
 				} else {
-					imageSrcList.push('')
+					imageSrcList.push('');
 				}
 
 				if (images[i] == element) {
 					index = i
 				}
 			}
-			viewerApi({images: imageSrcList, options: {initialViewIndex: index}})
+			viewerApi({images: imageSrcList, options: {initialViewIndex: index}});
 		}
 
 		if (element.classList.contains("code-copy-button")) {
@@ -189,7 +189,7 @@ const onClick = (e: MouseEvent) => {
 
 defineExpose({
 	markdownCard
-})
+});
 </script>
 
 <style scoped lang="scss">

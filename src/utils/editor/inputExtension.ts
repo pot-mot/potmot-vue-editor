@@ -10,15 +10,15 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
     const {before, after} = insertText;
 
     if (start != end) {
-        let mid = text.slice(start, end)
+        let mid = text.slice(start, end);
         if (mid.startsWith(before) && mid.endsWith(after)) {
-            mid = mid.slice(before.length, mid.length - after.length)
-            result.text = insertIntoString(mid, result.text, start, end)
+            mid = mid.slice(before.length, mid.length - after.length);
+            result.text = insertIntoString(mid, result.text, start, end);
             result.start = start
             result.end = end - before.length - after.length
         } else {
             mid = `${before}${mid}${after}`
-            result.text = insertIntoString(mid, result.text, start, end)
+            result.text = insertIntoString(mid, result.text, start, end);
             result.start = start + before.length
             result.end = end + before.length
         }
@@ -38,7 +38,7 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
 // 回车保留缩进
 export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
     const start = textarea.selectionStart;
-    const space = getSpace(textarea.value, start)
+    const space = getSpace(textarea.value, start);
     const text = insertIntoString("\n" + space, textarea.value, start);
     return {
         scrollTop: textarea.scrollTop,
@@ -65,7 +65,7 @@ export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent, tab: s
             result.start = start - 1
             result.end = start - 1
         } else {
-            result.text = insertIntoString(tab, text, start)
+            result.text = insertIntoString(tab, text, start);
             result.start = start + tab.length
             result.end = start + tab.length
         }
@@ -80,7 +80,7 @@ export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent, tab: s
         if (temp.length == newTemp.length) return null
         result.text = `${text.slice(0, start)}${newTemp}${text.slice(start + temp.length)}`
         result.end = start + newTemp.length
-        result.type = 'batchTab' + now()
+        result.type = 'batchTab' + now();
     }
     return result
 }

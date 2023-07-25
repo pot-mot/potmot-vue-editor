@@ -5,8 +5,8 @@ import {onMounted} from "vue";
 
 const setPositionByRange = (el: HTMLElement, range: PositionRange | undefined, offsetX: number, offsetY: number) => {
     if (range != undefined) {
-        offsetX = limit(offsetX, range.minX, range.maxX ? range.maxX - el.offsetWidth : undefined)
-        offsetY = limit(offsetY, range.minY, range.maxY ? range.maxY - el.offsetWidth : undefined)
+        offsetX = limit(offsetX, range.minX, range.maxX ? range.maxX - el.offsetWidth : undefined);
+        offsetY = limit(offsetY, range.minY, range.maxY ? range.maxY - el.offsetWidth : undefined);
     }
 
     el.style.top = `${offsetY}px`
@@ -16,7 +16,7 @@ const setPositionByRange = (el: HTMLElement, range: PositionRange | undefined, o
 }
 
 const setMouseDrag = (el: HTMLElement | undefined, range: PositionRange | (() => PositionRange), throttleTimeout: number) => {
-    if (el == undefined) return
+    if (el == undefined) return;
 
     let positionRange: PositionRange
 
@@ -31,12 +31,12 @@ const setMouseDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
                     element instanceof HTMLSelectElement ||
                     element instanceof HTMLButtonElement ||
                     element.attributes.getNamedItem('ignore-drag') != undefined
-                ) return
+                ) return;
             }
         }
 
         if (range instanceof Function) {
-            positionRange = range()
+            positionRange = range();
         } else {
             positionRange = range
         }
@@ -51,7 +51,7 @@ const setMouseDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
         const setXY = (e: MouseEvent) => {
             const offsetX = e.clientX - startX + rectLeft;
             const offsetY = e.clientY - startY + rectTop;
-            setPositionByRange(el, positionRange, offsetX, offsetY)
+            setPositionByRange(el, positionRange, offsetX, offsetY);
         };
 
         const removeSetXY = () => {
@@ -63,12 +63,12 @@ const setMouseDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
         document.addEventListener('mouseup', removeSetXY);
 
         return false
-    }, throttleTimeout))
+    }, throttleTimeout));
 }
 
 
 const setTouchDrag = (el: HTMLElement | undefined, range: PositionRange | (() => PositionRange), throttleTimeout: number) => {
-    if (el == undefined) return
+    if (el == undefined) return;
 
     let positionRange: PositionRange
 
@@ -83,14 +83,14 @@ const setTouchDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
                     element instanceof HTMLSelectElement ||
                     element instanceof HTMLButtonElement ||
                     element.attributes.getNamedItem('ignore-drag') != undefined
-                ) return
+                ) return;
             }
         }
 
         e.preventDefault();
 
         if (range instanceof Function) {
-            positionRange = range()
+            positionRange = range();
         } else {
             positionRange = range
         }
@@ -106,7 +106,7 @@ const setTouchDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
             const offsetX = e.touches[0].clientX - startX + rectLeft;
             const offsetY = e.touches[0].clientY - startY + rectTop;
 
-            setPositionByRange(el, positionRange, offsetX, offsetY)
+            setPositionByRange(el, positionRange, offsetX, offsetY);
         }
 
         const removeSetXY = () => {
@@ -118,24 +118,24 @@ const setTouchDrag = (el: HTMLElement | undefined, range: PositionRange | (() =>
         document.addEventListener('touchend', removeSetXY);
 
         return false
-    }, throttleTimeout))
+    }, throttleTimeout));
 }
 
 export const useDrag = (target: () => HTMLElement | undefined, range: PositionRange | (() => PositionRange), throttleTimeout: number = 100) => {
-    const el = target()
+    const el = target();
     if (el == undefined) {
         onMounted(() => {
             if (isMobile.value) {
-                setTouchDrag(target(), range, throttleTimeout)
+                setTouchDrag(target(), range, throttleTimeout);
             } else {
-                setTouchDrag(target(), range, throttleTimeout)
+                setTouchDrag(target(), range, throttleTimeout);
             }
-        })
+        });
     } else {
         if (isMobile.value) {
-            setTouchDrag(el, range, throttleTimeout)
+            setTouchDrag(el, range, throttleTimeout);
         } else {
-            setMouseDrag(el, range, throttleTimeout)
+            setMouseDrag(el, range, throttleTimeout);
         }
     }
 }

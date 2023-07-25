@@ -16,7 +16,7 @@ init test
 >
 > sdsadsadas
 >
-`)
+`);
 
 </script>
 

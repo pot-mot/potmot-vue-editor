@@ -24,7 +24,7 @@ export const code: InsertUnit = {
                     start: startPart.length + fence.length + language.length + midPart.length + 1,
                 }
             },
-        )
+        );
     },
     arguments: [
         <OptionInsertArgument>{
@@ -33,7 +33,7 @@ export const code: InsertUnit = {
             options: prismLanguageList,
             getRef: () => {
                 let language = ""
-                return ref(language)
+                return ref(language);
             }
         }
     ],

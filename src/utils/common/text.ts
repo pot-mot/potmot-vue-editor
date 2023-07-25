@@ -6,7 +6,7 @@ export const getCurrentLine = (text: string, start: number): string => {
 
 export const getCurrentLineBefore = (text: string, start: number): string => {
     const startIndex = text.lastIndexOf('\n', start - 1) + 1;  // 当前行的起始位置
-    return text.slice(startIndex, start)
+    return text.slice(startIndex, start);
 }
 
 /**
@@ -16,8 +16,8 @@ export const getCurrentLineBefore = (text: string, start: number): string => {
  * @param start 当前起点
  */
 export const getLeadingSpace = (text: string, start: number): string => {
-    const line = getCurrentLineBefore(text, start)
-    const leadingSpaces = line.match(/^[ \t]*/)
+    const line = getCurrentLineBefore(text, start);
+    const leadingSpaces = line.match(/^[ \t]*/);
     return (leadingSpaces != null && leadingSpaces.length != 0) ? leadingSpaces[0] : ''
 }
 
@@ -26,13 +26,13 @@ export const getLeadingSpace = (text: string, start: number): string => {
  * 如果整个字符串为空白，则返回自身和两个空串
  */
 export const getLeadingAndTrailingSpaces = (str: string) => {
-    const trimStart = str.trimStart()
-    const trimEnd = str.trimEnd()
+    const trimStart = str.trimStart();
+    const trimEnd = str.trimEnd();
 
-    const leadingSpaces = str.replace(trimStart, '')
-    const trailingSpaces = str.replace(trimEnd, '')
+    const leadingSpaces = str.replace(trimStart, '');
+    const trailingSpaces = str.replace(trimEnd, '');
 
-    const text = str.trim()
+    const text = str.trim();
     if (text.length == 0) {
         return {leadingSpaces: '', text: str, trailingSpaces: ''}
     }
@@ -46,8 +46,8 @@ export const getLeadingAndTrailingSpaces = (str: string) => {
  * @param start 当前起点
  */
 export const getLeadingMarks = (text: string, start: number): string => {
-    const line = getCurrentLineBefore(text, start)
-    const leadingMarks = line.match(/^[ \t]*((>|([-+*]|\d+\.)( \[[xX ]])?)[ \t]+)*/)
+    const line = getCurrentLineBefore(text, start);
+    const leadingMarks = line.match(/^[ \t]*((>|([-+*]|\d+\.)( \[[xX ]])?)[ \t]+)*/);
 
     if (leadingMarks == null || leadingMarks.length == 0) return ''
 
@@ -56,11 +56,11 @@ export const getLeadingMarks = (text: string, start: number): string => {
     result = result.replace(/\d+\./g, orderedListMark => {
         const incrementedNumber = parseInt(orderedListMark.slice(0, orderedListMark.length - 1)) + 1;
         return `${incrementedNumber}.`;
-    })
+    });
 
     result = result.replace(/([-+*]|\d+\.) \[[xX ]]/g, todoListMark => {
-        return todoListMark.replace(/\[[xX ]]/g, '[ ]')
-    })
+        return todoListMark.replace(/\[[xX ]]/g, '[ ]');
+    });
 
     return result
 }

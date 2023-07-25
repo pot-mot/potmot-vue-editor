@@ -132,21 +132,21 @@ import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
 import {EditTool, EditToolConfig} from "../declare/EditTool";
 import {usePreferredDark, useScrollLock} from "@vueuse/core";
 
-// 元素
-const editor = ref()
-const container = ref()
-const textarea = ref()
-const previewCard = ref()
-const topToolBar = ref()
-const bottomToolBar = ref()
+// DOM 元素 Ref
+const editor = ref();
+const container = ref();
+const textarea = ref();
+const previewCard = ref();
+const topToolBar = ref();
+const bottomToolBar = ref();
 
 /**
  * 文本与统计数据
  */
 //region Text Data
-const text = ref("")
+const text = ref("");
 
-const {statisticalData} = useStatistics(() => textarea.value)
+const {statisticalData} = useStatistics(() => textarea.value);
 //endregion
 
 /**
@@ -211,31 +211,31 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
-})
+});
 //endregion
 
 /**
  * 工具栏与状态
  */
 //region Tool and Status
-const isFullScreen = ref(false)
+const isFullScreen = ref(false);
 
-const isReplace = ref(false)
+const isReplace = ref(false);
 
-const isPreview = ref(false)
+const isPreview = ref(false);
 
-const isOutline = ref(false)
+const isOutline = ref(false);
 
-const isWrap = ref(true)
+const isWrap = ref(true);
 
-const isSyncScroll = ref(true)
+const isSyncScroll = ref(true);
 
-const EditorColorTheme = ref('')
+const EditorColorTheme = ref('');
 
 const isEdit: ComputedRef<boolean> = computed(() => {
-	if (props.disabled) return false
-	return isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value)
-})
+	if (props.disabled) return false;
+	return isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value);
+});
 
 
 
@@ -272,11 +272,11 @@ const toolList = reactive(<EditTool[]>[
 		show: isEdit,
 		position: "LT",
 		onClick: () => {
-			setHistoryType("undo")
-			undo()
+			setHistoryType("undo");
+			undo();
 			nextTick(() => {
-				textarea.value.focus()
-			})
+				textarea.value.focus();
+			});
 		}
 	},
 	{
@@ -287,11 +287,11 @@ const toolList = reactive(<EditTool[]>[
 		show: isEdit,
 		position: "LT",
 		onClick: () => {
-			setHistoryType("redo")
-			redo()
+			setHistoryType("redo");
+			redo();
 			nextTick(() => {
-				textarea.value.focus()
-			})
+				textarea.value.focus();
+			});
 		}
 	},
 
@@ -308,10 +308,7 @@ const toolList = reactive(<EditTool[]>[
 		icon: "wrap",
 		active: isWrap,
 		show: true,
-		position: "RB",
-		onClick: (self: EditTool) => {
-			self.active = !self.active
-		}
+		position: "RB"
 	},
 	{
 		name: "history",
@@ -334,9 +331,9 @@ const toolList = reactive(<EditTool[]>[
 		position: "RB",
 		onClick: (self: EditTool) => {
 			if (self.active) {
-				EditorColorTheme.value = 'light'
+				EditorColorTheme.value = 'light';
 			} else {
-				EditorColorTheme.value = 'dark'
+				EditorColorTheme.value = 'dark';
 			}
 		}
 	},
@@ -377,46 +374,46 @@ const toolList = reactive(<EditTool[]>[
 		show: true,
 		position: "RT",
 	},
-])
+]);
 
-let contextMenuPositionTop: string = 'auto'
-let contextMenuPositionLeft: string = 'auto'
-let contextMenuPositionBottom: string = 'auto'
-let contextMenuPositionRight: string = 'auto'
+let contextMenuPositionTop: string = 'auto';
+let contextMenuPositionLeft: string = 'auto';
+let contextMenuPositionBottom: string = 'auto';
+let contextMenuPositionRight: string = 'auto';
 
 const getPosition = (tool: EditTool): Position => {
 	switch (tool.position) {
-		case "LT": return {left: contextMenuPositionLeft, top: contextMenuPositionTop}
-		case "LB": return {left: contextMenuPositionLeft, bottom: contextMenuPositionBottom}
-		case "RT": return {right: contextMenuPositionRight, top: contextMenuPositionTop}
-		case "RB": return {right: contextMenuPositionRight, bottom: contextMenuPositionBottom}
+		case "LT": return {left: contextMenuPositionLeft, top: contextMenuPositionTop};
+		case "LB": return {left: contextMenuPositionLeft, bottom: contextMenuPositionBottom};
+		case "RT": return {right: contextMenuPositionRight, top: contextMenuPositionTop};
+		case "RB": return {right: contextMenuPositionRight, bottom: contextMenuPositionBottom};
 	}
-	return {}
+	return {};
 }
 
 onMounted(() => {
 	watch(() => isFullScreen.value, () => {
 		nextTick(() => {
-			if (!editor.value || !topToolBar.value || !topToolBar.value.element) return {}
-			const {marginTop: mt1, paddingTop: pt1, height: h1, paddingBottom: pb1, marginBottom: mb1} = window.getComputedStyle(topToolBar.value.element)
-			const {marginTop: mt2, paddingTop: pt2, height: h2, paddingBottom: pb2, marginBottom: mb2} = window.getComputedStyle(bottomToolBar.value.element)
-			contextMenuPositionLeft = '0'
-			contextMenuPositionRight = '0'
-			contextMenuPositionTop = `calc(${[mt1, pt1, h1, pb1, mb1].join(" + ")})`
-			contextMenuPositionBottom = `calc(${[mt2, pt2, h2, pb2, mb2].join(" + ")})`
+			if (!editor.value || !topToolBar.value || !topToolBar.value.element) return {};
+			const {marginTop: mt1, paddingTop: pt1, height: h1, paddingBottom: pb1, marginBottom: mb1} = window.getComputedStyle(topToolBar.value.element);
+			const {marginTop: mt2, paddingTop: pt2, height: h2, paddingBottom: pb2, marginBottom: mb2} = window.getComputedStyle(bottomToolBar.value.element);
+			contextMenuPositionLeft = '0';
+			contextMenuPositionRight = '0';
+			contextMenuPositionTop = `calc(${[mt1, pt1, h1, pb1, mb1].join(" + ")})`;
+			contextMenuPositionBottom = `calc(${[mt2, pt2, h2, pb2, mb2].join(" + ")})`;
 			toolList.forEach(tool => {
-				if (tool.contextMenu) tool.contextMenu.position = getPosition(tool)
-			})
-		})
-	}, {immediate: true})
-})
+				if (tool.contextMenu) tool.contextMenu.position = getPosition(tool);
+			});
+		});
+	}, {immediate: true});
+});
 
-const preferredDark = usePreferredDark()
-const colorTheme = computed(() => preferredDark.value ? "dark" : "light")
+const preferredDark = usePreferredDark();
+const colorTheme = computed(() => preferredDark.value ? "dark" : "light");
 
 watch(() => colorTheme.value, () => {
-	EditorColorTheme.value = colorTheme.value
-}, {immediate: true})
+	EditorColorTheme.value = colorTheme.value;
+}, {immediate: true});
 
 // 组件初始化全屏
 onMounted(() => {
@@ -424,23 +421,23 @@ onMounted(() => {
 		isFullScreen.value = true;
 		isPreview.value = true;
 	}
-})
+});
 
-const isLock = useScrollLock(document.documentElement)
+const isLock = useScrollLock(document.documentElement);
 
 watch(() => isFullScreen.value, (newValue) => {
 	// 因为使用 teleport, 所以需要手动重置滚动高度
-	resetScroll(textarea.value)
-	resetScroll(previewCard.value)
+	resetScroll(textarea.value);
+	resetScroll(previewCard.value);
 
-	isLock.value = newValue
+	isLock.value = newValue;
 
 	if (newValue) {
-		isPreview.value = !isMobile.value
+		isPreview.value = !isMobile.value;
 	} else {
-		isPreview.value = false
+		isPreview.value = false;
 	}
-})
+});
 
 let lastScroll: Ref<HTMLElement | undefined>
 
@@ -448,48 +445,48 @@ let lastScroll: Ref<HTMLElement | undefined>
  * 滚动同步
  */
 onMounted(() => {
-	const result = useSyncScroll([textarea.value, previewCard.value], () => !isSyncScroll.value)
-	lastScroll = result.lastScroll
-})
+	const result = useSyncScroll([textarea.value, previewCard.value], () => !isSyncScroll.value);
+	lastScroll = result.lastScroll;
+});
 
 const setSyncScrollTop = () => {
-	if (!isSyncScroll.value) return
+	if (!isSyncScroll.value) return;
 
 	// 仅切换至预览，全屏的手机端时，将 textarea 同步为 preview
 	if (!isPreview.value && !isFullScreen.value && !isMobile.value) {
-		setSyncScroll(previewCard.value, textarea.value)
+		setSyncScroll(previewCard.value, textarea.value);
 	} else if (lastScroll && lastScroll.value) {
-		setSyncScroll(lastScroll.value, textarea.value, previewCard.value)
+		setSyncScroll(lastScroll.value, textarea.value, previewCard.value);
 	} else {
-		setSyncScroll(textarea.value, previewCard.value)
+		setSyncScroll(textarea.value, previewCard.value);
 	}
 }
 
 watch(() => isSyncScroll.value, () => {
-	setSyncScrollTop()
-})
+	setSyncScrollTop();
+});
 
 watch(() => isPreview.value, () => {
-	setSyncScrollTop()
-})
+	setSyncScrollTop();
+});
 
-useSvgIcon(toolList.map(item => item.icon))
+useSvgIcon(toolList.map(item => item.icon));
 
 // 容器样式类
 const containerClass = computed(() => {
 	if (!isMobile.value && isFullScreen.value && isPreview.value) return 'edit-preview';
 	if (isPreview.value) return 'preview';
 	return 'edit';
-})
+});
 //endregion
 
 /**
  * 文本插入工具与历史记录
  */
 //region Insert Tool and History
-const argsMap = ref(new Map<string, Ref>)
+const argsMap = ref(new Map<string, Ref>);
 
-argsMap.value = getArgsMap(props.insertUnits)
+argsMap.value = getArgsMap(props.insertUnits);
 
 const changeInputArg = (name: string, e: InputEvent) => {
 	argsMap.value.get(name)!.value = (<HTMLInputElement>e.target).value;
@@ -499,18 +496,18 @@ const changeSelectArg = (name: string, e: Event) => {
 }
 
 const insertIntoTextarea = (insertUnit: InsertUnit, e?: KeyboardEvent) => {
-	const history = insertUnit.insert(argsMap.value, textarea.value, e)
-	setHistoryType(history.type)
-	changeHook(history)
+	const history = insertUnit.insert(argsMap.value, textarea.value, e);
+	setHistoryType(history.type);
+	changeHook(history);
 }
 
 const changeHook = (history: EditorHistory) => {
-	updateTextarea(textarea.value, history)
+	updateTextarea(textarea.value, history);
 }
 
 const smoothChangeHook = (history: EditorHistory) => {
-	updateTextarea(textarea.value, history, false)
-	smoothScroll(textarea.value, history.scrollTop, history.scrollLeft)
+	updateTextarea(textarea.value, history, false);
+	smoothScroll(textarea.value, history.scrollTop, history.scrollLeft);
 }
 
 // 文本编辑快捷键
@@ -521,11 +518,11 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			key: ['Enter']
 		},
 		onEmit: (e: KeyboardEvent) => {
-			setHistoryType('enter' + now())
+			setHistoryType('enter' + now());
 			if (e.altKey) {
-				push(batchEnter(textarea.value, e))
+				push(batchEnter(textarea.value, e));
 			} else {
-				push(batchEnter(textarea.value, e, getLeadingMarks))
+				push(batchEnter(textarea.value, e, getLeadingMarks));
 			}
 		},
 		prevent: true,
@@ -537,9 +534,9 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		},
 		onEmit: (e: KeyboardEvent) => {
 			if (e.shiftKey) {
-				searchPrevious()
+				searchPrevious();
 			} else {
-				searchNext()
+				searchNext();
 			}
 		},
 		prevent: true,
@@ -551,7 +548,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			ctrl: true
 		},
 		onEmit: () => {
-			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)
+			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
 			isReplace.value = true
 		},
 		prevent: true,
@@ -567,7 +564,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			}
 		},
 	}
-])
+]);
 
 const {
 	undoStack,
@@ -586,7 +583,7 @@ const {
 	shortcutKeys,
 	props.insertUnits,
 	argsMap.value,
-)
+);
 //endregion
 
 /**
@@ -609,38 +606,38 @@ const {
 	textarea,
 	text,
 	(history) => {
-		textarea.value.focus()
-		push(history, smoothChangeHook)
+		textarea.value.focus();
+		push(history, smoothChangeHook);
 	},
 	(history) => {
-		textarea.value.focus()
-		push(history, smoothChangeHook)
+		textarea.value.focus();
+		push(history, smoothChangeHook);
 	},
 	(history) => {
-		textarea.value.focus()
-		push(history, smoothChangeHook)
+		textarea.value.focus();
+		push(history, smoothChangeHook);
 	}
-)
+);
 //endregion
 
 /**
  * 同步 v-model 的文本变更
  */
 //region Sync vModel
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 watch(() => props.modelValue, () => {
 	if (text.value != props.modelValue) {
-		if (historyType.value.startsWith('redo') || historyType.value.startsWith("undo")) return
+		if (historyType.value.startsWith('redo') || historyType.value.startsWith("undo")) return;
 		text.value = props.modelValue
-		setHistoryType('outside' + now())
-		push()
+		setHistoryType('outside' + now());
+		push();
 	}
-}, {immediate: true})
+}, {immediate: true});
 
 watch(() => text.value, () => {
-	emit('update:modelValue', text.value)
-})
+	emit('update:modelValue', text.value);
+});
 //endregion
 
 //region Expose
@@ -682,7 +679,7 @@ defineExpose({
 	shortcutKeys,
 	insertUnits: props.insertUnits,
 	argsMap,
-})
+});
 //endregion
 </script>
 

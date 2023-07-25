@@ -18,14 +18,14 @@ export const link: InsertUnit = {
                 textarea,
                 "insert link",
                 `[${label}](${url})`
-            )
+            );
         } else {
             return simpleInsert(
                 textarea,
                 "insert link",
                 `[${label}](`,
                 ")"
-            )
+            );
         }
     },
     arguments: [

@@ -13,19 +13,19 @@ export const useSyncScroll = (
     disabled: () => boolean,
     timeout: number = 20
 ) => {
-    const isSyncScroll = ref(false)
-    const lastScroll: Ref<HTMLElement | undefined> = ref()
+    const isSyncScroll = ref(false);
+    const lastScroll: Ref<HTMLElement | undefined> = ref();
 
     elements.forEach(element => {
         element.addEventListener('scroll', throttle(() => {
-            if (isSyncScroll.value) return
+            if (isSyncScroll.value) return;
             lastScroll.value = element
-            if (disabled()) return
+            if (disabled()) return;
             isSyncScroll.value = true
-            setSyncScroll(element, ...elements)
-            setTimeout(() => isSyncScroll.value = false, timeout)
-        }, timeout))
-    })
+            setSyncScroll(element, ...elements);
+            setTimeout(() => isSyncScroll.value = false, timeout);
+        }, timeout));
+    });
 
     return {
         isSyncScroll,

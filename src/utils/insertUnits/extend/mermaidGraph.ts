@@ -24,7 +24,7 @@ export const mermaidGraph: InsertUnit = {
             `${fence}mermaid\n${example == '生成' ? mermaidType.value : mermaidType.key}\n`,
             "\n" + fence
 
-        )
+        );
     },
     arguments: [
         <OptionInsertArgument>{

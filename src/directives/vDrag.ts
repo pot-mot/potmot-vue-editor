@@ -11,6 +11,6 @@ import {useDrag} from "../hooks/useDrag";
  */
 export const vDrag = {
     mounted(el: HTMLElement, binding: {value: PositionRange | (() => PositionRange)}) {
-        useDrag(() => el, binding.value)
+        useDrag(() => el, binding.value);
     }
 }

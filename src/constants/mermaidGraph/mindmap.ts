@@ -4,10 +4,10 @@ export const mindmap: Option = {
     key: "mindmap",
     label: "思维导图",
     value: `mindmap
-  root((mindmap))
+  root((mindmap));
     Origins
       Long history
-      ::icon(fa fa-book)
+      ::icon(fa fa-book);
       Popularisation
         British popular psychology author Tony Buzan
     Research

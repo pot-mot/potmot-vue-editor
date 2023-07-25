@@ -6,7 +6,7 @@ import '../../assets/markdown-theme/default.css'
 import '../../assets/code-theme/default.css'
 import MarkdownPreview from "../../components/MarkdownPreview.vue";
 
-const text = ref("")
+const text = ref("");
 
 const props = defineProps({
     textCase: {
@@ -22,13 +22,13 @@ const props = defineProps({
         required: false,
         default: 500,
     }
-})
+});
 
 watch(() => props.textCase, () => {
     if (props.textCase != undefined) {
         text.value = props.textCase
     }
-}, {immediate: true})
+}, {immediate: true});
 
 watch(() => props.testCases, () => {
     if (props.testCases != undefined) {
@@ -36,10 +36,10 @@ watch(() => props.testCases, () => {
         for (let i = 0; i < props.testCases.length; i++) {
             setTimeout(() => {
                 text.value += props.testCases![i]
-            }, props.stepTime * i)
+            }, props.stepTime * i);
         }
     }
-}, {immediate: true})
+}, {immediate: true});
 
 </script>
 

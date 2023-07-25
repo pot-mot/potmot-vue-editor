@@ -20,30 +20,30 @@ export const table: InsertUnit = {
             "table",
             (startPart, midPart, endPart) => {
                 const placeholder = args.get("tablePlaceholder")!.value;
-                let width = limit(parseInt(args.get("tableColumnLength")!.value), 1, 99)
+                let width = limit(parseInt(args.get("tableColumnLength")!.value), 1, 99);
                 const tableHead = args.get("tableHeadConfig")!.value
                 let result: string
                 if (midPart.length > 0) {
-                    const lines = midPart.split("\n")
+                    const lines = midPart.split("\n");
                     const data: string[][] = []
                     lines.forEach(line => {
-                        const columns = line.split(/\t+/)
-                        data.push(columns)
+                        const columns = line.split(/\t+/);
+                        data.push(columns);
                         if (columns.length > width) {
                             width = columns.length
                         }
-                    })
-                    result = tableFormat(data, width, placeholder, tableHead)
+                    });
+                    result = tableFormat(data, width, placeholder, tableHead);
                 } else {
-                    const height = limit(parseInt(args.get("tableRowLength")!.value), 1, 99)
-                    result = tableCreate(height, width, placeholder, tableHead)
+                    const height = limit(parseInt(args.get("tableRowLength")!.value), 1, 99);
+                    result = tableCreate(height, width, placeholder, tableHead);
                 }
                 return {
                     content: [startPart, result, endPart],
                     start: startPart.length + 2,
                 }
             }
-        )
+        );
     },
     arguments: [
         <InputInsertArgument<number>>{

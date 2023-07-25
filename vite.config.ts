@@ -27,6 +27,7 @@ export default defineConfig({
         }
         // --- 到此为止 ---
     },
+    logLevel: "info",
 
     plugins: [
         vue(),
@@ -68,4 +69,4 @@ export default defineConfig({
         }),
     ],
     base: "./"
-})
+});

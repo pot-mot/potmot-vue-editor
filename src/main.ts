@@ -5,4 +5,4 @@ import editor from "./index"
 
 createApp(App)
     .use(editor)
-    .mount('#app')
+    .mount('#app');

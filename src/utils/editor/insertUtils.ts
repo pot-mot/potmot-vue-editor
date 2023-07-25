@@ -20,10 +20,10 @@ export const insertIntoString = (inserter: string, target: string, start: number
  * @param units: 插入列表
  */
 export const getArgsMap = (units: InsertUnit[]): Map<string, Ref> => {
-    const argsMap = new Map<string, Ref>()
+    const argsMap = new Map<string, Ref>();
     for (let i = 0; i < units.length; i++) {
         for (let j = 0; j < units[i].arguments.length; j++) {
-            argsMap.set(units[i].arguments[j].name, units[i].arguments[j].getRef())
+            argsMap.set(units[i].arguments[j].name, units[i].arguments[j].getRef());
         }
     }
     return argsMap
@@ -54,9 +54,9 @@ export const simpleInsert = (
 ): EditorHistory => {
     const {selectionStart: oldStart, selectionEnd: oldEnd, value: text, scrollTop, scrollLeft} = textarea;
 
-    const startPart: string = text.slice(0, oldStart)
-    const midPart: string = replace ? '' : text.slice(oldStart, oldEnd)
-    const endPart: string = text.slice(oldEnd)
+    const startPart: string = text.slice(0, oldStart);
+    const midPart: string = replace ? '' : text.slice(oldStart, oldEnd);
+    const endPart: string = text.slice(oldEnd);
 
     let content: string[] = [startPart, beforePart, midPart, afterPart, endPart];
 
@@ -121,15 +121,15 @@ export const formatInsert = (
 ): EditorHistory => {
     const {selectionStart: oldStart, selectionEnd: oldEnd, value: text, scrollTop, scrollLeft} = textarea;
 
-    const startPart: string = text.slice(0, oldStart)
-    const midPart: string = text.slice(oldStart, oldEnd)
-    const endPart: string = text.slice(oldEnd)
+    const startPart: string = text.slice(0, oldStart);
+    const midPart: string = text.slice(oldStart, oldEnd);
+    const endPart: string = text.slice(oldEnd);
 
     let temp = textarea.selectionStart
     while (text[temp] == " " || text[temp] == "\t") {
         temp++;
     }
-    const space = getLeadingSpace(text, temp)
+    const space = getLeadingSpace(text, temp);
 
     const {content, start, end} = formatter(startPart, midPart, endPart, space);
 

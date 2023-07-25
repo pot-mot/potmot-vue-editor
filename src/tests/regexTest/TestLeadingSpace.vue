@@ -29,13 +29,13 @@ const marksTestCases = new Map<string, string>([
 	["\t1. \t> \t+  2. \t- \t*\ttext", "\t2. \t> \t+  3. \t- \t*\t"],
 	["> > text", "> > "],
 	["\t  21. text\t> \t", "\t  22. "],
-])
+]);
 
 marksTestCases.forEach((value, key) => {
-	const result = getLeadingMarks(key, key.length)
+	const result = getLeadingMarks(key, key.length);
 	const judge = result == value
 	if (!judge) {
-		console.log(`value: '${key}' target: '${value}' result: '${result}'`)
+		console.log(`value: '${key}' target: '${value}' result: '${result}'`);
 	}
-})
+});
 </script>

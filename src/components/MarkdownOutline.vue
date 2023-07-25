@@ -21,11 +21,11 @@ import {computed, nextTick, onBeforeUnmount, onMounted, PropType, ref, watch} fr
 import {useScrollCurrent} from "../hooks/useScrollCurrent";
 import {throttle} from "lodash";
 
-const {handleScroll, getCurrent} = useScrollCurrent()
+const {handleScroll, getCurrent} = useScrollCurrent();
 
 let items = ref<OutlineItem[]>([]);
 
-const emits = defineEmits(["clickItem"])
+const emits = defineEmits(["clickItem"]);
 
 const props = defineProps({
     target: {
@@ -63,7 +63,7 @@ const props = defineProps({
         required: false,
         default: false,
     }
-})
+});
 
 const maxLevel = computed(() => {
     let max = 7;
@@ -73,7 +73,7 @@ const maxLevel = computed(() => {
         }
     }
     return max;
-})
+});
 
 let oldHtml: string = ""
 
@@ -89,14 +89,14 @@ const setItemFromHtml = (
     regex: RegExp = props.regex,
     parse: (match: RegExpExecArray) => OutlineItem = props.parse
 ) => {
-    if (!html) return
-    if (html == oldHtml) return
+    if (!html) return;
+    if (html == oldHtml) return;
 
     oldHtml = html
     const result: OutlineItem[] = []
     let match: RegExpExecArray | null
     while (match = regex.exec(html)) {
-        result.push(parse(match))
+        result.push(parse(match));
     }
 
 	if (!compare(items.value, result)) {
@@ -124,13 +124,13 @@ let oldScrollTop: number = 0
  * 标记当前元素
  */
 const markCurrent = () => {
-    if (!props.target) return
+    if (!props.target) return;
 
 	// 注意，为避免直接跳转后的current值发生变更，需要提前判断一下滚动高度是否与过去一致
 	const scrollHeight = props.target.scrollHeight
 	const scrollTop = props.target.scrollTop
 
-	if (scrollHeight == oldScrollHeight && scrollTop == oldScrollTop) return
+	if (scrollHeight == oldScrollHeight && scrollTop == oldScrollTop) return;
 
 	oldScrollHeight = scrollHeight
 	oldScrollTop = scrollTop
@@ -138,18 +138,18 @@ const markCurrent = () => {
     const elements = []
 
     for (const item of items.value) {
-        const element = props.target.querySelector(`#${item.id}`)
+        const element = props.target.querySelector(`#${item.id}`);
         if (!element || !(element instanceof HTMLElement)) {
 			// 哪怕不存在的元素也要记作 index
-            elements.push(undefined)
+            elements.push(undefined);
         } else {
-            elements.push(element)
+            elements.push(element);
         }
     }
 
-    let current = getCurrent(props.target, elements)
+    let current = getCurrent(props.target, elements);
 
-    if (current == undefined) return
+    if (current == undefined) return;
 
     for (let i = 0; i < items.value.length; i++) {
         items.value[i].current = i == current
@@ -157,11 +157,11 @@ const markCurrent = () => {
 }
 
 const jumpTo = (clickedItem: OutlineItem) => {
-	emits("clickItem", clickedItem)
+	emits("clickItem", clickedItem);
 
-	if (!props.target) return
+	if (!props.target) return;
 
-	if (!clickedItem.id || clickedItem.id.length == 0) return
+	if (!clickedItem.id || clickedItem.id.length == 0) return;
 
 	for (const item of items.value) {
 		item.current = item.id == clickedItem.id
@@ -170,36 +170,36 @@ const jumpTo = (clickedItem: OutlineItem) => {
 	if (props.policy == "anchor") {
 		props.target.querySelector('#' + clickedItem.id)?.scrollIntoView();
 	} else if (props.policy == "offset") {
-		const element = <HTMLHeadElement>(props.target.querySelector('#' + clickedItem.id))
-		handleScroll(props.target, element)
+		const element = <HTMLHeadElement>(props.target.querySelector('#' + clickedItem.id));
+		handleScroll(props.target, element);
 	}
 }
 
 let interval: number;
 
 onMounted(() => {
-	nextTick(act)
-	interval = setInterval(act, props.step)
-})
+	nextTick(act);
+	interval = setInterval(act, props.step);
+});
 
 watch(() => props.suspend, (value) => {
 	if (value == false) {
-		act()
-		interval = setInterval(act, props.step)
+		act();
+		interval = setInterval(act, props.step);
 	} else {
-		clearInterval(interval)
+		clearInterval(interval);
 	}
-})
+});
 
 onBeforeUnmount(() => {
 	clearInterval(interval);
-})
+});
 
 const act = throttle(() => {
-	if (props.suspend) return
-	setItemFromHtml()
-	markCurrent()
-}, props.step)
+	if (props.suspend) return;
+	setItemFromHtml();
+	markCurrent();
+}, props.step);
 </script>
 
 <style lang="scss" scoped>

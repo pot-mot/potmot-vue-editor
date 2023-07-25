@@ -22,11 +22,11 @@ const props = defineProps({
 		type: String,
 		required: false
 	}
-})
+});
 
 const link = computed(() => {
 	return `#${props.prefix ? props.prefix : svgIconPrefix}${props.name}`
-})
+});
 </script>
 
 <style scoped>

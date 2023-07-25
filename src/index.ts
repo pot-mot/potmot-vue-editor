@@ -12,8 +12,8 @@ const components = [
 const install = function (Vue: any) {
     // 遍历注册全局组件
     components.forEach(component => {
-        Vue.component(component.name, component)
-    })
+        Vue.component(component.name, component);
+    });
 }
 
 if (typeof window !== 'undefined' && (window as any).Vue) {

@@ -70,17 +70,17 @@ export const smoothScroll = (
  */
 export const setSyncScroll = (master: HTMLElement, ...slaves: HTMLElement[]) => {
     slaves.filter(element => element != master).forEach(slave => {
-        slave.scrollTop = master.scrollTop * (slave.scrollHeight - slave.offsetHeight) / (master.scrollHeight - master.offsetHeight)
-        slave.scrollLeft = master.scrollLeft * (slave.scrollWidth - slave.offsetWidth) / (master.scrollWidth - master.offsetWidth)
-    })
+        slave.scrollTop = master.scrollTop * (slave.scrollHeight - slave.offsetHeight) / (master.scrollHeight - master.offsetHeight);
+        slave.scrollLeft = master.scrollLeft * (slave.scrollWidth - slave.offsetWidth) / (master.scrollWidth - master.offsetWidth);
+    });
 }
 
 export const resetScroll = (el: HTMLElement) => {
-    if (!el) return
-    const oldScrollTopRatio = el.scrollTop / (el.scrollHeight - el.offsetHeight)
-    const oldScrollLeftRatio = el.scrollLeft / (el.scrollWidth - el.offsetWidth)
+    if (!el) return;
+    const oldScrollTopRatio = el.scrollTop / (el.scrollHeight - el.offsetHeight);
+    const oldScrollLeftRatio = el.scrollLeft / (el.scrollWidth - el.offsetWidth);
     nextTick(() => {
         el.scrollTop = (el.scrollHeight - el.offsetHeight) * oldScrollTopRatio
         el.scrollLeft = (el.scrollWidth - el.offsetWidth) * oldScrollLeftRatio
-    }).then()
+    }).then();
 }

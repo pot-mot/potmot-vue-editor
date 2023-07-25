@@ -18,31 +18,31 @@ const props = defineProps({
 		required: false,
 		default: [],
 	},
-})
+});
 
-const emits = defineEmits(["clickTool"])
+const emits = defineEmits(["clickTool"]);
 
 const toolMap = computed(() => {
-	return groupBy(props.tools, 'position')
-})
+	return groupBy(props.tools, 'position');
+});
 
 const menuTools = computed(() => {
 	return <EditTool[]>props.tools.filter(tool => {
 		if (!props.positions?.includes(tool.position)) return false
 		return tool.contextMenu;
-	})
-})
+	});
+});
 
 const clickTool = (tool: EditTool, result: any) => {
-	emits("clickTool", {tool, result})
+	emits("clickTool", {tool, result});
 }
 
-const toolBarContainer = ref()
+const toolBarContainer = ref();
 
 defineExpose({
 	element: toolBarContainer,
 	tools: props.tools
-})
+});
 </script>
 
 <template>

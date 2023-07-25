@@ -12,9 +12,9 @@ mermaid.initialize(
             curve: "polyline"
         }
     },
-)
+);
 
-export const renderer = new Renderer()
+export const renderer = new Renderer();
 
 const errResult = (e: any, msg: string): string => {
     return `<div style='white-space: pre-line;'><span style="color: red;">[解析错误: ${msg}]</span><br><span style="color: red;">[</span>${e}<span style="color: red;">]</span></div>`
@@ -22,16 +22,16 @@ const errResult = (e: any, msg: string): string => {
 
 const setLine = (code: string) => {
     const counts: string[] = []
-    const codes = code.split('\n')
+    const codes = code.split('\n');
     const resultCodes: string[] = []
     for (let i = 0; i < codes.length; i++) {
-        counts.push(`${i+1}`)
-        resultCodes.push(`${codes[i]}\n`)
+        counts.push(`${i+1}`);
+        resultCodes.push(`${codes[i]}\n`);
     }
     return `<div class="count">${counts.join('\n')}</div><code>${resultCodes.join('')}</code>`;
 }
 
-const codeCache: Map<{ language: string, text: string }, string> = new Map<{ language: string, text: string }, string>()
+const codeCache: Map<{ language: string, text: string }, string> = new Map<{ language: string, text: string }, string>();
 
 export const codeRender = (text: string, language: string): string => {
     try {
@@ -43,54 +43,54 @@ export const codeRender = (text: string, language: string): string => {
 
         let code
         if (prismLanguageList.includes(language)) {
-            code = Prism.highlight(text, Prism.languages[language], language)
+            code = Prism.highlight(text, Prism.languages[language], language);
         } else {
-            code = encodeHTML(text)
+            code = encodeHTML(text);
         }
-        const result = setLine(code)
-        codeCache.set(key, result)
+        const result = setLine(code);
+        codeCache.set(key, result);
         return result
     } catch (e) {
-        return errResult(e, "code - " + language + " 代码渲染出错")
+        return errResult(e, "code - " + language + " 代码渲染出错");
     }
 }
 
-const mathCache: Map<string, string> = new Map<string, string>()
+const mathCache: Map<string, string> = new Map<string, string>();
 
 export const mathRender = (text: string): string => {
     try {
-        text = text.trim()
+        text = text.trim();
 
         if (mathCache.has(text)) {
             return mathCache.get(text)!
         }
-        const result = katex.renderToString(text)
-        mathCache.set(text, result)
+        const result = katex.renderToString(text);
+        mathCache.set(text, result);
         return result
     } catch (e) {
-        return errResult(e, "math - katex 渲染出错")
+        return errResult(e, "math - katex 渲染出错");
     }
 }
 
-const mermaidCache: Map<string, string> = new Map<string, string>()
+const mermaidCache: Map<string, string> = new Map<string, string>();
 
 export const mermaidRender = (
     element: HTMLElement,
     success: (id: string, res: RenderResult, origin: string) => any,
     fail: (id: string, e: any, origin: string) => any
 ) => {
-    if (element.innerHTML.startsWith("<svg")) return
+    if (element.innerHTML.startsWith("<svg")) return;
 
-    const id = 'mermaid' + Math.floor(Math.random() * 10000000)
-    const text = decodeHTML(element.innerHTML)
+    const id = 'mermaid' + Math.floor(Math.random() * 10000000);
+    const text = decodeHTML(element.innerHTML);
 
     mermaid.render(id, text)
         .then(res => {
-            success(id, res, text)
+            success(id, res, text);
         })
         .catch(e => {
-            fail(id, e, text)
-        })
+            fail(id, e, text);
+        });
 }
 
 export const mermaidBatchRender = (elements: HTMLElement[]) => {
@@ -101,10 +101,10 @@ export const mermaidBatchRender = (elements: HTMLElement[]) => {
                 mermaidCache.set(origin, res.svg);
             },
             (id, e, origin) => {
-                document.getElementById(id)?.remove()
-                element.innerHTML = origin + errResult(e, "mermaid 图渲染出错")
+                document.getElementById(id)?.remove();
+                element.innerHTML = origin + errResult(e, "mermaid 图渲染出错");
             },
-        )
+        );
     }
 }
 
@@ -135,7 +135,7 @@ renderer.code = (code: string, language: string): string => {
         return `<div class="math">${mathRender(code)}</div>`
     }
 
-    code = codeRender(code, language)
+    code = codeRender(code, language);
     return `<pre class="code-container"><div class="code-copy-button" title="复制"></div><div class="code-language">${language}</div>${code}</pre>`;
 }
 
@@ -152,14 +152,14 @@ renderer.image = (href, title, text) => {
         title = text
     }
 
-    const image = new Image()
+    const image = new Image();
     image.onload = () => {
-        imageErrorCache.delete(href)
-        image.remove()
+        imageErrorCache.delete(href);
+        image.remove();
     }
     image.onerror = () => {
-        imageErrorCache.set(href, `<img class="error" src="${href}" title="${title}" alt="${text}" onload="this.classList.remove('error');" onerror="this.classList.add('error');" ${renderer.options.xhtml ? '/>' : '>'}`)
-        image.remove()
+        imageErrorCache.set(href, `<img class="error" src="${href}" title="${title}" alt="${text}" onload="this.classList.remove('error');" onerror="this.classList.add('error');" ${renderer.options.xhtml ? '/>' : '>'}`);
+        image.remove();
     }
     image.src = href
 

@@ -16,7 +16,7 @@ export const exeToolClick = (tool: EditTool) => {
             tool.contextMenu.visible = active
         }
     } else {
-        return tool.onClick(tool)
+        return tool.onClick(tool);
     }
 }
 

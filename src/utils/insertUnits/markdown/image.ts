@@ -18,14 +18,14 @@ export const image: InsertUnit = {
                 textarea,
                 "insert picture link",
                 `![${label}](${url})`
-            )
+            );
         } else {
             return simpleInsert(
                 textarea,
                 "insert picture link",
                 `![${label}](`,
                 ")"
-            )
+            );
         }
     },
     arguments: [

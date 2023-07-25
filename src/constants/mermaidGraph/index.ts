@@ -34,6 +34,6 @@ export const mermaidGraphList = [
     // zenuml,
 ]
 
-export const mermaidTypeMap: Map<string, Option> = toMap(mermaidGraphList, "label")
+export const mermaidTypeMap: Map<string, Option> = toMap(mermaidGraphList, "label");
 
 export const mermaidTypeNameList = Array.from(mermaidTypeMap.keys())

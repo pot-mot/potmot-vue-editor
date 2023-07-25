@@ -9,24 +9,24 @@ export const useSvgIcon = (icons: (string | Ref<string> | undefined)[], containe
     let container: HTMLElement | null
 
     onMounted(() => {
-        container = document.getElementById(containerId)
+        container = document.getElementById(containerId);
 
         watch(() => icons, () => {
             if (container) {
-                const svgList = container.querySelectorAll("svg")
+                const svgList = container.querySelectorAll("svg");
                 svgList.forEach(svg => {
-                    svgNameList.add(svg.id)
-                })
+                    svgNameList.add(svg.id);
+                });
             } else {
-                const item = document.createElement('div')
+                const item = document.createElement('div');
                 item.id = containerId
-                setStyle(item, hideStyle)
-                document.documentElement.appendChild(item)
+                setStyle(item, hideStyle);
+                document.documentElement.appendChild(item);
                 container = item
             }
 
             icons.forEach(iconName => {
-                if (iconName == undefined) return
+                if (iconName == undefined) return;
 
                 let name: string
                 if (isRef(iconName)) {
@@ -37,12 +37,12 @@ export const useSvgIcon = (icons: (string | Ref<string> | undefined)[], containe
                 if (!svgNameList.has(`${svgIconPrefix}${name}`) && name in svgIcons && container) {
                     container.innerHTML += svgIcons[name]!
                 }
-            })
-        }, {immediate: true})
-    })
+            });
+        }, {immediate: true});
+    });
 
     onBeforeUnmount(() => {
-        let container: HTMLElement | null = document.getElementById(containerId)
-        if (container) container.remove()
-    })
+        let container: HTMLElement | null = document.getElementById(containerId);
+        if (container) container.remove();
+    });
 }

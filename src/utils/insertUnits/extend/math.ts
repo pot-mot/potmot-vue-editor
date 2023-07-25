@@ -15,7 +15,7 @@ export const math: InsertUnit = {
             "math block",
             "$$\n",
             "\n$$"
-        )
+        );
     },
     arguments: [],
     reject: true,

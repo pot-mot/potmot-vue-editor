@@ -21,24 +21,24 @@ export const orderedList: InsertUnit = {
             "ordered list",
             (startPart, midPart, endPart, space) => {
                 const placeholder = args.get("orderedListWhiteSpace")!.value
-                const start = parseInt(args.get("orderedListStart")!.value)
+                const start = parseInt(args.get("orderedListStart")!.value);
                 if (midPart.length > 0) {
-                    const result = orderedListFormat(midPart, space, start, placeholder)
+                    const result = orderedListFormat(midPart, space, start, placeholder);
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
                         end: startPart.length + result.length
                     }
                 } else {
-                    const length = limit(parseInt(args.get("orderedListLength")!.value), 1, 99)
-                    const result = orderedListCreat(length, start, space, placeholder).slice(space.length)
+                    const length = limit(parseInt(args.get("orderedListLength")!.value), 1, 99);
+                    const result = orderedListCreat(length, start, space, placeholder).slice(space.length);
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length + (start + '').length + 2,
                     }
                 }
             }
-        )
+        );
     },
     arguments: [
         <InputInsertArgument<number>>{

@@ -16,7 +16,7 @@ export const quote: InsertUnit = {
             "quote",
             (startPart, midPart, endPart, space) => {
                 if (midPart.length != 0) {
-                    const result = quoteFormat(midPart, space)
+                    const result = quoteFormat(midPart, space);
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
@@ -30,7 +30,7 @@ export const quote: InsertUnit = {
                     }
                 }
             }
-        )
+        );
     },
     arguments: [],
     reject: true,

@@ -15,12 +15,12 @@ export const copyCode = (e: MouseEvent) => {
     const node = <HTMLElement>e.target;
     try {
         if (node.parentElement != null) {
-            const codes = node.parentElement.querySelectorAll("code")
+            const codes = node.parentElement.querySelectorAll("code");
             const results: string[] = []
             codes.forEach(code => {
-                results.push(code.textContent ? code.textContent : '')
-            })
-            copy(results.join(''))
+                results.push(code.textContent ? code.textContent : '');
+            });
+            copy(results.join(''));
             alert("已复制");
         }
     } catch (e) {

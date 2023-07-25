@@ -24,22 +24,22 @@ export const unorderedList: InsertUnit = {
             (startPart, midPart, endPart, space) => {
                 const placeholder = args.get("unorderedListWhiteSpace")!.value
                 if (midPart.length > 0) {
-                    const result = unorderedListFormat(midPart, mark, space, placeholder)
+                    const result = unorderedListFormat(midPart, mark, space, placeholder);
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length,
                         end: startPart.length + result.length
                     }
                 } else {
-                    const length = limit(parseInt(args.get("unorderedListLength")!.value), 1, 99)
-                    const result = unorderedListCreat(length, mark, space, placeholder).slice(space.length)
+                    const length = limit(parseInt(args.get("unorderedListLength")!.value), 1, 99);
+                    const result = unorderedListCreat(length, mark, space, placeholder).slice(space.length);
                     return {
                         content: [startPart, result, endPart],
                         start: startPart.length + 2,
                     }
                 }
             }
-        )
+        );
     },
     arguments: [
         <InputInsertArgument<number>>{

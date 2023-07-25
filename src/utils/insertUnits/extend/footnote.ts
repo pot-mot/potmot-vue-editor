@@ -15,7 +15,7 @@ export const footnote: InsertUnit = {
             "footnote",
             "[^",
             "]"
-        )
+        );
     },
     arguments: [],
     reject: true,

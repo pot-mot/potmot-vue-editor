@@ -9,14 +9,14 @@ const props = defineProps({
 		type: Object as PropType<EditTool>,
 		required: true,
 	}
-})
+});
 
-const emits = defineEmits(["clickTool"])
+const emits = defineEmits(["clickTool"]);
 
 const clickTool = (tool: EditTool) => {
-	if (tool.disable) return
-	const result = exeToolClick(tool)
-	emits("clickTool", {tool, result})
+	if (tool.disable) return;
+	const result = exeToolClick(tool);
+	emits("clickTool", {tool, result});
 }
 
 const icon = computed(() => {
@@ -26,7 +26,7 @@ const icon = computed(() => {
 	} else {
 		return props.tool.icon
 	}
-})
+});
 </script>
 
 <template>

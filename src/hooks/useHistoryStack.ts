@@ -10,8 +10,8 @@ export const useHistoryStack = (
     },
     topFinalHook: Function = undoFinalHook,
 ) => {
-    const undoStack: Ref<EditorHistory[]> = ref([])
-    const redoStack: Ref<EditorHistory[]> = ref([])
+    const undoStack: Ref<EditorHistory[]> = ref([]);
+    const redoStack: Ref<EditorHistory[]> = ref([]);
 
     // 上一次设置 setTop 的时间
     let lastSetTopTime = 0
@@ -23,44 +23,44 @@ export const useHistoryStack = (
      * @param change
      */
     const push = (history = pushDefault(), change: Function | undefined = changeHook) => {
-        if (history.type.startsWith('undo') || history.type.startsWith('redo')) return
+        if (history.type.startsWith('undo') || history.type.startsWith('redo')) return;
 
-        const pushTime = now()
+        const pushTime = now();
 
         if (undoStack.value.length > 0 && pushDefault().type == top().type && pushTime - lastSetTopTime <= 2000) {
-            setTop(history)
+            setTop(history);
         } else {
-            undoStack.value.push(history)
-            if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length)
+            undoStack.value.push(history);
+            if (redoStack.value.length > 0) redoStack.value.splice(0, redoStack.value.length);
         }
         lastSetTopTime = pushTime
 
-        if (change) change(history)
+        if (change) change(history);
     };
 
     // 撤销
     const undo = (): void => {
         if (undoStack.value.length > 1) {
-            const historyTop = undoStack.value.pop()
+            const historyTop = undoStack.value.pop();
             if (historyTop) {
-                redoStack.value.push(historyTop)
-                changeHook(top())
+                redoStack.value.push(historyTop);
+                changeHook(top());
             }
         } else {
-            undoFinalHook()
+            undoFinalHook();
         }
     };
 
     // 重做
     const redo = (): void => {
         if (redoStack.value.length > 0) {
-            const historyTop = redoStack.value.pop()
+            const historyTop = redoStack.value.pop();
             if (historyTop) {
-                undoStack.value.push(historyTop)
-                changeHook(top())
+                undoStack.value.push(historyTop);
+                changeHook(top());
             }
         } else {
-            redoFinalHook()
+            redoFinalHook();
         }
     };
 
@@ -68,8 +68,8 @@ export const useHistoryStack = (
         if (undoStack.value.length >= 1) {
             return undoStack.value[undoStack.value.length - 1]
         } else {
-            topFinalHook()
-            return pushDefault()
+            topFinalHook();
+            return pushDefault();
         }
     }
 
@@ -78,8 +78,8 @@ export const useHistoryStack = (
     }
 
     const clear = (): void => {
-        undoStack.value.splice(0, undoStack.value.length)
-        redoStack.value.splice(0, redoStack.value.length)
+        undoStack.value.splice(0, undoStack.value.length);
+        redoStack.value.splice(0, redoStack.value.length);
     };
 
     return {

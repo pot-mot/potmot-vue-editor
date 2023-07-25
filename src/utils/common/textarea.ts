@@ -9,7 +9,7 @@ import {nextTick} from "vue";
  */
 export const setSize = (el: HTMLTextAreaElement, min: number = 1, max: number = Number.MAX_SAFE_INTEGER) => {
     el.style.height = 'auto'
-    const style = window.getComputedStyle(el)
+    const style = window.getComputedStyle(el);
     const length = el.value.split('\n').length
     el.style.height = `calc(${style.lineHeight} * ${limit(length, min, max)} + ${style.paddingTop} + ${style.paddingBottom} + 3px)`
 }
@@ -29,7 +29,7 @@ const eventTypeList = ["focus", "input", "change", "blur"]
 const setSizeByEvent = (event: Event, min: number = 1, max: number = Number.MAX_SAFE_INTEGER) => {
     const target = event.target
     if (target instanceof HTMLTextAreaElement) {
-        setSize(target, min, max)
+        setSize(target, min, max);
     }
 }
 
@@ -42,23 +42,23 @@ const setSizeByEvent = (event: Event, min: number = 1, max: number = Number.MAX_
 export const setTextareaAdapt = (textarea: HTMLTextAreaElement, min: number = 1, max: number = Number.MAX_SAFE_INTEGER) => {
     eventTypeList.forEach(eventType => {
         textarea.addEventListener(eventType, (e) => {
-            setSizeByEvent(e, min, max)
-        })
-    })
+            setSizeByEvent(e, min, max);
+        });
+    });
 }
 
 export const updateTextarea = (textarea: HTMLTextAreaElement, history: EditorHistory, scroll: boolean = true) => {
     const {start, end, scrollTop, scrollLeft, text} = history
     textarea.value = text
-    textarea.dispatchEvent(new Event("input"))
+    textarea.dispatchEvent(new Event("input"));
     nextTick(() => {
         if (scroll) {
             textarea.scrollTo({
                 left: scrollLeft,
                 top: scrollTop,
-            })
+            });
         }
         textarea.selectionStart = start
         textarea.selectionEnd = end
-    }).then()
+    }).then();
 }

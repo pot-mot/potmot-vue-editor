@@ -3,11 +3,11 @@ import TestPreviewBase from "./TestPreviewBase.vue";
 import {onMounted, ref} from "vue";
 import {katexTestCases} from "../testCase/katex";
 
-const testcase = ref("")
+const testcase = ref("");
 
 onMounted(() => {
-	testcase.value = katexTestCases.join(" ")
-})
+	testcase.value = katexTestCases.join(" ");
+});
 </script>
 
 <template>

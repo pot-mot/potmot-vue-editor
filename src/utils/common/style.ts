@@ -5,20 +5,20 @@ export const syncCommonCssStyle = (
     from: HTMLElement,
     syncStyles: string[] = commonStyleProp
 ) => {
-    const fromStyles = window.getComputedStyle(from)
+    const fromStyles = window.getComputedStyle(from);
     syncStyles.forEach(prop => {
         if (prop in target.style && prop in fromStyles) {
             // @ts-ignore
             target.style[prop] = fromStyles[prop]
         }
-    })
+    });
 }
 
 export const syncSearchCssStyle = (
     target: HTMLElement,
     from: HTMLElement,
 ) => {
-    syncCommonCssStyle(target, from, searchStyleProp)
+    syncCommonCssStyle(target, from, searchStyleProp);
     const whiteSpace = window.getComputedStyle(from).whiteSpace
     if (whiteSpace == "pre-line") {
         target.style.maxWidth = window.getComputedStyle(from).width

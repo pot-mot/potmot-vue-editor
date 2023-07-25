@@ -4,26 +4,26 @@ export const unorderedListCreat = (data: number | string[], mark: string, space:
     let result: string[] = []
     if (typeof data == 'number') {
         for (let i = 0; i < data; i++) {
-            result.push(`${space}${mark} ${placeholder}`)
+            result.push(`${space}${mark} ${placeholder}`);
         }
     } else {
-        const empty = isBlockEmpty(data)
+        const empty = isBlockEmpty(data);
         if (empty) {
             for (let i = 0; i < data.length; i++) {
-                result.push(`${space}${mark} ${placeholder}`)
+                result.push(`${space}${mark} ${placeholder}`);
             }
         } else {
             for (let i = 0; i < data.length; i++) {
-                const item = data[i].trimStart()
+                const item = data[i].trimStart();
                 if (item.length == 0) {
-                    result.push(space)
+                    result.push(space);
                 } else {
-                    result.push(`${space}${mark} ${item}`)
+                    result.push(`${space}${mark} ${item}`);
                 }
             }
         }
     }
-    return result.join("\n")
+    return result.join("\n");
 }
 
 export const unorderedListJudge = (data: string[]) => {
@@ -44,53 +44,53 @@ export const unorderedListReformat = (data: string[], space: string = ""): strin
 
     for (let i = 0; i < data.length; i++) {
         if (data[i].trim().length == 0) {
-            result.push(space)
+            result.push(space);
         } else {
-            const item = data[i].replace(/^[ \t]*[-+*][ \t]/, '')
-            result.push(`${space}${item}`)
+            const item = data[i].replace(/^[ \t]*[-+*][ \t]/, '');
+            result.push(`${space}${item}`);
         }
     }
     return result
 }
 
 export const unorderedListFormat = (str: string, mark: string, space: string = "", placeholder: string = ""): string => {
-    let data = str.split("\n")
+    let data = str.split("\n");
     if (unorderedListJudge(data)) {
-        return unorderedListReformat(data, space).join('\n')
+        return unorderedListReformat(data, space).join('\n');
     }
 
     if (orderedListJudge(data)) {
-        data = orderedListReformat(data, space)
+        data = orderedListReformat(data, space);
     }
 
-    return unorderedListCreat(data, mark, space, placeholder)
+    return unorderedListCreat(data, mark, space, placeholder);
 }
 
 export const orderedListCreat = (data: number | string[], start: number, space: string = "", placeholder: string = ""): string => {
     let result: string[] = []
     if (typeof data == 'number') {
         for (let i = 0; i < data; i++) {
-            result.push(`${space}${start + i}. ${placeholder}`)
+            result.push(`${space}${start + i}. ${placeholder}`);
         }
     } else {
-        const empty = isBlockEmpty(data)
+        const empty = isBlockEmpty(data);
         if (empty) {
             for (let i = 0; i < data.length; i++) {
-                result.push(`${space}${start + i}. ${placeholder}`)
+                result.push(`${space}${start + i}. ${placeholder}`);
             }
         } else {
             let index = 0
             for (let i = 0; i < data.length; i++) {
-                const item = data[i].trimStart()
+                const item = data[i].trimStart();
                 if (item.length == 0) {
-                    result.push(space)
+                    result.push(space);
                 } else {
-                    result.push(`${space}${start + index++}. ${item}`)
+                    result.push(`${space}${start + index++}. ${item}`);
                 }
             }
         }
     }
-    return result.join("\n")
+    return result.join("\n");
 }
 
 export const orderedListJudge = (data: string[]) => {
@@ -110,24 +110,24 @@ export const orderedListReformat = (data: string[], space: string = ""): string[
     let result: string[] = []
     for (let i = 0; i < data.length; i++) {
         if (data[i].trim().length == 0) {
-            result.push(`${space}`)
+            result.push(`${space}`);
         } else {
-            const item = data[i].replace(/^[ \t]*\d+\.[ \t]/, '')
-            result.push(`${space}${item}`)
+            const item = data[i].replace(/^[ \t]*\d+\.[ \t]/, '');
+            result.push(`${space}${item}`);
         }
     }
     return result
 }
 
 export const orderedListFormat = (str: string, space: string = "", start: number = 1, placeholder: string = ""): string => {
-    let data = str.split("\n")
+    let data = str.split("\n");
     if (orderedListJudge(data)) {
-        return orderedListReformat(data, space).join('\n')
+        return orderedListReformat(data, space).join('\n');
     }
 
     if (unorderedListJudge(data)) {
-        data = unorderedListReformat(data, space)
+        data = unorderedListReformat(data, space);
     }
 
-    return orderedListCreat(data, start, space, placeholder)
+    return orderedListCreat(data, start, space, placeholder);
 }

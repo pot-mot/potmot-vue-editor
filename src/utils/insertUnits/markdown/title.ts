@@ -17,10 +17,10 @@ export const title: InsertUnit = {
     insert: (args, textarea, event) => {
         let level: number = args.get("titleLevel")!.value
         if (event && ['1', '2', '3', '4', '5', '6'].includes(event.key)) {
-            level = parseInt(event.key)
+            level = parseInt(event.key);
             args.get('titleLevel')!.value = level
         }
-        level = limit(level, 1, 6)
+        level = limit(level, 1, 6);
         let resultText = ""
         for (let i = 0; i < level; i++) {
             resultText += "#"
@@ -35,7 +35,7 @@ export const title: InsertUnit = {
                     start: startPart.length + resultText.length + midPart.length
                 }
             }
-        )
+        );
     },
     arguments: [
         <InputInsertArgument<number>>{

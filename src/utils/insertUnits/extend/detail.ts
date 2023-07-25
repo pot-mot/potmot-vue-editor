@@ -19,7 +19,7 @@ export const detail: InsertUnit = {
             "detail",
             `:::${isOpen == '展开' ? '+' : ''}${summary}\n`,
             "\n:::"
-        )
+        );
     },
     arguments: [
         <InputInsertArgument<string>>{

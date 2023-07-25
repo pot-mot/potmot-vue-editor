@@ -15,7 +15,7 @@ const encodeHTMLByReplaceAll = (html: string): string => {
         .replaceAll(">", "&gt;")
         .replaceAll(" ", "&nbsp;")
         .replaceAll("'", "&#39;")
-        .replaceAll('"', "&quot;")
+        .replaceAll('"', "&quot;");
 }
 
 const encodeHTMLByRegex = (html: string): string => {
@@ -25,20 +25,20 @@ const encodeHTMLByRegex = (html: string): string => {
         .replace(/>/g, "&gt;")
         .replace(/ /g, "&nbsp;")
         .replace(/'/g, "&#39;")
-        .replace(/"/g, "&quot;")
+        .replace(/"/g, "&quot;");
 }
 
 const encodeHTMLByDom = (html: string) => {
-    let temp = document.createElement("div")
+    let temp = document.createElement("div");
     temp.textContent = html
     const output = temp.innerHTML
-    temp.remove()
+    temp.remove();
     return output
 }
 
-countTime(10000, () => {encodeHTMLByDom(html)}, "byDom")
+countTime(10000, () => {encodeHTMLByDom(html)}, "byDom");
 
-countTime(10000, () => {encodeHTMLByRegex(html)}, "ByRegex")
+countTime(10000, () => {encodeHTMLByRegex(html)}, "ByRegex");
 
-countTime(10000, () => {encodeHTMLByReplaceAll(html)}, "ByReplaceAll")
+countTime(10000, () => {encodeHTMLByReplaceAll(html)}, "ByReplaceAll");
 </script>

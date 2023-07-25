@@ -5,11 +5,11 @@ import SvgIcon from "../svg/SvgIcon.vue";
 import {useSvgIcon} from "../../hooks/useSvgIcon";
 import {EditTool} from "../../declare/EditTool";
 
-const contextMenu = ref()
+const contextMenu = ref();
 
-useSvgIcon(["close"])
+useSvgIcon(["close"]);
 
-const emit = defineEmits(['cancel'])
+const emit = defineEmits(['cancel']);
 
 const props = defineProps({
 	tool: {
@@ -30,26 +30,26 @@ const props = defineProps({
 		required: false,
 		default: true
 	}
-})
+});
 
 onMounted(() => {
-	setPosition()
+	setPosition();
 
 	if (props.tool.contextMenu) {
 		watch(() => props.tool.contextMenu!.visible, (newVal) => {
 			if (!newVal) {
-				setPosition()
+				setPosition();
 			}
-		})
+		});
 
 		watch(() => props.tool.contextMenu!.position, (newVal) => {
-			setPosition()
-		})
+			setPosition();
+		});
 	}
-})
+});
 
 const close = (tool: EditTool) => {
-	emit("cancel", {tool})
+	emit("cancel", {tool});
 }
 
 const setPosition = () => {

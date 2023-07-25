@@ -46,12 +46,12 @@ export const useStatistics = (
         selectLength: 0,
         startPlace: {x: 1, y: 1},
         endPlace: {x: 1, y: 1},
-    })
+    });
 
     // 统计数据，和定时器一起使用
     const setEditData = () => {
-        const textarea = target()
-        if (!textarea) return
+        const textarea = target();
+        if (!textarea) return;
 
         statisticalData.startPlace = getPlace(textarea.selectionStart, text());
         if (textarea.selectionStart == textarea.selectionEnd) {
@@ -67,11 +67,11 @@ export const useStatistics = (
     onMounted(() => {
         setEditData();
         editEditInterval = setInterval(setEditData, step);
-    })
+    });
 
     onBeforeUnmount(() => {
-        clearInterval(editEditInterval)
-    })
+        clearInterval(editEditInterval);
+    });
     
     return {
         statisticalData,

@@ -19,14 +19,14 @@ export const markColor: InsertUnit = {
                 "insert link",
                 "==",
                 "=="
-            )
+            );
         } else {
             return simpleInsert(
                 textarea,
                 "insert link",
                 `==(${warningColor})`,
                 "==",
-            )
+            );
         }
     },
     arguments: [

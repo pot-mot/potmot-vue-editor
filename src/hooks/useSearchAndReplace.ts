@@ -15,57 +15,57 @@ export const useSearchAndReplace = (
     const searchData = reactive({
         index: -1,
         indexes: <number[]>[],
-    })
+    });
     
-    const replaceFrom = ref("")
-    const replaceTo = ref("")
+    const replaceFrom = ref("");
+    const replaceTo = ref("");
 
-    const {getCursorScroll} = useSelectionFocus(() => textarea.value)
+    const {getCursorScroll} = useSelectionFocus(() => textarea.value);
 
     const setSearchData = debounce(() => {
         searchData.index = -1
         searchData.indexes = []
 
-        if (textarea.value == undefined) return
-        if (replaceFrom.value.length <= 0) return
-        if (text.value.length <= 0) return
+        if (textarea.value == undefined) return;
+        if (replaceFrom.value.length <= 0) return;
+        if (text.value.length <= 0) return;
 
-        let index = text.value.indexOf(replaceFrom.value, 0)
+        let index = text.value.indexOf(replaceFrom.value, 0);
         let count = 0;
         while (index >= 0) {
-            let temp = text.value.indexOf(replaceFrom.value, index)
+            let temp = text.value.indexOf(replaceFrom.value, index);
             if (temp < 0) break
             if (textarea.value.selectionStart == temp && textarea.value.selectionEnd - textarea.value.selectionStart == replaceFrom.value.length) {
                 searchData.index = count
             }
-            searchData.indexes.push(temp)
+            searchData.indexes.push(temp);
             index = temp + replaceFrom.value.length;
             count++;
         }
-    }, 200)
+    }, 200);
 
-    const searchIndex = ref(0)
+    const searchIndex = ref(0);
 
     let isReplace = false
 
     watch(() => searchData.index, () => {
         searchIndex.value = searchData.index + 1
-    })
+    });
 
     const searchCurrent = () => {
-        if (!searchJudgeHook()) return
+        if (!searchJudgeHook()) return;
 
         if (searchData.indexes.length == 0) {
             searchData.index = -1
-            return
+            return;
         }
 
-        if (isReplace) return
+        if (isReplace) return;
 
         const start = searchData.indexes[searchData.index]
         const length = replaceFrom.value.length
 
-        const {top: scrollTop, left: scrollLeft} = getCursorScroll(start)
+        const {top: scrollTop, left: scrollLeft} = getCursorScroll(start);
 
         const history: EditorHistory = {
             type: 'searchCurrent' + now(),
@@ -75,18 +75,18 @@ export const useSearchAndReplace = (
             scrollTop,
             scrollLeft
         }
-        searchHook(history)
+        searchHook(history);
     }
 
     const searchByIndex = () => {
         const index = searchIndex.value
         if (index <= 0 || index > searchData.indexes.length) {
             searchIndex.value = 0
-            return
+            return;
         }
         searchData.index = index - 1
 
-        searchCurrent()
+        searchCurrent();
     }
 
     const searchPrevious = () => {
@@ -110,7 +110,7 @@ export const useSearchAndReplace = (
 
         if (searchData.indexes.length == 0) {
             searchData.index = -1
-            return
+            return;
         }
 
         if (searchData.index < searchData.indexes.length - 1) {
@@ -118,33 +118,33 @@ export const useSearchAndReplace = (
         } else {
             searchData.index = 0
         }
-        searchCurrent()
+        searchCurrent();
     }
 
     const replaceOne = () => {
-        if (!replaceJudgeHook()) return
+        if (!replaceJudgeHook()) return;
 
         if (replaceFrom.value.length <= 0) {
             alert("替换文本不可为空");
-            return
+            return;
         }
 
         if (searchData.indexes.length == 0) {
             searchData.index = -1
-            alert("无文本可替换")
-            return
+            alert("无文本可替换");
+            return;
         }
 
         if (replaceFrom.value != text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd)) {
-            alert("匹配文本未选中")
+            alert("匹配文本未选中");
             if (searchData.index == -1 && searchData.indexes.length > 0) {
                 searchData.index = 0
-                searchCurrent()
+                searchCurrent();
             }
-            return
+            return;
         }
 
-        if (isReplace) return
+        if (isReplace) return;
 
         isReplace = true
 
@@ -159,7 +159,7 @@ export const useSearchAndReplace = (
             nextEnd = nextStart + replaceFrom.value.length
         }
 
-        const {left: scrollLeft, top: scrollTop} = getCursorScroll(nextStart)
+        const {left: scrollLeft, top: scrollTop} = getCursorScroll(nextStart);
 
 
         const history: EditorHistory = {
@@ -170,7 +170,7 @@ export const useSearchAndReplace = (
             scrollTop,
             scrollLeft
         }
-        replaceOneFinishHook(history)
+        replaceOneFinishHook(history);
 
         isReplace = false
     }
@@ -178,16 +178,16 @@ export const useSearchAndReplace = (
     const replaceAll = () => {
         if (replaceFrom.value.length <= 0) {
             alert("替换文本不可为空");
-            return
+            return;
         }
 
         if (searchData.indexes.length == 0) {
             searchData.index = -1
-            alert("无文本可替换")
-            return
+            alert("无文本可替换");
+            return;
         }
 
-        if (isReplace) return
+        if (isReplace) return;
 
         isReplace = true
 
@@ -201,27 +201,27 @@ export const useSearchAndReplace = (
             type: `replaceAll${now()}`,
             text: text.value.replaceAll(replaceFrom.value, replaceTo.value)
         }
-        replaceAllFinishHook(history)
+        replaceAllFinishHook(history);
 
-        isReplace = false
-    }
+        isReplace = false;
+    };
 
     onMounted(() => {
-        if (textarea.value == undefined) return
+        if (textarea.value == undefined) return;
 
         watch(() => replaceFrom.value, () => {
             if (replaceFrom.value.length <= 0) {
                 searchData.index = -1
                 searchData.indexes = []
-                return
+                return;
             }
-            setSearchData()
-        })
+            setSearchData();
+        });
 
         watch(() => text.value, () => {
-            setSearchData()
-        })
-    })
+            setSearchData();
+        });
+    });
 
     return {
         textarea,
