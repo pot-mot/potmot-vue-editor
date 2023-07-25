@@ -47,6 +47,12 @@ defineExpose({
 
 <template>
 	<div class="toolbar" ref="toolBarContainer">
+		<ul v-for="position in props.positions" :class="[position]">
+			<template v-for="tool in toolMap.get(position)">
+				<slot :name="`${tool.name}Content`"></slot>
+				<ToolBarItem :tool="tool" @click-tool="clickTool"></ToolBarItem>
+			</template>
+		</ul>
 		<template v-for="tool in menuTools">
 			<ContextMenu
 				:title="tool.label"
@@ -55,12 +61,6 @@ defineExpose({
 				<slot :name="tool.name"></slot>
 			</ContextMenu>
 		</template>
-		<ul v-for="position in props.positions" :class="position">
-			<template v-for="tool in toolMap.get(position)">
-				<slot :name="`${tool.name}Content`"></slot>
-				<ToolBarItem :tool="tool" @click-tool="clickTool"></ToolBarItem>
-			</template>
-		</ul>
 	</div>
 </template>
 
@@ -94,7 +94,7 @@ defineExpose({
 
 	> ul:hover {
 		overflow: visible;
-		z-index: 10001;
+		z-index: 10000;
 	}
 
 	> .LT,

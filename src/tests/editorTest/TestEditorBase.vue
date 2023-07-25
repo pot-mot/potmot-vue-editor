@@ -1,5 +1,5 @@
 <template>
-	<MarkdownEditor v-model="text" style="padding: 0 0.5em 0.5em;">
+	<MarkdownEditor v-model="text">
 	</MarkdownEditor>
 </template>
 

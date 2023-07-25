@@ -1,7 +1,5 @@
 <template>
-	<div style="height: 200vh; width: 200vw;">
-		<TestEditorBase></TestEditorBase>
-	</div>
+	<TestEditorBase></TestEditorBase>
 <!--	<TestEditorExpose></TestEditorExpose>-->
 <!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="5000"></TestMarkdown>-->
 <!--		<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
@@ -31,6 +29,8 @@ import TestEditorExpose from "./tests/editorTest/TestEditorExpose.vue";
 body {
 	margin: 0;
 	padding: 0;
+	width: 200vw;
+	height: 200vh;
 }
 </style>
 

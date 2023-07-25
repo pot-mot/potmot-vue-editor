@@ -13,7 +13,7 @@
 								  v-text="item.label">
 							</span>
 							<template v-for="arg in item.arguments">
-								<label>{{ arg.label }}</label>
+								<label ignore-drag>{{ arg.label }}</label>
 								<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
 										@change="(e) => {changeSelectArg(arg.name, e)}">
 									<option v-for="item in arg.options">{{ item }}</option>
@@ -82,7 +82,7 @@
 					</ul>
 				</template>
 				<template #history>
-					<ul style="overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack">
+					<ul style="overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack" ignore-drag>
 						<li v-for="item in undoStack"
 							style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
 							{{ item.type }}
@@ -128,9 +128,14 @@ import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {getLeadingMarks} from "../utils/common/text";
+import {
+	lockScroll,
+	unlockScroll,
+	ScrollData,
+} from "../utils/common/document";
 import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
 import {EditTool, EditToolConfig} from "../declare/EditTool";
-import {usePreferredDark, useScrollLock} from "@vueuse/core";
+import {usePreferredDark} from "@vueuse/core";
 
 // DOM 元素 Ref
 const editor = ref();
@@ -423,21 +428,23 @@ onMounted(() => {
 	}
 });
 
-const isLock = useScrollLock(document.documentElement);
+let oldScrollData: ScrollData
 
-watch(() => isFullScreen.value, (newValue) => {
-	// 因为使用 teleport, 所以需要手动重置滚动高度
-	resetScroll(textarea.value);
-	resetScroll(previewCard.value);
+onMounted(() => {
+	watch(() => isFullScreen.value, (newValue) => {
+		// 因为使用 teleport, 所以需要手动重置滚动高度
+		resetScroll(textarea.value);
+		resetScroll(previewCard.value);
 
-	isLock.value = newValue;
-
-	if (newValue) {
-		isPreview.value = !isMobile.value;
-	} else {
-		isPreview.value = false;
-	}
-});
+		if (newValue) {
+			isPreview.value = !isMobile.value;
+			oldScrollData = lockScroll();
+		} else {
+			isPreview.value = false;
+			unlockScroll(oldScrollData)
+		}
+	}, {immediate: true});
+})
 
 let lastScroll: Ref<HTMLElement | undefined>
 
