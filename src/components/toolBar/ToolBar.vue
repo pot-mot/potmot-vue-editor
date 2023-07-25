@@ -97,6 +97,10 @@ defineExpose({
 		z-index: 10000;
 	}
 
+	> :deep(.context-menu) {
+		z-index: 10001;
+	}
+
 	> .LT,
 	> .LB {
 		justify-self: left;
