@@ -45,7 +45,6 @@ const props = defineProps({
 		type: String,
 		required: true,
 	},
-
 	extension: {
 		type: Array as PropType<TokenizerAndRendererExtension[]>,
 		required: false,
@@ -187,6 +186,10 @@ const onClick = (e: MouseEvent) => {
 		}
 	}
 }
+
+defineExpose({
+	markdownCard
+})
 </script>
 
 <style scoped lang="scss">

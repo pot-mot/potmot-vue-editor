@@ -1,9 +1,9 @@
 <template>
 	<Teleport :disabled="!isFullScreen" to="body">
 		<div class="editor" ref="editor"
-			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', EditorColorTheme, isWrap? 'wrap' : 'no-wrap', ...props.class]"
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', EditorColorTheme, ...props.class]"
 			 :style="[isFullScreen ? '' : {width: props.width, height: props.height}, props.style]">
-			<ToolBar v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
+			<ToolBar ref="topToolBar" v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
 				<template #insert>
 					<ul>
 						<li v-for="item in insertUnits" class="insert-text">
@@ -51,22 +51,24 @@
 					</slot>
 				</template>
 			</ToolBar>
-			<div class="container" :class="containerClass">
+			<div ref="container" class="container" :class="containerClass">
 				<textarea
 					:style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
 					ref="textarea"
 					v-model="text"
-					:placeholder="props.placeholder"
-					class="edit-card">
+					:placeholder="placeholder"
+					:disabled="disabled"
+					class="edit-card"
+					:class="[isWrap ? 'wrap' : 'no-wrap', disabled? 'disabled' : '']">
 				</textarea>
 				<div ref="previewCard"
 					 class="preview-card">
 					<slot name="preview" :text="text">
-						<MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
+						<MarkdownPreview :markdown-text="text" :cursor="true" :suspend="!isPreview"></MarkdownPreview>
 					</slot>
 				</div>
 			</div>
-			<ToolBar :tools="toolList" :positions="['LB', 'RB']">
+			<ToolBar ref="bottomToolBar" :tools="toolList" :positions="['LB', 'RB']">
 				<template #statisticalDataContent>
 					<ul class="statistical-list">
 						<li>字数 {{ text.length }}</li>
@@ -80,7 +82,7 @@
 					</ul>
 				</template>
 				<template #history>
-					<ul style="height: 100%; overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack">
+					<ul style="overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack">
 						<li v-for="item in undoStack"
 							style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
 							{{ item.type }}
@@ -132,8 +134,11 @@ import {usePreferredDark, useScrollLock} from "@vueuse/core";
 
 // 元素
 const editor = ref()
+const container = ref()
 const textarea = ref()
 const previewCard = ref()
+const topToolBar = ref()
+const bottomToolBar = ref()
 
 /**
  * 文本与统计数据
@@ -159,6 +164,12 @@ const props = defineProps({
 		required: false,
 		default: "",
 	},
+	disabled: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+
 	width: {
 		type: String,
 		required: false,
@@ -178,6 +189,7 @@ const props = defineProps({
 		required: false,
 		default: [],
 	},
+
 	toolbar: {
 		type: Array as PropType<EditToolConfig[]>,
 		required: false,
@@ -214,13 +226,18 @@ const isPreview = ref(false)
 
 const isOutline = ref(false)
 
+const isWrap = ref(true)
+
 const isSyncScroll = ref(true)
 
 const EditorColorTheme = ref('')
 
-const isUnFullPreview: ComputedRef<boolean> = computed(() => isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value))
+const isEdit: ComputedRef<boolean> = computed(() => {
+	if (props.disabled) return false
+	return isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value)
+})
 
-const isWrap = ref(false)
+
 
 const toolList = reactive(<EditTool[]>[
 	{
@@ -228,7 +245,7 @@ const toolList = reactive(<EditTool[]>[
 		label: "快捷插入",
 		active: ref(false),
 		icon: "more",
-		show: isUnFullPreview,
+		show: isEdit,
 		position: "LT",
 		contextMenu: {
 			position: {},
@@ -240,7 +257,7 @@ const toolList = reactive(<EditTool[]>[
 		label: "文本查找与替换",
 		active: isReplace,
 		icon: "search",
-		show: isUnFullPreview,
+		show: isEdit,
 		position: "LT",
 		contextMenu: {
 			position: {},
@@ -252,7 +269,7 @@ const toolList = reactive(<EditTool[]>[
 		label: "撤销",
 		icon: "undo",
 		disable: computed(() => undoStack.value.length <= 1),
-		show: isUnFullPreview,
+		show: isEdit,
 		position: "LT",
 		onClick: () => {
 			setHistoryType("undo")
@@ -267,7 +284,7 @@ const toolList = reactive(<EditTool[]>[
 		label: "重做",
 		icon: "redo",
 		disable: computed(() => redoStack.value.length <= 0),
-		show: isUnFullPreview,
+		show: isEdit,
 		position: "LT",
 		onClick: () => {
 			setHistoryType("redo")
@@ -289,7 +306,7 @@ const toolList = reactive(<EditTool[]>[
 		name: "wrap",
 		label: "换行",
 		icon: "wrap",
-		active: ref(true),
+		active: isWrap,
 		show: true,
 		position: "RB",
 		onClick: (self: EditTool) => {
@@ -298,7 +315,7 @@ const toolList = reactive(<EditTool[]>[
 	},
 	{
 		name: "history",
-		label: "历史记录",
+		label: "操作历史",
 		icon: "history",
 		active: ref(false),
 		show: true,
@@ -362,30 +379,35 @@ const toolList = reactive(<EditTool[]>[
 	},
 ])
 
+let contextMenuPositionTop: string = 'auto'
+let contextMenuPositionLeft: string = 'auto'
+let contextMenuPositionBottomTop: string = 'auto'
+let contextMenuPositionRight: string = 'auto'
+
 const getPosition = (tool: EditTool): Position => {
-	if (!editor.value) return {}
-	const {paddingLeft: left, paddingRight: right} = window.getComputedStyle(editor.value)
 	switch (tool.position) {
-		case "LT": return {left, top: '2rem'}
-		case "LB": return {left, bottom: '2rem'}
-		case "RT": return {right, top: '2rem'}
-		case "RB": return {right, bottom: '2rem'}
+		case "LT": return {left: contextMenuPositionLeft, top: contextMenuPositionTop}
+		case "LB": return {left: contextMenuPositionLeft, top: contextMenuPositionBottomTop}
+		case "RT": return {right: contextMenuPositionRight, top: contextMenuPositionTop}
+		case "RB": return {right: contextMenuPositionRight, top: contextMenuPositionBottomTop}
 	}
 	return {}
 }
 
 onMounted(() => {
-	toolList.forEach(tool => {
-		if (tool.contextMenu) tool.contextMenu.position = getPosition(tool)
-	})
-
 	watch(() => isFullScreen.value, () => {
 		nextTick(() => {
+			if (!editor.value || !topToolBar.value || !topToolBar.value.element) return {}
+			const {paddingLeft: left, paddingRight: right} = window.getComputedStyle(editor.value)
+			const {marginTop: mt1, paddingTop: pt1, height: h1, paddingBottom: pb1, marginBottom: mb1} = window.getComputedStyle(topToolBar.value.element)
+			contextMenuPositionLeft = left
+			contextMenuPositionRight = right
+			contextMenuPositionTop = `calc(${[mt1, pt1, h1, pb1, mb1].join(" + ")})`
 			toolList.forEach(tool => {
 				if (tool.contextMenu) tool.contextMenu.position = getPosition(tool)
 			})
 		})
-	})
+	}, {immediate: true})
 })
 
 const preferredDark = usePreferredDark()
@@ -622,6 +644,13 @@ watch(() => text.value, () => {
 
 //region Expose
 defineExpose({
+	editor,
+	container,
+	textarea,
+	previewCard,
+	topToolBar,
+	bottomToolBar,
+
 	toolList,
 
 	isFullScreen,
@@ -667,14 +696,28 @@ defineExpose({
 
 	line-height: 1.7em;
 
+	transition: 0.5s;
+
+	::selection {
+		color: var(--editor-selection-color);
+		background-color: var(--editor-selection-back-color);
+	}
+
 	::-webkit-scrollbar {
-		width: 8px;
-		height: 8px;
+		width: var(--editor-scroll-size);
+		height: var(--editor-scroll-size);
 	}
 
 	::-webkit-scrollbar-thumb {
 		background-color: var(--editor-scroll-color);
-		border-radius: 5px;
+		border-radius: calc(var(--editor-scroll-size) / 2);
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background-color: var(--editor-scroll-hover-color);
+	}
+	::-webkit-scrollbar-corner {
+		background-color: transparent;
 	}
 
 	* {
@@ -710,6 +753,12 @@ defineExpose({
 		cursor: text;
 		word-break: break-word;
 		word-wrap: anywhere;
+	}
+
+	input:hover,
+	textarea:hover {
+		box-shadow: var(--editor-input-shadow);
+		-webkit-box-shadow: var(--editor-input-shadow);
 	}
 }
 
@@ -766,6 +815,22 @@ defineExpose({
 	> .preview-card {
 		padding-left: 1em;
 		padding-right: 1em;
+		white-space: normal;
+	}
+
+	> .edit-card.wrap {
+		overflow-x: hidden;
+		white-space: pre-line;
+	}
+
+	> .edit-card.no-wrap {
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	> .edit-card.disabled {
+		cursor: not-allowed;
+		opacity: 0.9;
 	}
 
 	&.edit {
@@ -798,28 +863,6 @@ defineExpose({
 			padding: 0.5em;
 			margin: 0;
 		}
-	}
-}
-
-.editor.wrap > .container {
-	> .edit-card,
-	> .preview-card {
-		overflow-x: hidden;
-	}
-
-	> .edit-card {
-		white-space: pre-line;
-	}
-
-	> .preview-card {
-		white-space: normal;
-	}
-}
-
-.editor.no-wrap > .container {
-	> .edit-card {
-		overflow-x: auto;
-		white-space: nowrap;
 	}
 }
 

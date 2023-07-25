@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, PropType} from "vue";
+import {computed, PropType, ref} from "vue";
 import ContextMenu from "../contextMenu/ContextMenu.vue";
 import {groupBy} from "../../utils/common/groupBy";
 import {EditTool} from "../../declare/EditTool";
@@ -36,10 +36,17 @@ const menuTools = computed(() => {
 const clickTool = (tool: EditTool, result: any) => {
 	emits("clickTool", {tool, result})
 }
+
+const toolBarContainer = ref()
+
+defineExpose({
+	element: toolBarContainer,
+	tools: props.tools
+})
 </script>
 
 <template>
-	<div class="toolbar">
+	<div class="toolbar" ref="toolBarContainer">
 		<template v-for="tool in menuTools">
 			<ContextMenu
 				:title="tool.label"
@@ -50,9 +57,7 @@ const clickTool = (tool: EditTool, result: any) => {
 		</template>
 		<ul v-for="position in props.positions" :class="position">
 			<template v-for="tool in toolMap.get(position)">
-				<li>
-					<slot :name="`${tool.name}Content`"></slot>
-				</li>
+				<slot :name="`${tool.name}Content`"></slot>
 				<ToolBarItem :tool="tool" @click-tool="clickTool"></ToolBarItem>
 			</template>
 		</ul>

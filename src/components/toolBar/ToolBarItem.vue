@@ -77,6 +77,10 @@ li {
 	> .icon.active {
 		color: var(--editor-tool-active-color);
 		background-color: var(--editor-tool-active-back-color);
+
+		&:hover {
+			background-color: var(--editor-tool-active-hover-back-color);
+		}
 	}
 
 	> .icon.disable {

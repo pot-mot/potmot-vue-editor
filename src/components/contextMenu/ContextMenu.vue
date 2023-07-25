@@ -123,6 +123,11 @@ const setPosition = () => {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 
+	&:hover {
+		box-shadow: var(--editor-context-menu-hover-shadow);
+		-webkit-box-shadow: var(--editor-context-menu-hover-shadow);
+	}
+
 	* {
 		box-sizing: border-box;
 	}
