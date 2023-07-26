@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import SvgIcon from "../svg/SvgIcon.vue";
-import {computed, isRef, PropType} from "vue";
+import {computed, isRef, PropType, watch} from "vue";
 import {EditTool} from "../../declare/EditTool";
 import {exeToolClick} from "../../utils/editor/editTool";
+import {importIcon} from "../../hooks/useSvgIcon";
 
 const props = defineProps({
 	tool: {
@@ -27,6 +28,10 @@ const icon = computed(() => {
 		return props.tool.icon
 	}
 });
+
+watch(() => icon.value, () => {
+	importIcon(icon.value)
+}, {immediate: true})
 </script>
 
 <template>

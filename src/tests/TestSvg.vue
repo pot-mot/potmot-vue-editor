@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import SvgIcon from "../components/svg/SvgIcon.vue";
-import {useSvgIcon} from "../hooks/useSvgIcon";
+import {useSvgIcons} from "../hooks/useSvgIcon";
 import {svgIconNameList} from "../constants/icon/svgIcon";
 
-useSvgIcon(svgIconNameList);
+useSvgIcons(svgIconNameList);
 </script>
 
 <template>

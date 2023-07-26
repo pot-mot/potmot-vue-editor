@@ -1,3 +1,7 @@
+import {computed, ComputedRef} from "vue";
+import {setStyle} from "./style";
+import {hideStyle} from "../../constants/css/style";
+
 export const getDocumentScrollTop = (): number => {
     return document.documentElement.scrollTop || document.body.scrollTop || window.scrollY;
 }
@@ -28,5 +32,18 @@ export const unlockScroll = (data: ScrollData) => {
     document.documentElement.style.overflow = oldOverflow;
     document.documentElement.scrollLeft = oldScrollLeft;
     document.documentElement.scrollTop = oldScrollTop;
+}
 
+export const createComputedHideDom = (tagName: keyof HTMLElementTagNameMap, id: string): ComputedRef<Element> => {
+    return computed(() => {
+        let element = document.getElementById(id);
+        if (!element) {
+            const item = document.createElement(tagName);
+            item.id = id;
+            setStyle(item, hideStyle);
+            document.documentElement.appendChild(item);
+            element = item;
+        }
+        return element;
+    })
 }

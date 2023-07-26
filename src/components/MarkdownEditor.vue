@@ -1,7 +1,7 @@
 <template>
 	<Teleport :disabled="!isFullScreen" to="body">
 		<div class="editor" ref="editor"
-			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', EditorColorTheme, ...props.class]"
+			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', colorTheme, ...props.class]"
 			 :style="[isFullScreen ? '' : {width: props.width, height: props.height}, props.style]">
 			<ToolBar ref="topToolBar" v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
 				<template #insert>
@@ -118,7 +118,6 @@ import {vKeepBottom} from "../directives/vKeepBottom";
 import {useStatistics} from "../hooks/useStatistics";
 import {useInputExtension} from "../hooks/useInputExtension";
 import {useSyncScroll} from "../hooks/useSyncScroll";
-import {useSvgIcon} from "../hooks/useSvgIcon";
 
 import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
 
@@ -235,14 +234,13 @@ const isWrap = ref(true);
 
 const isSyncScroll = ref(true);
 
-const EditorColorTheme = ref('');
-
 const isEdit: ComputedRef<boolean> = computed(() => {
 	if (props.disabled) return false;
 	return isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value);
 });
 
-
+const preferredDark = usePreferredDark();
+const colorTheme = computed(() => preferredDark.value ? "dark" : "light");
 
 const toolList = reactive(<EditTool[]>[
 	{
@@ -330,22 +328,15 @@ const toolList = reactive(<EditTool[]>[
 	{
 		name: "colorTheme",
 		label: "主题",
-		icon: "night",
-		active: computed(() => EditorColorTheme.value == 'dark'),
+		icon: colorTheme,
+		active: preferredDark,
 		show: true,
 		position: "RB",
-		onClick: (self: EditTool) => {
-			if (self.active) {
-				EditorColorTheme.value = 'light';
-			} else {
-				EditorColorTheme.value = 'dark';
-			}
-		}
 	},
 	{
 		name: "syncScroll",
 		label: "滚动同步",
-		icon: "lock",
+		icon: computed(() => isSyncScroll.value ? 'lock' : 'unlock'),
 		active: isSyncScroll,
 		show: true,
 		position: "RB",
@@ -366,7 +357,7 @@ const toolList = reactive(<EditTool[]>[
 	{
 		name: "preview",
 		label: "预览",
-		icon: "preview",
+		icon: computed(() => isPreview.value ? 'eye' : 'eyeClose'),
 		active: isPreview,
 		show: true,
 		position: "RT",
@@ -412,13 +403,6 @@ onMounted(() => {
 		});
 	}, {immediate: true});
 });
-
-const preferredDark = usePreferredDark();
-const colorTheme = computed(() => preferredDark.value ? "dark" : "light");
-
-watch(() => colorTheme.value, () => {
-	EditorColorTheme.value = colorTheme.value;
-}, {immediate: true});
 
 // 组件初始化全屏
 onMounted(() => {
@@ -476,8 +460,6 @@ watch(() => isSyncScroll.value, () => {
 watch(() => isPreview.value, () => {
 	setSyncScrollTop();
 });
-
-useSvgIcon(toolList.map(item => item.icon));
 
 // 容器样式类
 const containerClass = computed(() => {
@@ -663,10 +645,9 @@ defineExpose({
 	isPreview,
 	isOutline,
 	isSyncScroll,
-	colorTheme: EditorColorTheme,
+	colorTheme,
 	isWrap,
 	setSyncScrollTop,
-	useSvgIcon,
 
 	undoStack,
 	redoStack,

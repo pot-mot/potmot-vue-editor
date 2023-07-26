@@ -7,7 +7,7 @@ import {EditTool} from "../../declare/EditTool";
 
 const contextMenu = ref();
 
-useSvgIcon(["close"]);
+useSvgIcon("close");
 
 const emit = defineEmits(['cancel']);
 

@@ -95,7 +95,6 @@ defineExpose({
 
 	> ul:hover {
 		overflow-y: auto;
-		z-index: 10000;
 	}
 
 	> :deep(context-menu) {

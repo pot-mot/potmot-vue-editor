@@ -2,28 +2,21 @@ import {setStyle, syncSearchCssStyle} from "../utils/common/style";
 import {getCurrentLineBefore} from "../utils/common/text";
 import {hideStyle} from "../constants/css/style";
 import {encodeHTML} from "../utils/common/htmlParse";
-import {onBeforeUnmount} from "vue";
+import {createComputedHideDom} from "../utils/common/document";
+
+const containerId: string = "search-box-container"
+const searchContainer = createComputedHideDom('div', containerId)
 
 /**
  * 计算 selection 和 cursor 位置
  * @param target
- * @param containerId
  */
 export const useSelectionFocus = (
     target: () => HTMLTextAreaElement | undefined,
-    containerId: string = "search-box-container"
 ) => {
-    let container = document.getElementById(containerId);
-    if (container == null) {
-        const item = document.createElement('div');
-        item.id = containerId
-        setStyle(item, hideStyle);
-        document.documentElement.appendChild(item);
-        container = item
-    }
     const calculateBox = document.createElement('div');
     setStyle(calculateBox, hideStyle);
-    container.appendChild(calculateBox);
+    searchContainer.value.appendChild(calculateBox);
 
     const getCursorScroll = (start: number) => {
         const textarea = target();
@@ -47,10 +40,6 @@ export const useSelectionFocus = (
             left: leftDelta > 0 ? leftDelta : 0
         }
     }
-
-    onBeforeUnmount(() => {
-        if (container) container.remove();
-    });
 
     return {
         getCursorScroll,
