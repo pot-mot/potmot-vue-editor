@@ -7,13 +7,13 @@
 				<template #insert>
 					<ul>
 						<li v-for="item in insertUnits" class="insert-text">
-                        	<span ignore-drag class="hover-color"
+                        	<span class="hover-color"
 								  @mousedown.prevent.stop="insertIntoTextarea(item, undefined)"
 								  :title='formatTriggers(item).join("\n")'
 								  v-text="item.label">
 							</span>
 							<template v-for="arg in item.arguments">
-								<label ignore-drag>{{ arg.label }}</label>
+								<label>{{ arg.label }}</label>
 								<select v-if="'options' in arg" :value="argsMap.get(arg.name).value"
 										@change="(e) => {changeSelectArg(arg.name, e)}">
 									<option v-for="item in arg.options">{{ item }}</option>
@@ -31,7 +31,7 @@
 							  class="replace-box" placeholder="查找文本"/>
 					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceTo"
 							  class="replace-box" placeholder="替换文本"/>
-					<div class="replace-operation" ignore-drag>
+					<div class="replace-operation">
 						<span class="hover-color" @mousedown.prevent.stop="searchNext">下一个</span>
 						<span style="display: inline-block;width: 1em;"></span>
 						<span class="hover-color" @mousedown.prevent.stop="searchPrevious">上一个</span>
@@ -47,7 +47,7 @@
 				</template>
 				<template #outline>
 					<slot name="outline" :target="previewCard">
-						<MarkdownOutline :target="previewCard" :suspend="!isOutline" ignore-drag></MarkdownOutline>
+						<MarkdownOutline :target="previewCard" :suspend="!isOutline"></MarkdownOutline>
 					</slot>
 				</template>
 			</ToolBar>
@@ -82,7 +82,7 @@
 					</ul>
 				</template>
 				<template #history>
-					<ul style="height: 100%; overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack" ignore-drag>
+					<ul style="height: 100%; overflow-x: hidden; overflow-y: auto;" v-keep-bottom="undoStack">
 						<li v-for="item in undoStack"
 							style="white-space: nowrap; overflow: hidden; max-width: 100%; height: 1.5em;">
 							{{ item.type }}

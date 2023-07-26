@@ -1,39 +1,204 @@
+.code-container,
+:not(pre) > code,
 .dark.code-container,
 .dark .code-container,
 .dark:not(pre) > code,
 .dark :not(pre) > code {
-    --code-back-color: #414141;
+    --code-back-color: #2d2d2d;
     --code-font-color: #d5d5d5;
-
     --code-count-color: #888;
 
-    --code-number-color: #c1ddee;
+    /* Prolog 代码的颜色 */
+    --code-prolog-color: #b39ddb;
+
+    /* DOCTYPE 的颜色 */
+    --code-doctype-color: #b39ddb;
+
+    /* CDATA 的颜色 */
+    --code-cdata-color: #b39ddb;
+
+    /* 操作符的颜色 */
+    --code-operator-color: #82aaff;
+
+    /* 命名空间的颜色 */
+    --code-namespace-color: #b2ccd6;
+
+    /* CSS 属性的颜色 */
+    --code-property-color: #d7ba7d;
+
+    /* 标签的颜色 */
+    --code-tag-color: #91c36c;
+
+    /* 布尔类型的颜色 */
+    --code-boolean-color: #ff79c6;
+
+    /* 常量的颜色 */
+    --code-constant-color: #c792ea;
+
+    /* 符号的颜色 */
+    --code-symbol-color: #c792ea;
+
+    /* 被删除的代码的颜色 */
+    --code-deleted-color: #ff5555;
+
+    /* CSS 选择器的颜色 */
+    --code-selector-color: #d7ba7d;
+
+    /* 字符的颜色 */
+    --code-char-color: #ffcb6b;
+
+    /* 内建函数的颜色 */
+    --code-builtin-color: #82aaff;
+
+    /* URL 的颜色 */
+    --code-url-color: #80cbc4;
+
+    /* 插入的代码的颜色 */
+    --code-inserted-color: #80cbc4;
+
+    /* CSS at-rule 的颜色 */
+    --code-atrule-color: #c792ea;
+
+    /* HTML 属性名的颜色 */
+    --code-attrname-color: #d7ba7d;
+
+    /* HTML 属性值的颜色 */
+    --code-attrvalue-color: #a5d6a7;
+
+    /* 正则表达式的颜色 */
+    --code-regex-color: #f78c6c;
+
+    /* CSS 类名的颜色 */
+    --code-classname-color: #ffcb6b;
+
+    /* CSS 中 !important 关键字的颜色 */
+    --code-important-color: #c792ea;
+
+    /* 数字颜色 */
+    --code-number-color: #dcdcaa;
+
+    /* 标点符号颜色 */
     --code-punctuation-color: #b1b1c1;
-    --code-operator-color: #aaccff;
-    --code-function-color: #99ccee;
-    --code-keyword-color: #99aaff;
-    --code-string-color: #bbcc99;
+
+    /* 函数颜色 */
+    --code-function-color: #82aaff;
+
+    /* 关键字颜色 */
+    --code-keyword-color: #c792ea;
+
+    /* 字符串颜色 */
+    --code-string-color: #c3e88d;
+
+    /* 注释颜色 */
     --code-comment-color: #999;
-    --code-variable-color: #ffcc33;
-    --code-entity-color: #7799cc;
+
+    /* 变量颜色 */
+    --code-variable-color: #ffcb6b;
+
+    /* 实体颜色 */
+    --code-entity-color: #89ddff;
 }
 
 .light.code-container,
 .light .code-container,
 .light:not(pre) > code,
 .light :not(pre) > code {
+    /* 代码背景颜色 */
     --code-back-color: #f5f5f5;
+
+    /* 代码字体颜色 */
     --code-font-color: #444;
 
-    --code-count-color: #ccc;
+    /* 行号颜色 */
+    --code-count-color: #aaa;
 
-    --code-number-color: #445566;
-    --code-punctuation-color: #666677;
-    --code-operator-color: #4d79ec;
-    --code-function-color: #3aaee8;
-    --code-keyword-color: #4d5bf5;
-    --code-string-color: #bb46dc;
-    --code-comment-color: #aaa;
-    --code-variable-color: #b48e06;
-    --code-entity-color: #466db6;
+    /* Prolog 代码的颜色 */
+    --code-prolog-color: #6d4c41;
+
+    /* DOCTYPE 的颜色 */
+    --code-doctype-color: #6d4c41;
+
+    /* CDATA 的颜色 */
+    --code-cdata-color: #6d4c41;
+
+    /* 操作符的颜色 */
+    --code-operator-color: #3f51b5;
+
+    /* 命名空间的颜色 */
+    --code-namespace-color: #2196f3;
+
+    /* CSS 属性的颜色 */
+    --code-property-color: #795548;
+
+    /* 标签的颜色 */
+    --code-tag-color: #4caf50;
+
+    /* 布尔类型的颜色 */
+    --code-boolean-color: #e91e63;
+
+    /* 常量的颜色 */
+    --code-constant-color: #9c27b0;
+
+    /* 符号的颜色 */
+    --code-symbol-color: #9c27b0;
+
+    /* 被删除的代码的颜色 */
+    --code-deleted-color: #f44336;
+
+    /* CSS 选择器的颜色 */
+    --code-selector-color: #795548;
+
+    /* 字符的颜色 */
+    --code-char-color: #ff9800;
+
+    /* 内建函数的颜色 */
+    --code-builtin-color: #3f51b5;
+
+    /* URL 的颜色 */
+    --code-url-color: #00bcd4;
+
+    /* 插入的代码的颜色 */
+    --code-inserted-color: #00bcd4;
+
+    /* CSS at-rule 的颜色 */
+    --code-atrule-color: #9c27b0;
+
+    /* HTML 属性名的颜色 */
+    --code-attrname-color: #795548;
+
+    /* HTML 属性值的颜色 */
+    --code-attrvalue-color: #4caf50;
+
+    /* 正则表达式的颜色 */
+    --code-regex-color: #ff5722;
+
+    /* CSS 类名的颜色 */
+    --code-classname-color: #ff9800;
+
+    /* CSS 中 !important 关键字的颜色 */
+    --code-important-color: #9c27b0;
+
+    /* 数字颜色 */
+    --code-number-color: #2196f3;
+
+    /* 标点符号颜色 */
+    --code-punctuation-color: #333;
+
+    /* 函数颜色 */
+    --code-function-color: #3f51b5;
+
+    /* 关键字颜色 */
+    --code-keyword-color: #9c27b0;
+
+    /* 字符串颜色 */
+    --code-string-color: #8bc34a;
+
+    /* 注释颜色 */
+    --code-comment-color: #999;
+
+    /* 变量颜色 */
+    --code-variable-color: #ff9800;
+
+    /* 实体颜色 */
+    --code-entity-color: #00bcd4;
 }

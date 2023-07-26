@@ -69,7 +69,6 @@ defineExpose({
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: 50% 50%;
-	line-height: 1rem;
 	position: relative;
 
 	* {
@@ -81,6 +80,7 @@ defineExpose({
 	> ul {
 		height: 2rem;
 		padding: 0.2rem 0;
+		display: flex;
 		overflow: hidden;
 
 		> li {
@@ -88,22 +88,23 @@ defineExpose({
 			display: inline-block;
 			list-style: none;
 			height: 1.6rem;
+			line-height: 1rem;
 			vertical-align: middle;
 		}
 	}
 
 	> ul:hover {
-		overflow: visible;
+		overflow-y: auto;
 		z-index: 10000;
 	}
 
-	> :deep(.context-menu) {
+	> :deep(context-menu) {
 		z-index: 10001;
 	}
 
 	> .LT,
 	> .LB {
-		justify-self: left;
+		justify-content: flex-start;
 
 		> li {
 			margin-right: 0.5rem;
@@ -112,11 +113,21 @@ defineExpose({
 
 	> .RT,
 	> .RB {
-		justify-self: right;
+		justify-content: flex-end;
 
 		> li {
 			margin-left: 0.5rem;
 		}
+	}
+
+	> .LT,
+	> .RT {
+		flex-wrap: wrap;
+	}
+
+	> .LB,
+	> .RB {
+		flex-wrap: wrap-reverse;
 	}
 }
 </style>

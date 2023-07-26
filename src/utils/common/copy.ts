@@ -1,6 +1,3 @@
-/*
-	代码复制操作
- */
 export const copy = (text: string) => {
     const handleCopy = (e: ClipboardEvent) => {
         e.preventDefault();

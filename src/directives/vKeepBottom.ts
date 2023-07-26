@@ -1,4 +1,4 @@
-import {watch} from "vue";
+import {nextTick, watch} from "vue";
 import {throttle} from "lodash";
 
 export const vKeepBottom = {
@@ -6,7 +6,9 @@ export const vKeepBottom = {
         if (binding == undefined) return;
 
         watch(() => binding.value, throttle(() => {
-            el.scrollTo({top: el.scrollHeight - el.offsetHeight});
+            nextTick(() => {
+                el.scrollTo({top: el.scrollHeight - el.offsetHeight});
+            }).then()
         }, 20), {immediate: true, deep: true})
     }
 }

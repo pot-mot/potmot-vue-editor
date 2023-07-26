@@ -42,7 +42,7 @@ onMounted(() => {
 			}
 		});
 
-		watch(() => props.tool.contextMenu!.position, (newVal) => {
+		watch(() => props.tool.contextMenu!.position, () => {
 			setPosition();
 		});
 	}
@@ -104,7 +104,7 @@ const setPosition = () => {
 				</slot>
 			</div>
 
-			<div class="menu">
+			<div class="menu" ignore-drag>
 				<slot></slot>
 			</div>
 		</div>
@@ -141,11 +141,12 @@ const setPosition = () => {
 		> .title {
 			pointer-events: none;
 			font-weight: 600;
-			height: 1.6rem;
-			line-height: 1.6rem;
+			height: 2rem;
+			line-height: 2rem;
 			text-align: center;
 			white-space: nowrap;
 			overflow: hidden;
+			border-bottom: 1px solid var(--editor-context-menu-border-color);
 		}
 
 		> .close {
@@ -167,10 +168,11 @@ const setPosition = () => {
 
 		> .menu {
 			min-height: 3em;
-			height: calc(100% - 1.6rem);
+			height: calc(100% - 2rem);
 			overflow-y: auto;
 			width: 100%;
 			padding: 0.5em;
+			cursor: default;
 		}
 	}
 }
