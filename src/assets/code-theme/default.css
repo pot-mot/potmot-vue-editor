@@ -78,7 +78,7 @@
     --code-number-color: #dcdcaa;
 
     /* 标点符号颜色 */
-    --code-punctuation-color: #b1b1c1;
+    --code-punctuation-color: #777;
 
     /* 函数颜色 */
     --code-function-color: #82aaff;
@@ -182,7 +182,7 @@
     --code-number-color: #2196f3;
 
     /* 标点符号颜色 */
-    --code-punctuation-color: #333;
+    --code-punctuation-color: #999;
 
     /* 函数颜色 */
     --code-function-color: #3f51b5;

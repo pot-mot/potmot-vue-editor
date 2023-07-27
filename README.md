@@ -1,6 +1,6 @@
 # potmot-vue-editor
 
-一个基于 vue3、typescript、marked、prismjs、katex、mermaid、v-viewer 的简单 markdown 编辑器，开箱即用
+一个基于 vue3、typescript、markdown-it、prismjs、katex、mermaid、v-viewer 的简单 markdown 编辑器，开箱即用
 
 ## 介绍
 
@@ -100,7 +100,6 @@ import 'potmot-vue-editor/src/assets/code-theme/default.css';
 | 参数           | 类型                              | 说明                         | 必须         |
 |--------------|---------------------------------|----------------------------|------------|
 | markdownText | String                          | 传入的markdown文本，将被解析成html    | 是          |
-| extension    | TokenizerAndRendererExtension[] | marked 解析拓展，具体参照 marked 文档 | 否，默认值 []   |
 | suspend      | Boolean                         | 暂停渲染，用于优化性能                | 否，默认 false |
 
 #### 代碼支持

@@ -15,7 +15,8 @@ import {timeline} from "./timeline";
 import {Option} from "../../declare/InsertUtil";
 import {toMap} from "../../utils/common/toMap";
 
-export const mermaidGraphList = [
+export const mermaidGraphList: Option[] = [
+    {key: '', label: '', value: ''},
     flowchart,
     classDiagram,
     erDiagram,
@@ -34,6 +35,6 @@ export const mermaidGraphList = [
     // zenuml,
 ]
 
-export const mermaidTypeMap: Map<string, Option> = toMap(mermaidGraphList, "label");
+export const mermaidTypeMap: Map<string, Option> = toMap(mermaidGraphList, "label")
 
 export const mermaidTypeNameList = Array.from(mermaidTypeMap.keys())

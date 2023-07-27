@@ -20,11 +20,6 @@ const props = defineProps({
 		type: Object as PropType<PositionRange>,
 		required: false,
 	},
-	title: {
-		type: String,
-		required: false,
-		default: ''
-	},
 	resetPosition: {
 		type: Boolean,
 		required: false,
@@ -86,11 +81,10 @@ const setPosition = () => {
 <template>
 	<div
 		v-if="tool.contextMenu"
-		v-show="tool.contextMenu.visible && tool.show"
+		v-show="tool.show && tool.contextMenu.visible"
 		class="context-menu"
 		ref="contextMenu"
 		v-drag="props.dragRange">
-
 		<div class="content">
 			<div class="close" ignore-drag title="关闭">
 				<slot name="close">
@@ -98,9 +92,9 @@ const setPosition = () => {
 				</slot>
 			</div>
 
-			<div class="title" v-if="props.title && props.title.length > 0">
-				<slot name="title" :title="props.title">
-					<div>{{ props.title }}</div>
+			<div class="title">
+				<slot name="title" :title="tool.label">
+					<div>{{ tool.label }}</div>
 				</slot>
 			</div>
 

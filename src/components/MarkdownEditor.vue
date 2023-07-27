@@ -64,7 +64,7 @@
 				<div ref="previewCard"
 					 class="preview-card">
 					<slot name="preview" :text="text">
-						<MarkdownPreview :markdown-text="text" :cursor="true" :suspend="!isPreview"></MarkdownPreview>
+						<MarkdownPreview :markdown-text="text" :suspend="!isPreview"></MarkdownPreview>
 					</slot>
 				</div>
 			</div>
@@ -115,7 +115,7 @@ import {vAdapt} from "../directives/vAdapt";
 import {vInputExtension} from "../directives/vInputExtension";
 import {vKeepBottom} from "../directives/vKeepBottom";
 
-import {useStatistics} from "../hooks/useStatistics";
+import {useTextareaStatistics} from "../hooks/useTextareaStatistics";
 import {useInputExtension} from "../hooks/useInputExtension";
 import {useSyncScroll} from "../hooks/useSyncScroll";
 
@@ -145,13 +145,9 @@ const topToolBar = ref();
 const bottomToolBar = ref();
 
 /**
- * 文本与统计数据
+ * 文本数据
  */
-//region Text Data
 const text = ref("");
-
-const {statisticalData} = useStatistics(() => textarea.value);
-//endregion
 
 /**
  * 外部传入参数
@@ -377,6 +373,8 @@ let contextMenuPositionLeft: string = 'auto';
 let contextMenuPositionBottom: string = 'auto';
 let contextMenuPositionRight: string = 'auto';
 
+const {statisticalData} = useTextareaStatistics(textarea);
+
 const getPosition = (tool: EditTool): Position => {
 	switch (tool.position) {
 		case "LT": return {left: contextMenuPositionLeft, top: contextMenuPositionTop};
@@ -538,7 +536,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		},
 		onEmit: () => {
 			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
-			isReplace.value = true
+			isReplace.value = true;
 		},
 		prevent: true,
 		reject: true,
@@ -549,8 +547,14 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		},
 		onEmit: () => {
 			if (isFullScreen.value) {
-				isFullScreen.value = false
+				isFullScreen.value = false;
+				return;
 			}
+			if (isPreview.value) {
+				isPreview.value = false;
+				return;
+			}
+
 		},
 	}
 ]);
@@ -617,10 +621,11 @@ const emit = defineEmits(['update:modelValue']);
 
 watch(() => props.modelValue, () => {
 	if (text.value != props.modelValue) {
-		if (historyType.value.startsWith('redo') || historyType.value.startsWith("undo")) return;
-		text.value = props.modelValue
-		setHistoryType('outside' + now());
-		push();
+		text.value = props.modelValue;
+		nextTick(() => {
+			setHistoryType('outside' + now());
+			push()
+		})
 	}
 }, {immediate: true});
 
@@ -710,10 +715,6 @@ defineExpose({
 		color: var(--editor-default-color);
 		box-sizing: border-box;
 		margin: 0;
-	}
-
-	.hover-color:hover {
-		color: var(--editor-color);
 	}
 
 	.hover-color:hover {

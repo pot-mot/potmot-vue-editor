@@ -55,7 +55,6 @@ defineExpose({
 		</ul>
 		<template v-for="tool in menuTools">
 			<ContextMenu
-				:title="tool.label"
 				:tool="tool"
 				@cancel="closeContextMenu(tool)">
 				<slot :name="tool.name"></slot>

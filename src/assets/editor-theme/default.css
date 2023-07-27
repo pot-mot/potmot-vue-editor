@@ -42,7 +42,7 @@
     --editor-non-full-back-color: #1c1c1c;
     --editor-full-back-color: #1c1c1c;
     --editor-region-back-color: #262626;
-    --editor-default-color: #aaaaaa;
+    --editor-default-color: #bbb;
     --editor-hover-color: #dcdceb;
     --editor-selection-color: #1c1c1c;
     --editor-selection-back-color: var(--editor-hover-color);

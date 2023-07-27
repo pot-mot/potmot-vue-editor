@@ -45,5 +45,7 @@ export const mermaidGraph: InsertUnit = {
                 return ref(mermaidType);
             }
         }
-    ]
+    ],
+    reject: true,
+    prevent: true,
 }
