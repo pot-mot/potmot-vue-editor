@@ -124,9 +124,9 @@ import {extendInsertUnits, markdownInsertUnits} from "../core/insertUnits";
 import {isMobile} from "../utils/common/platform";
 import {now} from "../utils/common/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
-import {batchEnter} from "../utils/editor/inputExtension";
+import {batchEnter, complete} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
-import {getLeadingMarks, getMarkdownLeadingLine} from "../utils/markdown/break";
+import {getMarkdownLeadingLine} from "../utils/markdown/break";
 import {
 	lockScroll,
 	unlockScroll,
@@ -525,15 +525,29 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 	...props.shortcutKeys,
 	<ShortcutKey>{
 		trigger: {
+			key: ["=", '_', '~', '*', '^'],
+		},
+		onEmit: (e: KeyboardEvent) => {
+			if (!textarea.value) return;
+			if (textarea.value.selectionStart != textarea.value.selectionEnd) {
+				e.preventDefault();
+				setHistoryType('complete' + e.key + now());
+				push(complete(textarea.value, {before: e.key, after: e.key}));
+			}
+		},
+		reject: true,
+	},
+	<ShortcutKey>{
+		trigger: {
 			key: ['Enter']
 		},
 		onEmit: (e: KeyboardEvent) => {
 			if (!textarea.value) return;
 			setHistoryType('enter' + now());
 			if (e.altKey) {
-				push(batchEnter(textarea.value, e));
+				push(batchEnter(textarea.value));
 			} else {
-				push(batchEnter(textarea.value, e, getMarkdownLeadingLine));
+				push(batchEnter(textarea.value, getMarkdownLeadingLine));
 			}
 		},
 		prevent: true,
@@ -586,7 +600,6 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 				isPreview.value = false;
 				return;
 			}
-
 		},
 	}
 ]);

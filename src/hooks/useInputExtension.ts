@@ -150,7 +150,7 @@ export const useInputExtension = (
                 if (history && history.type) historyType.value = history.type
             } else if (e.key == 'Enter') {
                 e.preventDefault();
-                history = batchEnter(el, e);
+                history = batchEnter(el);
                 if (history && history.type) {
                     historyType.value = history.type
                 }

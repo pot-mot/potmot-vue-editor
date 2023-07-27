@@ -36,7 +36,7 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
 }
 
 // 回车保留缩进
-export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
+export const batchEnter = (textarea: HTMLTextAreaElement, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
     const start = textarea.selectionStart;
     const space = getSpace(textarea.value, start);
     const text = insertIntoString("\n" + space, textarea.value, start);

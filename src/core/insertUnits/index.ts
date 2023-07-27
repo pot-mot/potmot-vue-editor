@@ -8,7 +8,6 @@ import {quote} from "./markdown/quote";
 import {link} from "./markdown/link";
 import {image} from "./markdown/image";
 import {code} from "./markdown/code";
-import {markColor} from "./markdown/markColor";
 import {detail} from "./extend/detail";
 import {math} from "./extend/math";
 import {mermaidGraph} from "./extend/mermaidGraph";
@@ -23,7 +22,6 @@ export const markdownInsertUnits: InsertUnit[] = [
     quote,
     link,
     image,
-    markColor
 ]
 
 export const extendInsertUnits: InsertUnit[] = [
