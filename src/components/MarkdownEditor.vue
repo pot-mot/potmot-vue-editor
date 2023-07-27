@@ -2,7 +2,7 @@
 	<Teleport :disabled="!isFullScreen" to="body">
 		<div class="editor" ref="editor"
 			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', colorTheme, ...props.class]"
-			 :style="[isFullScreen ? '' : {width: props.width, height: props.height}, props.style]">
+			 :style="[isFullScreen ? (isMobile ? {height: mobileFullHeight} : {}) : {width: props.width, height: props.height}, props.style]">
 			<ToolBar ref="topToolBar" v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
 				<template #insert>
 					<ul>
@@ -27,9 +27,9 @@
 					</ul>
 				</template>
 				<template #replace>
-					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceFrom"
+					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceFrom" ref="replaceFromBox"
 							  class="replace-box" placeholder="查找文本"/>
-					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceTo"
+					<textarea v-input-extension v-adapt="{min: 2, max: 6}" v-model="replaceTo" ref="replaceToBox"
 							  class="replace-box" placeholder="替换文本"/>
 					<div class="replace-operation">
 						<span class="hover-color" @mousedown.prevent.stop="searchNext">下一个</span>
@@ -135,6 +135,7 @@ import {
 import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
 import {EditTool, EditToolConfig} from "../declare/EditTool";
 import {usePreferredDark} from "@vueuse/core";
+import {useMobileFullHeight} from "../hooks/useMobileFullHeight";
 
 // DOM 元素 Ref
 const editor = ref();
@@ -143,6 +144,8 @@ const textarea = ref();
 const previewCard = ref();
 const topToolBar = ref();
 const bottomToolBar = ref();
+const replaceFromBox = ref();
+const replaceToBox = ref();
 
 /**
  * 文本数据
@@ -235,6 +238,7 @@ const isEdit: ComputedRef<boolean> = computed(() => {
 	return isMobile.value ? (!isPreview.value) : (isFullScreen.value || !isPreview.value);
 });
 
+const mobileFullHeight = useMobileFullHeight();
 const preferredDark = usePreferredDark();
 const colorTheme = computed(() => preferredDark.value ? "dark" : "light");
 
@@ -377,10 +381,14 @@ const {statisticalData} = useTextareaStatistics(textarea);
 
 const getPosition = (tool: EditTool): Position => {
 	switch (tool.position) {
-		case "LT": return {left: contextMenuPositionLeft, top: contextMenuPositionTop};
-		case "LB": return {left: contextMenuPositionLeft, bottom: contextMenuPositionBottom};
-		case "RT": return {right: contextMenuPositionRight, top: contextMenuPositionTop};
-		case "RB": return {right: contextMenuPositionRight, bottom: contextMenuPositionBottom};
+		case "LT":
+			return {left: contextMenuPositionLeft, top: contextMenuPositionTop};
+		case "LB":
+			return {left: contextMenuPositionLeft, bottom: contextMenuPositionBottom};
+		case "RT":
+			return {right: contextMenuPositionRight, top: contextMenuPositionTop};
+		case "RB":
+			return {right: contextMenuPositionRight, bottom: contextMenuPositionBottom};
 	}
 	return {};
 }
@@ -389,8 +397,20 @@ onMounted(() => {
 	watch(() => isFullScreen.value, () => {
 		nextTick(() => {
 			if (!editor.value || !topToolBar.value || !topToolBar.value.element) return {};
-			const {marginTop: mt1, paddingTop: pt1, height: h1, paddingBottom: pb1, marginBottom: mb1} = window.getComputedStyle(topToolBar.value.element);
-			const {marginTop: mt2, paddingTop: pt2, height: h2, paddingBottom: pb2, marginBottom: mb2} = window.getComputedStyle(bottomToolBar.value.element);
+			const {
+				marginTop: mt1,
+				paddingTop: pt1,
+				height: h1,
+				paddingBottom: pb1,
+				marginBottom: mb1
+			} = window.getComputedStyle(topToolBar.value.element);
+			const {
+				marginTop: mt2,
+				paddingTop: pt2,
+				height: h2,
+				paddingBottom: pb2,
+				marginBottom: mb2
+			} = window.getComputedStyle(bottomToolBar.value.element);
 			contextMenuPositionLeft = '0';
 			contextMenuPositionRight = '0';
 			contextMenuPositionTop = `calc(${[mt1, pt1, h1, pb1, mb1].join(" + ")})`;
@@ -534,9 +554,16 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			key: ['r', 'f'],
 			ctrl: true
 		},
-		onEmit: () => {
+		onEmit: (e: KeyboardEvent) => {
 			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
 			isReplace.value = true;
+			nextTick(() => {
+				if (e.key == 'r' && replaceFrom.value.length > 0 && replaceToBox.value) {
+					replaceToBox.value.focus();
+				} else if (e.key == 'f' && replaceFrom.value.length == 0 && replaceFromBox.value) {
+					replaceFromBox.value.focus();
+				}
+			})
 		},
 		prevent: true,
 		reject: true,
@@ -707,6 +734,7 @@ defineExpose({
 	::-webkit-scrollbar-thumb:hover {
 		background-color: var(--editor-scroll-hover-color);
 	}
+
 	::-webkit-scrollbar-corner {
 		background-color: transparent;
 	}
@@ -759,8 +787,8 @@ defineExpose({
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 100vh;
 	width: 100vw;
+	height: 100vh;
 	z-index: 10000;
 	background-color: var(--editor-full-back-color);
 	padding: 0 0.5em;
@@ -863,7 +891,7 @@ defineExpose({
 }
 
 .editor.full > .container {
-	height: calc(99vh - 4em);
+	height: calc(100vh - 4em);
 
 	> .edit-card,
 	> .preview-card {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {vDrag} from "../../directives/vDrag";
-import {onMounted, PropType, ref, watch} from "vue";
+import {isRef, onMounted, PropType, ref, watch} from "vue";
 import SvgIcon from "../svg/SvgIcon.vue";
 import {useSvgIcon} from "../../hooks/useSvgIcon";
 import {EditTool} from "../../declare/EditTool";
@@ -40,6 +40,15 @@ onMounted(() => {
 		watch(() => props.tool.contextMenu!.position, () => {
 			setPosition();
 		});
+
+		watch(() => props.tool.active, () => {
+			if (props.tool.active == undefined) return
+			if (isRef( props.tool.active)) {
+				props.tool.contextMenu!.visible = props.tool.active.value
+			} else {
+				props.tool.contextMenu!.visible = props.tool.active
+			}
+		})
 	}
 });
 

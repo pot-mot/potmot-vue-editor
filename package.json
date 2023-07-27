@@ -31,6 +31,7 @@
     "dist",
     "src/assets",
     "src/components",
+    "src/core",
     "src/declare",
     "src/directives",
     "src/hooks",
