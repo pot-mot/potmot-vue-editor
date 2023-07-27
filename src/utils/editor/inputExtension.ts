@@ -51,35 +51,52 @@ export const batchEnter = (textarea: HTMLTextAreaElement, e: KeyboardEvent, getS
 }
 
 // 批量缩进（Tab）
-export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent, tab: string = '\t'): EditorHistory | null => {
-    const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
-    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'tab'}
+const tab = '\t';
+const tabBlank = /^( {1,4})|\t/;
 
+export const removeTab = (text: string): {text: string, matchLength: number} | null => {
+    if (tabBlank.test(text)) {
+        const matches = text.match(tabBlank);
+        const length = matches![0].length;
+        return {text: text.slice(length), matchLength: length}
+    }
+    return null
+}
+
+export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): EditorHistory | null => {
+    const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
+    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'tab'};
     if (start == end) {
         if (e.shiftKey) {
             const index = text.lastIndexOf('\n', start - 1) + 1;
             const temp = text.slice(index, start);
-            const newTemp = temp.replace(tab, '');
-            if (temp.length === newTemp.length) return null
-            result.text = `${text.slice(0, start - temp.length)}${newTemp}${text.slice(end)}`
-            result.start = start - 1
-            result.end = start - 1
+            const afterRemove = removeTab(temp);
+            if (afterRemove == null) return null;
+            const newTemp = afterRemove.text;
+            result.text = `${text.slice(0, start - temp.length)}${newTemp}${text.slice(end)}`;
+            result.start = start - afterRemove.matchLength;
+            result.end = start - afterRemove.matchLength;
         } else {
             result.text = insertIntoString(tab, text, start);
-            result.start = start + tab.length
-            result.end = start + tab.length
+            result.start = start + tab.length;
+            result.end = start + tab.length;
         }
     } else {
         const temp = text.slice(start, end);
-        let newTemp: string
+        let newTemp: string;
         if (e.shiftKey) {
-            newTemp = temp.replace(tab, '').replaceAll(`\n${tab}`, '\n');
+            const lines = temp.split('\n').map(line => {
+                const afterRemove = removeTab(line);
+                if (afterRemove) return afterRemove.text;
+                return line;
+            })
+            newTemp = lines.join('\n');
         } else {
             newTemp = `${tab}${temp.replaceAll('\n', `\n${tab}`)}`;
         }
-        if (temp.length == newTemp.length) return null
-        result.text = `${text.slice(0, start)}${newTemp}${text.slice(start + temp.length)}`
-        result.end = start + newTemp.length
+        if (temp.length == newTemp.length) return null;
+        result.text = `${text.slice(0, start)}${newTemp}${text.slice(start + temp.length)}`;
+        result.end = start + newTemp.length;
         result.type = 'batchTab' + now();
     }
     return result
