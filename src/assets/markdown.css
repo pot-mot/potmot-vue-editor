@@ -86,6 +86,17 @@
     margin-bottom: 0;
 }
 
+.markdown-body .task-list-item {
+    list-style: none;
+    position: relative;
+}
+
+.markdown-body .task-list-item-checkbox {
+    position: absolute;
+    left: -1.4em;
+    top: 0.6em;
+}
+
 .markdown-body blockquote {
     border-left: 0.4em solid var(--border-color);
     background-color: var(--light-back-color);
@@ -126,7 +137,7 @@
 .markdown-body th,
 .markdown-body td {
     border: 1px solid var(--light-border-color);
-    min-width: 5em;
+    min-width: 2em;
     padding: 0.5em;
     word-break: break-word;
 }

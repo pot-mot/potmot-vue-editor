@@ -10,14 +10,15 @@ export const getCurrentLineBefore = (text: string, start: number): string => {
 }
 
 /**
- * 获取当前行前方的缩进
- *
+ * 获取当前起点或当前行前方的缩进
  * @param text 整个文段
  * @param start 当前起点
+ * @param fullLine 以整行进行匹配
+ * @param regex 正则匹配
  */
-export const getLeadingSpace = (text: string, start: number): string => {
-    const line = getCurrentLineBefore(text, start);
-    const leadingSpaces = line.match(/^[ \t]*/);
+export const getLeadingSpace = (text: string, start: number, fullLine: boolean = false, regex: RegExp = /^[ \t]*/): string => {
+    const line = fullLine ? getCurrentLine(text, start) : getCurrentLineBefore(text, start);
+    const leadingSpaces = line.match(regex);
     return (leadingSpaces != null && leadingSpaces.length != 0) ? leadingSpaces[0] : ''
 }
 
@@ -37,30 +38,4 @@ export const getLeadingAndTrailingSpaces = (str: string) => {
         return {leadingSpaces: '', text: str, trailingSpaces: ''}
     }
     return {leadingSpaces, text, trailingSpaces}
-}
-
-/**
- * 获取当前行前方的缩进与标记前缀
- *
- * @param text 整个文段
- * @param start 当前起点
- */
-export const getLeadingMarks = (text: string, start: number): string => {
-    const line = getCurrentLineBefore(text, start);
-    const leadingMarks = line.match(/^[ \t]*((>|([-+*]|\d+\.)( \[[xX ]])?)[ \t]+)*/);
-
-    if (leadingMarks == null || leadingMarks.length == 0) return ''
-
-    let result = leadingMarks[0]
-
-    result = result.replace(/\d+\./g, orderedListMark => {
-        const incrementedNumber = parseInt(orderedListMark.slice(0, orderedListMark.length - 1)) + 1;
-        return `${incrementedNumber}.`;
-    });
-
-    result = result.replace(/([-+*]|\d+\.) \[[xX ]]/g, todoListMark => {
-        return todoListMark.replace(/\[[xX ]]/g, '[ ]');
-    });
-
-    return result
 }

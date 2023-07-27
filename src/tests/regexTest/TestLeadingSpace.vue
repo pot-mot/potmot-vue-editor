@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getLeadingMarks} from "../../utils/common/text";
+import {getLeadingMarks} from "../../utils/markdown/break";
 
 const marksTestCases = new Map<string, string>([
 	["> text", "> "],

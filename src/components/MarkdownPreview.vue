@@ -12,13 +12,12 @@ export default {
 
 <script lang="ts" setup>
 import {onMounted, Ref, ref, VNode, watch} from "vue";
-
 import 'katex/dist/katex.css'
 import {api as viewerApi} from "v-viewer"
 import "viewerjs/dist/viewer.css";
 
 import {copyCode} from "../utils/common/copy";
-import {md} from "../core/markdownToVnode";
+import {md} from "../core";
 import {VNodeComponent} from "../core/VNodeComponent";
 
 /**
@@ -79,14 +78,3 @@ const onClick = (e: MouseEvent) => {
 	}
 }
 </script>
-
-<style scoped lang="scss">
-.markdown-body > .image-preview {
-	position: fixed;
-
-	height: 100vh;
-	width: 100vw;
-
-	overflow: hidden;
-}
-</style>

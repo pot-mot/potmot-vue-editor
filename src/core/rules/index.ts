@@ -3,8 +3,9 @@ import {htmlInline, htmlBlock} from "./html";
 import {hardBreak, softBreak} from "./break";
 import {codeInline, codeBlock, fenceCodeBlock} from "./code";
 import {image} from "./image";
+import {emojiHtml} from "./emoji";
 
-export const defaultRules = {
+export const rules = {
     text,
 
     'html_inline': htmlInline,
@@ -18,5 +19,7 @@ export const defaultRules = {
     'fence': fenceCodeBlock,
 
     image,
+
+    'emoji': emojiHtml,
 
 } as any

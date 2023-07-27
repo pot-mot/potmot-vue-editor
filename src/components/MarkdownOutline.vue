@@ -39,16 +39,12 @@ const props = defineProps({
         default: "offset"
     },
 
-    regex: {
-        type: RegExp,
-        required: false,
-        default: /<h([1-6]) id="(.*?)">(.*?)</g
-    },
     parse: {
-        type: Function as PropType<(match: RegExpExecArray) => OutlineItem>,
+        type: Function as PropType<(head: HTMLHeadingElement) => OutlineItem>,
         required: false,
-        default: (match: RegExpExecArray): OutlineItem => {
-            return {level: Number.parseInt(match[1]), id: match[2], text: match[3], current: false}
+        default: (header: HTMLHeadingElement): OutlineItem | null => {
+			const level = parseInt(header.nodeName.substring(1));
+            return {level: level, id: header.id, text: header.innerText, current: false}
         }
     },
 
@@ -79,25 +75,21 @@ let oldHtml: string = ""
 
 /**
  * 在 html 文本中匹配正则表达式获取元素
- *
- * @param html 文本
- * @param regex 匹配正则表达式
- * @param parse 转换目标元素为 OutlineItem
  */
-const setItemFromHtml = (
-    html: string = props.target?.innerHTML,
-    regex: RegExp = props.regex,
-    parse: (match: RegExpExecArray) => OutlineItem = props.parse
-) => {
+const setItemFromHtml = () => {
+	const html = props.target.innerHTML
+
     if (!html) return;
     if (html == oldHtml) return;
 
     oldHtml = html
     const result: OutlineItem[] = []
-    let match: RegExpExecArray | null
-    while (match = regex.exec(html)) {
-        result.push(parse(match));
-    }
+
+	props.target.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(header => {
+		const outlineItem = props.parse(<HTMLHeadingElement>header)
+		if (!outlineItem) return;
+		result.push(outlineItem)
+	})
 
 	if (!compare(items.value, result)) {
 		result[0].current = true

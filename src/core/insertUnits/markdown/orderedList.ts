@@ -1,11 +1,11 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/InsertUtil";
 import {ref} from "vue";
-import {formatInsert} from "../../editor/insertUtils";
+import {formatInsert} from "../../../utils/editor/insertUtils";
 import {
     orderedListCreat,
     orderedListFormat,
-} from "../../markdownFormat/list";
-import {limit} from "../../common/math";
+} from "../../../utils/markdown/list";
+import {limit} from "../../../utils/common/math";
 
 export const orderedList: InsertUnit = {
     triggers: [

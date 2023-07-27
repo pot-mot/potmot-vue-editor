@@ -1,14 +1,12 @@
-import {createVNode, Fragment, Comment, VNode} from 'vue'
-import type Token from 'markdown-it/lib/token'
-import type Renderer from 'markdown-it/lib/renderer'
-import MarkdownIt from "markdown-it";
-import {defaultRules} from "./rules";
-import {validateAttrName} from "./source/validateAttrName";
-import {setSourceLine} from "./source/line";
-import {DOM_ATTR_NAME} from "../constants/attr/domAttrName";
-import {createHtmlVNode} from "./rules/html";
+import Renderer from "markdown-it/lib/renderer";
+import Token from "markdown-it/lib/token";
+import {Comment, createVNode, Fragment, VNode} from "vue";
+import {validateAttrName} from "../source/validateAttrName";
+import {setSourceLine} from "../source/line";
+import {DOM_ATTR_NAME} from "../../constants/attr/domAttrName";
+import {createHtmlVNode} from "../rules/html";
 
-function renderToken(this: Renderer, tokens: Token[], idx: number): any {
+export function renderToken(this: Renderer, tokens: Token[], idx: number): any {
     const token = tokens[idx]
 
     if (token.nesting === -1) {
@@ -27,7 +25,7 @@ function renderToken(this: Renderer, tokens: Token[], idx: number): any {
     return createVNode(token.tag, this.renderAttrs(token) as any, [])
 }
 
-function renderAttrs(this: Renderer, token: Token) {
+export function renderAttrs(this: Renderer, token: Token) {
     if (!token.attrs) {
         return {}
     }
@@ -43,7 +41,7 @@ function renderAttrs(this: Renderer, token: Token) {
     return result
 }
 
-function render(this: Renderer, tokens: Token[], options: any, env: any) {
+export function render(this: Renderer, tokens: Token[], options: any, env: any): any {
     const rules: any = this.rules
 
     const vNodeParents: VNode[] = []
@@ -99,18 +97,4 @@ function render(this: Renderer, tokens: Token[], options: any, env: any) {
 
         return isChild ? null : vnode
     }).filter(node => !!node) as any
-}
-
-const md = new MarkdownIt()
-
-md.set({ html: true, breaks: true })
-
-md.renderer.rules = {...md.renderer.rules, ...defaultRules}
-md.renderer.render = render
-md.renderer.renderInline = render
-md.renderer.renderAttrs = renderAttrs
-md.renderer.renderToken = renderToken
-
-export {
-    md
 }

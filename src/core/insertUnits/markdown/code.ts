@@ -1,7 +1,7 @@
 import {InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {prismLanguageList} from "../../../constants/prismLanguageList";
 import {ref} from "vue";
-import {formatInsert} from "../../editor/insertUtils";
+import {formatInsert} from "../../../utils/editor/insertUtils";
 
 export const code: InsertUnit = {
     triggers: [

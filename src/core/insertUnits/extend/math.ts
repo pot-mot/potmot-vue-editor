@@ -1,20 +1,20 @@
 import {InsertUnit} from "../../../declare/InsertUtil";
-import {simpleInsert} from "../../editor/insertUtils";
+import {simpleInsert} from "../../../utils/editor/insertUtils";
 
-export const footnote: InsertUnit = {
+export const math: InsertUnit = {
     triggers: [
         {
-            key: "^",
+            key: "$",
             ctrl: true,
         }
     ],
-    label: "脚标",
+    label: "数学算式",
     insert: (args, textarea) => {
         return simpleInsert(
             textarea,
-            "footnote",
-            "[^",
-            "]"
+            "math block",
+            "$$\n",
+            "\n$$"
         );
     },
     arguments: [],

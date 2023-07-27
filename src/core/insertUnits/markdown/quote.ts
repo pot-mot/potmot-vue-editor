@@ -1,6 +1,6 @@
 import {InsertUnit} from "../../../declare/InsertUtil";
-import {formatInsert} from "../../editor/insertUtils";
-import {quoteFormat} from "../../markdownFormat/quote";
+import {formatInsert} from "../../../utils/editor/insertUtils";
+import {quoteFormat} from "../../../utils/markdown/quote";
 
 export const quote: InsertUnit = {
     triggers: [

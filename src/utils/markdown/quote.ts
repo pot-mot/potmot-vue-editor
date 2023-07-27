@@ -1,6 +1,6 @@
 export const quoteJudge = (data: string[]) => {
     for (const item of data) {
-        if (/^>[ \t]/.test(item)) {
+        if (/^>/.test(item)) {
             return true
         }
     }
@@ -11,7 +11,7 @@ export const quoteReformat = (data: string[], space: string = ""): string[] => {
     let result: string[] = []
 
     for (let i = 0; i < data.length; i++) {
-        const item = data[i].replace(/^>[ \t]/, '');
+        const item = data[i].replace(/^>[ \t]*/, '');
         result.push(`${space}${item}`);
     }
     return result

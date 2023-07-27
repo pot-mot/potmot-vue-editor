@@ -1,10 +1,16 @@
-import {limit} from "../../common/math";
+import {limit} from "../../../utils/common/math";
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {ref} from "vue";
-import {formatInsert} from "../../editor/insertUtils";
-import {tableCreate, tableFormat} from "../../markdownFormat/table";
+import {formatInsert} from "../../../utils/editor/insertUtils";
+import {tableCreate, tableFormat} from "../../../utils/markdown/table";
 
-export const tableHeadOptions = ["首行" , "空缺" , "不含表头"]
+export const tableHeadType = new Map([
+    ["firstLine", "首行"],
+    ["empty", "空缺"],
+    ["null", "不含表头"]
+])
+
+export const tableHeadOptions = [...tableHeadType.values()];
 
 export const table: InsertUnit = {
     triggers: [
@@ -18,7 +24,7 @@ export const table: InsertUnit = {
         return formatInsert(
             textarea,
             "table",
-            (startPart, midPart, endPart) => {
+            (startPart, midPart, endPart, space) => {
                 const placeholder = args.get("tablePlaceholder")!.value;
                 let width = limit(parseInt(args.get("tableColumnLength")!.value), 1, 99);
                 const tableHead = args.get("tableHeadConfig")!.value
@@ -33,11 +39,12 @@ export const table: InsertUnit = {
                             width = columns.length
                         }
                     });
-                    result = tableFormat(data, width, placeholder, tableHead);
+                    result = tableFormat(data, width, placeholder, space, tableHead);
                 } else {
                     const height = limit(parseInt(args.get("tableRowLength")!.value), 1, 99);
-                    result = tableCreate(height, width, placeholder, tableHead);
+                    result = tableCreate(height, width, placeholder, space, tableHead);
                 }
+                if (result.startsWith(space)) result = result.replace(space, '');
                 return {
                     content: [startPart, result, endPart],
                     start: startPart.length + 2,

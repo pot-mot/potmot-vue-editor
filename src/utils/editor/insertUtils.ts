@@ -1,7 +1,7 @@
 import {Ref} from "vue";
 import {InsertUnit} from "../../declare/InsertUtil";
 import {now} from "../common/time";
-import {getLeadingSpace} from "../common/text";
+import {getLeadingMarks} from "../markdown/break";
 
 /**
  * 在字符串中插入替换部分
@@ -17,7 +17,7 @@ export const insertIntoString = (inserter: string, target: string, start: number
 
 /**
  * 获取 Ref 参数 Map
- * @param units: 插入列表
+ * @param units 插入列表
  */
 export const getArgsMap = (units: InsertUnit[]): Map<string, Ref> => {
     const argsMap = new Map<string, Ref>();
@@ -126,10 +126,7 @@ export const formatInsert = (
     const endPart: string = text.slice(oldEnd);
 
     let temp = textarea.selectionStart
-    while (text[temp] == " " || text[temp] == "\t") {
-        temp++;
-    }
-    const space = getLeadingSpace(text, temp);
+    const space = getLeadingMarks(text, temp, false);
 
     const {content, start, end} = formatter(startPart, midPart, endPart, space);
 

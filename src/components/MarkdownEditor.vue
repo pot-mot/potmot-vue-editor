@@ -119,14 +119,14 @@ import {useTextareaStatistics} from "../hooks/useTextareaStatistics";
 import {useInputExtension} from "../hooks/useInputExtension";
 import {useSyncScroll} from "../hooks/useSyncScroll";
 
-import {extendInsertUnits, markdownInsertUnits} from "../utils/insertUnits";
+import {extendInsertUnits, markdownInsertUnits} from "../core/insertUnits";
 
 import {isMobile} from "../utils/common/platform";
 import {now} from "../utils/common/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
 import {batchEnter} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
-import {getLeadingMarks} from "../utils/common/text";
+import {getLeadingMarks, getMarkdownLeadingLine} from "../utils/markdown/break";
 import {
 	lockScroll,
 	unlockScroll,
@@ -533,7 +533,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			if (e.altKey) {
 				push(batchEnter(textarea.value, e));
 			} else {
-				push(batchEnter(textarea.value, e, getLeadingMarks));
+				push(batchEnter(textarea.value, e, getMarkdownLeadingLine));
 			}
 		},
 		prevent: true,

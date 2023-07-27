@@ -140,24 +140,3 @@ interface OutlineItem {
 | regex        | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
 | parse        | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
 | suspend      | Boolean     | 暂停渲染，用于优化性能                                                | 否，默认 false                                             |
-
-## 依赖
-
-package.json 目前依赖:
-
-```json
-{
-  "dependencies": {
-    "d3": "^4.13.0",
-    "katex": "^0.16.4",
-    "marked": "^4.2.12",
-    "mermaid": "^10.1.0",
-    "vue": "^3.2.37"
-  }
-}
-
-```
-
-### 补充
-
-这个项目仅作为练手，有诸多不足，欢迎通过 QQ 377029227 来联系我提供建议

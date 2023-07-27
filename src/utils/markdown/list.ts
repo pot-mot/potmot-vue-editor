@@ -27,16 +27,12 @@ export const unorderedListCreat = (data: number | string[], mark: string, space:
 }
 
 export const unorderedListJudge = (data: string[]) => {
-    if (isBlockEmpty(data)) return false
-
     for (const item of data) {
         // 跳过空行
-        if (item.trim().length == 0) continue
-        if (!(/^[ \t]*[-+*][ \t]/.test(item))) {
-            return false
-        }
+        if (item.trim().length == 0) continue;
+        if (/^[ \t]*[-+*][ \t]/.test(item)) return true;
     }
-    return true
+    return false;
 }
 
 export const unorderedListReformat = (data: string[], space: string = ""): string[] => {
@@ -94,16 +90,12 @@ export const orderedListCreat = (data: number | string[], start: number, space: 
 }
 
 export const orderedListJudge = (data: string[]) => {
-    if (isBlockEmpty(data)) return false
-
     for (const item of data) {
         // 跳过空行
-        if (item.trim().length == 0) continue
-        if (!(/^[ \t]*\d+\.[ \t]/.test(item))) {
-            return false
-        }
+        if (item.trim().length == 0) continue;
+        if (/^[ \t]*\d+\.[ \t]/.test(item)) return true;
     }
-    return true
+    return false;
 }
 
 export const orderedListReformat = (data: string[], space: string = ""): string[] => {

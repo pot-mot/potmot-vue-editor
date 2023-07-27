@@ -1,6 +1,6 @@
 import {InputInsertArgument, InsertUnit} from "../../../declare/InsertUtil";
 import {ref} from "vue";
-import {simpleInsert} from "../../editor/insertUtils";
+import {simpleInsert} from "../../../utils/editor/insertUtils";
 
 export const link: InsertUnit = {
     triggers: [
