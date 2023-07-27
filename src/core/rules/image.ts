@@ -6,7 +6,9 @@ export const image = (tokens: Token[], idx: number, options: any, env: any, slf:
     const token = tokens[idx]
 
     return createVNode('img', {
+        onload: "this.classList.remove('error');",
+        onerror: "this.classList.add('error');",
         ...slf.renderAttrs(token) as any,
         alt: slf.renderInlineAsText(token.children || [], options, env)
-    }, [])
+    })
 }

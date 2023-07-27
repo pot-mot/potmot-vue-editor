@@ -9,14 +9,15 @@ import {throttle} from "lodash";
  * @param timeout 时间间隔
  */
 export const useSyncScroll = (
-    elements: HTMLElement[],
+    elements: Array<HTMLElement | null | undefined>,
     disabled: () => boolean,
     timeout: number = 20
 ) => {
     const isSyncScroll = ref(false);
-    const lastScroll: Ref<HTMLElement | undefined> = ref();
+    const lastScroll: Ref<HTMLElement | null | undefined> = ref();
 
     elements.forEach(element => {
+        if (!element) return;
         element.addEventListener('scroll', throttle(() => {
             if (isSyncScroll.value) return;
             lastScroll.value = element

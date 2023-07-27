@@ -39,7 +39,7 @@ const changeEvent = ["input", "change", "select", "focus", "blur"]
  * @param target 目标 TextArea
  */
 export const useTextareaStatistics = (
-    target: Ref<HTMLTextAreaElement>,
+    target: Ref<HTMLTextAreaElement | undefined | null>,
 ) => {
     const statisticalData = reactive({
         selectLength: 0,

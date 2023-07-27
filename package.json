@@ -49,12 +49,10 @@
   "dependencies": {
     "@vueuse/core": "^10.2.1",
     "d3": "^4.13.0",
-    "incremental-dom": "^0.7.0",
-    "install": "^0.13.0",
+    "file-saver": "^2.0.5",
     "katex": "^0.16.4",
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.1",
-    "markdown-it-incremental-dom": "^2.1.0",
     "mermaid": "^10.3.0",
     "v-viewer": "^3.0.11",
     "vue": "^3.2.37"

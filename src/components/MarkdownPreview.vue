@@ -51,13 +51,13 @@ const onClick = (e: MouseEvent) => {
 	if (e.target && node.value) {
 		const element = <HTMLElement>(e.target);
 
-		if (element instanceof HTMLImageElement || element instanceof SVGElement) {
+		if ((element instanceof HTMLImageElement && !element.classList.contains('error')) || element instanceof SVGElement) {
 			const container = <HTMLElement>node.value
 			const images = container.querySelectorAll('img, svg');
 			const imageSrcList = []
 			let index
 			for (let i = 0; i < images.length; i++) {
-				if (images[i] instanceof HTMLImageElement) {
+				if (images[i] instanceof HTMLImageElement && !images[i].classList.contains('error')) {
 					imageSrcList.push((<HTMLImageElement>images[i]).src);
 				} else if (images[i] instanceof SVGElement) {
 					imageSrcList.push(`data:image/svg+xml,${encodeURIComponent((<SVGElement>images[i]).outerHTML)}`);

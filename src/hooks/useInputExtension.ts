@@ -7,7 +7,7 @@ import {InsertUnit, ShortcutKey} from "../declare/InsertUtil";
 import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/keyEvent";
 
 export const useInputExtension = (
-    target: () => HTMLTextAreaElement | undefined,
+    target: () => HTMLTextAreaElement | undefined | null,
     shortcutKeys: ShortcutKey[] = [],
     insertUnits: InsertUnit[] = [],
     argsMap: Map<string, Ref> = new Map,

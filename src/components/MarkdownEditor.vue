@@ -47,7 +47,7 @@
 				</template>
 				<template #outline>
 					<slot name="outline" :target="previewCard">
-						<MarkdownOutline :target="previewCard" :suspend="!isOutline"></MarkdownOutline>
+						<MarkdownOutline v-if="previewCard" :target="previewCard" :suspend="!isOutline"></MarkdownOutline>
 					</slot>
 				</template>
 			</ToolBar>
@@ -103,7 +103,7 @@ export default {
 <script lang="ts" setup>
 import {computed, ComputedRef, nextTick, onMounted, PropType, reactive, Ref, ref, watch} from "vue";
 
-import {resetScroll, setSyncScroll, smoothScroll} from "../utils/common/scroll";
+import {resetScroll, setSyncScroll} from "../utils/common/scroll";
 import type {ShortcutKey, InsertUnit} from "../declare/InsertUtil";
 import {getArgsMap} from "../utils/editor/insertUtils";
 
@@ -138,14 +138,14 @@ import {usePreferredDark} from "@vueuse/core";
 import {useMobileFullHeight} from "../hooks/useMobileFullHeight";
 
 // DOM 元素 Ref
-const editor = ref();
-const container = ref();
-const textarea = ref();
-const previewCard = ref();
+const editor: Ref<HTMLDivElement | null | undefined> = ref();
+const container: Ref<HTMLDivElement | null | undefined> = ref();
+const textarea: Ref<HTMLTextAreaElement | null | undefined> = ref();
+const previewCard: Ref<HTMLDivElement | null | undefined> = ref();
 const topToolBar = ref();
 const bottomToolBar = ref();
-const replaceFromBox = ref();
-const replaceToBox = ref();
+const replaceFromBox: Ref<HTMLTextAreaElement | null | undefined> = ref();
+const replaceToBox: Ref<HTMLTextAreaElement | null | undefined> = ref();
 
 /**
  * 文本数据
@@ -278,7 +278,7 @@ const toolList = reactive(<EditTool[]>[
 			setHistoryType("undo");
 			undo();
 			nextTick(() => {
-				textarea.value.focus();
+				if (textarea.value) textarea.value.focus();
 			});
 		}
 	},
@@ -293,7 +293,7 @@ const toolList = reactive(<EditTool[]>[
 			setHistoryType("redo");
 			redo();
 			nextTick(() => {
-				textarea.value.focus();
+				if (textarea.value) textarea.value.focus();
 			});
 		}
 	},
@@ -448,7 +448,7 @@ onMounted(() => {
 	}, {immediate: true});
 })
 
-let lastScroll: Ref<HTMLElement | undefined>
+let lastScroll: Ref<HTMLElement | null | undefined>
 
 /**
  * 滚动同步
@@ -503,18 +503,21 @@ const changeSelectArg = (name: string, e: Event) => {
 }
 
 const insertIntoTextarea = (insertUnit: InsertUnit, e?: KeyboardEvent) => {
+	if (!textarea.value) return;
 	const history = insertUnit.insert(argsMap.value, textarea.value, e);
 	setHistoryType(history.type);
 	changeHook(history);
 }
 
 const changeHook = (history: EditorHistory) => {
+	if (!textarea.value) return;
 	updateTextarea(textarea.value, history);
 }
 
 const smoothChangeHook = (history: EditorHistory) => {
+	if (!textarea.value) return;
 	updateTextarea(textarea.value, history, false);
-	smoothScroll(textarea.value, history.scrollTop, history.scrollLeft);
+	textarea.value.scrollTo({top: history.scrollTop, left: history.scrollLeft});
 }
 
 // 文本编辑快捷键
@@ -525,6 +528,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			key: ['Enter']
 		},
 		onEmit: (e: KeyboardEvent) => {
+			if (!textarea.value) return;
 			setHistoryType('enter' + now());
 			if (e.altKey) {
 				push(batchEnter(textarea.value, e));
@@ -555,6 +559,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			ctrl: true
 		},
 		onEmit: (e: KeyboardEvent) => {
+			if (!textarea.value) return;
 			replaceFrom.value = text.value.slice(textarea.value.selectionStart, textarea.value.selectionEnd);
 			isReplace.value = true;
 			nextTick(() => {
@@ -626,14 +631,17 @@ const {
 	textarea,
 	text,
 	(history) => {
+		if (!textarea.value) return;
 		textarea.value.focus();
 		push(history, smoothChangeHook);
 	},
 	(history) => {
+		if (!textarea.value) return;
 		textarea.value.focus();
 		push(history, smoothChangeHook);
 	},
 	(history) => {
+		if (!textarea.value) return;
 		textarea.value.focus();
 		push(history, smoothChangeHook);
 	}

@@ -68,14 +68,16 @@ export const smoothScroll = (
  * @param master 主动方
  * @param slaves 从动方
  */
-export const setSyncScroll = (master: HTMLElement, ...slaves: HTMLElement[]) => {
+export const setSyncScroll = (master: HTMLElement | null | undefined, ...slaves: Array<HTMLElement | null | undefined>) => {
+    if (!master) return;
     slaves.filter(element => element != master).forEach(slave => {
+        if (!slave) return;
         slave.scrollTop = master.scrollTop * (slave.scrollHeight - slave.offsetHeight) / (master.scrollHeight - master.offsetHeight);
         slave.scrollLeft = master.scrollLeft * (slave.scrollWidth - slave.offsetWidth) / (master.scrollWidth - master.offsetWidth);
     });
 }
 
-export const resetScroll = (el: HTMLElement) => {
+export const resetScroll = (el: HTMLElement | null | undefined) => {
     if (!el) return;
     const oldScrollTopRatio = el.scrollTop / (el.scrollHeight - el.offsetHeight);
     const oldScrollLeftRatio = el.scrollLeft / (el.scrollWidth - el.offsetWidth);

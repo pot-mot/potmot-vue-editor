@@ -12,7 +12,7 @@ const searchContainer = createComputedHideDom('div', containerId)
  * @param target
  */
 export const useSelectionFocus = (
-    target: () => HTMLTextAreaElement | undefined,
+    target: () => HTMLTextAreaElement | undefined | null,
 ) => {
     const calculateBox = document.createElement('div');
     setStyle(calculateBox, hideStyle);

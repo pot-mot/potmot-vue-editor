@@ -1,10 +1,10 @@
-import {onMounted, reactive, Ref, ref, toRef, watch} from "vue";
+import {nextTick, onMounted, reactive, Ref, ref, toRef, watch} from "vue";
 import {debounce} from "lodash";
 import {now} from "../utils/common/time";
 import {useSelectionFocus} from "./useSelectionFocus";
 
 export const useSearchAndReplace = (
-    textarea: Ref<HTMLTextAreaElement>,
+    textarea: Ref<HTMLTextAreaElement | null | undefined>,
     text: Ref<string>,
     searchHook: (history: EditorHistory) => any = () => {},
     replaceOneFinishHook: (history: EditorHistory) => any = () => {},
@@ -65,17 +65,19 @@ export const useSearchAndReplace = (
         const start = searchData.indexes[searchData.index]
         const length = replaceFrom.value.length
 
-        const {top: scrollTop, left: scrollLeft} = getCursorScroll(start);
+        nextTick(() => {
+            const {top: scrollTop, left: scrollLeft} = getCursorScroll(start);
 
-        const history: EditorHistory = {
-            type: 'searchCurrent' + now(),
-            text: text.value,
-            start,
-            end: start + length,
-            scrollTop,
-            scrollLeft
-        }
-        searchHook(history);
+            const history: EditorHistory = {
+                type: 'searchCurrent' + now(),
+                text: text.value,
+                start,
+                end: start + length,
+                scrollTop,
+                scrollLeft
+            }
+            searchHook(history);
+        }).then()
     }
 
     const searchByIndex = () => {
@@ -122,6 +124,7 @@ export const useSearchAndReplace = (
     }
 
     const replaceOne = () => {
+        if (!textarea.value) return;
         if (!replaceJudgeHook()) return;
 
         if (replaceFrom.value.length <= 0) {
@@ -159,23 +162,26 @@ export const useSearchAndReplace = (
             nextEnd = nextStart + replaceFrom.value.length
         }
 
-        const {left: scrollLeft, top: scrollTop} = getCursorScroll(nextStart);
+        nextTick(() => {
+            const {left: scrollLeft, top: scrollTop} = getCursorScroll(nextStart);
 
+            const history: EditorHistory = {
+                text: text.value.slice(0, start) + replaceTo.value + text.value.slice(end),
+                start: nextStart,
+                end: nextEnd,
+                type: 'replaceOne' + now(),
+                scrollTop,
+                scrollLeft
+            }
+            replaceOneFinishHook(history);
 
-        const history: EditorHistory = {
-            text: text.value.slice(0, start) + replaceTo.value + text.value.slice(end),
-            start: nextStart,
-            end: nextEnd,
-            type: 'replaceOne' + now(),
-            scrollTop,
-            scrollLeft
-        }
-        replaceOneFinishHook(history);
-
-        isReplace = false
+            isReplace = false;
+        }).then();
     }
 
     const replaceAll = () => {
+        if (!textarea.value) return;
+
         if (replaceFrom.value.length <= 0) {
             alert("替换文本不可为空");
             return;

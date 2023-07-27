@@ -200,7 +200,7 @@
     height: 3em;
     overflow: hidden;
     position: relative;
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .markdown-body img.error::before {
