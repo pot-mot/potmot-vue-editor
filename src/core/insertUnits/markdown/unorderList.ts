@@ -1,4 +1,4 @@
-import {InputInsertArgument, InsertUnit} from "../../../declare/InsertUtil";
+import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {ref} from "vue";
 import {formatInsert} from "../../../utils/editor/insertUtils";
 import {
@@ -6,7 +6,6 @@ import {
     unorderedListFormat,
 } from "../../../utils/markdown/list";
 import {limit} from "../../../utils/common/math";
-
 
 export const unorderedList: InsertUnit = {
     triggers: [
@@ -17,11 +16,11 @@ export const unorderedList: InsertUnit = {
     ],
     label: "无序列表",
     insert: (args, textarea) => {
-        const mark = '-'
         return formatInsert(
             textarea,
             "unordered list",
             (startPart, midPart, endPart, space) => {
+                const mark = args.get("unorderedListMark")!.value
                 const placeholder = args.get("unorderedListWhiteSpace")!.value
                 if (midPart.length > 0) {
                     const result = unorderedListFormat(midPart, mark, space, placeholder);
@@ -51,6 +50,15 @@ export const unorderedList: InsertUnit = {
                 return ref(unorderedListLength);
             },
             inputLength: 2,
+        },
+        <OptionInsertArgument>{
+            name: "unorderedListMark",
+            label: "符号",
+            options: ['-', '+', '*'],
+            getRef: () => {
+                let unorderedListMark: string = '-';
+                return ref(unorderedListMark);
+            }
         },
         <InputInsertArgument<string>>{
             name: "unorderedListWhiteSpace",
