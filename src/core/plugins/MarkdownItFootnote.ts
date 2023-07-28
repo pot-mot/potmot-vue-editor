@@ -38,7 +38,7 @@ const renderFootnoteRef = (tokens: Token[], idx: number, options: any, env: any,
     }
 
     return createVNode('sup', {class: "footnote-ref"}, [
-        createVNode('a', {href: `#fn${id}`, id: `#fnref${refId}`, innerText: caption})
+        createVNode('a', {href: `#fn${id}`, id: `fnRef${refId}`, innerText: caption})
     ])
 }
 
@@ -79,7 +79,7 @@ const renderFootnoteAnchor = (tokens: Token[], idx: number, options: any, env: a
         id += ':' + tokens[idx].meta.subId
     }
 
-    return createVNode('a', {href: `#fnref${id}`, class: "footnote-backref", innerText: "\u21a9\uFE0E"});
+    return createVNode('a', {href: `#fnRef${id}`, class: "footnote-backref", innerText: "\u21a9\uFE0E"});
 }
 
 

@@ -1,8 +1,7 @@
 <template>
-	<TestEditorBase></TestEditorBase>
+<!--	<TestEditorBase></TestEditorBase>-->
 <!--	<TestEditorExpose></TestEditorExpose>-->
-<!--	<TestMarkdown :test-cases="[mindmap.value, stateDiagram.value]" :step-time="0"></TestMarkdown>-->
-<!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="2000"></TestMarkdown>-->
+			<TestMarkdown :test-cases="markdownTestCase" :step-time="2000"></TestMarkdown>
 <!--		<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
 <!--			<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->

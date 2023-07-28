@@ -38,9 +38,13 @@ md
     .use(MarkdownItFootnote)
     .use(MarkdownItMultimdTable, {multiline: true, rowspan: true, headerless: true,})
 
+    .use(MarkdownItContainer, '')
+    .use(MarkdownItContainer, 'info')
     .use(MarkdownItContainer, 'tip')
     .use(MarkdownItContainer, 'warning')
+    .use(MarkdownItContainer, 'danger')
     .use(MarkdownItContainer, 'detail')
+    .use(MarkdownItContainer, 'open-detail')
 
     .use(MarkdownItAnchor, {slugify})
     .use(MarkdownItToc)

@@ -17,12 +17,10 @@
 
 .markdown-body h1 {
     font-size: 2em;
-    line-height: 1.4em;
 }
 
 .markdown-body h2 {
     font-size: 1.5em;
-    line-height: 1.4em;
 }
 
 .markdown-body h3,
@@ -79,6 +77,19 @@
     margin-bottom: 0;
 }
 
+.markdown-body ol ol,
+.markdown-body ul ol {
+    list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+    list-style-type: lower-alpha;
+}
+
+
 .markdown-body .task-list-item {
     list-style: none;
     position: relative;
@@ -93,7 +104,7 @@
 .markdown-body blockquote {
     border-left: 0.4em solid var(--quote-border-color);
     background-color: var(--quote-back-color);
-    padding: 1em;
+    padding: 0.6em 1em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
 }

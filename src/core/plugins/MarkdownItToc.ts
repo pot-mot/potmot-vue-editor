@@ -4,7 +4,7 @@ import StateInline from 'markdown-it/lib/rules_inline/state_inline'
 import {slugify} from "../../utils/common/text";
 
 const defaults = {
-    level: [1, 2, 3],
+    level: [2, 3],
     containerClass: 'table-of-contents',
     slugify,
     markerPattern: /^\[toc](.*?)$/im,
