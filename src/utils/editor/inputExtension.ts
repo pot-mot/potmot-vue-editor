@@ -1,5 +1,5 @@
 import {insertIntoString} from "./insertUtils";
-import {getLeadingSpace} from "../common/text";
+import {getCurrentLineStartEnd, getLeadingSpace} from "../common/text";
 import {now} from "../common/time";
 
 // 补全
@@ -92,4 +92,13 @@ export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Parti
         result.type = 'batchTab' + now();
     }
     return result
+}
+
+export const selectLine = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Partial<EditorHistory> => {
+    const {selectionStart, value: text} = textarea;
+    const {start, end} = getCurrentLineStartEnd(text, selectionStart)
+    return {
+        start,
+        end
+    }
 }

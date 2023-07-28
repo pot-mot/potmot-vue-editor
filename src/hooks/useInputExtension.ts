@@ -1,4 +1,4 @@
-import {complexEnter, batchTab, complete} from "../utils/editor/inputExtension";
+import {complexEnter, batchTab, complete, selectLine} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {useHistoryStack} from "./useHistoryStack";
 import {now} from "../utils/common/time";
@@ -140,11 +140,14 @@ export const useInputExtension = (
                 redo();
                 return;
             } else if ((e.key == 'x' || e.key == 'X') && e.ctrlKey) {
+                if (el.selectionStart == el.selectionEnd) history = selectLine(el, e);
                 historyType.value = "cut" + now();
+            } else if ((e.key == 'c' || e.key == 'C') && e.ctrlKey) {
+                if (el.selectionStart == el.selectionEnd) history = selectLine(el, e);
+                history = selectLine(el, e);
+                historyType.value = "copy" + now();
             } else if ((e.key == 'v' || e.key == 'V') && e.ctrlKey) {
                 historyType.value = "paste" + now();
-            } else if ((e.key == 'c' || e.key == 'C') && e.ctrlKey) {
-                historyType.value = "copy" + now();
             } else if (e.key == 'Tab') {
                 e.preventDefault();
                 history = batchTab(el, e);
