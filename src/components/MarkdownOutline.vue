@@ -74,13 +74,15 @@ const maxLevel = computed(() => {
 let oldHtml: string = ""
 
 /**
- * 在 html 文本中匹配正则表达式获取元素
+ * 在目标元素中获取标题元素
  */
 const setItemFromHtml = () => {
 	const html = props.target.innerHTML
 
     if (!html) return;
     if (html == oldHtml) return;
+
+	console.log('change')
 
     oldHtml = html
     const result: OutlineItem[] = []
@@ -91,14 +93,16 @@ const setItemFromHtml = () => {
 		result.push(outlineItem)
 	})
 
-	if (!compare(items.value, result)) {
+	if (result.length == 0) {
+		items.value = []
+	} else if (!compare(items.value, result)) {
 		result[0].current = true
 		items.value = result
 	}
 }
 
 const compare = (oldItems: OutlineItem[], newItems: OutlineItem[]) => {
-	if (oldItems.length != newItems.length) return false
+	if (oldItems.length != newItems.length) return false;
 	for (let i = 0; i < oldItems.length; i++) {
 		if (
 			oldItems[i].level != newItems[i].level ||
