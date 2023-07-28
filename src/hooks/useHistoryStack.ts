@@ -28,7 +28,7 @@ export const useHistoryStack = (
      * @param input
      * @param change
      */
-    const push = (input: Partial<EditorHistory> | undefined, change: Function | undefined = changeHook) => {
+    const push = (input: Partial<EditorHistory> | undefined = undefined, change: Function | undefined = changeHook) => {
         const history = completeHistory(input);
 
         if (history.type.startsWith('undo') || history.type.startsWith('redo')) return;

@@ -1,12 +1,11 @@
 import {insertIntoString} from "./insertUtils";
 import {getLeadingSpace} from "../common/text";
 import {now} from "../common/time";
-// TODO 优化返回值
 
 // 补全
-export const complete = (textarea: HTMLTextAreaElement, insertText: { before: string, after: string }): EditorHistory => {
-    const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
-    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'complete' + now()}
+export const complete = (textarea: HTMLTextAreaElement, insertText: { before: string, after: string }): Partial<EditorHistory> => {
+    const {selectionStart: start, selectionEnd: end, value: text} = textarea;
+    let result: Partial<EditorHistory> = {end, start, text, type: 'complete' + now()}
 
     const {before, after} = insertText;
 
@@ -14,12 +13,12 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
         let mid = text.slice(start, end);
         if (mid.startsWith(before) && mid.endsWith(after)) {
             mid = mid.slice(before.length, mid.length - after.length);
-            result.text = insertIntoString(mid, result.text, start, end);
+            result.text = insertIntoString(mid, text, start, end);
             result.start = start
             result.end = end - before.length - after.length
         } else {
             mid = `${before}${mid}${after}`
-            result.text = insertIntoString(mid, result.text, start, end);
+            result.text = insertIntoString(mid, text, start, end);
             result.start = start + before.length
             result.end = end + before.length
         }
@@ -30,23 +29,19 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
             result.text = insertIntoString(after, result.text, result.end);
         }
 
-        result.start += before.length
-        result.end = result.start
+        result.start! += before.length
     }
     return result
 }
 
 // 回车保留缩进
-export const complexEnter = (textarea: HTMLTextAreaElement, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
+export const complexEnter = (textarea: HTMLTextAreaElement, getSpace: (...args: any[]) => string = getLeadingSpace): Partial<EditorHistory> => {
     const start = textarea.selectionStart;
     const space = getSpace(textarea.value, start);
     const text = insertIntoString("\n" + space, textarea.value, start);
     return {
-        scrollTop: textarea.scrollTop,
-        scrollLeft: textarea.scrollLeft,
-        end: start + space.length + 1,
-        start: start + space.length + 1,
         text,
+        start: start + space.length + 1,
         type: "enter" + now()
     }
 }
@@ -62,9 +57,9 @@ export const removeTab = (text: string): {text: string, matchLength: number} | n
     return {text: text.slice(length), matchLength: length}
 }
 
-export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): EditorHistory | null => {
-    const {selectionStart: start, selectionEnd: end, value: text, scrollTop, scrollLeft} = textarea;
-    let result: EditorHistory = {scrollTop, scrollLeft, end, start, text, type: 'tab'};
+export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Partial<EditorHistory> | null => {
+    const {selectionStart: start, selectionEnd: end, value: text} = textarea;
+    let result: Partial<EditorHistory> = {end, start, text, type: 'tab'};
     if (start == end) {
         if (e.shiftKey) {
             const index = text.lastIndexOf('\n', start - 1) + 1;
