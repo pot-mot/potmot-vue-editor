@@ -94,11 +94,11 @@ export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Parti
     return result
 }
 
-export const selectLine = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Partial<EditorHistory> => {
+export const selectLine = (textarea: HTMLTextAreaElement): Partial<EditorHistory> => {
     const {selectionStart, value: text} = textarea;
-    const {start, end} = getCurrentLineStartEnd(text, selectionStart)
+    const {start, end} = getCurrentLineStartEnd(text, selectionStart);
     return {
         start,
-        end
+        end: end + 1
     }
 }

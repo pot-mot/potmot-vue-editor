@@ -140,11 +140,10 @@ export const useInputExtension = (
                 redo();
                 return;
             } else if ((e.key == 'x' || e.key == 'X') && e.ctrlKey) {
-                if (el.selectionStart == el.selectionEnd) history = selectLine(el, e);
+                if (el.selectionStart == el.selectionEnd) history = selectLine(el);
                 historyType.value = "cut" + now();
             } else if ((e.key == 'c' || e.key == 'C') && e.ctrlKey) {
-                if (el.selectionStart == el.selectionEnd) history = selectLine(el, e);
-                history = selectLine(el, e);
+                if (el.selectionStart == el.selectionEnd) history = selectLine(el);
                 historyType.value = "copy" + now();
             } else if ((e.key == 'v' || e.key == 'V') && e.ctrlKey) {
                 historyType.value = "paste" + now();
