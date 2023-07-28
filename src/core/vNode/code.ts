@@ -7,7 +7,10 @@ import {encodeHTML} from "../../utils/common/htmlParse";
 
 const setLine = (code: string): {count: VNode, code: VNode} => {
     const counts: string[] = []
-    const codes = code.split('\n');
+    let codes = code.split('\n');
+    if (codes[codes.length - 1].length == 0) {
+        codes = codes.slice(0, codes.length - 1);
+    }
     for (let i = 0; i < codes.length; i++) {
         counts.push(`${i+1}`);
     }

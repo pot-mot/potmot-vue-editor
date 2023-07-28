@@ -23,9 +23,5 @@ export const fenceCodeBlock = (tokens: Token[], idx: number, options: any, _: an
     const arr = info.split(/(\s+)/g)
     const language = arr[0]
 
-    const codes = token.content.split('\n')
-    if (codes[codes.length - 1].length == 0) {
-        token.content = token.content.slice(0, -1);
-    }
     return createCodeBlockVNode(token.content, language, attrs)
 }

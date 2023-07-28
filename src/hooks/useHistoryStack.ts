@@ -14,15 +14,23 @@ export const useHistoryStack = (
     const redoStack: Ref<EditorHistory[]> = ref([]);
 
     // 上一次设置 setTop 的时间
-    let lastSetTopTime = 0
+    let lastSetTopTime = 0;
+
+    const completeHistory = (input: Partial<EditorHistory> | undefined, defaultValue: EditorHistory = pushDefault()): EditorHistory => {
+        if (!input) return defaultValue;
+        if (input.start != undefined && input.end == undefined) input.end = input.start;
+        return {...defaultValue, ...input}
+    }
 
     /**
      * 向 undoStack 推入，同时清空 redoStack
      * 如果上一次推入后的 2s 内推入的下一个历史的类型与前一次相同，将合并这两个历史，即覆盖 top
-     * @param history
+     * @param input
      * @param change
      */
-    const push = (history = pushDefault(), change: Function | undefined = changeHook) => {
+    const push = (input: Partial<EditorHistory> | undefined, change: Function | undefined = changeHook) => {
+        const history = completeHistory(input);
+
         if (history.type.startsWith('undo') || history.type.startsWith('redo')) return;
 
         const pushTime = now();

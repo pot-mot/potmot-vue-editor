@@ -1,10 +1,11 @@
-import {getCurrentLine, getCurrentLineBefore} from "../common/text";
+import {getCurrentLine, getCurrentLineBefore, getCurrentLineStartEnd} from "../common/text";
+import {now} from "lodash";
 
 // 多级引用
 export const multiQuote: RegExp = /^[ \t]*(>[ \t]*)*/;
 
 // 列表前置标记
-export const listMark: RegExp = /(([-+*]|\d+\.)( \[[xX ]])?)[ \t]+/
+export const listMark: RegExp = /(([-+*]|\d+\.)( \[[xX ]])?)[ \t]+/;
 
 // 复杂前置 mark
 export const leadingMarkRegex = /^[ \t]*((>[ \t]*)*)((([-+*]|\d+\.)( \[[xX ]])?)[ \t]+)*/;
@@ -12,11 +13,11 @@ export const leadingMarkRegex = /^[ \t]*((>[ \t]*)*)((([-+*]|\d+\.)( \[[xX ]])?)
 /**
  * 获取当前行前方的缩进、引用、列表标记前缀
  * @param text 整个文段
- * @param start 当前起点
+ * @param index 当前下标
  * @param keepLastListMark 保留最后一个列表符
  */
-export const getLeadingMarks = (text: string, start: number, keepLastListMark: boolean = true): string => {
-    const line = getCurrentLineBefore(text, start);
+export const getLeadingMarks = (text: string, index: number, keepLastListMark: boolean = true): string => {
+    const line = getCurrentLineBefore(text, index);
     const leadingMarks = line.match(leadingMarkRegex);
 
     if (leadingMarks == null || leadingMarks.length == 0) return '';
@@ -64,26 +65,47 @@ export const getLeadingMarks = (text: string, start: number, keepLastListMark: b
     return prefix + result
 }
 
-export const judgeTableLine  = (line: string): boolean => {
-    const result = line.trim().match(multiQuote);
-    return result != null;
+const tableLine = /(\|?.*?\|)+[ \t\\]*$/
+
+const tableLineEnd = /[ \t\\]*$/
+
+export const judgeTableLine  = (text: string, index: number): boolean => {
+    const line = getCurrentLine(text, index);
+    return tableLine.test(line.replace(multiQuote, ''));
 }
 
 /**
- * 获取当前行的表格部分
+ * 创建表格的下一行
  */
-export const getTableLine = (line: string): string => {
-    const tds = line.split(/(?<!\\)\|/g).filter(td => td.length > 0);
-    return tds.map(td => td.replace(/./g, ' ')).join('|');
-}
+export const createNextTableLine = (text: string, index: number): Partial<EditorHistory> => {
+    let prefix = '';
 
-export const getMarkdownLeadingLine = (text: string, start: number) => {
-    // const line = getCurrentLine(text, start);
-    // const tableLine = judgeTableLine(line)
-    // if (tableLine) {
-    //     console.log(getTableLine(line));
-    //     return getTableLine(line);
-    // } else {
-        return getLeadingMarks(text, start);
-    // }
+    const {start, end} = getCurrentLineStartEnd(text, index);
+
+    let line = text.slice(start, end);
+
+    const matchPrefix = line.match(multiQuote);
+    if (matchPrefix) {
+        prefix = matchPrefix[0];
+        line = line.slice(prefix.length);
+    }
+    const matchSuffix = line.match(tableLineEnd);
+    if (matchSuffix) {
+        line = line.slice(0, line.length - matchSuffix[0].length);
+    }
+
+    const tds = line.split(/(?<!\\)\|/g).filter(td => td.length > 0);
+
+    if (index == end) {
+        const nextLine = `\n${prefix}|${'  |'.repeat(tds.length)}`;
+        return {
+            type: 'table line' + now(),
+            text: text.slice(0, end) + nextLine + text.slice(end),
+            start: end + prefix.length + 3
+        };
+    } else {
+        return {
+            start: end
+        };
+    }
 }

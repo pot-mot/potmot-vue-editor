@@ -1,4 +1,4 @@
-import {batchEnter, batchTab, complete} from "../utils/editor/inputExtension";
+import {complexEnter, batchTab, complete} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
 import {useHistoryStack} from "./useHistoryStack";
 import {now} from "../utils/common/time";
@@ -150,7 +150,7 @@ export const useInputExtension = (
                 if (history && history.type) historyType.value = history.type
             } else if (e.key == 'Enter') {
                 e.preventDefault();
-                history = batchEnter(el);
+                history = complexEnter(el);
                 if (history && history.type) {
                     historyType.value = history.type
                 }

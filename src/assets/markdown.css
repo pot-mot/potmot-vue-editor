@@ -125,11 +125,12 @@
     border: 1px solid var(--border-color);
 }
 
-.markdown-body thead > tr,
+.markdown-body thead > tr:nth-child(odd),
 .markdown-body tbody > tr:nth-child(even) {
     background-color: var(--light-back-color);
 }
 
+.markdown-body thead > tr:nth-child(even),
 .markdown-body tbody > tr:nth-child(odd) {
     background-color: var(--lightter-back-color);
 }

@@ -124,9 +124,9 @@ import {extendInsertUnits, markdownInsertUnits} from "../core/insertUnits";
 import {isMobile} from "../utils/common/platform";
 import {now} from "../utils/common/time";
 import {formatTriggers} from "../utils/editor/insertUnitUtils";
-import {batchEnter, complete} from "../utils/editor/inputExtension";
+import {complexEnter, complete} from "../utils/editor/inputExtension";
 import {updateTextarea} from "../utils/common/textarea";
-import {getMarkdownLeadingLine} from "../utils/markdown/break";
+import {createNextTableLine, getLeadingMarks, judgeTableLine} from "../utils/markdown/break";
 import {
 	lockScroll,
 	unlockScroll,
@@ -545,9 +545,14 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 			if (!textarea.value) return;
 			setHistoryType('enter' + now());
 			if (e.altKey) {
-				push(batchEnter(textarea.value));
+				push(complexEnter(textarea.value));
 			} else {
-				push(batchEnter(textarea.value, getMarkdownLeadingLine));
+				const start = textarea.value.selectionStart
+				if (judgeTableLine(text.value, start)) {
+					push(createNextTableLine(text.value, start));
+				} else {
+					push(complexEnter(textarea.value, getLeadingMarks));
+				}
 			}
 		},
 		prevent: true,

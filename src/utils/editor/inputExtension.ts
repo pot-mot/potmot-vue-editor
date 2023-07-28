@@ -1,6 +1,7 @@
 import {insertIntoString} from "./insertUtils";
 import {getLeadingSpace} from "../common/text";
 import {now} from "../common/time";
+// TODO 优化返回值
 
 // 补全
 export const complete = (textarea: HTMLTextAreaElement, insertText: { before: string, after: string }): EditorHistory => {
@@ -36,7 +37,7 @@ export const complete = (textarea: HTMLTextAreaElement, insertText: { before: st
 }
 
 // 回车保留缩进
-export const batchEnter = (textarea: HTMLTextAreaElement, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
+export const complexEnter = (textarea: HTMLTextAreaElement, getSpace: (...args: any[]) => string = getLeadingSpace): EditorHistory => {
     const start = textarea.selectionStart;
     const space = getSpace(textarea.value, start);
     const text = insertIntoString("\n" + space, textarea.value, start);
@@ -55,12 +56,10 @@ const tab = '\t';
 const tabBlank = /^( {1,4})|\t/;
 
 export const removeTab = (text: string): {text: string, matchLength: number} | null => {
-    if (tabBlank.test(text)) {
-        const matches = text.match(tabBlank);
-        const length = matches![0].length;
-        return {text: text.slice(length), matchLength: length}
-    }
-    return null
+    const matches = text.match(tabBlank);
+    if (matches == null) return null;
+    const length = matches[0].length;
+    return {text: text.slice(length), matchLength: length}
 }
 
 export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): EditorHistory | null => {
