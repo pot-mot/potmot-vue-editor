@@ -21,5 +21,4 @@ export const rules = {
     image,
 
     'emoji': emojiHtml,
-
 } as any

@@ -1,34 +1,10 @@
-import katex from 'katex';
-import MarkdownIt from 'markdown-it';
 import {createVNode, VNode} from "vue";
-import {createErrVNode} from "../vNode/err";
-
-interface StateInline {
-    src: string;
-    pos: number;
-    posMax: number;
-    pending: string;
-    push: any;
-}
-
-interface StateBlock {
-    bMarks: number[];
-    tShift: number[];
-    eMarks: number[];
-    blkIndent: number;
-    src: string;
-    push: any;
-    getLines: any;
-    line: number;
-}
-
-interface Token {
-    type: string;
-    markup: string;
-    content: string;
-    block: boolean;
-    map: number[];
-}
+import MarkdownIt from 'markdown-it';
+import Token from "markdown-it/lib/token";
+import StateInline from "markdown-it/lib/rules_inline/state_inline";
+import StateBlock from "markdown-it/lib/rules_block/state_block";
+import katex, {KatexOptions} from 'katex';
+import {createErrVNode} from "../rules/errVNode";
 
 export const mathInline = (state: StateInline, silent: boolean): boolean => {
     let start, match, token, res, pos;
@@ -184,26 +160,7 @@ function isValidDelim(state: StateInline, pos: number) {
     };
 }
 
-interface Options {
-    throwOnError?: boolean;
-    displayMode?: boolean;
-}
-
-export const MarkdownItKatex = (md: MarkdownIt, options: Options = {}) => {
-    options = options || {};
-
-    const katexInline = (latex: string) => {
-
-        try {
-            return ;
-        } catch (error) {
-            if (options.throwOnError) {
-                console.log(error);
-            }
-            return latex;
-        }
-    };
-
+export const MarkdownItKatex = (md: MarkdownIt, options: KatexOptions = {}) => {
     const inlineRenderer = (tokens: Token[], idx: number): VNode => {
         options.displayMode = false;
         try {

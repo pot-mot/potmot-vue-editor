@@ -11,18 +11,16 @@ import MarkdownItEmoji from 'markdown-it-emoji';
 //@ts-ignore
 import MarkdownItContainer from 'markdown-it-container';
 //@ts-ignore
-import MarkdownItFootnote from 'markdown-it-footnote';
-//@ts-ignore
 import MarkdownItAbbr from 'markdown-it-abbr';
 //@ts-ignore
 import MarkdownItTaskLists from 'markdown-it-task-lists';
 import MarkdownItMultimdTable from 'markdown-it-multimd-table';
 import MarkdownItAnchor from "markdown-it-anchor";
 import {MarkdownItKatex} from "./plugins/MarkdownItKatex";
+import {MarkdownItFootnote} from "./plugins/MarkdownItFootnote";
 
 import {rules} from "./rules";
-import {render, renderAttrs, renderToken} from "./vNode/render";
-
+import {render, renderAttrs, renderToken} from "./render";
 const md = new MarkdownIt()
 
 md
@@ -33,12 +31,11 @@ md
     .use(MarkdownItMark)
     .use(MarkdownItEmoji)
     .use(MarkdownItContainer)
-    .use(MarkdownItFootnote)
     .use(MarkdownItTaskLists)
     .use(MarkdownItAbbr)
     .use(MarkdownItAnchor)
     .use(MarkdownItKatex)
-
+    .use(MarkdownItFootnote)
 
 md.renderer.rules = {...md.renderer.rules, ...rules};
 

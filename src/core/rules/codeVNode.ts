@@ -2,7 +2,7 @@ import {createVNode, VNode} from "vue";
 import Prism from "prismjs";
 import {prismLanguageList} from "../../constants/prismLanguageList";
 import {DOM_ATTR_NAME} from "../../constants/attr/domAttrName";
-import {createErrVNode} from "./err";
+import {createErrVNode} from "./errVNode";
 import {encodeHTML} from "../../utils/common/htmlParse";
 
 const setLine = (code: string): {count: VNode, code: VNode} => {

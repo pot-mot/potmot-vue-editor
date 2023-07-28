@@ -1,10 +1,10 @@
 import Renderer from "markdown-it/lib/renderer";
 import Token from "markdown-it/lib/token";
 import {Comment, createVNode, Fragment, VNode} from "vue";
-import {validateAttrName} from "../source/validateAttrName";
-import {setSourceLine} from "../source/line";
-import {DOM_ATTR_NAME} from "../../constants/attr/domAttrName";
-import {createHtmlVNode} from "../rules/html";
+import {validateAttrName} from "./source/validateAttrName";
+import {setSourceLine} from "./source/line";
+import {DOM_ATTR_NAME} from "../constants/attr/domAttrName";
+import {createHtmlVNode} from "./rules/html";
 
 export function renderToken(this: Renderer, tokens: Token[], idx: number): any {
     const token = tokens[idx]
