@@ -1,13 +1,22 @@
 .markdown-body,
 .light.markdown-body,
 .light .markdown-body {
-    --light-border-color: #b9b9b9;
-    --border-color: #a5a5a5;
-    --deep-border-color: #696969;
+    --hr-color: #ddd;
 
-    --deep-back-color: #eee;
-    --light-back-color: #f5f5f5;
-    --lightter-back-color: #fefefe;
+    --code-inline-color: #000;
+    --code-inline-back-color: #e5e5e5;
+
+    --quote-border-color: #b9b9b9;
+    --quote-back-color: #f5f5f5;
+
+    --table-border-color: #a5a5a5;
+    --table-cell-border-color: #a5a5a5;
+    --table-cell-hover-border-color: #696969;
+    --table-odd-back-color: #fefefe;
+    --table-even-back-color: #f5f5f5;
+
+    --image-border-color: #696969;
+    --image-back-color: #fefefe;
 
     --link-color: #2360bb;
     --link-hover-color: #5399f8;
@@ -17,13 +26,22 @@
 
 .dark.markdown-body,
 .dark .markdown-body {
-    --light-border-color: #696969;
-    --border-color: #787878;
-    --deep-border-color: #878787;
+    --hr-color: #aaa;
 
-    --deep-back-color: #373737;
-    --light-back-color: #2d2d2d;
-    --lightter-back-color: #232323;
+    --code-inline-color: #e5e5e5;
+    --code-inline-back-color: #333;
+
+    --quote-border-color: #696969;
+    --quote-back-color: #373737;
+
+    --table-border-color: #787878;
+    --table-cell-border-color: #787878;
+    --table-cell-hover-border-color: #878787;
+    --table-odd-back-color: #2d2d2d;
+    --table-even-back-color: #232323;
+
+    --image-border-color: #878787;
+    --image-back-color: #2d2d2d;
 
     --link-color: #466ed2;
     --link-hover-color: #64a0ff;

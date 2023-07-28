@@ -7,29 +7,20 @@ import katex, {KatexOptions} from 'katex';
 import {createErrVNode} from "../rules/errVNode";
 
 export const mathInline = (state: StateInline, silent: boolean): boolean => {
-    let start, match, token, res, pos;
+    let start, match, token, pos;
 
     if (state.src[state.pos] !== "$") {
         return false;
-    }
-
-    res = isValidDelim(state, state.pos);
-    if (!res.can_open) {
-        if (!silent) {
-            state.pending += "$";
-        }
-        state.pos += 1;
-        return true;
     }
 
     // 首先查找并忽略所有正确转义的定界符
     // 这个循环要假设第一个反引号不能是 state.src 中的开头字符，这是已知的，因为我们已经找到了一个开启的定界符。
     start = state.pos + 1;
     match = start;
-    while ((match = state.src.indexOf("$", match)) !== -1) {
+    while ((match = state.src.indexOf("$", match)) != -1) {
         // 找到了潜在的 $，查找转义字符，pos 将指向第一个非转义字符
         pos = match - 1;
-        while (state.src[pos] === "\\") {
+        while (state.src[pos] == "\\") {
             pos -= 1;
         }
 
@@ -41,7 +32,7 @@ export const mathInline = (state: StateInline, silent: boolean): boolean => {
     }
 
     // 没找到结束定界符。消耗 $ 并继续。
-    if (match === -1) {
+    if (match == -1) {
         if (!silent) {
             state.pending += "$";
         }
@@ -50,21 +41,11 @@ export const mathInline = (state: StateInline, silent: boolean): boolean => {
     }
 
     // 检查是否为空内容，例如：$$. 不解析。
-    if (match - start === 0) {
+    if (match - start == 0) {
         if (!silent) {
             state.pending += "$$";
         }
         state.pos = start + 1;
-        return true;
-    }
-
-    // 检查是否是有效的结束定界符
-    res = isValidDelim(state, match);
-    if (!res.can_close) {
-        if (!silent) {
-            state.pending += "$";
-        }
-        state.pos = start;
         return true;
     }
 
@@ -86,7 +67,7 @@ export const mathBlock = (state: StateBlock, start: number, end: number, silent:
     if (pos + 2 > max) {
         return false;
     }
-    if (state.src.slice(pos, pos + 2) !== '$$') {
+    if (state.src.slice(pos, pos + 2) != '$$') {
         return false;
     }
 
@@ -96,7 +77,7 @@ export const mathBlock = (state: StateBlock, start: number, end: number, silent:
     if (silent) {
         return true;
     }
-    if (firstLine.trim().slice(-2) === '$$') {
+    if (firstLine.trim().slice(-2) == '$$') {
         // Single line expression
         firstLine = firstLine.trim().slice(0, -2);
         found = true;
@@ -118,7 +99,7 @@ export const mathBlock = (state: StateBlock, start: number, end: number, silent:
             break;
         }
 
-        if (state.src.slice(pos, max).trim().slice(-2) === '$$') {
+        if (state.src.slice(pos, max).trim().slice(-2) == '$$') {
             lastPos = state.src.slice(0, max).lastIndexOf('$$');
             lastLine = state.src.slice(pos, lastPos);
             found = true;
@@ -138,55 +119,36 @@ export const mathBlock = (state: StateBlock, start: number, end: number, silent:
     return true;
 }
 
-function isValidDelim(state: StateInline, pos: number) {
-    let prevChar, nextChar,
-        max = state.posMax,
-        can_open = true,
-        can_close = true;
-
-    prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
-    nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
-
-    if (prevChar === 0x20 || prevChar === 0x09 || prevChar === 0x0a || (prevChar >= 0x30 && prevChar <= 0x39)) {
-        can_close = false;
-    }
-    if (nextChar === 0x20 || nextChar === 0x09 || nextChar === 0x0a) {
-        can_open = false;
-    }
-
-    return {
-        can_open: can_open,
-        can_close: can_close
-    };
-}
-
 export const MarkdownItKatex = (md: MarkdownIt, options: KatexOptions = {}) => {
     const inlineRenderer = (tokens: Token[], idx: number): VNode => {
         options.displayMode = false;
+        const content = tokens[idx].content
         try {
-            const result = katex.renderToString(tokens[idx].content, options);
-            return createVNode('span', {innerHTML: result, class: 'katex'});
+            const result = katex.renderToString(content, options);
+            return createVNode('span', {key: content, innerHTML: result, class: 'katex'});
         } catch (e) {
-            return createErrVNode(e, 'katex render fail')
+            return createErrVNode(e, 'katex render fail: ' + content);
         }
     };
 
     const blockRenderer = function (tokens: Token[], idx: number): VNode {
         options.displayMode = true;
+        const content = tokens[idx].content
         try {
-            const result = katex.renderToString(tokens[idx].content, options);
-            return createVNode('p', {innerHTML: result, class: 'katex'});
+            const result = katex.renderToString(content, options);
+            return createVNode('p', {key: content, innerHTML: result, class: 'katex'});
         } catch (e) {
-            return createErrVNode(e, 'katex render fail')
+            return createErrVNode(e, 'katex render fail: ' + content);
         }
     }
+
+    // @ts-ignore
+    md.renderer.rules['math_inline'] = inlineRenderer;
+    // @ts-ignore
+    md.renderer.rules['math_block'] = blockRenderer;
 
     md.inline.ruler.after('escape', 'math_inline', mathInline);
     md.block.ruler.after('blockquote', 'math_block', mathBlock, {
         alt: ['paragraph', 'reference', 'blockquote', 'list']
     });
-    // @ts-ignore
-    md.renderer.rules['math_inline'] = inlineRenderer;
-    // @ts-ignore
-    md.renderer.rules['math_block'] = blockRenderer;
 }

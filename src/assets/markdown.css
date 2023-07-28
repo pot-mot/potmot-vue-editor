@@ -56,19 +56,12 @@
 .markdown-body hr {
     margin-top: 1em;
     margin-bottom: 1em;
-    border-color: var(--border-color);
+    border-color: var(--hr-color);
 }
 
 .markdown-body * + h1,
 .markdown-body * + h2 {
     margin-top: 0.2em;
-}
-
-.markdown-body h1 > hr,
-.markdown-body h2 > hr {
-    margin-top: 0.3em;
-    margin-bottom: 0;
-    border-color: var(--light-back-color);
 }
 
 .markdown-body ul,
@@ -98,8 +91,8 @@
 }
 
 .markdown-body blockquote {
-    border-left: 0.4em solid var(--border-color);
-    background-color: var(--light-back-color);
+    border-left: 0.4em solid var(--quote-border-color);
+    background-color: var(--quote-back-color);
     padding: 1em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -112,6 +105,9 @@
 .markdown-body :not(pre) > code {
     padding: 0.2em;
     border-radius: 3px;
+    color: var(--code-inline-color);
+    background-color: var(--code-inline-back-color);
+    vertical-align: center;
 }
 
 .markdown-body pre {
@@ -122,22 +118,12 @@
 .markdown-body table {
     border-collapse: collapse;
     margin: 0.5em 0;
-    border: 1px solid var(--border-color);
-}
-
-.markdown-body thead > tr:nth-child(odd),
-.markdown-body tbody > tr:nth-child(even) {
-    background-color: var(--light-back-color);
-}
-
-.markdown-body thead > tr:nth-child(even),
-.markdown-body tbody > tr:nth-child(odd) {
-    background-color: var(--lightter-back-color);
+    border: 1px solid var(--table-border-color);
 }
 
 .markdown-body th,
 .markdown-body td {
-    border: 1px solid var(--light-border-color);
+    border: 1px solid var(--table-cell-border-color);
     min-width: 2em;
     padding: 0.5em;
     word-break: break-word;
@@ -145,8 +131,17 @@
 
 .markdown-body th:hover,
 .markdown-body td:hover {
-    outline: var(--deep-border-color) 1px solid;
+    outline: var(--table-cell-hover-border-color) 1px solid;
     outline-offset: -1px;
+}
+
+.markdown-body thead > tr:nth-child(even),
+.markdown-body tbody > tr:nth-child(odd) {
+    background-color: var(--table-odd-back-color);
+}
+.markdown-body thead > tr:nth-child(odd),
+.markdown-body tbody > tr:nth-child(even) {
+    background-color: var(--table-even-back-color);
 }
 
 .markdown-body a {
@@ -193,7 +188,8 @@
 .markdown-body img:hover,
 .markdown-body svg:hover,
 .markdown-body video:hover {
-    outline: 2px solid var(--deep-border-color);
+    outline: 2px solid var(--image-border-color);
+    background-color: var(--image-back-color);
 }
 
 .markdown-body img + br,
@@ -224,7 +220,7 @@
     text-align: center;
     overflow: hidden;
     content: '';
-    background-color: var(--lightter-back-color);
+    background-color: var(--image-back-color);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 80% 80%;

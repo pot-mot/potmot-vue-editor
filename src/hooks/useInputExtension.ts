@@ -106,7 +106,7 @@ export const useInputExtension = (
         });
 
         el.addEventListener("keydown", (e: KeyboardEvent) => {
-            let history: EditorHistory | null = null
+            let history: Partial<EditorHistory> | null = null
 
             for (const insertUnit of insertUnits) {
                 if (judgeKeyEventTriggers(insertUnit.triggers, e)) {

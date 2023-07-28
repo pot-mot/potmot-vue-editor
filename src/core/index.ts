@@ -34,7 +34,7 @@ md
     .use(MarkdownItTaskLists)
     .use(MarkdownItAbbr)
     .use(MarkdownItAnchor)
-    .use(MarkdownItKatex)
+    .use(MarkdownItKatex, {strict: false})
     .use(MarkdownItFootnote)
 
 md.renderer.rules = {...md.renderer.rules, ...rules};
