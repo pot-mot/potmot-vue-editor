@@ -13,16 +13,17 @@ import MarkdownItAbbr from 'markdown-it-abbr';
 //@ts-ignore
 import MarkdownItTaskLists from 'markdown-it-task-lists';
 
-import MarkdownItContainer from 'markdown-it-container';
 import MarkdownItMultimdTable from 'markdown-it-multimd-table';
 import MarkdownItAnchor from "markdown-it-anchor";
+import {MarkdownItToc} from "./plugins/MarkdownItToc";
+import {MarkdownItContainerExtension} from "./plugins/MarkdownItContainerExtension";
 import {MarkdownItKatex} from "./plugins/MarkdownItKatex";
 import {MarkdownItFootnote} from "./plugins/MarkdownItFootnote";
 
 import {rules} from "./rules";
 import {render, renderAttrs, renderToken} from "./render";
-import {MarkdownItToc} from "./plugins/MarkdownItToc";
 import {slugify} from "../utils/common/text";
+
 const md = new MarkdownIt()
 
 md
@@ -37,14 +38,7 @@ md
     .use(MarkdownItKatex, {strict: false})
     .use(MarkdownItFootnote)
     .use(MarkdownItMultimdTable, {multiline: true, rowspan: true, headerless: true,})
-
-    .use(MarkdownItContainer, '')
-    .use(MarkdownItContainer, 'info')
-    .use(MarkdownItContainer, 'tip')
-    .use(MarkdownItContainer, 'warning')
-    .use(MarkdownItContainer, 'danger')
-    .use(MarkdownItContainer, 'detail')
-    .use(MarkdownItContainer, 'open-detail')
+    .use(MarkdownItContainerExtension)
 
     .use(MarkdownItAnchor, {slugify})
     .use(MarkdownItToc)

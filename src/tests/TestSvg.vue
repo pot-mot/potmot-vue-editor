@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SvgIcon from "../components/svg/SvgIcon.vue";
 import {useSvgIcons} from "../hooks/useSvgIcon";
-import {svgIconNameList} from "../constants/icon/svgIcon";
+import {svgIconNameList} from "../constants/icon";
 
 useSvgIcons(svgIconNameList);
 </script>

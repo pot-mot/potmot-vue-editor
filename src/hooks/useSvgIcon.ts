@@ -1,5 +1,5 @@
 import {computed, onMounted, watch} from "vue";
-import {svgIcons, svgIconPrefix} from "../constants/icon/svgIcon";
+import {svgIcons, svgIconPrefix} from "../constants/icon";
 import {createComputedHideDom} from "../utils/common/document";
 
 const containerId: string =  `--${svgIconPrefix}container`

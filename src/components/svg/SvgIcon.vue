@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import {svgIconPrefix} from "../../constants/icon/svgIcon";
+import {svgIconPrefix} from "../../constants/icon";
 import {computed} from "vue";
 
 const props = defineProps({
