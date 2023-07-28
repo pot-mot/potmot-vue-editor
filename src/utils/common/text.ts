@@ -1,3 +1,5 @@
+export const slugify = (s: string) => String(s).trim().replace(/\s+/g, '-')
+
 export const getCurrentLineStartEnd = (text: string, index: number): {start: number, end: number} => {
     const start = text.lastIndexOf('\n', index - 1) + 1;  // 当前行的起始位置
     const end = text.indexOf('\n', index);  // 当前行的结束位置

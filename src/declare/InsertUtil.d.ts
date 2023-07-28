@@ -45,7 +45,7 @@ interface InsertUnit extends KeyEventConfig {
     triggers: KeyEvent[],
     label: string
     // 插入事件，参数有参数map，textarea 当前编辑框元素, event 当前触发事件
-    insert: (args: Map<string, Ref>, textarea: HTMLTextAreaElement, event?: KeyboardEvent) => EditorHistory
+    insert: (args: Map<string, Ref>, textarea: HTMLTextAreaElement, event?: KeyboardEvent) => Partial<EditorHistory>
     // 参数列表
     arguments: InsertArgument<any>[]
 }

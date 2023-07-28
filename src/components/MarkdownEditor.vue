@@ -136,6 +136,7 @@ import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
 import {EditTool, EditToolConfig} from "../declare/EditTool";
 import {usePreferredDark} from "@vueuse/core";
 import {useMobileFullHeight} from "../hooks/useMobileFullHeight";
+import {completeHistory} from "../utils/editor/history";
 
 // DOM 元素 Ref
 const editor: Ref<HTMLDivElement | null | undefined> = ref();
@@ -504,9 +505,9 @@ const changeSelectArg = (name: string, e: Event) => {
 
 const insertIntoTextarea = (insertUnit: InsertUnit, e?: KeyboardEvent) => {
 	if (!textarea.value) return;
-	const history = insertUnit.insert(argsMap.value, textarea.value, e);
+	const history = completeHistory(insertUnit.insert(argsMap.value, textarea.value, e), pushDefault());
 	setHistoryType(history.type);
-	changeHook(history);
+	smoothChangeHook(history);
 }
 
 const changeHook = (history: EditorHistory) => {

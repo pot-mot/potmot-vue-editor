@@ -51,8 +51,8 @@ export const simpleInsert = (
     keepSelect: boolean = false,
     replace: boolean = false,
     mergeMulti: boolean = false,
-): EditorHistory => {
-    const {selectionStart: oldStart, selectionEnd: oldEnd, value: text, scrollTop, scrollLeft} = textarea;
+): Partial<EditorHistory> => {
+    const {selectionStart: oldStart, selectionEnd: oldEnd, value: text} = textarea;
 
     const startPart: string = text.slice(0, oldStart);
     const midPart: string = replace ? '' : text.slice(oldStart, oldEnd);
@@ -72,8 +72,6 @@ export const simpleInsert = (
     }
 
     return {
-        scrollTop,
-        scrollLeft,
         text: content.join(""),
         type: type + (mergeMulti ? '' : ` ${now()}`),
         start: newStart,
@@ -118,8 +116,8 @@ export const formatInsert = (
         end?: number
     },
     mergeMulti: boolean = false,
-): EditorHistory => {
-    const {selectionStart: oldStart, selectionEnd: oldEnd, value: text, scrollTop, scrollLeft} = textarea;
+): Partial<EditorHistory> => {
+    const {selectionStart: oldStart, selectionEnd: oldEnd, value: text} = textarea;
 
     const startPart: string = text.slice(0, oldStart);
     const midPart: string = text.slice(oldStart, oldEnd);
@@ -131,8 +129,6 @@ export const formatInsert = (
     const {content, start, end} = formatter(startPart, midPart, endPart, space);
 
     return {
-        scrollTop,
-        scrollLeft,
         text: typeof content == "string" ? content : content.join(""),
         type: type + (mergeMulti ? '' : ` ${now()}`),
         start: start,

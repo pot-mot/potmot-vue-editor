@@ -11,7 +11,7 @@ export const code: InsertUnit = {
         }
     ],
     label: "代码块",
-    insert: (args, textarea, e): EditorHistory => {
+    insert: (args, textarea, e) => {
         const language = args.get("codeLanguage")!.value
         const key = e?.key
         const fence = (key == undefined || key == '`') ? '```' : '~~~'

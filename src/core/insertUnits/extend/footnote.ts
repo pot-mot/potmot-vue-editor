@@ -19,9 +19,16 @@ export const footnote: InsertUnit = {
             "code",
             (startPart, midPart, endPart) => {
                 if (type == footnoteTypeOptions[0]) {
-                    return {
-                        content: [startPart, '^[', midPart, ']', endPart],
-                        start: startPart.length + 2 + midPart.length + 1,
+                    if (midPart.length > 0) {
+                        return {
+                            content: [startPart, '^[', midPart, ']', endPart],
+                            start: startPart.length + 2 + midPart.length + 1,
+                        }
+                    } else {
+                        return {
+                            content: [startPart, '^[]', endPart],
+                            start: startPart.length + 2,
+                        }
                     }
                 }
                 const ref = `[^${midPart}]`

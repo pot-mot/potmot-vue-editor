@@ -59,7 +59,7 @@ export const removeTab = (text: string): {text: string, matchLength: number} | n
 
 export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Partial<EditorHistory> | null => {
     const {selectionStart: start, selectionEnd: end, value: text} = textarea;
-    let result: Partial<EditorHistory> = {end, start, text, type: 'tab'};
+    let result: Partial<EditorHistory> = {start, text, type: 'tab'};
     if (start == end) {
         if (e.shiftKey) {
             const index = text.lastIndexOf('\n', start - 1) + 1;
@@ -69,11 +69,9 @@ export const batchTab = (textarea: HTMLTextAreaElement, e: KeyboardEvent): Parti
             const newTemp = afterRemove.text;
             result.text = `${text.slice(0, start - temp.length)}${newTemp}${text.slice(end)}`;
             result.start = start - afterRemove.matchLength;
-            result.end = start - afterRemove.matchLength;
         } else {
             result.text = insertIntoString(tab, text, start);
             result.start = start + tab.length;
-            result.end = start + tab.length;
         }
     } else {
         const temp = text.slice(start, end);

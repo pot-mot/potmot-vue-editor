@@ -5,6 +5,7 @@ import {now} from "../utils/common/time";
 import {nextTick, onMounted, Ref, ref} from "vue";
 import {InsertUnit, ShortcutKey} from "../declare/InsertUtil";
 import {judgeKeyEventTrigger, judgeKeyEventTriggers} from "../utils/editor/keyEvent";
+import {completeHistory} from "../utils/editor/history";
 
 export const useInputExtension = (
     target: () => HTMLTextAreaElement | undefined | null,
@@ -111,7 +112,7 @@ export const useInputExtension = (
             for (const insertUnit of insertUnits) {
                 if (judgeKeyEventTriggers(insertUnit.triggers, e)) {
                     if (insertUnit.prevent) e.preventDefault();
-                    const history = insertUnit.insert(argsMap, el, e);
+                    const history = completeHistory(insertUnit.insert(argsMap, el, e), pushDefault!());
                     historyType.value = history.type
                     push(history);
                     if (insertUnit.reject) return;

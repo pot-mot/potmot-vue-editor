@@ -14,10 +14,10 @@ export const title: InsertUnit = {
         {key: '6', ctrl: true}
     ],
     label: "标题",
-    insert: (args, textarea, event) => {
+    insert: (args, textarea, e) => {
         let level: number = args.get("titleLevel")!.value
-        if (event && ['1', '2', '3', '4', '5', '6'].includes(event.key)) {
-            level = parseInt(event.key);
+        if (e && ['1', '2', '3', '4', '5', '6'].includes(e.key)) {
+            level = parseInt(e.key);
             args.get('titleLevel')!.value = level
         }
         level = limit(level, 1, 6);

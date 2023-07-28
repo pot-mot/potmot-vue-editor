@@ -1,5 +1,6 @@
 import {Ref, ref} from "vue";
 import {now} from "../utils/common/time";
+import {completeHistory} from "../utils/editor/history";
 
 export const useHistoryStack = (
     changeHook: (history: EditorHistory) => void,
@@ -16,12 +17,6 @@ export const useHistoryStack = (
     // 上一次设置 setTop 的时间
     let lastSetTopTime = 0;
 
-    const completeHistory = (input: Partial<EditorHistory> | undefined, defaultValue: EditorHistory = pushDefault()): EditorHistory => {
-        if (!input) return defaultValue;
-        if (input.start != undefined && input.end == undefined) input.end = input.start;
-        return {...defaultValue, ...input}
-    }
-
     /**
      * 向 undoStack 推入，同时清空 redoStack
      * 如果上一次推入后的 2s 内推入的下一个历史的类型与前一次相同，将合并这两个历史，即覆盖 top
@@ -29,7 +24,7 @@ export const useHistoryStack = (
      * @param change
      */
     const push = (input: Partial<EditorHistory> | undefined = undefined, change: Function | undefined = changeHook) => {
-        const history = completeHistory(input);
+        const history = completeHistory(input, pushDefault());
 
         if (history.type.startsWith('undo') || history.type.startsWith('redo')) return;
 
