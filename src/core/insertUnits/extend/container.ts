@@ -1,6 +1,7 @@
 import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../declare/InsertUtil";
 import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtils";
+import {quoteType} from "../../plugins/container/quote";
 
 export const container: InsertUnit = {
     triggers: [
@@ -9,7 +10,7 @@ export const container: InsertUnit = {
             ctrl: true,
         }
     ],
-    label: "折叠块",
+    label: "块级容器",
     insert: (args, textarea) => {
         const title = args.get("containerTitle")!.value;
         const level = parseInt(args.get("containerLevel")!.value);
@@ -39,10 +40,10 @@ export const container: InsertUnit = {
             name: "containerType",
             label: "类型",
             getRef: () => {
-                let detailIsOpen = "收起";
+                let detailIsOpen = "detail";
                 return ref(detailIsOpen);
             },
-            options: ["收起", "展开"]
+            options: ["detail", "detail open", ...quoteType]
         },
         <InputInsertArgument<string>>{
             name: "containerLevel",

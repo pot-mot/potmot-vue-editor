@@ -3,11 +3,21 @@
 .light .markdown-body {
     --hr-color: #ddd;
 
-    --code-inline-color: #000;
+    --code-inline-color: #333;
     --code-inline-back-color: #e5e5e5;
 
-    --quote-border-color: #b9b9b9;
-    --quote-back-color: #f5f5f5;
+    --quote-tip-color: #67C23A;
+    --quote-tip-title-color: #53ae26;
+    --quote-tip-back-color: rgba(103, 194, 58, 0.2);
+    --quote-warning-color: #E6A23C;
+    --quote-warning-title-color: #d28e28;
+    --quote-warning-back-color: rgba(230, 162, 60, 0.2);
+    --quote-danger-color: #F56C6C;
+    --quote-danger-title-color: #f54e4e;
+    --quote-danger-back-color: rgba(245, 108, 108, 0.2);
+    --quote-info-color: #909399;
+    --quote-info-title-color: #6e6e78;
+    --quote-info-back-color: rgba(144, 147, 153, 0.2);
 
     --table-border-color: #a5a5a5;
     --table-cell-border-color: #a5a5a5;
@@ -27,12 +37,21 @@
 .dark.markdown-body,
 .dark .markdown-body {
     --hr-color: #aaa;
-
-    --code-inline-color: #e5e5e5;
+    --code-inline-color: #eee;
     --code-inline-back-color: #333;
 
-    --quote-border-color: #696969;
-    --quote-back-color: #373737;
+    --quote-tip-color: #4e8e2f;
+    --quote-tip-title-color: #4e8e2f;
+    --quote-tip-back-color: rgba(78, 142, 47, 0.2);
+    --quote-warning-color: #a77730;
+    --quote-warning-title-color: #a77730;
+    --quote-warning-back-color: rgba(167, 119, 48, 0.2);
+    --quote-danger-color: #b25252;
+    --quote-danger-title-color: #b25252;
+    --quote-danger-back-color: rgba(178, 82, 82, 0.2);
+    --quote-info-color: #6b6d71;
+    --quote-info-title-color: #6b6d71;
+    --quote-info-back-color: rgba(107, 109, 113, 0.2);
 
     --table-border-color: #787878;
     --table-cell-border-color: #787878;

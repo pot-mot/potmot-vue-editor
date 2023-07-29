@@ -102,15 +102,62 @@
 }
 
 .markdown-body blockquote {
-    border-left: 0.4em solid var(--quote-border-color);
-    background-color: var(--quote-back-color);
-    padding: 0.6em 1em;
+    border-left: 0.4em solid;
+    padding: 0.8em 1em;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+    border-radius: 3px;
 }
 
 .markdown-body blockquote + blockquote {
     margin-top: 1em;
+}
+
+.markdown-body blockquote > .title {
+    padding: 0;
+    margin: 0;
+    font-weight: 600;
+}
+
+.markdown-body blockquote.tip {
+    border-color: var(--quote-tip-color);
+    background-color: var(--quote-tip-back-color);
+}
+
+.markdown-body blockquote.tip > .title {
+    color: var(--quote-tip-title-color);
+}
+
+.markdown-body blockquote.warning {
+    border-color: var(--quote-warning-color);
+    background-color: var(--quote-warning-back-color);
+}
+
+.markdown-body blockquote.warning > .title {
+    color: var(--quote-warning-title-color);
+}
+
+.markdown-body blockquote.danger {
+    border-color: var(--quote-danger-color);
+    background-color: var(--quote-danger-back-color);
+}
+
+.markdown-body blockquote.danger > .title {
+    color: var(--quote-danger-title-color);
+}
+
+.markdown-body blockquote,
+.markdown-body blockquote.info {
+    border-color: var(--quote-info-color);
+    background-color: var(--quote-info-back-color);
+}
+
+.markdown-body blockquote.info > .title {
+    color: var(--quote-info-title-color);
+}
+
+.markdown-body summary {
+    outline: none;
 }
 
 .markdown-body :not(pre) > code {

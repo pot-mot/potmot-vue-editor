@@ -1,8 +1,8 @@
 .code-container,
 .dark.code-container,
 .dark .code-container {
-    --code-back-color: #2d2d2d;
-    --code-font-color: #d5d5d5;
+    --code-back-color: #333;
+    --code-font-color: #e5e5e5;
     --code-count-color: #888;
 
     /* Prolog 代码的颜色 */
@@ -98,14 +98,9 @@
 
 .light.code-container,
 .light .code-container {
-    /* 代码背景颜色 */
-    --code-back-color: #f5f5f5;
-
-    /* 代码字体颜色 */
-    --code-font-color: #444;
-
-    /* 行号颜色 */
-    --code-count-color: #aaa;
+    --code-back-color: #eee;
+    --code-font-color: #333;
+    --code-count-color: #777;
 
     /* Prolog 代码的颜色 */
     --code-prolog-color: #6d4c41;
@@ -177,7 +172,7 @@
     --code-number-color: #2196f3;
 
     /* 标点符号颜色 */
-    --code-punctuation-color: #999;
+    --code-punctuation-color: #777;
 
     /* 函数颜色 */
     --code-function-color: #3f51b5;
@@ -189,7 +184,7 @@
     --code-string-color: #8bc34a;
 
     /* 注释颜色 */
-    --code-comment-color: #999;
+    --code-comment-color: #777;
 
     /* 变量颜色 */
     --code-variable-color: #ff9800;

@@ -553,7 +553,7 @@ const shortcutKeys = reactive(<ShortcutKey[]>[
 		onEmit: (e: KeyboardEvent) => {
 			if (!textarea.value) return;
 			setHistoryType('enter' + now());
-			if (e.altKey) {
+			if (e.altKey || e.ctrlKey || e.metaKey) {
 				push(complexEnter(textarea.value));
 			} else {
 				const start = textarea.value.selectionStart

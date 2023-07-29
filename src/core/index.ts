@@ -21,7 +21,7 @@ import {MarkdownItKatex} from "./plugins/MarkdownItKatex";
 import {MarkdownItFootnote} from "./plugins/MarkdownItFootnote";
 
 import {rules} from "./rules";
-import {render, renderAttrs, renderToken} from "./render";
+import {render, renderAttrs, renderToken} from "./source/render";
 import {slugify} from "../utils/common/text";
 
 const md = new MarkdownIt()
