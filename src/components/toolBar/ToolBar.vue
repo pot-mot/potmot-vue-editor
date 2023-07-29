@@ -33,8 +33,8 @@ const menuTools = computed(() => {
 	});
 });
 
-const clickTool = (tool: EditTool, result: any) => {
-	emits("clickTool", {tool, result});
+const clickTool = (tool: EditTool) => {
+	emits("clickTool", tool);
 }
 
 const toolBarContainer = ref();

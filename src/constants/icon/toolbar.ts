@@ -80,11 +80,11 @@ export const more = `
 `
 
 export const outline = `
- <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
     <path d="M200 325h675v60h-675zM195 75H965v60H195z"/>
     <ellipse ry="75" rx="75" cy="100" cx="100"/>
     <path d="M200 575h675v60H200zM200 825h675v60H200z"/>
- </svg>
+</svg>
 `
 
 export const light = `

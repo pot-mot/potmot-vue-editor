@@ -2,7 +2,6 @@
 import SvgIcon from "../svg/SvgIcon.vue";
 import {computed, isRef, PropType, watch} from "vue";
 import {EditTool} from "../../declare/EditTool";
-import {exeToolClick} from "../../utils/editor/editTool";
 import {importIcon} from "../../hooks/useSvgIcon";
 
 const props = defineProps({
@@ -16,8 +15,7 @@ const emits = defineEmits(["clickTool"]);
 
 const clickTool = (tool: EditTool) => {
 	if (tool.disable) return;
-	const result = exeToolClick(tool);
-	emits("clickTool", {tool, result});
+	emits("clickTool", tool);
 }
 
 const icon = computed(() => {
@@ -30,7 +28,7 @@ const icon = computed(() => {
 });
 
 watch(() => icon.value, () => {
-	importIcon(icon.value)
+	importIcon(icon.value);
 }, {immediate: true})
 </script>
 

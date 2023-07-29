@@ -3,7 +3,8 @@
 		<div class="editor" ref="editor"
 			 :class="[isFullScreen? 'full':'non-full', isMobile? 'mobile': 'pc', colorTheme, ...props.class]"
 			 :style="[isFullScreen ? (isMobile ? {height: mobileFullHeight} : {}) : {width: props.width, height: props.height}, props.style]">
-			<ToolBar ref="topToolBar" v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']">
+			<ToolBar ref="topToolBar" v-if="textarea !== undefined" :tools="toolList" :positions="['LT', 'RT']"
+					 @click-tool="clickTool">
 				<template #insert>
 					<ul>
 						<li v-for="item in insertUnits" class="insert-text">
@@ -47,20 +48,22 @@
 				</template>
 				<template #outline>
 					<slot name="outline" :target="previewCard">
-						<MarkdownOutline v-if="previewCard" :target="previewCard" :suspend="!isOutline"></MarkdownOutline>
+						<MarkdownOutline v-if="previewCard" :target="previewCard"
+										 :suspend="!isOutline"></MarkdownOutline>
 					</slot>
 				</template>
 			</ToolBar>
 			<div ref="container" class="container" :class="containerClass">
-				<textarea
-					:style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']"
-					ref="textarea"
-					v-model="text"
-					:placeholder="placeholder"
-					:disabled="disabled"
-					class="edit-card"
-					:class="[isWrap ? 'wrap' : 'no-wrap', disabled? 'disabled' : '']">
-				</textarea>
+				<div class="edit-card"
+					 :style="[!isFullScreen && isPreview ? 'position: absolute; visibility: hidden;':'']">
+					<textarea
+						ref="textarea"
+						v-model="text"
+						:placeholder="placeholder"
+						:disabled="disabled"
+						:class="[isWrap ? 'wrap' : 'no-wrap', disabled? 'disabled' : '']">
+					</textarea>
+				</div>
 				<div ref="previewCard"
 					 class="preview-card">
 					<slot name="preview" :text="text">
@@ -68,7 +71,7 @@
 					</slot>
 				</div>
 			</div>
-			<ToolBar ref="bottomToolBar" :tools="toolList" :positions="['LB', 'RB']">
+			<ToolBar ref="bottomToolBar" :tools="toolList" :positions="['LB', 'RB']" @click-tool="clickTool">
 				<template #statisticalDataContent>
 					<ul class="statistical-list">
 						<li>字数 {{ text.length }}</li>
@@ -137,6 +140,7 @@ import {EditTool, EditToolConfig} from "../declare/EditTool";
 import {usePreferredDark} from "@vueuse/core";
 import {useMobileFullHeight} from "../hooks/useMobileFullHeight";
 import {completeHistory} from "../utils/editor/history";
+import {exeToolClick} from "../utils/editor/editTool";
 
 // DOM 元素 Ref
 const editor: Ref<HTMLDivElement | null | undefined> = ref();
@@ -422,6 +426,10 @@ onMounted(() => {
 		});
 	}, {immediate: true});
 });
+
+const clickTool = (tool: EditTool) => {
+	exeToolClick(tool);
+}
 
 // 组件初始化全屏
 onMounted(() => {
@@ -837,16 +845,11 @@ defineExpose({
 		position: relative;
 
 		display: block;
-		padding: 0.5rem;
 
 		tab-size: 4;
 		font-size: 1em;
 		line-height: inherit;
 		font-family: inherit;
-
-		overflow-y: auto;
-		overscroll-behavior-y: contain;
-		scrollbar-gutter: stable;
 
 		height: 100%;
 
@@ -854,35 +857,45 @@ defineExpose({
 		background-color: var(--editor-region-back-color);
 	}
 
+	> .edit-card > textarea {
+		height: 100%;
+		width: 100%;
+		background-color: transparent;
+		font: inherit;
+		line-height: inherit;
+		box-shadow: none;
+		-webkit-box-shadow: none;
+		padding-top: 0.5em;
+		padding-left: 0.5em;
+
+		&.wrap {
+			padding-right: 0.5em;
+			overflow-x: hidden;
+		}
+
+		&.no-wrap {
+			overflow-x: auto;
+			white-space: nowrap;
+		}
+
+		&.disabled {
+			cursor: not-allowed;
+			opacity: 0.9;
+		}
+	}
+
 	> .preview-card {
 		padding-left: 1em;
-		padding-right: 1em;
+		padding-right: 0.5em;
 		white-space: normal;
-	}
-
-	> .edit-card.wrap {
-		overflow-x: hidden;
-		white-space: pre-line;
-	}
-
-	> .edit-card.no-wrap {
-		overflow-x: auto;
-		white-space: nowrap;
-	}
-
-	> .edit-card.disabled {
-		cursor: not-allowed;
-		opacity: 0.9;
+		overflow-y: auto;
+		overscroll-behavior-y: contain;
+		scrollbar-gutter: stable;
 	}
 
 	&.edit {
 		grid-template-rows: 100%;
 		grid-template-columns: 1fr;
-
-		> .edit-card {
-			padding: 0.5em;
-			margin: 0;
-		}
 
 		> .preview-card {
 			display: none;
@@ -900,11 +913,6 @@ defineExpose({
 		> .edit-card {
 			display: none;
 		}
-
-		> .preview-card {
-			padding: 0.5em;
-			margin: 0;
-		}
 	}
 }
 
@@ -920,7 +928,10 @@ defineExpose({
 .editor.full > .container {
 	height: calc(100vh - 4em);
 
-	> .edit-card,
+	> .edit-card > textarea {
+		padding-bottom: 50vh;
+	}
+
 	> .preview-card {
 		padding-bottom: 50vh;
 	}

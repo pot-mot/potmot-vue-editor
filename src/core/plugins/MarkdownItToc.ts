@@ -44,7 +44,7 @@ export const MarkdownItToc = (md: Markdown, o: any) => {
                 const ext = JSON.parse(match[1].replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": '))
                 Object.assign(options, defaults, o, ext)
             } catch (error) {
-                console.log('parse params error', match)
+                console.warn('parse params error', match)
             }
         } else {
             Object.assign(options, defaults, o)

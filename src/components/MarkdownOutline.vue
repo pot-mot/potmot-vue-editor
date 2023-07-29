@@ -82,8 +82,6 @@ const setItemFromHtml = () => {
     if (!html) return;
     if (html == oldHtml) return;
 
-	console.log('change')
-
     oldHtml = html
     const result: OutlineItem[] = []
 

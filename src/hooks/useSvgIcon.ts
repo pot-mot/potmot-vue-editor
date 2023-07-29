@@ -1,22 +1,17 @@
-import {computed, onMounted, watch} from "vue";
+import {onMounted, watch} from "vue";
 import {svgIcons, svgIconPrefix} from "../constants/icon";
 import {createComputedHideDom} from "../utils/common/document";
 
 const containerId: string =  `--${svgIconPrefix}container`
 const svgContainer = createComputedHideDom('div', containerId)
-const svgNameList = computed(() => {
-    const set = new Set;
-    const svgList = svgContainer.value.querySelectorAll("svg");
-    svgList.forEach(svg => {
-        set.add(svg.id);
-    });
-    return set;
-})
+const svgList = new Set;
 
 export const importIcon = (iconName: string | undefined) => {
     if (!iconName) return;
-    if (!svgNameList.value.has(`${svgIconPrefix}${iconName}`) && iconName in svgIcons) {
+    const id = `${svgIconPrefix}${iconName}`
+    if (!svgList.has(id) && iconName in svgIcons) {
         svgContainer.value.innerHTML += svgIcons[iconName]!;
+        svgList.add(id);
     }
 }
 
