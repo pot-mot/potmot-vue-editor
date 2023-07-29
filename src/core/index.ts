@@ -14,7 +14,6 @@ import MarkdownItAbbr from 'markdown-it-abbr';
 import MarkdownItTaskLists from 'markdown-it-task-lists';
 
 import MarkdownItMultimdTable from 'markdown-it-multimd-table';
-import MarkdownItAnchor from "markdown-it-anchor";
 import {MarkdownItToc} from "./plugins/MarkdownItToc";
 import {MarkdownItContainerExtension} from "./plugins/MarkdownItContainerExtension";
 import {MarkdownItKatex} from "./plugins/MarkdownItKatex";
@@ -22,7 +21,6 @@ import {MarkdownItFootnote} from "./plugins/MarkdownItFootnote";
 
 import {rules} from "./rules";
 import {render, renderAttrs, renderToken} from "./source/render";
-import {slugify} from "../utils/common/text";
 
 const md = new MarkdownIt()
 
@@ -40,7 +38,7 @@ md
     .use(MarkdownItMultimdTable, {multiline: true, rowspan: true, headerless: true,})
     .use(MarkdownItContainerExtension)
 
-    .use(MarkdownItAnchor, {slugify})
+    // .use(MarkdownItAnchor, {slugify})
     .use(MarkdownItToc)
 
 

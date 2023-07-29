@@ -142,9 +142,9 @@ export const MarkdownItKatex = (md: MarkdownIt, options: KatexOptions = {}) => {
         }
     }
 
-    // @ts-ignore
+    //@ts-ignore
     md.renderer.rules['math_inline'] = inlineRenderer;
-    // @ts-ignore
+    //@ts-ignore
     md.renderer.rules['math_block'] = blockRenderer;
 
     md.inline.ruler.after('escape', 'math_inline', mathInline);

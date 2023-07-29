@@ -3,7 +3,7 @@ import {createVNode, VNode} from "vue";
 export const quoteType = ['info', 'tip', 'warning', 'danger']
 
 export const renderQuoteContainer = {
-    // @ts-ignore
+    //@ts-ignore
     render: (tokens, idx): VNode => {
         const info = tokens[idx].info.trim();
         const m = info.split(/\s+/);

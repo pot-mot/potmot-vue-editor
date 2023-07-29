@@ -3,7 +3,7 @@ import {md} from "../../index";
 import {createVNode, VNode} from "vue";
 
 export const renderDetail: MarkdownItContainer.ContainerOpts = {
-    // @ts-ignore
+    //@ts-ignore
     render: (tokens, idx): VNode => {
         let m = tokens[idx].info.trim().match(/^detail\s+(.*)$/);
         if (tokens[idx].nesting == 1) {

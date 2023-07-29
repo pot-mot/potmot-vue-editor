@@ -1,4 +1,8 @@
-export const slugify = (s: string) => String(s).trim().replace(/\s+/g, '-')
+import {encodeHTML} from "./htmlParse";
+
+export const slugifyHeadingId = (s: string) => {
+    return encodeHTML(s.trim().replace(/\s+/g, '-'))
+}
 
 export const getCurrentLineStartEnd = (text: string, index: number): {start: number, end: number} => {
     const start = text.lastIndexOf('\n', index - 1) + 1;  // 当前行的起始位置
@@ -27,22 +31,4 @@ export const getLeadingSpace = (text: string, index: number, fullLine: boolean =
     const line = fullLine ? getCurrentLine(text, index) : getCurrentLineBefore(text, index);
     const leadingSpaces = line.match(regex);
     return (leadingSpaces != null && leadingSpaces.length != 0) ? leadingSpaces[0] : ''
-}
-
-/**
- * 返回一个字符串前缀和后缀的空白段，以及去除空白段的部分
- * 如果整个字符串为空白，则返回自身和两个空串
- */
-export const getLeadingAndTrailingSpaces = (str: string) => {
-    const trimStart = str.trimStart();
-    const trimEnd = str.trimEnd();
-
-    const leadingSpaces = str.replace(trimStart, '');
-    const trailingSpaces = str.replace(trimEnd, '');
-
-    const text = str.trim();
-    if (text.length == 0) {
-        return {leadingSpaces: '', text: str, trailingSpaces: ''}
-    }
-    return {leadingSpaces, text, trailingSpaces}
 }

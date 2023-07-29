@@ -1,30 +1,50 @@
-import { h } from 'vue'
+import {h, VNode} from 'vue'
 import Markdown from 'markdown-it'
+import Token from "markdown-it/lib/token";
 import StateInline from 'markdown-it/lib/rules_inline/state_inline'
-import {slugify} from "../../utils/common/text";
+import {slugifyHeadingId} from "../../utils/common/text";
+import MarkdownIt from "markdown-it";
+import Renderer from "markdown-it/lib/renderer";
 
-const defaults = {
+interface MarkdownItTocOptions {
+    level: number[],
+    containerClass: string,
+    slugify: (text: string) => string,
+    markerPattern: RegExp,
+    type: string,
+    format: (text: string) => string,
+    forceFullToc: boolean,
+    containerHeaderHtml: string,
+    containerFooterHtml: string
+}
+
+interface TocItem {
+    pos: number,
+    text: string,
+}
+
+const defaults: MarkdownItTocOptions = {
     level: [2, 3],
     containerClass: 'table-of-contents',
-    slugify,
+    slugify: slugifyHeadingId,
     markerPattern: /^\[toc](.*?)$/im,
-    type: 'ul',
-    format: undefined,
+    type: 'ol',
+    format: (str) => str,
     forceFullToc: false,
     containerHeaderHtml: '',
     containerFooterHtml: ''
 }
 
-export const MarkdownItToc = (md: Markdown, o: any) => {
-    const options = Object.assign({}, defaults, o)
-    const tocRegexp = options.markerPattern
-    let gTokens: any[]
+export const MarkdownItToc = (md: Markdown, options?: Partial<MarkdownItTocOptions>) => {
+    const opts = Object.assign({}, defaults, options)
+    const tocRegexp = opts.markerPattern;
+    let gTokens: Token[];
 
-    function toc (state: StateInline, silent: any) {
+    function toc(state: StateInline, silent: boolean) {
         let match
 
         // Reject if the token does not start with [
-        if (state.src.charCodeAt(state.pos) !== 0x5B) {
+        if (state.src.charCodeAt(state.pos) != 0x5B) {
             return false
         }
         // Don't run any pairs in validation mode
@@ -42,12 +62,10 @@ export const MarkdownItToc = (md: Markdown, o: any) => {
         if (match.length > 1) { // custom params.
             try {
                 const ext = JSON.parse(match[1].replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": '))
-                Object.assign(options, defaults, o, ext)
+                Object.assign(opts, ext)
             } catch (error) {
                 console.warn('parse params error', match)
             }
-        } else {
-            Object.assign(options, defaults, o)
         }
 
         // Build content
@@ -57,7 +75,7 @@ export const MarkdownItToc = (md: Markdown, o: any) => {
 
         // Update pos so the parser can continue
         const newline = state.src.indexOf('\n', state.pos)
-        if (newline !== -1) {
+        if (newline != -1) {
             state.pos = newline
         } else {
             state.pos = state.pos + state.posMax + 1
@@ -66,105 +84,102 @@ export const MarkdownItToc = (md: Markdown, o: any) => {
         return true
     }
 
-    function renderChildrenTokens (pos: any, tokens: any) {
-        const headings = []
-        let buffer = ''
-        let currentLevel
-        let subHeadings
-        const size = tokens.length
-        let i = pos
+    function renderChildrenTokens(
+        pos: number,
+        options: MarkdownItTocOptions,
+        tokens: Token[],
+        currentLevel = 0,
+    ): TocItem {
+        const headings: string[] = [];
+        const size = tokens.length;
+        const result: TocItem = {pos, text: ''};
+
+        let buffer = '';
+        let i = pos <= 0 ? 1 : pos;
+
         while (i < size) {
             const token = tokens[i]
             const heading = tokens[i - 1]
-            const level = token.tag && parseInt(token.tag.slice(1, 2))
-            if (token.type !== 'heading_close' || options.level.indexOf(level) === -1 || heading.type !== 'inline') {
-                i++
-                continue // Skip if not matching criteria
+
+            if (!token || !heading || heading.type != 'inline' || token.type != 'heading_close' || !token.tag || token.tag.length < 2) {
+                i ++;
+                continue;
             }
+
+            const level: number = parseInt(token.tag.slice(1, 2))
+
+            if (!opts.level.includes(level)) {
+                i ++;
+                continue;
+            }
+
             if (!currentLevel) {
                 currentLevel = level
             } else {
                 if (level > currentLevel) {
-                    subHeadings = renderChildrenTokens(i, tokens)
-                    buffer += subHeadings[1]
-                    i = subHeadings[0]
-                    continue
+                    const subHeadings = renderChildrenTokens(i, options, tokens, level);
+                    buffer += subHeadings.text;
+                    i = subHeadings.pos + 1;
+                    continue;
                 }
                 if (level < currentLevel) {
-                    buffer += '</li>'
-                    headings.push(buffer)
-                    return [i, `<${options.type}>${headings.join('')}</${options.type}>`]
+                    buffer += '</li>';
+                    headings.push(buffer);
+                    result.text = `<${options.type}>${headings.join('')}</${options.type}>`;
+                    return result;
                 }
-                if (level === currentLevel) {
-                    buffer += '</li>'
-                    headings.push(buffer)
+                if (level == currentLevel) {
+                    buffer += '</li>';
+                    headings.push(buffer);
                 }
             }
 
-            // Add id to heading.
+            const slug = opts.slugify(heading.content)
 
-            const slug = options.slugify(heading.content)
-
-            buffer = `<li><a href="#${slug.replace(/"/g, '&quot;')}">`
-            buffer += typeof options.format === 'function'
-                ? options.format(heading.content)
-                : heading.content.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+            buffer = `<li><a href="#${slug}">`
+            buffer += options.format(heading.content)
             buffer += '</a>'
             i++
         }
-        buffer += buffer === '' ? '' : '</li>'
-        headings.push(buffer)
-        return [i, `<${options.type}>${headings.join('')}</${options.type}>`]
+        buffer += buffer.length == 0 ? '' : '</li>';
+        headings.push(buffer);
+
+        result.text = `<${options.type}>${headings.join('')}</${options.type}>`;
+        return result;
     }
 
-    md.renderer.rules.toc_body = function () {
+    const renderTocBody = (): VNode | undefined => {
         if (!gTokens) {
-            return
+            return undefined;
         }
 
         let tocBody = ''
 
-        if (options.forceFullToc) {
-            /*
-
-            Renders full TOC even if the hierarchy of headers contains
-            a header greater than the first appearing header
-
-            ## heading 2
-            ### heading 3
-            # heading 1
-
-            Result TOC:
-            - heading 2
-               - heading 3
-            - heading 1
-
-            */
+        if (opts.forceFullToc) {
             let pos = 0
             const tokenLength = gTokens.length
 
             while (pos < tokenLength) {
-                const tocHierarchy = renderChildrenTokens(pos, gTokens)
-                pos = tocHierarchy[0]
-                tocBody += tocHierarchy[1]
+                const tocHierarchy = renderChildrenTokens(pos, opts, gTokens);
+                pos = tocHierarchy.pos;
+                tocBody += tocHierarchy.text;
             }
         } else {
-            tocBody = renderChildrenTokens(0, gTokens)[1]
+            tocBody = renderChildrenTokens(0, opts, gTokens).text;
         }
 
         const html = `
-      ${options.containerHeaderHtml}
-      ${tocBody}
-      ${options.containerFooterHtml}
-    `
-
-        return h('div', { key: html, class: options.containerClass, innerHTML: html }) as any
+${opts.containerHeaderHtml}
+${tocBody}
+${opts.containerFooterHtml}
+`
+        return h('div', {key: html, class: opts.containerClass, innerHTML: html})
     }
-
-    md.renderer.rules.heading_open = function (tokens, idx, opt, env, slf) {
+    
+    const renderTocHeadingOpen = (tokens: Token[], idx: number, opt: MarkdownIt.Options, env: any, slf: Renderer) => {
         const header = tokens[idx]
         const headContent = tokens[idx + 1]
-        const slug = options.slugify(headContent.content)
+        const slug = opts.slugify(headContent.content)
 
         if (header.attrIndex('id') < 0) {
             header.attrSet('id', slug)
@@ -174,14 +189,18 @@ export const MarkdownItToc = (md: Markdown, o: any) => {
 
         return slf.renderToken(tokens, idx, opt)
     }
+    
+    //@ts-ignore
+    md.renderer.rules.toc_body = renderTocBody;
+
+    md.renderer.rules.heading_open = renderTocHeadingOpen;
 
     // Catch all the tokens for iteration later
     md.core.ruler.push('grab_state', function (state) {
         // only heading close and heading content
         const maxIdx = state.tokens.length - 1
         gTokens = state.tokens.filter((token: any, i: number, arr: any[]) => {
-            return token.type === 'heading_close' ||
-                (i < maxIdx && arr[i + 1].type === 'heading_close' && token.type === 'inline')
+            return token.type == 'heading_close' || (i < maxIdx && arr[i + 1].type == 'heading_close' && token.type == 'inline')
         })
         return true
     })

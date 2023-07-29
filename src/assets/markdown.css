@@ -11,8 +11,9 @@
 
 .markdown-body h1,
 .markdown-body h2 {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    line-height: 1.4em;
 }
 
 .markdown-body h1 {
@@ -25,8 +26,9 @@
 
 .markdown-body h3,
 .markdown-body h4 {
-    margin-top: 0.4em;
-    margin-bottom: 0.4em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    line-height: 1.4em;
 }
 
 .markdown-body h3 {
@@ -41,6 +43,7 @@
 .markdown-body h6 {
     margin-top: 0.3em;
     margin-bottom: 0.3em;
+    line-height: 1.6em;
 }
 
 .markdown-body h5 {

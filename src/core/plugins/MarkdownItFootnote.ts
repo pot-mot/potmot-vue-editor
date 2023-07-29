@@ -18,7 +18,7 @@ const renderFootnoteAnchorName = (tokens: Token[], idx: number, options: any, en
     return prefix + n
 }
 
-const renderFootnoteCaption = (tokens: Token[], idx: number, options: any, env: any, slf: Renderer) => {
+const renderFootnoteCaption = (tokens: Token[], idx: number) => {
     let n = Number(tokens[idx].meta.id + 1).toString()
 
     if (tokens[idx].meta.subId > 0) {
@@ -28,7 +28,7 @@ const renderFootnoteCaption = (tokens: Token[], idx: number, options: any, env: 
     return '[' + n + ']'
 }
 
-const renderFootnoteRef = (tokens: Token[], idx: number, options: any, env: any, slf: Renderer): VNode => {
+const renderFootnoteRef = (tokens: Token[], idx: number, options: MarkdownIt.Options, env: any, slf: Renderer): VNode => {
     const id = slf.rules.footnote_anchor_name!(tokens, idx, options, env, slf)
     const caption = slf.rules.footnote_caption!(tokens, idx, options, env, slf)
     let refId = id
@@ -42,7 +42,7 @@ const renderFootnoteRef = (tokens: Token[], idx: number, options: any, env: any,
     ])
 }
 
-const renderFootnoteBlockOpen = (tokens: Token[], idx: number, options: any) => {
+const renderFootnoteBlockOpen = () => {
     const ol = createVNode('ol', {class: 'footnotes-list'}, [])
     // 将 ol 作为 parent 给出去，便于将 footnote 渲染进去
     return {
@@ -58,7 +58,7 @@ const renderFootnoteBlockClose = () => {
     return null
 }
 
-const renderFootnoteOpen = (tokens: Token[], idx: number, options: any, env: any, slf: Renderer): VNode => {
+const renderFootnoteOpen = (tokens: Token[], idx: number, options: MarkdownIt.Options, env: any, slf: Renderer): VNode => {
     let id = slf.rules.footnote_anchor_name!(tokens, idx, options, env, slf)
 
     if (tokens[idx].meta.subId > 0) {
@@ -72,7 +72,7 @@ const renderFootnoteClose = () => {
     return null
 }
 
-const renderFootnoteAnchor = (tokens: Token[], idx: number, options: any, env: any, slf: Renderer): VNode => {
+const renderFootnoteAnchor = (tokens: Token[], idx: number, options: MarkdownIt.Options, env: any, slf: Renderer): VNode => {
     let id = slf.rules.footnote_anchor_name!(tokens, idx, options, env, slf)
 
     if (tokens[idx].meta.subId > 0) {
@@ -104,26 +104,26 @@ const footnoteDef = (state: StateBlock, startLine: number, endLine: number, sile
         return false
     }
 
-    if (state.src.charCodeAt(start) !== 0x5B/* [ */) {
+    if (state.src.charCodeAt(start) != 0x5B/* [ */) {
         return false
     }
-    if (state.src.charCodeAt(start + 1) !== 0x5E/* ^ */) {
+    if (state.src.charCodeAt(start + 1) != 0x5E/* ^ */) {
         return false
     }
 
     for (pos = start + 2; pos < max; pos++) {
-        if (state.src.charCodeAt(pos) === 0x20) {
+        if (state.src.charCodeAt(pos) == 0x20) {
             return false
         }
-        if (state.src.charCodeAt(pos) === 0x5D /* ] */) {
+        if (state.src.charCodeAt(pos) == 0x5D /* ] */) {
             break
         }
     }
 
-    if (pos === start + 2) {
+    if (pos == start + 2) {
         return false
     } // no empty footnote labels
-    if (pos + 1 >= max || state.src.charCodeAt(++pos) !== 0x3A /* : */) {
+    if (pos + 1 >= max || state.src.charCodeAt(++pos) != 0x3A /* : */) {
         return false
     }
     if (silent) {
@@ -208,10 +208,10 @@ export const footnoteInline = (state: StateInline, silent: boolean) => {
     if (start + 2 >= max) {
         return false
     }
-    if (state.src.charCodeAt(start) !== 0x5E/* ^ */) {
+    if (state.src.charCodeAt(start) != 0x5E/* ^ */) {
         return false
     }
-    if (state.src.charCodeAt(start + 1) !== 0x5B/* [ */) {
+    if (state.src.charCodeAt(start + 1) != 0x5B/* [ */) {
         return false
     }
 
@@ -274,26 +274,26 @@ export const footnoteRef = (state: StateInline, silent: boolean) => {
     if (!state.env.footnotes || !state.env.footnotes.refs) {
         return false
     }
-    if (state.src.charCodeAt(start) !== 0x5B/* [ */) {
+    if (state.src.charCodeAt(start) != 0x5B/* [ */) {
         return false
     }
-    if (state.src.charCodeAt(start + 1) !== 0x5E/* ^ */) {
+    if (state.src.charCodeAt(start + 1) != 0x5E/* ^ */) {
         return false
     }
 
     for (pos = start + 2; pos < max; pos++) {
-        if (state.src.charCodeAt(pos) === 0x20) {
+        if (state.src.charCodeAt(pos) == 0x20) {
             return false
         }
-        if (state.src.charCodeAt(pos) === 0x0A) {
+        if (state.src.charCodeAt(pos) == 0x0A) {
             return false
         }
-        if (state.src.charCodeAt(pos) === 0x5D /* ] */) {
+        if (state.src.charCodeAt(pos) == 0x5D /* ] */) {
             break
         }
     }
 
-    if (pos === start + 2) {
+    if (pos == start + 2) {
         return false
     } // no empty footnote labels
     if (pos >= max) {
@@ -302,7 +302,7 @@ export const footnoteRef = (state: StateInline, silent: boolean) => {
     pos++
 
     label = state.src.slice(start + 2, pos - 1)
-    if (typeof state.env.footnotes.refs[':' + label] === 'undefined') {
+    if (typeof state.env.footnotes.refs[':' + label] == 'undefined') {
         return false
     }
 
@@ -351,13 +351,13 @@ export const footnoteTail = (state: StateCore) => {
     }
 
     state.tokens = state.tokens.filter(function (tok) {
-        if (tok.type === 'footnote_reference_open') {
+        if (tok.type == 'footnote_reference_open') {
             insideRef = true
             current = []
             currentLabel = tok.meta.label
             return false
         }
-        if (tok.type === 'footnote_reference_close') {
+        if (tok.type == 'footnote_reference_close') {
             insideRef = false
             // prepend ':' to avoid conflict with Object.prototype members
             refTokens[':' + currentLabel] = current
@@ -402,7 +402,7 @@ export const footnoteTail = (state: StateCore) => {
         }
 
         if (tokens) state.tokens = state.tokens.concat(tokens)
-        if (state.tokens[state.tokens.length - 1].type === 'paragraph_close') {
+        if (state.tokens[state.tokens.length - 1].type == 'paragraph_close') {
             lastParagraph = state.tokens.pop()
         } else {
             lastParagraph = null
