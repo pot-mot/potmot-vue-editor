@@ -48,7 +48,7 @@ export const complexEnter = (textarea: HTMLTextAreaElement, getSpace: (...args: 
 
 // 批量缩进（Tab）
 const tab = '\t';
-const tabBlank = /^( {1,4})|\t/;
+const tabBlank = /^( {1,4})|^\t/;
 
 export const removeTab = (text: string): {text: string, matchLength: number} | null => {
     const matches = text.match(tabBlank);
