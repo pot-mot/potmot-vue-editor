@@ -1,12 +1,12 @@
 # potmot-vue-editor
 
-一个基于 vue3、typescript、markdown-it 的 ~~简陋~~ markdown 编辑器，在 vue3 环境下开箱即用
+一个基于 vue3、markdown-it 的 ~~简陋~~ markdown 编辑器，在 vue3 环境下开箱即用
 
 这个项目中的 markdown-it 解析插件与渲染为虚拟 dom 的部分直接来源于 [yank note](https://github.com/purocean/yn) 这个项目，十分感谢 [purocean](https://github.com/purocean) 能够将这个项目开源以供学习
 
 ## 介绍
 
-> 当前版本 v0.16 2023/7/30
+> 当前版本 v0.16 2023/7/31
 
 目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个核心组件，Editor 依赖于 Preview, Outline
 
@@ -15,7 +15,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.15.5
+npm install potmot-vue-editor@0.16.0
 ```
 
 main.js 中引用

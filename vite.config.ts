@@ -2,7 +2,7 @@ import {defineConfig} from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 import {resolve} from 'path'
-// import dts from 'vite-plugin-dts'
+import dts from 'vite-plugin-dts'
 
 // 代码上色
 import {prismjsPlugin} from "vite-plugin-prismjs"
@@ -31,7 +31,7 @@ export default defineConfig({
 
     plugins: [
         vue(),
-        // dts(),
+        dts(),
         prismjsPlugin({
             languages: [
                 'javascript', 'typescript',
