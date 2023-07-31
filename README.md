@@ -1,12 +1,14 @@
 # potmot-vue-editor
 
-一个基于 vue3、typescript、markdown-it、prismjs、katex、mermaid、v-viewer 的简单 markdown 编辑器，开箱即用
+一个基于 vue3、typescript、markdown-it 的 ~~简陋~~ markdown 编辑器，在 vue3 环境下开箱即用
+
+这个项目中的 markdown-it 解析插件与渲染为虚拟 dom 的部分直接来源于 [yank note](https://github.com/purocean/yn) 这个项目，十分感谢 [purocean](https://github.com/purocean) 能够将这个项目开源以供学习
 
 ## 介绍
 
-> 当前版本 v0.15 2023/7/22
+> 当前版本 v0.16 2023/7/30
 
-目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个组件，其中 Editor 引用了 Preview, Outline
+目前本 Editor 项目包含 MarkdownEditor, MarkdownPreview, MarkdownOutline 三个核心组件，Editor 依赖于 Preview, Outline
 
 ### 使用
 
@@ -34,42 +36,19 @@ import 'potmot-vue-editor/src/assets/markdown-theme/default.css';
 import 'potmot-vue-editor/src/assets/code-theme/default.css';
 ```
 
-最简使用场景，直接 v-model 绑上即用
+直接 v-model 绑上即用
 
 ```html
-
 <MarkdownEditor v-model="text"></MarkdownEditor>
-```
-
-配合 slot 的使用场景，通过插槽配合实现自定义大纲、预览、统计数据
-
-```html
-
-<MarkdownEditor v-model="text">
-    <template #outline="{target}">
-        <MarkdownOutline :target="target">
-            <template #item="{item}">
-                <div>{{item}}</div>
-            </template>
-        </MarkdownOutline>
-    </template>
-    <template #preview="{text}">
-        <MarkdownPreview :markdown-text="text"></MarkdownPreview>
-    </template>
-    <template #footer="{data}">
-        {{data}}
-    </template>
-</MarkdownEditor>
 ```
 
 ### 1. MarkdownEditor 编辑器
 
-使用v-model绑定字符串
+基于 textarea 实现
 
-提供了查找、替换、预览和自定义快速键功能
+提供了查找、替换、预览、插入和快速键功能
 
 ```html
-
 <MarkdownEditor v-model="text" :shortcut-keys="ShortcutKeys"/>
 ```
 
@@ -82,17 +61,39 @@ import 'potmot-vue-editor/src/assets/code-theme/default.css';
 | width               | String              | 宽度      | 否，默认值 "960px" |
 | height              | String              | 高度      | 否，默认值 "540px" |
 | placeholder         | String              | 占位字符串   | 否，默认值 ""      |
+| disabled | Boolean | 禁用 | 开启后将无法进行编辑    |
 | ShortcutKeys        | ShortcutKey[] | 自定义快捷键  | 否，默认值 []      |
-| insertUnits         | InsertUnit[]        | 自定义插入单元 | 否             |
 | startWithFullScreen | Boolean             | 是否以全屏启动 | 否，默认值 false   |
 
 ### 2. MarkdownPreview 预览
 
-提供了基于 marked 的 markdown 与 html 展示
+提供了基于 markdown-it 的 markdown 与 html 展示，同样直接传入参数即可使用
 
 ```html
-
 <MarkdownPreview :markdown-text="text"></MarkdownPreview>
+```
+
+目前引入 markdown-it 插件如下
+
+```
+"markdown-it-abbr": "^1.0.4",
+"markdown-it-attributes": "^1.1.1",
+"markdown-it-container": "^3.0.0",
+"markdown-it-emoji": "^2.0.2",
+"markdown-it-mark": "^3.0.1",
+"markdown-it-multimd-table": "^4.2.2",
+"markdown-it-sub": "^1.0.0",
+"markdown-it-sup": "^1.0.0",
+"markdown-it-task-lists": "^2.1.1",
+```
+
+因为 ts 和 虚拟dom 渲染 及 版本 等问题重新实现的 markdown-it 插件与额外渲染逻辑如下
+
+```
+mermaid: 10.3.0
+MarkdownItKatex => katex: 0.16.8
+MarkdownItFootnote
+MarkdownItToc
 ```
 
 **props 参数说明**
@@ -100,43 +101,29 @@ import 'potmot-vue-editor/src/assets/code-theme/default.css';
 | 参数           | 类型                              | 说明                         | 必须         |
 |--------------|---------------------------------|----------------------------|------------|
 | markdownText | String                          | 传入的markdown文本，将被解析成html    | 是          |
-| suspend      | Boolean                         | 暂停渲染，用于优化性能                | 否，默认 false |
+| suspend      | Boolean                         | 暂停渲染               | 否，默认 false |
 
-#### 代碼支持
+#### 代码支持
 
 code 代码块支持复制、标明行号
 
 ### 3. Outline 大纲
 
-在 target DOM 中根据正则匹配寻找特定元素以生成大纲
+在目标中寻找标题元素以生成大纲的组件
 
 ```html
-
-<MarkdownOutline :markdown-text="text"></MarkdownOutline>
-```
-
-需要将找到的匹配正则转换为 OutlineItem，接口声明如下
-
-```typescript
-interface OutlineItem {
-    // 等级
-    level: number;
-    // 跳转目标id
-    id: string;
-    // 显示文字
-    text: string;
-    // 是否为 current，会为对应的 OutlineItem 加上 current 类
-    current: boolean;
-}
+<MarkdownOutline :target="el"></MarkdownOutline>
 ```
 
 **props 参数说明**
 
-| 参数           | 类型          | 说明                                                         | 必须                                                     |
-|--------------|-------------|------------------------------------------------------------|--------------------------------------------------------|
-| target       | HTMLElement | 寻找的根元素                                                     | 否，默认值 document.documentElement                         |
-| policy       | String      | 跳转策略，目前提供 "anchor" (基于scrollIntoView) 和 "offset" (基于偏移量计算) | 否，默认值 "offset"                                         |
-| click        | Function    | 点击事件，在点击条目后触发，参数是 OutlineItem                              | 否                                                      |
-| regex        | RegExp      | 用于匹配的正则表达式，在 target 的 innerHTML 中寻找目标                      | 否，默认值`/<h([1-6]) id="(.*?)">(.*?)</g`，即寻找所有标题          |
-| parse        | Function    | 转换函数，将正则匹配后结果转换为 OutlineItem                               | 否，声明为 `(match: RegExpExecArray): OutlineItem`          |
-| suspend      | Boolean     | 暂停渲染，用于优化性能                                                | 否，默认 false                                             |
+| 参数           | 类型          | 说明          | 必须                                                     |
+|--------------|-------------|-------------|--------------------------------------------------------|
+| target       | HTMLElement | 寻找的目标元素     | 否，默认值 document.documentElement                         |
+| suspend      | Boolean     | 暂停渲染 | 否，默认 false                                             |
+
+
+```mermaid
+flowchart
+    t1 --> t4
+```

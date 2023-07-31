@@ -1,18 +1,22 @@
 import {createVNode, VNode} from "vue";
 import Prism from "prismjs";
-import {prismLanguageList} from "../../constants/prismLanguageList";
-import {DOM_ATTR_NAME} from "../../constants/attr/domAttrName";
-import {createErrVNode} from "./errVNode";
-import {encodeHTML} from "../../utils/common/htmlParse";
+import {prismLanguageList} from "../../../constants/code/prismLanguageList";
+import {DOM_ATTR_NAME} from "../../../constants/attr/domAttrName";
+import {createErrVNode} from "../../source/errVNode";
+import {encodeHTML} from "../../../utils/common/htmlParse";
+import {katexLanguageList} from "../../../constants/code/katexLanguageList";
+import {createKatexBlockVNode} from "./katexVNode";
+import {md} from "../../index";
+import {createMermaidVNode} from "./mermaidVNode";
 
-const setLine = (code: string): {count: VNode, code: VNode} => {
+const setLine = (code: string): { count: VNode, code: VNode } => {
     const counts: string[] = []
     let codes = code.split('\n');
     if (codes[codes.length - 1].length == 0) {
         codes = codes.slice(0, codes.length - 1);
     }
     for (let i = 0; i < codes.length; i++) {
-        counts.push(`${i+1}`);
+        counts.push(`${i + 1}`);
     }
     return {
         count: createVNode('div', {class: 'count', innerHTML: counts.join('\n')}),
@@ -20,9 +24,19 @@ const setLine = (code: string): {count: VNode, code: VNode} => {
     }
 }
 
+export const createCodeDetailsVnode = (view: VNode, code: string, language: string): VNode => {
+    return createVNode('p', {class: "code-view"}, [
+        createVNode('details', {}, [
+            createVNode('summary', {innerText: "CODE"}),
+           createCodeBlockVNode(code, language, {})
+        ]),
+        view,
+    ])
+}
+
 const codeCache: Map<{ language: string, text: string }, VNode> = new Map;
 
-export const createCodeBlockVNode = (text: string, language: string, attrs: any): VNode => {
+export const createCodeBlockVNode = (text: string, language: string, attrs: any): VNode | undefined => {
     try {
         const key = {language, text}
 
@@ -30,7 +44,12 @@ export const createCodeBlockVNode = (text: string, language: string, attrs: any)
             return codeCache.get(key)!
         }
 
-        if (prismLanguageList.includes(language)) {
+        if (language == 'mermaid') {
+            return createMermaidVNode(text);
+        } else if (katexLanguageList.includes(language)) {
+            //@ts-ignore
+            return createKatexBlockVNode(text, md.katexConfig);
+        } else if (prismLanguageList.includes(language)) {
             text = Prism.highlight(text, Prism.languages[language], language);
         } else {
             text = encodeHTML(text);
@@ -51,7 +70,7 @@ export const createCodeBlockVNode = (text: string, language: string, attrs: any)
         const copyBottom = createVNode('bottom', {class: 'code-copy-button', title: '复制'})
         const languageLabel = createVNode('div', {class: 'code-language', innerText: language})
 
-        const result = createVNode(
+        let result = createVNode(
             'pre', {key: text, class: 'code-container', ...preAttrs},
             [copyBottom, languageLabel, count, code])
 

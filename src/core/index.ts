@@ -13,6 +13,7 @@ import MarkdownItAbbr from 'markdown-it-abbr';
 //@ts-ignore
 import MarkdownItTaskLists from 'markdown-it-task-lists';
 
+import MarkdownItAttributes from "markdown-it-attributes";
 import MarkdownItMultimdTable from 'markdown-it-multimd-table';
 import {MarkdownItToc} from "./plugins/MarkdownItToc";
 import {MarkdownItContainerExtension} from "./plugins/MarkdownItContainerExtension";
@@ -26,6 +27,8 @@ const md = new MarkdownIt()
 
 md
     .set({ html: true, breaks: true })
+    .use(MarkdownItAttributes)
+
     .use(MarkdownItSub)
     .use(MarkdownItSup)
     .use(MarkdownItMark)
@@ -37,8 +40,6 @@ md
     .use(MarkdownItFootnote)
     .use(MarkdownItMultimdTable, {multiline: true, rowspan: true, headerless: true,})
     .use(MarkdownItContainerExtension)
-
-    // .use(MarkdownItAnchor, {slugify})
     .use(MarkdownItToc)
 
 

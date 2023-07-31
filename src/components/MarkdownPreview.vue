@@ -11,7 +11,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {onMounted, Ref, ref, VNode, watch} from "vue";
+import {nextTick, onMounted, Ref, ref, VNode, watch} from "vue";
 import 'katex/dist/katex.css'
 import {api as viewerApi} from "v-viewer"
 import "viewerjs/dist/viewer.css";
@@ -19,6 +19,7 @@ import "viewerjs/dist/viewer.css";
 import {copyCode} from "../utils/common/copy";
 import {md} from "../core";
 import {VNodeComponent} from "../core/VNodeComponent";
+import {batchRenderMermaid} from "../core/plugins/fenceCode/mermaidVNode";
 
 /**
  * 外部传入参数
@@ -41,9 +42,21 @@ const renderResult: Ref<VNode[]> = ref([])
 
 onMounted(() => {
 	watch(() => props.markdownText, () => {
-		if (!node.value) return;
+		if (props.suspend) return;
 		renderResult.value = <any>md.render(props.markdownText);
+		nextTick(() => {
+			batchRenderMermaid();
+		})
 	}, {immediate: true})
+
+	watch(() => props.suspend, (newVal) => {
+		if (!newVal) {
+			renderResult.value = <any>md.render(props.markdownText);
+			nextTick(() => {
+				batchRenderMermaid();
+			})
+		}
+	})
 })
 
 const onClick = (e: MouseEvent) => {

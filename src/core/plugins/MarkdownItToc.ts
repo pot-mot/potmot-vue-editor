@@ -27,7 +27,7 @@ const defaults: MarkdownItTocOptions = {
     level: [2, 3],
     containerClass: 'table-of-contents',
     slugify: slugifyHeadingId,
-    markerPattern: /^\[toc](.*?)$/im,
+    markerPattern: /^\[+toc]+(.*?)$/im,
     type: 'ol',
     format: (str) => str,
     forceFullToc: false,

@@ -3,5 +3,5 @@ export const completeHistory = (input: Partial<EditorHistory> | undefined, defau
     if (input.start != undefined && input.end == undefined) {
         input.end = input.start;
     }
-    return {...defaultValue, ...input}
+    return Object.assign(defaultValue, input)
 }

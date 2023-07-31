@@ -1,10 +1,8 @@
-import {createVNode, VNode} from "vue";
 import MarkdownIt from 'markdown-it';
-import Token from "markdown-it/lib/token";
 import StateInline from "markdown-it/lib/rules_inline/state_inline";
 import StateBlock from "markdown-it/lib/rules_block/state_block";
-import katex, {KatexOptions} from 'katex';
-import {createErrVNode} from "../rules/errVNode";
+import {KatexOptions} from 'katex';
+import {createKatexBlockVNode, createKatexInlineVNode} from "./fenceCode/katexVNode";
 
 export const mathInline = (state: StateInline, silent: boolean): boolean => {
     let start, match, token, pos;
@@ -120,32 +118,17 @@ export const mathBlock = (state: StateBlock, start: number, end: number, silent:
 }
 
 export const MarkdownItKatex = (md: MarkdownIt, options: KatexOptions = {}) => {
-    const inlineRenderer = (tokens: Token[], idx: number): VNode => {
-        options.displayMode = false;
-        const content = tokens[idx].content
-        try {
-            const result = katex.renderToString(content, options);
-            return createVNode('span', {key: content, innerHTML: result, class: 'katex'});
-        } catch (e) {
-            return createErrVNode(e, 'katex render fail: ' + content);
-        }
-    };
+    //@ts-ignore
+    md.katexConfig = options;
 
-    const blockRenderer = function (tokens: Token[], idx: number): VNode {
-        options.displayMode = true;
-        const content = tokens[idx].content
-        try {
-            const result = katex.renderToString(content, options);
-            return createVNode('p', {key: content, innerHTML: result, class: 'katex'});
-        } catch (e) {
-            return createErrVNode(e, 'katex render fail: ' + content);
-        }
+    //@ts-ignore
+    md.renderer.rules['math_inline'] = (tokens: Token[], idx: number) => {
+        return createKatexInlineVNode(tokens[idx].content, options);
     }
-
     //@ts-ignore
-    md.renderer.rules['math_inline'] = inlineRenderer;
-    //@ts-ignore
-    md.renderer.rules['math_block'] = blockRenderer;
+    md.renderer.rules['math_block'] = (tokens: Token[], idx: number) => {
+        return createKatexBlockVNode(tokens[idx].content, options);
+    }
 
     md.inline.ruler.after('escape', 'math_inline', mathInline);
     md.block.ruler.after('blockquote', 'math_block', mathBlock, {

@@ -1,7 +1,7 @@
 import Token from "markdown-it/lib/token";
 import Renderer from "markdown-it/lib/renderer";
 import {createVNode} from "vue";
-import {createCodeBlockVNode} from "./codeVNode";
+import {createCodeBlockVNode} from "../plugins/fenceCode/fenceCodeVNode";
 import {unescapeAll} from "markdown-it/lib/common/utils";
 
 export const codeInline = (tokens: Token[], idx: number, _: any, __: any, slf: Renderer) => {

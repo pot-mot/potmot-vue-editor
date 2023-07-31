@@ -2,6 +2,7 @@ import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../de
 import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtils";
 import {quoteType} from "../../plugins/container/quote";
+import {detailType} from "../../plugins/container/detail";
 
 export const container: InsertUnit = {
     triggers: [
@@ -12,16 +13,27 @@ export const container: InsertUnit = {
     ],
     label: "块级容器",
     insert: (args, textarea) => {
-        const title = args.get("containerTitle")!.value;
-        const level = parseInt(args.get("containerLevel")!.value);
-        const type = args.get("containerType")!.value;
+        const level = args.get("containerNest")!.value;
+        const fence = level == 'true' ? ':'.repeat(4) : ':'.repeat(3);
 
-        const fence = ':'.repeat(level + 2);
+        let type = args.get("containerType")!.value.trim();
+        let title = args.get("containerTitle")!.value.trim();
+
+        if (type.length == 0) {
+            return simpleInsert(
+                textarea,
+                "empty container",
+                `${fence}`,
+                `\n\n${fence}`
+            );
+        }
+
+        title = title.length > 0 ? ' ' + title : '';
 
         return simpleInsert(
             textarea,
-            "detail",
-            `${fence} ${type} ${title.trim()}\n`,
+            type,
+            `${fence}${type}${title}\n`,
             `\n${fence}`
         );
     },
@@ -40,20 +52,20 @@ export const container: InsertUnit = {
             name: "containerType",
             label: "类型",
             getRef: () => {
-                let detailIsOpen = "detail";
+                let detailIsOpen = "";
                 return ref(detailIsOpen);
             },
-            options: ["detail", "detail open", ...quoteType]
+            options: [...detailType, ...quoteType]
         },
-        <InputInsertArgument<string>>{
-            name: "containerLevel",
-            label: "层级",
-            type: "number",
-            getRef: () => {
-                let level = 1;
-                return ref(level);
-            },
+        <OptionInsertArgument>{
+            name: "containerNest",
+            label: "嵌套",
             styleWidth: "3em",
+            getRef: () => {
+                let detailIsOpen = "false";
+                return ref(detailIsOpen);
+            },
+            options: ["true", "false"]
         },
     ],
     reject: true,

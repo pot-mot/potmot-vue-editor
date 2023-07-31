@@ -98,9 +98,9 @@
 
 .light.code-container,
 .light .code-container {
-    --code-back-color: #eee;
+    --code-back-color: #f5f5f5;
     --code-font-color: #333;
-    --code-count-color: #777;
+    --code-count-color: #999;
 
     /* Prolog 代码的颜色 */
     --code-prolog-color: #6d4c41;
@@ -181,7 +181,7 @@
     --code-keyword-color: #9c27b0;
 
     /* 字符串颜色 */
-    --code-string-color: #8bc34a;
+    --code-string-color: #5ea211;
 
     /* 注释颜色 */
     --code-comment-color: #777;
