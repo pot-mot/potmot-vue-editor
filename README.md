@@ -26,10 +26,6 @@ import 'potmot-vue-editor/dist/style.css';
 
 app.use(editor);
 
-// 使用预定义的 code 和 markdown 样式，引入如下
-import 'potmot-vue-editor/src/assets/code.css';
-import 'potmot-vue-editor/src/assets/markdown.css';
-
 // 应用主题样式
 import 'potmot-vue-editor/src/assets/editor-theme/default.css';
 import 'potmot-vue-editor/src/assets/markdown-theme/default.css';
