@@ -356,6 +356,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
         getSvgParent: (element: HTMLElement) => SVGSVGElement | null;
         imageView: (element: Element) => void;
         onClick: (e: MouseEvent) => void;
+        /**
+         * 文本数据
+         */
         VNodeComponent: import("vue").DefineComponent<{
             content: {
                 type: PropType<import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {

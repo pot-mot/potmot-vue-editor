@@ -1,8 +1,9 @@
 <template>
+	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
 <!--	<TestEditorBase></TestEditorBase>-->
 <!--	<TestEditorExpose></TestEditorExpose>-->
 <!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="500"></TestMarkdown>-->
-		<TestMarkdown :test-cases="mermaidTestCase" :step-time="1500"></TestMarkdown>
+<!--		<TestMarkdown :test-cases="mermaidTestCase" :step-time="100"></TestMarkdown>-->
 <!--			<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->
 <!--	<TestSvg></TestSvg>-->
@@ -26,6 +27,7 @@ import TestEditorExpose from "./tests/editorTest/TestEditorExpose.vue";
 import {mermaidTestCase} from "./tests/testCase/mermaid";
 import {mindmap} from "./constants/mermaidGraph/mindmap";
 import {stateDiagram} from "./constants/mermaidGraph/stateDiagram";
+import MarkdownPreview from "./components/MarkdownPreview.vue";
 </script>
 
 <style>

@@ -21,6 +21,9 @@ import {md} from "../core";
 import {VNodeComponent} from "../core/VNodeComponent";
 import {batchRenderMermaid} from "../core/plugins/fenceCode/mermaidVNode";
 
+import '../../src/assets/code.css';
+import '../../src/assets/markdown.css';
+
 /**
  * 外部传入参数
  */
@@ -41,10 +44,15 @@ const node: Ref<HTMLElement | undefined | null> = ref();
 const renderResult: Ref<VNode[]> = ref([])
 
 onMounted(() => {
+	renderResult.value = <any>md.render(props.markdownText);
+	nextTick(() => {
+		if (node.value) batchRenderMermaid(node.value);
+	})
+
 	watch(() => props.markdownText, () => {
 		if (props.suspend) return;
 		renderResult.value = <any>md.render(props.markdownText);
-	}, {immediate: true})
+	})
 
 	watch(() => props.suspend, (newVal) => {
 		if (!newVal) {
@@ -54,8 +62,7 @@ onMounted(() => {
 
 	watch(() => renderResult.value, () => {
 		nextTick(() => {
-			if (!node.value) return;
-			batchRenderMermaid(node.value);
+			if (node.value) batchRenderMermaid(node.value);
 		})
 	})
 })

@@ -307,7 +307,11 @@
     overflow-x: auto;
 }
 
-.markdown-body .mermaid:hover > svg {
+.markdown-body .mermaid {
+    margin: 0.5em;
+}
+
+.markdown-body .mermaid > svg:hover {
     cursor: zoom-in;
     outline: 2px solid var(--image-border-color);
     background-color: var(--image-back-color);
