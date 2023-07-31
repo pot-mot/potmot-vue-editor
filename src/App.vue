@@ -1,8 +1,8 @@
 <template>
-	<TestEditorBase></TestEditorBase>
+<!--	<TestEditorBase></TestEditorBase>-->
 <!--	<TestEditorExpose></TestEditorExpose>-->
 <!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="500"></TestMarkdown>-->
-<!--		<TestMarkdown :test-cases="indentTestCases"></TestMarkdown>-->
+		<TestMarkdown :test-cases="mermaidTestCase" :step-time="1500"></TestMarkdown>
 <!--			<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->
 <!--	<TestSvg></TestSvg>-->

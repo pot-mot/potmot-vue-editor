@@ -121,9 +121,3 @@ code 代码块支持复制、标明行号
 |--------------|-------------|-------------|--------------------------------------------------------|
 | target       | HTMLElement | 寻找的目标元素     | 否，默认值 document.documentElement                         |
 | suspend      | Boolean     | 暂停渲染 | 否，默认 false                                             |
-
-
-```mermaid
-flowchart
-    t1 --> t4
-```

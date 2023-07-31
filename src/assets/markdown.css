@@ -247,7 +247,6 @@
 }
 
 .markdown-body img,
-.markdown-body svg,
 .markdown-body video {
     max-width: 100%;
     display: block;
@@ -255,21 +254,16 @@
     margin-bottom: 0.5em;
 }
 
-.markdown-body img:hover,
-.markdown-body svg:hover,
-.markdown-body video:hover {
+.markdown-body img:hover {
     outline: 2px solid var(--image-border-color);
     background-color: var(--image-back-color);
 }
 
-.markdown-body img + br,
-.markdown-body svg + br,
-.markdown-body video + br {
+.markdown-body img + br {
     display: none;
 }
 
-.markdown-body img:hover,
-.markdown-body svg:hover {
+.markdown-body img:hover {
     cursor: zoom-in;
 }
 
@@ -311,4 +305,10 @@
 .markdown-body .katex {
     max-width: 100%;
     overflow-x: auto;
+}
+
+.markdown-body .mermaid:hover > svg {
+    cursor: zoom-in;
+    outline: 2px solid var(--image-border-color);
+    background-color: var(--image-back-color);
 }
