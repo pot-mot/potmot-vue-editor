@@ -7,6 +7,11 @@
 	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
 	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
 	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
+	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
+<!--	<TestMarkdown :text-case="mermaidTestCase.join('\n')"></TestMarkdown>-->
+<!--	<template v-for="item in mermaidTestCase">-->
+<!--		<MarkdownPreview :markdown-text="item"></MarkdownPreview>-->
+<!--	</template>-->
 <!--	<TestEditorBase></TestEditorBase>-->
 <!--	<TestEditorExpose></TestEditorExpose>-->
 <!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="500"></TestMarkdown>-->
@@ -35,6 +40,7 @@ import {mermaidTestCase} from "./tests/testCase/mermaid";
 import {mindmap} from "./constants/mermaidGraph/mindmap";
 import {stateDiagram} from "./constants/mermaidGraph/stateDiagram";
 import MarkdownPreview from "./components/MarkdownPreview.vue";
+import MarkdownEditor from "./components/MarkdownEditor.vue";
 </script>
 
 <style>

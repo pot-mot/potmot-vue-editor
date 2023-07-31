@@ -1,6 +1,6 @@
 <template>
 	<div class="markdown-body" @click="onClick" ref="node">
-		<VNodeComponent :content="renderResult"></VNodeComponent>
+		<VNodeComponent :content="renderResult" @updated="asyncRender"></VNodeComponent>
 	</div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {nextTick, onMounted, Ref, ref, VNode, watch} from "vue";
+import {onMounted, Ref, ref, VNode, watch} from "vue";
 import 'katex/dist/katex.css'
 import {api as viewerApi} from "v-viewer"
 import "viewerjs/dist/viewer.css";
@@ -43,11 +43,13 @@ const props = defineProps({
 const node: Ref<HTMLElement | undefined | null> = ref();
 const renderResult: Ref<VNode[]> = ref([])
 
+// mermaid 渲染
+const asyncRender = () => {
+	if (node.value) batchRenderMermaid(node.value);
+}
+
 onMounted(() => {
 	renderResult.value = <any>md.render(props.markdownText);
-	nextTick(() => {
-		if (node.value) batchRenderMermaid(node.value);
-	})
 
 	watch(() => props.markdownText, () => {
 		if (props.suspend) return;
@@ -58,12 +60,6 @@ onMounted(() => {
 		if (!newVal) {
 			renderResult.value = <any>md.render(props.markdownText);
 		}
-	})
-
-	watch(() => renderResult.value, () => {
-		nextTick(() => {
-			if (node.value) batchRenderMermaid(node.value);
-		})
 	})
 })
 

@@ -7,6 +7,10 @@ export const VNodeComponent = defineComponent({
             required: true
         }
     },
+    emits: ["updated"],
+    updated() {
+        this.$emit("updated");
+    },
     render() {
         return this.content;
     }
