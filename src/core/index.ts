@@ -51,5 +51,5 @@ md.renderer.renderAttrs = renderAttrs;
 md.renderer.renderToken = renderToken;
 
 export {
-    md
+    md,
 }
