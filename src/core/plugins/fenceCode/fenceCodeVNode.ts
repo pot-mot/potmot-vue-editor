@@ -5,9 +5,8 @@ import {DOM_ATTR_NAME} from "../../../constants/attr/domAttrName";
 import {createErrVNode} from "../../source/errVNode";
 import {encodeHTML} from "../../../utils/common/htmlParse";
 import {katexLanguageList} from "../../../constants/code/katexLanguageList";
-import {createKatexBlockVNode} from "./katexVNode";
-import {md} from "../../index";
-import {createMermaidVNode} from "./mermaidVNode";
+import {renderKatexBlock} from "./katexVNode";
+import {renderMermaidBlock} from "./mermaidVNode";
 
 const setLine = (code: string): { count: VNode, code: VNode } => {
     const counts: string[] = []
@@ -24,19 +23,9 @@ const setLine = (code: string): { count: VNode, code: VNode } => {
     }
 }
 
-export const createCodeDetailsVnode = (view: VNode, code: string, language: string): VNode => {
-    return createVNode('p', {class: "code-view"}, [
-        createVNode('details', {}, [
-            createVNode('summary', {innerText: "CODE"}),
-           createCodeBlockVNode(code, language, {})
-        ]),
-        view,
-    ])
-}
-
 const codeCache: Map<{ language: string, text: string }, VNode> = new Map;
 
-export const createCodeBlockVNode = (text: string, language: string, attrs: any): VNode | undefined => {
+export const createCodeBlockVNode = (text: string, language: string , attrs: any = {}): VNode => {
     try {
         const key = {language, text}
 
@@ -44,12 +33,7 @@ export const createCodeBlockVNode = (text: string, language: string, attrs: any)
             return codeCache.get(key)!
         }
 
-        if (language == 'mermaid') {
-            return createMermaidVNode(text);
-        } else if (katexLanguageList.includes(language)) {
-            //@ts-ignore
-            return createKatexBlockVNode(text, md.katexConfig);
-        } else if (prismLanguageList.includes(language)) {
+        if (prismLanguageList.includes(language)) {
             text = Prism.highlight(text, Prism.languages[language], language);
         } else {
             text = encodeHTML(text);
@@ -78,5 +62,25 @@ export const createCodeBlockVNode = (text: string, language: string, attrs: any)
         return result;
     } catch (e) {
         return createErrVNode(e, "code - " + language + " 代码渲染出错");
+    }
+}
+
+export const createCodeDetailsVnode = (view: VNode, code: VNode): VNode => {
+    return createVNode('p', {class: "code-view"}, [
+        createVNode('details', {}, [
+            createVNode('summary', {innerText: "CODE"}),
+            code,
+        ]),
+        view,
+    ])
+}
+
+export const renderCodeBlock = (text: string, language: string, attrs: any): VNode => {
+    if (language == 'mermaid') {
+        return renderMermaidBlock(text, attrs);
+    } else if (katexLanguageList.includes(language)) {
+        return renderKatexBlock(text, attrs);
+    } else {
+        return createCodeBlockVNode(text, language, attrs);
     }
 }

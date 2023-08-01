@@ -133,7 +133,7 @@ import {createNextTableLine, getLeadingMarks, judgeTableLine} from "../utils/mar
 import {
 	lockScroll,
 	unlockScroll,
-	ScrollData,
+	ScrollData, getDocumentScroll,
 } from "../utils/common/document";
 import {useSearchAndReplace} from "../hooks/useSearchAndReplace";
 import {EditTool, EditToolConfig} from "../declare/EditTool";
@@ -439,7 +439,7 @@ onMounted(() => {
 	}
 });
 
-let oldScrollData: ScrollData
+let oldScrollData: ScrollData = getDocumentScroll();
 
 onMounted(() => {
 	watch(() => isFullScreen.value, (newValue) => {
@@ -457,7 +457,7 @@ onMounted(() => {
 	}, {immediate: true});
 })
 
-let lastScroll: Ref<HTMLElement | null | undefined>
+let lastScroll: Ref<HTMLElement | null | undefined> | undefined = undefined;
 
 /**
  * 滚动同步

@@ -1,6 +1,7 @@
 import {createVNode, VNode} from "vue";
 import mermaid from "mermaid";
 import {now} from "../../../utils/common/time";
+import {createCodeBlockVNode, createCodeDetailsVnode} from "./fenceCodeVNode";
 
 mermaid.initialize(
     {
@@ -13,12 +14,15 @@ mermaid.initialize(
 
 const cache = new Map<string, string>
 
-export const createMermaidVNode = (text: string): VNode => {
+const createMermaidVNode = (text: string): VNode => {
     let innerHTML = text;
     if (cache.has(text)) innerHTML = cache.get(text)!;
     return createVNode('div', {key: text, "mermaid-text": text, class: 'mermaid-wait', innerHTML})
 }
 
+export const renderMermaidBlock = (text: string, attrs: any = {}) => {
+    return createCodeDetailsVnode(createMermaidVNode(text), createCodeBlockVNode(text, 'mermaid', attrs));
+}
 
 const renderMermaid = (
     element: Element

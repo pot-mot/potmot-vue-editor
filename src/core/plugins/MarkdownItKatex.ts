@@ -2,7 +2,10 @@ import MarkdownIt from 'markdown-it';
 import StateInline from "markdown-it/lib/rules_inline/state_inline";
 import StateBlock from "markdown-it/lib/rules_block/state_block";
 import {KatexOptions} from 'katex';
-import {createKatexBlockVNode, createKatexInlineVNode} from "./fenceCode/katexVNode";
+import {
+    renderKatexBlock,
+    renderKatexInline
+} from "./fenceCode/katexVNode";
 
 export const mathInline = (state: StateInline, silent: boolean): boolean => {
     let start, match, token, pos;
@@ -123,11 +126,11 @@ export const MarkdownItKatex = (md: MarkdownIt, options: KatexOptions = {}) => {
 
     //@ts-ignore
     md.renderer.rules['math_inline'] = (tokens: Token[], idx: number) => {
-        return createKatexInlineVNode(tokens[idx].content, options);
+        return renderKatexInline(tokens[idx].content, options);
     }
     //@ts-ignore
     md.renderer.rules['math_block'] = (tokens: Token[], idx: number) => {
-        return createKatexBlockVNode(tokens[idx].content, options);
+        return renderKatexBlock(tokens[idx].content, options);
     }
 
     md.inline.ruler.after('escape', 'math_inline', mathInline);

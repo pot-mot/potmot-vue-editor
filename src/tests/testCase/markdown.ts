@@ -296,7 +296,7 @@ def hello_world():
 
 :::
 
-::: detail open 这是一个默认展开的折叠块
+::: detail-open 这是一个默认展开的折叠块
 
 文本
 

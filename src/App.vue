@@ -1,22 +1,21 @@
 <template>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>
-<!--	<TestMarkdown :text-case="mermaidTestCase.join('\n')"></TestMarkdown>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<MarkdownPreview :markdown-text="mermaidTestCase.join('\n')"></MarkdownPreview>-->
+<!--	<TestKatex></TestKatex>-->
 <!--	<template v-for="item in mermaidTestCase">-->
 <!--		<MarkdownPreview :markdown-text="item"></MarkdownPreview>-->
 <!--	</template>-->
 <!--	<TestEditorBase></TestEditorBase>-->
 <!--	<TestEditorExpose></TestEditorExpose>-->
-<!--			<TestMarkdown :test-cases="markdownTestCase" :step-time="500"></TestMarkdown>-->
+			<TestMarkdown :test-cases="markdownTestCase" :step-time="500"></TestMarkdown>
 <!--		<TestMarkdown :test-cases="mermaidTestCase" :step-time="100"></TestMarkdown>-->
-<!--			<TestKatex></TestKatex>-->
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->
 <!--	<TestSvg></TestSvg>-->
 </template>

@@ -1,7 +1,7 @@
 import Token from "markdown-it/lib/token";
 import Renderer from "markdown-it/lib/renderer";
 import {createVNode} from "vue";
-import {createCodeBlockVNode} from "../plugins/fenceCode/fenceCodeVNode";
+import {createCodeBlockVNode, renderCodeBlock} from "../plugins/fenceCode/fenceCodeVNode";
 import {unescapeAll} from "markdown-it/lib/common/utils";
 
 export const codeInline = (tokens: Token[], idx: number, _: any, __: any, slf: Renderer) => {
@@ -23,5 +23,5 @@ export const fenceCodeBlock = (tokens: Token[], idx: number, options: any, _: an
     const arr = info.split(/(\s+)/g)
     const language = arr[0]
 
-    return createCodeBlockVNode(token.content, language, attrs)
+    return renderCodeBlock(token.content, language, attrs)
 }

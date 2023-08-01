@@ -21,6 +21,7 @@ export const prismLanguageList = [
     'csharp', 'dotnet',
     'cobol',
     'makefile',
+    'mermaid',
     'json', 'json5', 'jsonp',
     'xml', 'yaml', 'yml', 'ini', 'toml',
     'bash', 'shell', 'batch',

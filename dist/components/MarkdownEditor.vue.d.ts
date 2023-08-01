@@ -169,7 +169,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     getPosition: (tool: EditTool) => Position;
     clickTool: (tool: EditTool) => void;
     oldScrollData: ScrollData;
-    lastScroll: Ref<HTMLElement | null | undefined>;
+    lastScroll: undefined;
     setSyncScrollTop: () => void;
     containerClass: ComputedRef<"preview" | "edit-preview" | "edit">;
     argsMap: Ref<Map<string, Ref<any>>>;
@@ -412,7 +412,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
             onClickTool?: ((...args: any[]) => any) | undefined;
         }>>;
         emits: (event: "clickTool", ...args: any[]) => void;
-        toolMap: ComputedRef<Map<any, EditTool[]>>;
+        toolMap: ComputedRef<Map<string | boolean | Ref<string> | Ref<boolean> | import("../declare/EditTool").ToolContextMenu | ((self: EditTool) => any) | undefined, EditTool[]>>;
         menuTools: ComputedRef<EditTool[]>;
         clickTool: (tool: EditTool) => void;
         toolBarContainer: Ref<any>;

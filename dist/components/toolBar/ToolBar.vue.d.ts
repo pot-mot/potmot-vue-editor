@@ -25,7 +25,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onClickTool?: ((...args: any[]) => any) | undefined;
     }>>;
     emits: (event: "clickTool", ...args: any[]) => void;
-    toolMap: import("vue").ComputedRef<Map<any, EditTool[]>>;
+    toolMap: import("vue").ComputedRef<Map<string | boolean | import("vue").Ref<string> | import("vue").Ref<boolean> | import("../../declare/EditTool").ToolContextMenu | ((self: EditTool) => any) | undefined, EditTool[]>>;
     menuTools: import("vue").ComputedRef<EditTool[]>;
     clickTool: (tool: EditTool) => void;
     toolBarContainer: import("vue").Ref<any>;

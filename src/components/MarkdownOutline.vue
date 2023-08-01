@@ -169,7 +169,7 @@ const jumpTo = (clickedItem: OutlineItem) => {
 	}
 }
 
-let interval: number;
+let interval: number = -1;
 
 onMounted(() => {
 	nextTick(act);

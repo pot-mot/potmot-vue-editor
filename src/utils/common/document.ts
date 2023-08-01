@@ -11,27 +11,32 @@ export const getDocumentScrollLeft = (): number => {
 }
 
 export type ScrollData = {
-    oldScrollTop: number,
-    oldScrollLeft: number,
-    oldOverflow: string
+    scrollTop: number,
+    scrollLeft: number,
+    overflow: string
+}
+
+export const getDocumentScroll = (): ScrollData => {
+    let scrollTop = getDocumentScrollTop();
+    let scrollLeft = getDocumentScrollLeft();
+    let overflow = document.documentElement.style.overflow;
+    return {scrollTop, scrollLeft, overflow};
 }
 
 export const lockScroll = (): ScrollData => {
-    let oldScrollTop = getDocumentScrollTop()
-    let oldScrollLeft = getDocumentScrollLeft()
-    let oldOverflow = document.documentElement.style.overflow
+    const oldScrollData = getDocumentScroll()
     document.documentElement.style.overflow = 'hidden';
     document.documentElement.scrollLeft = 0;
     document.documentElement.scrollTop = 0;
-    return {oldScrollTop, oldScrollLeft, oldOverflow}
+    return oldScrollData;
 }
 
 export const unlockScroll = (data: ScrollData) => {
     if (!data) return;
-    const {oldOverflow, oldScrollLeft, oldScrollTop} = data
-    document.documentElement.style.overflow = oldOverflow;
-    document.documentElement.scrollLeft = oldScrollLeft;
-    document.documentElement.scrollTop = oldScrollTop;
+    const {overflow, scrollLeft, scrollTop} = data
+    document.documentElement.style.overflow = overflow;
+    document.documentElement.scrollLeft = scrollLeft;
+    document.documentElement.scrollTop = scrollTop;
 }
 
 export const createComputedHideDom = (tagName: keyof HTMLElementTagNameMap, id: string): ComputedRef<Element> => {

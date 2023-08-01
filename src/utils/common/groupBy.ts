@@ -1,12 +1,12 @@
-
-export const groupBy = <T>(items: T[], param: string): Map<any, T[]> => {
-    const result = new Map<any, T[]>();
+export const groupBy = <T extends Record<string, any>>(items: T[], param: keyof T): Map<T[keyof T], T[]> => {
+    const result = new Map<T[keyof T], T[]>();
 
     for (const item of items) {
-        if (item == null || !(param in item)) continue
+        if (!item || !(param in item)) continue;
 
-        // @ts-ignore
-        const key = item[param]
+        const key = item[param] ?? null;
+
+        if (!key) continue;
 
         if (!result.has(key)) {
             result.set(key, []);
@@ -15,4 +15,4 @@ export const groupBy = <T>(items: T[], param: string): Map<any, T[]> => {
     }
 
     return result;
-}
+};

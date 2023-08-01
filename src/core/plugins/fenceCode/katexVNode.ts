@@ -1,19 +1,21 @@
 import {createVNode, VNode} from "vue";
 import katex, {KatexOptions} from "katex";
 import {createErrVNode} from "../../source/errVNode";
-import {createCodeDetailsVnode} from "./fenceCodeVNode";
+import {createCodeBlockVNode, createCodeDetailsVnode} from "./fenceCodeVNode";
 
-const renderCache = new Map<string, string>
+const cache = new Map<string, string>
 
 const getRenderKatex = (text: string, options?: KatexOptions): string => {
-    if (renderCache.has(text)) {
-        return renderCache.get(text)!;
+    if (cache.has(text)) {
+        return cache.get(text)!;
     } else {
-        return katex.renderToString(text, options)
+        const result = katex.renderToString(text, options);
+        cache.set(text, result);
+        return result;
     }
 }
 
-export const createKatexInlineVNode = (content: string, options?: KatexOptions): VNode => {
+const createKatexInlineVNode = (content: string, options?: KatexOptions): VNode => {
     const opts = Object.assign({}, options)
     opts.displayMode = false;
     try {
@@ -24,13 +26,21 @@ export const createKatexInlineVNode = (content: string, options?: KatexOptions):
     }
 };
 
-export const createKatexBlockVNode = (content: string, options?: KatexOptions): VNode => {
+const createKatexBlockVNode = (content: string, options?: KatexOptions): VNode => {
     const opts = Object.assign({}, options)
     opts.displayMode = true;
     try {
         const result =  getRenderKatex(content, opts);
-        return createCodeDetailsVnode(createVNode('div', {key: content, innerHTML: result, class: 'katex'}), content, 'latex');
+        return createVNode('div', {key: content, innerHTML: result, class: 'katex'});
     } catch (e) {
         return createErrVNode(e, 'katex render fail: ' + content);
     }
+}
+
+export const renderKatexInline = (content: string, options?: KatexOptions): VNode => {
+    return createKatexInlineVNode(content, options);
+}
+
+export const renderKatexBlock = (text: string, options?: KatexOptions, attrs: any = {}): VNode => {
+    return createCodeDetailsVnode(createKatexBlockVNode(text, options), createCodeBlockVNode(text, 'latex', attrs))
 }
