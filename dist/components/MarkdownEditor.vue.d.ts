@@ -65,62 +65,20 @@ declare const _sfc_main: import("vue").DefineComponent<{
     replaceFromBox: Ref<HTMLTextAreaElement | null | undefined>;
     replaceToBox: Ref<HTMLTextAreaElement | null | undefined>;
     text: Ref<string>;
-    props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-        modelValue: {
-            type: StringConstructor;
-            required: true;
-        };
-        placeholder: {
-            type: StringConstructor;
-            required: false;
-            default: string;
-        };
-        disabled: {
-            type: BooleanConstructor;
-            required: false;
-            default: boolean;
-        };
-        width: {
-            type: StringConstructor;
-            required: false;
-            default: string;
-        };
-        height: {
-            type: StringConstructor;
-            required: false;
-            default: string;
-        };
-        style: {
-            type: PropType<Partial<CSSStyleDeclaration>>;
-            required: false;
-        };
-        class: {
-            type: PropType<string[]>;
-            required: false;
-            default: never[];
-        };
-        toolbar: {
-            type: PropType<EditToolConfig[]>;
-            required: false;
-        };
-        shortcutKeys: {
-            type: PropType<ShortcutKey[]>;
-            required: false;
-            default: never[];
-        };
-        insertUnits: {
-            type: PropType<InsertUnit[]>;
-            required: false;
-            default: InsertUnit[];
-        };
-        startWithFullScreen: {
-            type: BooleanConstructor;
-            required: false;
-            default: boolean;
-        };
-    }>> & {
-        "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
-    }>>;
+    props: import("@vue/shared").LooseRequired<{
+        readonly height: string;
+        readonly width: string;
+        readonly modelValue: string;
+        readonly placeholder: string;
+        readonly disabled: boolean;
+        readonly class: string[];
+        readonly shortcutKeys: ShortcutKey[];
+        readonly insertUnits: InsertUnit[];
+        readonly startWithFullScreen: boolean;
+        readonly style?: Partial<CSSStyleDeclaration> | undefined;
+        readonly toolbar?: EditToolConfig[] | undefined;
+        readonly "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+    } & {}>;
     isFullScreen: Ref<boolean>;
     isReplace: Ref<boolean>;
     isPreview: Ref<boolean>;
@@ -169,7 +127,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     getPosition: (tool: EditTool) => Position;
     clickTool: (tool: EditTool) => void;
     oldScrollData: ScrollData;
-    lastScroll: undefined;
+    lastScroll: Ref<HTMLElement | null | undefined> | undefined;
     setSyncScrollTop: () => void;
     containerClass: ComputedRef<"preview" | "edit-preview" | "edit">;
     argsMap: Ref<Map<string, Ref<any>>>;
@@ -247,38 +205,14 @@ declare const _sfc_main: import("vue").DefineComponent<{
             current: boolean;
         }[]>;
         emits: (event: "clickItem", ...args: any[]) => void;
-        props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-            target: {
-                type: {
-                    new (): HTMLElement;
-                    prototype: HTMLElement;
-                };
-                required: false;
-                default: HTMLElement;
-            };
-            policy: {
-                type: StringConstructor;
-                required: false;
-                default: string;
-            };
-            parse: {
-                type: PropType<(head: HTMLHeadingElement) => OutlineItem>;
-                required: false;
-                default: (header: HTMLHeadingElement) => OutlineItem | null;
-            };
-            step: {
-                type: NumberConstructor;
-                required: false;
-                default: number;
-            };
-            suspend: {
-                type: BooleanConstructor;
-                required: false;
-                default: boolean;
-            };
-        }>> & {
-            onClickItem?: ((...args: any[]) => any) | undefined;
-        }>>;
+        props: import("@vue/shared").LooseRequired<{
+            readonly suspend: boolean;
+            readonly target: HTMLElement;
+            readonly policy: string;
+            readonly parse: (head: HTMLHeadingElement) => OutlineItem;
+            readonly step: number;
+            readonly onClickItem?: ((...args: any[]) => any) | undefined;
+        } & {}>;
         maxLevel: ComputedRef<number>;
         oldHtml: string;
         setItemFromHtml: () => void;
@@ -326,7 +260,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         policy: string;
         parse: (head: HTMLHeadingElement) => OutlineItem;
         step: number;
-    }>;
+    }, {}>;
     MarkdownPreview: import("vue").DefineComponent<{
         markdownText: {
             type: StringConstructor;
@@ -338,26 +272,21 @@ declare const _sfc_main: import("vue").DefineComponent<{
             default: boolean;
         };
     }, {
-        props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-            markdownText: {
-                type: StringConstructor;
-                required: true;
-            };
-            suspend: {
-                type: BooleanConstructor;
-                required: false;
-                default: boolean;
-            };
-        }>> & {}>>;
+        props: import("@vue/shared").LooseRequired<{
+            readonly markdownText: string;
+            readonly suspend: boolean;
+        } & {}>;
         node: Ref<HTMLElement | null | undefined>;
         renderResult: Ref<import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
             [key: string]: any;
         }>[]>;
         asyncRender: () => void;
         getSvgParent: (element: HTMLElement) => SVGSVGElement | null;
-        imageView: (element: Element) => void;
-        onClick: (e: MouseEvent) => void;
-        VNodeComponent: import("vue").DefineComponent<{
+        imageView: (element: Element) => void; /**
+         * 外部传入参数
+         */
+        onMouseUp: (e: MouseEvent) => void;
+        readonly VNodeComponent: import("vue").DefineComponent<{
             content: {
                 type: PropType<import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
                     [key: string]: any;
@@ -373,7 +302,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
             };
         }>> & {
             onUpdated?: ((...args: any[]) => any) | undefined;
-        }, {}>;
+        }, {}, {}>;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         markdownText: {
             type: StringConstructor;
@@ -386,7 +315,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         };
     }>>, {
         suspend: boolean;
-    }>;
+    }, {}>;
     ToolBar: import("vue").DefineComponent<{
         tools: {
             type: PropType<EditTool[]>;
@@ -398,19 +327,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
             default: never[];
         };
     }, {
-        props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-            tools: {
-                type: PropType<EditTool[]>;
-                required: true;
-            };
-            positions: {
-                type: PropType<string[]>;
-                required: false;
-                default: never[];
-            };
-        }>> & {
-            onClickTool?: ((...args: any[]) => any) | undefined;
-        }>>;
+        props: import("@vue/shared").LooseRequired<{
+            readonly tools: EditTool[];
+            readonly positions: string[];
+            readonly onClickTool?: ((...args: any[]) => any) | undefined;
+        } & {}>;
         emits: (event: "clickTool", ...args: any[]) => void;
         toolMap: ComputedRef<Map<string | boolean | Ref<string> | Ref<boolean> | import("../declare/EditTool").ToolContextMenu | ((self: EditTool) => any) | undefined, EditTool[]>>;
         menuTools: ComputedRef<EditTool[]>;
@@ -448,8 +369,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
             onCancel?: ((...args: any[]) => any) | undefined;
         }, {
             resetPosition: boolean;
-        }>;
-        closeContextMenu: (tool: EditTool) => void;
+        }, {}>;
+        readonly closeContextMenu: (tool: EditTool) => void;
         ToolBarItem: import("vue").DefineComponent<{
             tool: {
                 type: PropType<EditTool>;
@@ -462,7 +383,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
             };
         }>> & {
             onClickTool?: ((...args: any[]) => any) | undefined;
-        }, {}>;
+        }, {}, {}>;
     }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "clickTool"[], "clickTool", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         tools: {
             type: PropType<EditTool[]>;
@@ -477,8 +398,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onClickTool?: ((...args: any[]) => any) | undefined;
     }, {
         positions: string[];
-    }>;
-    vAdapt: {
+    }, {}>;
+    readonly vAdapt: {
         mounted(el: HTMLElement, binding: {
             value: {
                 min: number;
@@ -486,16 +407,16 @@ declare const _sfc_main: import("vue").DefineComponent<{
             };
         }): void;
     };
-    vInputExtension: {
+    readonly vInputExtension: {
         mounted(el: HTMLElement): void;
     };
-    vKeepBottom: {
+    readonly vKeepBottom: {
         mounted(el: HTMLElement, binding: {
             value: any;
         }): void;
     };
-    isMobile: ComputedRef<boolean>;
-    formatTriggers: (insertUnit: InsertUnit) => string[];
+    readonly isMobile: ComputedRef<boolean>;
+    readonly formatTriggers: (insertUnit: InsertUnit) => string[];
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: StringConstructor;
@@ -560,5 +481,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     shortcutKeys: ShortcutKey[];
     insertUnits: InsertUnit[];
     startWithFullScreen: boolean;
-}>;
+}, {}>;
 export default _sfc_main;

@@ -1,5 +1,5 @@
 <template>
-	<div class="markdown-body" @click="onClick" ref="node">
+	<div class="markdown-body" @mouseup="onMouseUp" ref="node">
 		<VNodeComponent :content="renderResult" @updated="asyncRender"></VNodeComponent>
 	</div>
 </template>
@@ -108,8 +108,13 @@ const imageView = (element: Element) => {
 	viewerApi({images: imageSrcList, options: {initialViewIndex: initIndex, zIndex: 20000}});
 }
 
-const onClick = (e: MouseEvent) => {
-	if (e.target && node.value) {
+const onMouseUp = (e: MouseEvent) => {
+	let selection = window.getSelection();
+	let selectionJudge = true;
+	if (selection && selection.toString().length > 0) {
+		selectionJudge = false;
+	}
+	if (e.target && node.value && selectionJudge) {
 		const element = <HTMLElement>(e.target);
 
 		// 代码复制处理

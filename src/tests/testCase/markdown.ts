@@ -322,6 +322,19 @@ Danger
 :::
 
 ::::
+
+::::tabs 一个选项卡
+:::tab-item
+TAB_ITEM1 
+:::
+:::tab-item 也可以指定标题
+TAB_ITEM2
+:::
+:::tab-item * 通过*可以指定默认选中的选项
+TAB_ITEM3
+:::
+::::
+
 `,
 `
 ## 十二、别名

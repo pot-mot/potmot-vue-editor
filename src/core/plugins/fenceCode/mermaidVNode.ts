@@ -1,14 +1,17 @@
 import {createVNode, VNode} from "vue";
 import mermaid from "mermaid";
 import {now} from "../../../utils/common/time";
-import {createCodeBlockVNode, createCodeDetailsVnode} from "./fenceCodeVNode";
+import {createCodeBlockVNode, createCodeDetailsVNode} from "./fenceCodeVNode";
+import {createErrHTMLString} from "../../source/errVNode";
 
 mermaid.initialize(
     {
         startOnLoad: false,
+        fontFamily: 'consola',
         flowchart: {
-            curve: "polyline"
-        }
+            curve: "polyline",
+            htmlLabels: true
+        },
     },
 );
 
@@ -21,7 +24,7 @@ const createMermaidVNode = (text: string): VNode => {
 }
 
 export const renderMermaidBlock = (text: string, attrs: any = {}) => {
-    return createCodeDetailsVnode(createMermaidVNode(text), createCodeBlockVNode(text, 'mermaid', attrs));
+    return createCodeDetailsVNode(createMermaidVNode(text), createCodeBlockVNode(text, 'mermaid', attrs));
 }
 
 const renderMermaid = (
@@ -40,7 +43,7 @@ const renderMermaid = (
             element.classList.add('mermaid')
         })
         .catch(e => {
-            element.innerHTML = `<pre style="white-space: pre-line; border: 1px solid red;">${e}</pre>`;
+            element.innerHTML = createErrHTMLString(e);
             const error = document.getElementById('d' + id);
             if (error) {
                 error.remove();

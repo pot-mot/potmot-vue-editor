@@ -32,5 +32,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     onCancel?: ((...args: any[]) => any) | undefined;
 }, {
     resetPosition: boolean;
-}>;
+}, {}>;
 export default _sfc_main;

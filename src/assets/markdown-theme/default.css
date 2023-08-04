@@ -17,7 +17,10 @@
     --quote-danger-back-color: rgba(245, 108, 108, 0.2);
     --quote-info-color: #909399;
     --quote-info-title-color: #6e6e78;
-    --quote-info-back-color: rgba(160, 165, 170, 0.2);
+    --quote-info-back-color: rgba(160, 165, 170, 0.1);
+
+    --tab-hover-color: rgba(160, 165, 170, 0.1);
+    --tab-active-color: #5399f8;
 
     --table-border-color: #a5a5a5;
     --table-cell-border-color: #a5a5a5;
@@ -51,7 +54,10 @@
     --quote-danger-back-color: rgba(178, 82, 82, 0.2);
     --quote-info-color: #6b6d71;
     --quote-info-title-color: #6b6d71;
-    --quote-info-back-color: rgba(107, 109, 113, 0.2);
+    --quote-info-back-color: rgba(107, 109, 113, 0.1);
+
+    --tab-hover-color: rgba(107, 109, 113, 0.1);
+    --tab-active-color: #64a0ff;
 
     --table-border-color: #787878;
     --table-cell-border-color: #787878;

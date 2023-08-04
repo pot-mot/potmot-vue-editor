@@ -2,8 +2,7 @@ import {InputInsertArgument, InsertUnit, OptionInsertArgument} from "../../../de
 import {ref} from "vue";
 import {simpleInsert} from "../../../utils/editor/insertUtils";
 import {quoteType} from "../../plugins/container/quote";
-import {detailType} from "../../plugins/container/detail";
-
+import {detailsType} from "../../plugins/container/details";
 export const container: InsertUnit = {
     triggers: [
         {
@@ -18,15 +17,6 @@ export const container: InsertUnit = {
 
         let type = args.get("containerType")!.value.trim();
         let title = args.get("containerTitle")!.value.trim();
-
-        if (type.length == 0) {
-            return simpleInsert(
-                textarea,
-                "empty container",
-                `${fence}`,
-                `\n\n${fence}`
-            );
-        }
 
         title = title.length > 0 ? ' ' + title : '';
 
@@ -43,8 +33,8 @@ export const container: InsertUnit = {
             label: "标题",
             type: "string",
             getRef: () => {
-                let summary = "";
-                return ref(summary);
+                let containerTitle = "";
+                return ref(containerTitle);
             },
             styleWidth: "8em",
         },
@@ -55,7 +45,7 @@ export const container: InsertUnit = {
                 let detailIsOpen = "";
                 return ref(detailIsOpen);
             },
-            options: [...detailType, ...quoteType]
+            options: [...detailsType, ...quoteType]
         },
         <OptionInsertArgument>{
             name: "containerNest",

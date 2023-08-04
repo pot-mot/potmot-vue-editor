@@ -10,17 +10,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: boolean;
     };
 }, {
-    props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-        markdownText: {
-            type: StringConstructor;
-            required: true;
-        };
-        suspend: {
-            type: BooleanConstructor;
-            required: false;
-            default: boolean;
-        };
-    }>> & {}>>;
+    props: import("@vue/shared").LooseRequired<{
+        readonly markdownText: string;
+        readonly suspend: boolean;
+    } & {}>;
     node: Ref<HTMLElement | null | undefined>;
     renderResult: Ref<VNode<import("vue").RendererNode, import("vue").RendererElement, {
         [key: string]: any;
@@ -28,8 +21,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
     asyncRender: () => void;
     getSvgParent: (element: HTMLElement) => SVGSVGElement | null;
     imageView: (element: Element) => void;
-    onClick: (e: MouseEvent) => void;
-    VNodeComponent: import("vue").DefineComponent<{
+    onMouseUp: (e: MouseEvent) => void;
+    readonly VNodeComponent: import("vue").DefineComponent<{
         content: {
             type: import("vue").PropType<VNode<import("vue").RendererNode, import("vue").RendererElement, {
                 [key: string]: any;
@@ -45,7 +38,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         };
     }>> & {
         onUpdated?: ((...args: any[]) => any) | undefined;
-    }, {}>;
+    }, {}, {}>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     markdownText: {
         type: StringConstructor;
@@ -58,5 +51,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     suspend: boolean;
-}>;
+}, {}>;
 export default _sfc_main;

@@ -12,5 +12,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>> & {
     onClickTool?: ((...args: any[]) => any) | undefined;
-}, {}>;
+}, {}, {}>;
 export default _sfc_main;

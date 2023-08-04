@@ -38,38 +38,14 @@ declare const _sfc_main: import("vue").DefineComponent<{
         current: boolean;
     }[]>;
     emits: (event: "clickItem", ...args: any[]) => void;
-    props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-        target: {
-            type: {
-                new (): HTMLElement;
-                prototype: HTMLElement;
-            };
-            required: false;
-            default: HTMLElement;
-        };
-        policy: {
-            type: StringConstructor;
-            required: false;
-            default: string;
-        };
-        parse: {
-            type: PropType<(head: HTMLHeadingElement) => OutlineItem>;
-            required: false;
-            default: (header: HTMLHeadingElement) => OutlineItem | null;
-        };
-        step: {
-            type: NumberConstructor;
-            required: false;
-            default: number;
-        };
-        suspend: {
-            type: BooleanConstructor;
-            required: false;
-            default: boolean;
-        };
-    }>> & {
-        onClickItem?: ((...args: any[]) => any) | undefined;
-    }>>;
+    props: import("@vue/shared").LooseRequired<{
+        readonly suspend: boolean;
+        readonly target: HTMLElement;
+        readonly policy: string;
+        readonly parse: (head: HTMLHeadingElement) => OutlineItem;
+        readonly step: number;
+        readonly onClickItem?: ((...args: any[]) => any) | undefined;
+    } & {}>;
     maxLevel: import("vue").ComputedRef<number>;
     oldHtml: string;
     setItemFromHtml: () => void;
@@ -117,5 +93,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     policy: string;
     parse: (head: HTMLHeadingElement) => OutlineItem;
     step: number;
-}>;
+}, {}>;
 export default _sfc_main;

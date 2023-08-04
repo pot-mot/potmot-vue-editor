@@ -15,7 +15,7 @@
 <!--	<TestEditorBase></TestEditorBase>-->
 <!--	<TestEditorExpose></TestEditorExpose>-->
 			<TestMarkdown :test-cases="markdownTestCase" :step-time="500"></TestMarkdown>
-<!--		<TestMarkdown :test-cases="mermaidTestCase" :step-time="100"></TestMarkdown>-->
+		<TestMarkdown :test-cases="mermaidTestCase" :step-time="700"></TestMarkdown>
 	<!--	<TestLeadingSpace></TestLeadingSpace>-->
 <!--	<TestSvg></TestSvg>-->
 </template>

@@ -61,12 +61,12 @@ export const createCodeBlockVNode = (text: string, language: string , attrs: any
         codeCache.set(key, result);
         return result;
     } catch (e) {
-        return createErrVNode(e, "code - " + language + " 代码渲染出错");
+        return createErrVNode(e);
     }
 }
 
-export const createCodeDetailsVnode = (view: VNode, code: VNode): VNode => {
-    return createVNode('p', {class: "code-view"}, [
+export const createCodeDetailsVNode = (view: VNode, code: VNode): VNode => {
+    return createVNode('div', {class: "code-details"}, [
         createVNode('details', {}, [
             createVNode('summary', {innerText: "CODE"}),
             code,

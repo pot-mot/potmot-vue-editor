@@ -1,7 +1,7 @@
 import {createVNode, VNode} from "vue";
 import katex, {KatexOptions} from "katex";
 import {createErrVNode} from "../../source/errVNode";
-import {createCodeBlockVNode, createCodeDetailsVnode} from "./fenceCodeVNode";
+import {createCodeBlockVNode, createCodeDetailsVNode} from "./fenceCodeVNode";
 
 const cache = new Map<string, string>
 
@@ -22,7 +22,7 @@ const createKatexInlineVNode = (content: string, options?: KatexOptions): VNode 
         const result = getRenderKatex(content, opts);
         return createVNode('span', {key: content, innerHTML: result, class: 'katex'});
     } catch (e) {
-        return createErrVNode(e, 'katex render fail: ' + content);
+        return createErrVNode('katex render fail: ' + content);
     }
 };
 
@@ -33,7 +33,7 @@ const createKatexBlockVNode = (content: string, options?: KatexOptions): VNode =
         const result =  getRenderKatex(content, opts);
         return createVNode('div', {key: content, innerHTML: result, class: 'katex'});
     } catch (e) {
-        return createErrVNode(e, 'katex render fail: ' + content);
+        return createErrVNode('katex render fail: ' + content);
     }
 }
 
@@ -42,5 +42,5 @@ export const renderKatexInline = (content: string, options?: KatexOptions): VNod
 }
 
 export const renderKatexBlock = (text: string, options?: KatexOptions, attrs: any = {}): VNode => {
-    return createCodeDetailsVnode(createKatexBlockVNode(text, options), createCodeBlockVNode(text, 'latex', attrs))
+    return createCodeDetailsVNode(createKatexBlockVNode(text, options), createCodeBlockVNode(text, 'latex', attrs))
 }

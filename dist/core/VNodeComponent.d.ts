@@ -15,4 +15,4 @@ export declare const VNodeComponent: import("vue").DefineComponent<{
     };
 }>> & {
     onUpdated?: ((...args: any[]) => any) | undefined;
-}, {}>;
+}, {}, {}>;

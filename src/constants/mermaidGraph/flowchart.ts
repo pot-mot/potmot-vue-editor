@@ -3,7 +3,9 @@ import {Option} from "../../declare/InsertUtil";
 export const flowchart: Option = {
     key: "flowchart",
     label: "流程图",
-    value: `%%{init: {"flowchart": {"htmlLabels": false}} }%%
+    value: `---
+title Node
+---
 flowchart LR
     markdown["\`This **is** _Markdown_\`"]
     newLines["\`Line1

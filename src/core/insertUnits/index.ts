@@ -12,6 +12,7 @@ import {container} from "./extend/container";
 import {math} from "./extend/math";
 import {mermaidGraph} from "./extend/mermaidGraph";
 import {footnote} from "./extend/footnote";
+import {tabs} from "./extend/tabs";
 
 export const markdownInsertUnits: InsertUnit[] = [
     code,
@@ -26,6 +27,7 @@ export const markdownInsertUnits: InsertUnit[] = [
 
 export const extendInsertUnits: InsertUnit[] = [
     container,
+    tabs,
     math,
     mermaidGraph,
     footnote,

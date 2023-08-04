@@ -11,19 +11,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: never[];
     };
 }, {
-    props: Readonly<import("@vue/shared").LooseRequired<Readonly<import("vue").ExtractPropTypes<{
-        tools: {
-            type: PropType<EditTool[]>;
-            required: true;
-        };
-        positions: {
-            type: PropType<string[]>;
-            required: false;
-            default: never[];
-        };
-    }>> & {
-        onClickTool?: ((...args: any[]) => any) | undefined;
-    }>>;
+    props: import("@vue/shared").LooseRequired<{
+        readonly tools: EditTool[];
+        readonly positions: string[];
+        readonly onClickTool?: ((...args: any[]) => any) | undefined;
+    } & {}>;
     emits: (event: "clickTool", ...args: any[]) => void;
     toolMap: import("vue").ComputedRef<Map<string | boolean | import("vue").Ref<string> | import("vue").Ref<boolean> | import("../../declare/EditTool").ToolContextMenu | ((self: EditTool) => any) | undefined, EditTool[]>>;
     menuTools: import("vue").ComputedRef<EditTool[]>;
@@ -61,8 +53,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onCancel?: ((...args: any[]) => any) | undefined;
     }, {
         resetPosition: boolean;
-    }>;
-    closeContextMenu: (tool: EditTool) => void;
+    }, {}>;
+    readonly closeContextMenu: (tool: EditTool) => void;
     ToolBarItem: import("vue").DefineComponent<{
         tool: {
             type: PropType<EditTool>;
@@ -75,7 +67,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         };
     }>> & {
         onClickTool?: ((...args: any[]) => any) | undefined;
-    }, {}>;
+    }, {}, {}>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "clickTool"[], "clickTool", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     tools: {
         type: PropType<EditTool[]>;
@@ -90,5 +82,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     onClickTool?: ((...args: any[]) => any) | undefined;
 }, {
     positions: string[];
-}>;
+}, {}>;
 export default _sfc_main;

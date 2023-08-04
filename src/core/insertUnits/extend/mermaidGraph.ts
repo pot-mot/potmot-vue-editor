@@ -14,14 +14,14 @@ export const mermaidGraph: InsertUnit = {
     insert: (args, textarea, e) => {
         let mermaidTypeName = args.get("mermaidTypeName")!.value
         let example = args.get("mermaidExample")!.value
-        let mermaidType = mermaidTypeMap.get(mermaidTypeName)!
-        const key = e?.key
-        const fence = (key == undefined || key == '`') ? '```' : '~~~'
+        let mermaidType = mermaidTypeMap.get(mermaidTypeName)!;
+        const key = e?.key;
+        const fence = (key == undefined || key == '`') ? '```' : '~~~';
 
         return simpleInsert(
             textarea,
             "mermaid",
-            `${fence}mermaid\n${example == '生成' ? mermaidType.value : mermaidType.key}\n`,
+            `${fence}mermaid\n${example == '生成' ? mermaidType.value : (mermaidType.key.length > 0 ? `${mermaidType.key}\n` : '')}`,
             "\n" + fence
 
         );
