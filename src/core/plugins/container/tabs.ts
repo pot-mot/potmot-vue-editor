@@ -1,5 +1,7 @@
 import MarkdownItContainer from "markdown-it-container";
 import {createVNode, Fragment} from "vue";
+import {createRenderInlineVNode} from "../../source/createRenderInlineVNode";
+import {md} from "../../index";
 
 export const tabsType = ['tabs', 'tab-item']
 
@@ -35,15 +37,15 @@ export const renderTabItem: MarkdownItContainer.ContainerOpts = {
         tabIndex++;
         let info = tokens[idx].info.trim().replace(/^tab-item\s*/, '');
         let checked = tabIndex == 1;
-        if (info.startsWith('*')) {
+        if (info.startsWith('[x]')) {
             checked = true;
-            info = info.replace(/\*\s*/, '');
+            info = info.replace(/\[x]\s*/, '');
         }
         const id = `tab-${tabName}-${info}-${tabIndex}`
         const parent = createVNode('div', {class: 'tab-item-content'}, [])
         return {parent, node: createVNode(Fragment, {}, [
                 createVNode('input', {class: 'tab-item-radio', type: 'radio', id, name: tabName, checked}),
-                createVNode('label', {class: 'tab-item-label', for: id, innerHTML: info.length > 0 ? info : `Item${tabIndex}`}),
+                createRenderInlineVNode(md,  info.length > 0 ? info : `Item${tabIndex}`, 'label', {class: 'tab-item-label', for: id}),
                 parent,
             ])}
     }

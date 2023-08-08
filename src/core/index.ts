@@ -22,6 +22,7 @@ import {MarkdownItFootnote} from "./plugins/MarkdownItFootnote";
 
 import {rules} from "./rules";
 import {render, renderAttrs, renderToken} from "./source/render";
+import {MarkdownItHideText} from "./plugins/MarkdownItHideText";
 
 const md = new MarkdownIt()
 
@@ -37,6 +38,8 @@ md
     .use(MarkdownItTaskLists)
 
     .use(MarkdownItKatex, {strict: false})
+    .use(MarkdownItHideText)
+
     .use(MarkdownItFootnote)
     .use(MarkdownItMultimdTable, {multiline: true, rowspan: true, headerless: true,})
     .use(MarkdownItContainerExtension)

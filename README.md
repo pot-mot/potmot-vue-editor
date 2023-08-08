@@ -15,7 +15,7 @@
 npm 引入
 
 ```
-npm install potmot-vue-editor@0.16.6
+npm install potmot-vue-editor@0.16.7
 ```
 
 main.js 中引用
@@ -72,24 +72,25 @@ import 'potmot-vue-editor/src/assets/code-theme/default.css';
 目前引入 markdown-it 插件如下
 
 ```
-"markdown-it-abbr": "^1.0.4",
-"markdown-it-attributes": "^1.1.1",
-"markdown-it-container": "^3.0.0",
-"markdown-it-emoji": "^2.0.2",
-"markdown-it-mark": "^3.0.1",
-"markdown-it-multimd-table": "^4.2.2",
-"markdown-it-sub": "^1.0.0",
-"markdown-it-sup": "^1.0.0",
-"markdown-it-task-lists": "^2.1.1",
+"markdown-it-abbr": "^1.0.4" *[] 简称
+"markdown-it-attributes": "^1.1.1" {} 属性
+"markdown-it-container": "^3.0.0" :::盒型容器
+"markdown-it-emoji": "^2.0.2" emoji 表情
+"markdown-it-mark": "^3.0.1" mark高亮
+"markdown-it-multimd-table": "^4.2.2" 复杂表格
+"markdown-it-sub": "^1.0.0" ~下标~
+"markdown-it-sup": "^1.0.0" ^上标^
+"markdown-it-task-lists": "^2.1.1" - [x] 任务列表
 ```
 
-因为 ts 和 虚拟dom 渲染 及 版本 等问题重新实现的 markdown-it 插件与额外渲染逻辑如下
+因为 ts 和 虚拟dom 渲染 及 版本 等问题重新实现的 markdown-it 插件与额外渲染逻辑与额外插件如下
 
 ```
-mermaid: 10.3.0
-MarkdownItKatex => katex: 0.16.8
-MarkdownItFootnote
-MarkdownItToc
+mermaid: 10.3.0 ```mermaid ``` 绘图
+MarkdownItKatex => katex: 0.16.8 $a$ 数学符号
+MarkdownItFootnote ^[] [^ ] 脚标
+MarkdownItToc [toc] 标题大纲
+MarkdownItHideText ===涂黑隐藏文本===
 ```
 
 **props 参数说明**

@@ -1,6 +1,9 @@
 .markdown-body,
-.light.markdown-body,
-.light .markdown-body {
+.light .markdown-body,
+.light.markdown-body {
+    --back-color: #fff;
+    --text-color: #050505;
+
     --hr-color: #ddd;
 
     --code-inline-color: #333;
@@ -35,10 +38,17 @@
     --link-hover-color: #5399f8;
     --link-visited-color: #290467;
     --link-visited-hover-color: #4007a2;
+
+    --hide-color: #252525;
+    --hide-hover-color: #aaa;
+    --hide-link-hover-color: var(--link-hover-color);
 }
 
-.dark.markdown-body,
-.dark .markdown-body {
+.dark .markdown-body,
+.dark.markdown-body {
+    --back-color: #262626;
+    --text-color: #bbb;
+
     --hr-color: #aaa;
     --code-inline-color: #eee;
     --code-inline-back-color: #333;
@@ -72,4 +82,8 @@
     --link-hover-color: #64a0ff;
     --link-visited-color: #8c64d2;
     --link-visited-hover-color: #b48ceb;
+
+    --hide-color: #000;
+    --hide-hover-color: #aaa;
+    --hide-link-hover-color: var(--link-hover-color);
 }

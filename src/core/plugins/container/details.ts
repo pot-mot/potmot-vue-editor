@@ -1,6 +1,7 @@
 import MarkdownItContainer from "markdown-it-container";
 import {md} from "../../index";
 import {createVNode, VNode} from "vue";
+import {createRenderInlineVNode} from "../../source/createRenderInlineVNode";
 
 export const detailsType = ['details', 'details-open']
 
@@ -18,10 +19,11 @@ export const renderDetail: MarkdownItContainer.ContainerOpts = {
             open = true
         }
 
-        let summary = md.utils.escapeHtml(info.slice(m[0].length));
-        if (summary.length == 0) {
-            summary = "DETAILS"
+        let summaryText = md.utils.escapeHtml(info.slice(m[0].length));
+        if (summaryText.length == 0) {
+            summaryText = "DETAILS"
         }
-        return createVNode('details', {open}, [createVNode('summary', {innerHTML: summary})])
+        let summary: VNode = createRenderInlineVNode(md, summaryText, 'summary')
+        return createVNode('details', {open}, [summary])
     }
 }

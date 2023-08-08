@@ -10,7 +10,7 @@ import {
 export const mathInline = (state: StateInline, silent: boolean): boolean => {
     let start, match, token, pos;
 
-    if (state.src[state.pos] !== "$") {
+    if (state.src[state.pos] != "$") {
         return false;
     }
 

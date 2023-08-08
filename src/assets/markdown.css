@@ -2,6 +2,8 @@
     box-sizing: border-box;
     margin: 0;
     word-break: break-word;
+    background-color: var(--back-color);
+    color: var(--text-color);
 }
 
 .markdown-body * {
@@ -209,6 +211,7 @@
 .markdown-body tbody > tr:nth-child(odd) {
     background-color: var(--table-odd-back-color);
 }
+
 .markdown-body thead > tr:nth-child(odd),
 .markdown-body tbody > tr:nth-child(even) {
     background-color: var(--table-even-back-color);
@@ -361,10 +364,28 @@
 }
 
 .markdown-body .tabs > .tab-item-radio:checked + .tab-item-label {
-    border-radius:  3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
     border-bottom: 2px solid var(--tab-active-color);
 }
 
 .markdown-body .tabs > .tab-item-radio:checked + .tab-item-label + .tab-item-content {
     display: block;
+}
+
+.markdown-body .hide-text,
+.markdown-body .hide-text *,
+.markdown-body .hide-text a:visited {
+    color: var(--hide-color);
+    background-color: var(--hide-color);
+}
+
+.markdown-body .hide-text:hover,
+.markdown-body .hide-text:hover *,
+.markdown-body .hide-text:hover a:visited{
+    transition: 0.5s;
+    color: var(--hide-hover-color);
+}
+
+.markdown-body .hide-text:hover a:hover {
+    color: var(--hide-link-hover-color);
 }

@@ -4,11 +4,10 @@ interface MarkdownItTocOptions {
     containerClass: string;
     slugify: (text: string) => string;
     markerPattern: RegExp;
-    type: string;
+    listType: string;
+    itemType: string;
     format: (text: string) => string;
-    forceFullToc: boolean;
-    containerHeaderHtml: string;
-    containerFooterHtml: string;
+    full: boolean;
 }
 export declare const MarkdownItToc: (md: Markdown, options?: Partial<MarkdownItTocOptions>) => void;
 export {};

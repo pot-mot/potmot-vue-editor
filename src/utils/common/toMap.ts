@@ -1,5 +1,3 @@
-import {types} from "sass";
-
 export const toMap = (list: any[], key: string, value?: string): Map<any, any> => {
     const map = new Map();
     if (value == undefined) {
