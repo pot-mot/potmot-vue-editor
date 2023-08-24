@@ -282,9 +282,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>[]>;
         asyncRender: () => void;
         getSvgParent: (element: HTMLElement) => SVGSVGElement | null;
-        imageView: (element: Element) => void; /**
-         * 外部传入参数
-         */
+        imageView: (element: Element) => void;
         onMouseUp: (e: MouseEvent) => void;
         readonly VNodeComponent: import("vue").DefineComponent<{
             content: {

@@ -32,19 +32,18 @@ md
 
     .use(MarkdownItSub)
     .use(MarkdownItSup)
+    .use(MarkdownItHideText)
     .use(MarkdownItMark)
     .use(MarkdownItEmoji)
     .use(MarkdownItAbbr)
     .use(MarkdownItTaskLists)
 
     .use(MarkdownItKatex, {strict: false})
-    .use(MarkdownItHideText)
 
     .use(MarkdownItFootnote)
     .use(MarkdownItMultimdTable, {multiline: true, rowspan: true, headerless: true,})
     .use(MarkdownItContainerExtension)
     .use(MarkdownItToc)
-
 
 md.renderer.rules = {...md.renderer.rules, ...rules};
 

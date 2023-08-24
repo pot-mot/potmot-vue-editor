@@ -114,7 +114,8 @@ const onMouseUp = (e: MouseEvent) => {
 	if (selection && selection.toString().length > 0) {
 		selectionJudge = false;
 	}
-	if (e.target && node.value && selectionJudge) {
+
+	if (e.target && node.value) {
 		const element = <HTMLElement>(e.target);
 
 		// 代码复制处理
@@ -131,7 +132,7 @@ const onMouseUp = (e: MouseEvent) => {
 
 		const svgSvgElement = getSvgParent(element)
 
-		if (svgSvgElement) {
+		if (svgSvgElement && selectionJudge) {
 			imageView(svgSvgElement);
 			return;
 		}

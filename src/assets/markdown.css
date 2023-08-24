@@ -13,9 +13,9 @@
 
 .markdown-body h1,
 .markdown-body h2 {
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
-    line-height: 1.4em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.5em;
 }
 
 .markdown-body h1 {
@@ -28,9 +28,9 @@
 
 .markdown-body h3,
 .markdown-body h4 {
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-    line-height: 1.4em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.5em;
 }
 
 .markdown-body h3 {
@@ -43,9 +43,9 @@
 
 .markdown-body h5,
 .markdown-body h6 {
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
-    line-height: 1.6em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.5em;
 }
 
 .markdown-body h5 {
@@ -132,6 +132,7 @@
 .markdown-body blockquote.tip {
     border-color: var(--quote-tip-color);
     background-color: var(--quote-tip-back-color);
+    color: var(--quote-tip-text-color)
 }
 
 .markdown-body blockquote.tip > .title {
@@ -141,6 +142,7 @@
 .markdown-body blockquote.warning {
     border-color: var(--quote-warning-color);
     background-color: var(--quote-warning-back-color);
+    color: var(--quote-warning-text-color)
 }
 
 .markdown-body blockquote.warning > .title {
@@ -150,6 +152,7 @@
 .markdown-body blockquote.danger {
     border-color: var(--quote-danger-color);
     background-color: var(--quote-danger-back-color);
+    color: var(--quote-danger-text-color)
 }
 
 .markdown-body blockquote.danger > .title {
@@ -160,6 +163,7 @@
 .markdown-body blockquote.info {
     border-color: var(--quote-info-color);
     background-color: var(--quote-info-back-color);
+    color: var(--quote-info-text-color)
 }
 
 .markdown-body blockquote.info > .title {
@@ -294,6 +298,11 @@
     background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%201024%201024%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23d5d5d5%22%3E%3Cpath%20d%3D%22M544%2064l-128%20251.552%20116.304%20263.328L544%20960H64a64%2064%200%200%201-64-64V128a64%2064%200%200%201%2064-64h480zM362.88%20314.08L465.712%20112H64a16%2016%200%200%200-15.888%2014.128L48%20128v768a16%2016%200%200%200%2014.128%2015.888L64%20912h430.496l-9.888-322.272-121.728-275.632z%22%2F%3E%3Cpath%20d%3D%22M246.56%20250.448a75.872%2075.872%200%201%201%200%20151.728%2075.872%2075.872%200%200%201%200-151.728z%20m100.448%20509.008l-42.288-42.288L481.584%20533.92l43.04%2039.296-177.6%20186.24zM130.352%20614.304l160.96-160.912%20111.712%20111.712-42.304%2042.368-69.408-69.408-118.672%20118.592-42.288-42.352z%22%2F%3E%3Cpath%20d%3D%22M640%2064l-128%20251.552%20107.696%20263.328L640%20960h320a64%2064%200%200%200%2064-64V128a64%2064%200%200%200-64-64H640z%20m-75.248%20253.728L669.44%20112H960a16%2016%200%200%201%2015.888%2014.128L976%20128v768a16%2016%200%200%201-14.128%2015.888L960%20912H685.52L667.2%20568.224l-102.448-250.496z%22%2F%3E%3Cpath%20d%3D%22M614.56%20492.032l-42.304-42.288%20107.936-108.128%20205.664%20205.664-42.304%2042.304-163.36-163.296z%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 
+.markdown-body sub,
+.markdown-body sup {
+    line-height: 0;
+}
+
 .markdown-body pre.error {
     white-space: pre-line;
     border: 1px solid red;
@@ -361,6 +370,10 @@
 
 .markdown-body .tabs > .tab-item-radio {
     display: none;
+}
+
+.markdown-body .tabs > .tab-item-radio + .tab-item-label {
+    line-height: 2em;
 }
 
 .markdown-body .tabs > .tab-item-radio:checked + .tab-item-label {

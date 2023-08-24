@@ -1,7 +1,5 @@
 import MarkdownItContainer from "markdown-it-container";
 import {createVNode, Fragment} from "vue";
-import {createRenderInlineVNode} from "../../source/createRenderInlineVNode";
-import {md} from "../../index";
 
 export const tabsType = ['tabs', 'tab-item']
 
@@ -45,7 +43,7 @@ export const renderTabItem: MarkdownItContainer.ContainerOpts = {
         const parent = createVNode('div', {class: 'tab-item-content'}, [])
         return {parent, node: createVNode(Fragment, {}, [
                 createVNode('input', {class: 'tab-item-radio', type: 'radio', id, name: tabName, checked}),
-                createRenderInlineVNode(md,  info.length > 0 ? info : `Item${tabIndex}`, 'label', {class: 'tab-item-label', for: id}),
+                createVNode('label', {class: 'tab-item-label', for: id, innerText: info.length > 0 ? info : `Item${tabIndex}`}),
                 parent,
             ])}
     }

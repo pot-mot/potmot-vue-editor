@@ -1,87 +1,10 @@
 import {createVNode, Fragment, VNode} from "vue";
 import Token from "markdown-it/lib/token";
 import StateInline from "markdown-it/lib/rules_inline/state_inline";
-import StateCore from "markdown-it/lib/rules_core/state_core";
-import Renderer from "markdown-it/lib/renderer";
 import parseLinkLabel from "markdown-it/lib/helpers/parse_link_label";
 import MarkdownIt from "markdown-it";
 import StateBlock from "markdown-it/lib/rules_block/state_block";
-
-const renderFootnoteAnchorName = (tokens: Token[], idx: number, options: any, env: any, slf: Renderer) => {
-    const n = Number(tokens[idx].meta.id + 1).toString()
-    let prefix = ''
-
-    if (typeof env.docId == 'string') {
-        prefix = '-' + env.docId + '-'
-    }
-
-    return prefix + n
-}
-
-const renderFootnoteCaption = (tokens: Token[], idx: number) => {
-    let n = Number(tokens[idx].meta.id + 1).toString()
-
-    if (tokens[idx].meta.subId > 0) {
-        n += ':' + tokens[idx].meta.subId
-    }
-
-    return '[' + n + ']'
-}
-
-const renderFootnoteRef = (tokens: Token[], idx: number, options: MarkdownIt.Options, env: any, slf: Renderer): VNode => {
-    const id = slf.rules.footnote_anchor_name!(tokens, idx, options, env, slf)
-    const caption = slf.rules.footnote_caption!(tokens, idx, options, env, slf)
-    let refId = id
-
-    if (tokens[idx].meta.subId > 0) {
-        refId += ':' + tokens[idx].meta.subId
-    }
-
-    return createVNode('sup', {class: "footnote-ref"}, [
-        createVNode('a', {href: `#fn${id}`, id: `fnRef${refId}`, innerText: caption})
-    ])
-}
-
-const renderFootnoteBlockOpen = () => {
-    const ol = createVNode('ol', {class: 'footnotes-list'}, [])
-    // 将 ol 作为 parent 给出去，便于将 footnote 渲染进去
-    return {
-        parent: ol,
-        node: createVNode(Fragment, {}, [
-            createVNode('hr', {class: 'footnote-sep'}),
-            createVNode('section', {class: 'footnotes'}, [ol])
-        ])
-    }
-}
-
-const renderFootnoteBlockClose = () => {
-    return null
-}
-
-const renderFootnoteOpen = (tokens: Token[], idx: number, options: MarkdownIt.Options, env: any, slf: Renderer): VNode => {
-    let id = slf.rules.footnote_anchor_name!(tokens, idx, options, env, slf)
-
-    if (tokens[idx].meta.subId > 0) {
-        id += ':' + tokens[idx].meta.subId
-    }
-
-    return createVNode('li', {id: 'fn' + id, class: 'footnote-item'}, [])
-}
-
-const renderFootnoteClose = () => {
-    return null
-}
-
-const renderFootnoteAnchor = (tokens: Token[], idx: number, options: MarkdownIt.Options, env: any, slf: Renderer): VNode => {
-    let id = slf.rules.footnote_anchor_name!(tokens, idx, options, env, slf)
-
-    if (tokens[idx].meta.subId > 0) {
-        id += ':' + tokens[idx].meta.subId
-    }
-
-    return createVNode('a', {href: `#fnRef${id}`, class: "footnote-backref", innerText: "\u21a9\uFE0E"});
-}
-
+import StateCore from "markdown-it/lib/rules_core/state_core";
 
 // Process footnote block definition
 const footnoteDef = (state: StateBlock, startLine: number, endLine: number, silent: boolean) => {
@@ -331,8 +254,12 @@ export const footnoteRef = (state: StateInline, silent: boolean) => {
     return true
 }
 
-// Glue footnote tokens to end of token stream
-export const footnoteTail = (state: StateCore) => {
+// 渲染所有的 footnote 说明并清空当前的 footnote 列表
+export const footnoteList = (state: StateCore) => {
+    if (!state.env.footnotes) {
+        return false;
+    }
+
     let i;
     let l;
     let j;
@@ -345,10 +272,6 @@ export const footnoteTail = (state: StateCore) => {
     let currentLabel: string
     let insideRef = false
     const refTokens: any = {}
-
-    if (!state.env.footnotes) {
-        return
-    }
 
     state.tokens = state.tokens.filter(function (tok) {
         if (tok.type == 'footnote_reference_open') {
@@ -370,16 +293,16 @@ export const footnoteTail = (state: StateCore) => {
     })
 
     if (!state.env.footnotes.list) {
-        return
+        return false;
     }
     list = state.env.footnotes.list
 
-    token = new state.Token('footnote_block_open', '', 1)
+    token = new state.Token('footnote_list_open', '', 1)
     state.tokens.push(token)
 
     for (i = 0, l = list.length; i < l; i++) {
-        token = new state.Token('footnote_open', '', 1)
-        token.meta = {id: i, label: list[i].label}
+        token = new state.Token('footnote_item_open', '', 1)
+        token.meta = {id: i, label: list[i].label, content: list[i].content}
         state.tokens.push(token)
 
         if (list[i].tokens) {
@@ -419,30 +342,77 @@ export const footnoteTail = (state: StateCore) => {
             state.tokens.push(lastParagraph)
         }
 
-        token = new state.Token('footnote_close', '', -1)
+        token = new state.Token('footnote_item_close', '', -1)
         state.tokens.push(token)
     }
 
-    token = new state.Token('footnote_block_close', '', -1)
+    token = new state.Token('footnote_list_close', '', -1)
     state.tokens.push(token)
+
+    return true;
 }
 
 export const MarkdownItFootnote = (md: MarkdownIt) => {
+    const calculateId = (id: number, subId: number): string => {
+        return id + 1 + (subId > 0 ?  ':' + subId : '')
+    }
+
+    /**
+     * 渲染脚标说明
+     */
+    const renderFootnoteCaption = (tokens: Token[], idx: number): string => {
+        const {id, subId} = tokens[idx].meta
+
+        return '[' + calculateId(id, subId) + ']'
+    }
+
+    const renderFootnoteRef = (tokens: Token[], idx: number): VNode => {
+        const {id, subId} = tokens[idx].meta
+        const caption = renderFootnoteCaption(tokens, idx)
+        const refId = calculateId(id, subId)
+
+        return createVNode('sup', {class: "footnote-ref"}, [
+            createVNode('a', {href: `#fn${id + 1}`, id: `fnRef${refId}`, innerText: caption})
+        ])
+    }
+
+    const renderFootnoteList = () => {
+        const ol = createVNode('ol', {class: 'footnotes-list'}, [])
+        // 将 ol 作为 parent 给出去，便于将 footnote 渲染进去
+        return {
+            parent: ol,
+            node: createVNode(Fragment, {}, [
+                createVNode('hr', {class: 'footnote-sep'}),
+                createVNode('section', {class: 'footnotes'}, [ol])
+            ])
+        }
+    }
+
+    const renderFootnoteItem = (tokens: Token[], idx: number): VNode => {
+        const {id, subId} = tokens[idx].meta
+        const itemId = calculateId(id, subId)
+        return createVNode('li', {id: 'fn' + itemId, class: 'footnote-item'}, [])
+    }
+
+    const renderFootnoteAnchor = (tokens: Token[], idx: number): VNode => {
+        const {id, subId} = tokens[idx].meta
+        const anchorId = calculateId(id, subId)
+        return createVNode('a', {href: `#fnRef${anchorId}`, class: "footnote-backref", innerText: "\u21a9\uFE0E"});
+    }
+
     md.renderer.rules = <any>{
         ...md.renderer.rules,
         'footnote_ref': renderFootnoteRef,
-        'footnote_block_open': renderFootnoteBlockOpen,
-        'footnote_block_close': renderFootnoteBlockClose,
-        'footnote_open': renderFootnoteOpen,
-        'footnote_close': renderFootnoteClose,
-        'footnote_anchor': renderFootnoteAnchor,
-        'footnote_caption': renderFootnoteCaption,
-        'footnote_anchor_name': renderFootnoteAnchorName
+        'footnote_list_open': renderFootnoteList,
+        'footnote_list_close': () => null,
+        'footnote_item_open': renderFootnoteItem,
+        'footnote_item_close': () => null,
+        'footnote_anchor': renderFootnoteAnchor
     }
 
     md.block.ruler.before('reference', 'footnote_def', footnoteDef, {alt: ['paragraph', 'reference']})
     md.inline.ruler.after('image', 'footnote_inline', footnoteInline)
     md.inline.ruler.after('footnote_inline', 'footnote_ref', footnoteRef)
-    md.core.ruler.after('inline', 'footnote_tail', footnoteTail)
+    md.core.ruler.after('inline', 'footnote_list', footnoteList)
 }
 

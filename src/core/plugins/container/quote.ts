@@ -1,6 +1,4 @@
 import {createVNode, VNode} from "vue";
-import {createRenderInlineVNode} from "../../source/createRenderInlineVNode";
-import {md} from "../../index";
 
 export const quoteType = ['info', 'tip', 'warning', 'danger']
 
@@ -15,7 +13,7 @@ export const renderQuoteContainer = {
             const titleText = info.length == 0 ? type : info;
 
             return createVNode('blockquote', {class: type}, [
-                createRenderInlineVNode(md, titleText, 'div', {class: 'title'})
+                createVNode('div', {class: 'title', innerText: titleText})
             ])
         }
     }

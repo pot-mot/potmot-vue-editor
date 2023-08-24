@@ -1,7 +1,6 @@
 import MarkdownItContainer from "markdown-it-container";
 import {md} from "../../index";
 import {createVNode, VNode} from "vue";
-import {createRenderInlineVNode} from "../../source/createRenderInlineVNode";
 
 export const detailsType = ['details', 'details-open']
 
@@ -23,7 +22,7 @@ export const renderDetail: MarkdownItContainer.ContainerOpts = {
         if (summaryText.length == 0) {
             summaryText = "DETAILS"
         }
-        let summary: VNode = createRenderInlineVNode(md, summaryText, 'summary')
+        let summary: VNode = createVNode('summary', {innerText: summaryText})
         return createVNode('details', {open}, [summary])
     }
 }
