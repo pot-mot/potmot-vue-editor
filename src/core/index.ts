@@ -23,12 +23,15 @@ import {MarkdownItFootnote} from "./plugins/MarkdownItFootnote";
 import {rules} from "./rules";
 import {render, renderAttrs, renderToken} from "./source/render";
 import {MarkdownItHideText} from "./plugins/MarkdownItHideText";
+import {MarkdownItLink} from "./plugins/MarkdownItLink";
 
 const md = new MarkdownIt()
 
 md
-    .set({ html: true, breaks: true })
+    .set({ html: true, breaks: true, linkify: true })
     .use(MarkdownItAttributes)
+
+    .use(MarkdownItLink)
 
     .use(MarkdownItSub)
     .use(MarkdownItSup)

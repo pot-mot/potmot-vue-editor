@@ -1,4 +1,4 @@
-import { aP as t } from "./index-d7731270.js";
+import { aP as t } from "./index-20be57f3.js";
 import "vue";
 export {
   t as default

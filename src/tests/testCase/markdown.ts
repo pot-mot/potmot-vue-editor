@@ -2,6 +2,10 @@ export const markdownTestCase = [
     `
 # Markdown 基准功能测试
 这是一个演示复杂 Markdown 格式的文档，包含各种不同的元素和样式。    
+
+www.baidu.com
+
+[百度](www.baidu.com)
 `,
     `
 ---
